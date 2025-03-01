@@ -1,12 +1,12 @@
 # Programmazione Web: JavaScript - Elementi Base
 
-## Introduzione a JavaScript
+## 2.1 - Introduzione a JavaScript
 
 JavaScript è nato nei primi anni del World Wide Web, quando divenne chiaro che era necessario aggiungere capacità di elaborazione alle pagine HTML statiche. È stato concepito come un linguaggio di scripting lato client (Client-Side Script), ovvero programmi incorporati nella pagina HTML che vengono interpretati direttamente all'interno del browser.
 
 JavaScript è stato ispirato a Java, ma è molto più semplice e adotta un approccio diverso alla programmazione orientata agli oggetti. Una caratteristica fondamentale di JavaScript è la valutazione dinamica sia delle istruzioni che dei tipi delle variabili. Questo approccio offre vantaggi in termini di velocità e flessibilità di programmazione per progetti di complessità ridotta, ma rende più difficile il debugging in scenari complessi.
 
-## JavaScript e HTML
+## 2.2 - JavaScript e HTML
 Linguaggio con tipizazione dinamica (non tipizzato) di variabili e istruzioni.
 
 Per incorporare JavaScript in una pagina HTML, si utilizza l'elemento `<script>`:
@@ -25,7 +25,7 @@ Storicamente, l'attributo `language` veniva utilizzato per specificare la versio
 ```
 Tuttavia, l'attributo `language` è stato deprecato poiché i suoi valori non sono mai stati standardizzati. È preferibile utilizzare solo `type="text/javascript"` o, più semplicemente, omettere completamente l'attributo `type` poiché JavaScript è il linguaggio di scripting predefinito nei browser moderni.
 
-## Elementi di Base di JavaScript
+## 2.3 - Elementi di Base di JavaScript
 
 ### Variabili
 
@@ -123,7 +123,7 @@ Questo è possibile perché in JavaScript le funzioni sono considerate oggetti. 
 var C = fsomma(A, B);
 ```
 
-## Oggetti in JavaScript
+## 2.4 - Oggetti in JavaScript
 In JavaScript, un oggetto è un dato complesso che può avere campi (proprietà) con nomi diversi e metodi. Si posiziona concettualmente a metà tra le strutture del C e gli oggetti di Java. Il modello degli oggetti in JavaScript ha caratteristiche particolari che possono risultare inaspettate per chi inizia a usare il linguaggio.
 
 Esistono tre modalità principali per definire oggetti in JavaScript:
@@ -190,7 +190,7 @@ pers = {
 
 È importante notare che JavaScript non supporta l'information hiding: tutti i campi di un oggetto sono visibili e accessibili dall'esterno.
 
-## Oggetti Standard
+## 2.5 - Oggetti Standard
 
 JavaScript fornisce due tipi principali di oggetti standard: Array e String.
 
@@ -242,7 +242,7 @@ for (i = 0; i < format.length; i++) {
 }
 ```
 
-## Dichiarazione di Variabili: const, var, let
+## 2.6 - Dichiarazione di Variabili: const, var, let
 
 JavaScript offre tre modi per dichiarare variabili:
 
