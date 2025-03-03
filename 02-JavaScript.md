@@ -228,7 +228,7 @@ Proprietà principali:
 
 Metodi principali:
 - Metodi per formattazione HTML: `anchor()`, `big()`, `blink()`, `bold()`, `fixed()`, `fontcolor()`, `fontsize()`, `italics()`, `link()`, `small()`, `strike()`, `sub()`, `sup()`
-- Metodi per manipolazione del testo: `toLowerCase()`, `toUpperCase()`, `charAt()`
+- Metodi per manipolazione del testo: `toLowerCase()`, `toUpperCase()`, `charAt(x)` (restituisce il carattere in posizione x)
 
 Esempio di utilizzo:
 
@@ -241,6 +241,7 @@ for (i = 0; i < format.length; i++) {
     if (size < 7) size++; else size = 1;
 }
 ```
+![image](./images/02-1.PNG)
 
 ## 2.6 - Dichiarazione di Variabili: const, var, let
 
