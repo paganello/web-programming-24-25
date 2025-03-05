@@ -239,3 +239,168 @@ Tuttavia, alcune scelte sintattiche di HTML non lo rendevano compatibile con XML
 - `<br/>` in XML
 
 Attualmente, HTML 5 è compatibile con la sintassi di XML, anche se i browser sono tolleranti a scritture non propriamente "corrette". Il passo intermedio è stato XHTML, che poi è confluito in HTML 5.
+
+## 3.4 - JavaScript e XML
+
+In JavaScript, è possibile elaborare documenti XML, passando sempre attraverso la rappresentazione DOM (Document Object Model). Lo standard W3C prevede una gerarchia specifica per i nodi, che viene mantenuta anche in JavaScript, sebbene il concetto di ereditarietà non esista in senso stretto.
+
+### Gerarchia dei Nodi
+
+#### Node (Nodo)
+
+Ogni elemento di un documento XML viene rappresentato da un oggetto `Node`. Le relazioni di annidamento degli elementi nel documento XML vengono rappresentate da una relazione padre-figlio tra nodi, inducendo una struttura ad albero.
+
+##### Campi di Node
+
+1. Attributi di sola lettura:
+   - `attributes`: NamedNodeMap degli attributi
+   - `childNodes`: Lista dei nodi figli
+   - `firstChild`: Primo nodo figlio
+   - `lastChild`: Ultimo nodo figlio
+
+2. Ulteriori campi:
+   - `nextSibling`: Nodo successivo
+   - `nodeName`: Nome del nodo
+   - `nodeType`: Tipo numerico del nodo
+   - `nodeValue`: Valore del nodo
+
+3. Campi aggiuntivi:
+   - `ownerDocument`: Documento proprietario
+   - `parentElement`: Elemento padre
+   - `parentNode`: Nodo padre
+   - `previousSibling`: Nodo precedente
+
+##### Metodi di Node
+
+- `appendChild(newChild)`: Aggiunge un nuovo nodo figlio
+- `cloneNode(deep)`: Clona il nodo
+- `hasChildNodes()`: Verifica la presenza di nodi figli
+- `insertBefore(newChild, refChild)`: Inserisce un nodo prima di un altro
+- `removeChild(oldChild)`: Rimuove un nodo figlio
+- `replaceChild(newChild, refChild)`: Sostituisce un nodo figlio
+
+##### Node RecordType
+
+Il campo `nodeType` indica il tipo di nodo. Ecco le costanti più comuni:
+
+- 1: `ELEMENT_NODE`
+- 2: `ATTRIBUTE_NODE`
+- 3: `TEXT_NODE`
+- 4: `CDATA_SECTION_NODE`
+- 8: `COMMENT_NODE`
+- 9: `DOCUMENT_NODE`
+- 10: `DOCUMENT_TYPE_NODE`
+- 11: `DOCUMENT_FRAGMENT_NODE`
+
+#### Element (sottoclasse di Node)
+
+Estende `Node` con caratteristiche specifiche per descrivere gli elementi.
+
+##### Campi di Element
+
+- `tagName`: Nome del tag (coincide con `nodeName`)
+
+##### Metodi di Element
+
+- `getAttribute(name)`: Ottiene il valore di un attributo
+- `removeAttribute(name)`: Rimuove un attributo
+- `setAttribute(name, value)`: Imposta un attributo
+- `getElementsByTagName(name)`: Restituisce la lista di nodi con un determinato tag nel sottoalbero
+
+#### CharacterData
+
+Rappresenta il contenuto testuale dei documenti XML. È una sottoclasse di `Node` che gestisce qualsiasi pezzo di testo tra due marcatori, compresi gli a capo.
+
+##### Campi di CharacterData
+
+- `data`: Contenuto testuale
+- `length`: Lunghezza del testo
+
+##### Metodi di CharacterData
+
+- `appendData(arg)`: Aggiunge testo
+- `deleteData(offset, count)`: Elimina parte del testo
+- `insertData(offset, arg)`: Inserisce testo
+- `replaceData(offset, count, arg)`: Sostituisce parte del testo
+- `substringData(offset, count)`: Estrae una sottostringa
+
+#### Text
+
+Sottoclasse di `CharacterData` che rappresenta i nodi testuali. Aggiunge il metodo `splitText(offset)` per dividere un nodo di testo.
+
+#### Document
+
+Rappresenta l'intero documento XML.
+
+##### Campi di Document
+
+- `documentElement`: Elemento radice del documento
+
+##### Metodi di Document
+
+- `createElement(tagName)`: Crea un nuovo elemento
+- `createTextNode(data)`: Crea un nuovo nodo di testo
+- `getElementById(elementId)`: Trova un elemento per ID
+- `getElementsByTagName(tagname)`: Trova elementi per nome tag
+
+#### NodeList e NamedNodeMap
+
+Classi ausiliarie per gestire collezioni di nodi e attributi.
+
+##### NodeList
+
+- `length`: Numero di elementi
+- `item(index)`: Restituisce il nodo all'indice specificato
+
+##### NamedNodeMap
+
+- `length`: Numero di attributi
+- `getNamedItem(name)`: Ottiene un attributo per nome
+- `item(index)`: Restituisce l'attributo all'indice specificato
+- `removeNamedItem(name)`: Rimuove un attributo
+- `setNamedItem(arg)`: Imposta un attributo
+
+## Creazione e Parsing di Documenti XML in JavaScript
+
+### Serializzazione di Documenti XML
+
+Per inviare un documento XML, è necessario serializzarlo, ovvero generare il testo corrispondente. Gli interpreti JavaScript forniscono un oggetto `XMLSerializer`:
+
+```javascript
+ser = new XMLSerializer();
+doc = ser.serializeToString(xml_doc);
+// 'doc' contiene la stringa XML generata
+```
+
+### Parsing di Documenti XML
+
+Per convertire una stringa XML in un oggetto DOM, si usa `DOMParser`:
+
+```javascript
+var parser = new DOMParser();
+var xmlobject = parser.parseFromString(xmlstring, "text/xml");
+```
+
+### Esempio di Scansione DOM
+
+Dato un documento XML:
+```xml
+<?xml version="1.0"?>
+<root>
+  <name>A</name>
+  <name>B</name>
+</root>
+```
+
+Funzione di scansione in JavaScript:
+```javascript
+function scandoc(doc) {
+  var nl = doc.getElementsByTagName("name");
+  for(var i = 0; i < nl.length; i++) {
+    var n2 = nl.item(i).firstChild; // recupero il testo contentuo nel campo
+    myfunction(n2.data); // passo il testo ad una funzione
+  }
+}
+```
+
+Questa funzione recupera tutti gli elementi `<name>`, accede al loro primo nodo figlio (il testo) e passa il valore a una funzione `myfunction()`.
