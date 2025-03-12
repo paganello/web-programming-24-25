@@ -1,6 +1,6 @@
 # Programmazione Web - Classi, AJAX e JSON
 
-## Classi in JavaScript
+## 5.1 - Classi in JavaScript
 
 ### Evoluzione delle Classi in JavaScript
 
@@ -105,7 +105,7 @@ Rispetto al vecchio modello basato su funzioni, le classi moderne di JavaScript 
 - Una separazione tra oggetti e funzioni: un oggetto definito su una classe è solo un oggetto e non anche una funzione
 - La perdita del dualismo oggetto/funzione che caratterizzava il vecchio modello (che rimane comunque valido)
 
-## AJAX
+## 5.2 - AJAX
 
 ### Evoluzione delle Applicazioni Web Dinamiche
 
@@ -182,7 +182,7 @@ Tipicamente, non si lavora direttamente al livello dell'oggetto XMLHttpRequest, 
 - Non gestisce le chiamate cross-domain
 - Non verifica automaticamente la correttezza dei contenuti ricevuti (rischio di JavaScript Injection)
 
-## JSON
+## 5.3 - JSON
 
 ### AJAX Senza XML
 
