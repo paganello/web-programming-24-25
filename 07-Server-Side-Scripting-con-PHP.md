@@ -1,6 +1,4 @@
-# Programmazione Web - Lezione 7: Server-Side Script con PHP
-
-## 7.0 - Introduzione ai Server-Side Script
+# Server-Side Script con PHP
 
 I Server-Side Script rappresentano un'evoluzione rispetto agli applicativi CGI che venivano realizzati in linguaggi come C o C++. La difficoltà nel debugging di questi ultimi ha portato alla necessità di sviluppare tecnologie più facili da gestire e testare. PHP è un vero linguaggio di scripting, interpretato al momento dell'esecuzione, mentre JSP (JavaServer Pages) è basato su Java ma non è propriamente un linguaggio di scripting, poiché la pagina JSP viene tradotta in una servlet Java, compilata e quindi eseguita.
 
