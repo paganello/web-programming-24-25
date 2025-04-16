@@ -26,16 +26,16 @@ INSERT INTO Utente (nomeUtente, nome, cognome, eMail) VALUES
 
 -- Popolamento tabella Quiz
 INSERT INTO Quiz (titolo, dataInizio, dataFine, creatore) VALUES
-('Quiz di Storia Italiana', '2023-01-01', '2023-12-31', 'mario_rossi'),
-('Matematica di Base', '2023-02-01', '2023-11-30', 'giulia_bianchi'),
-('Cultura Generale', '2023-03-01', '2023-10-31', 'luca_verdi'),
-('Geografia Mondiale', '2023-04-01', '2023-09-30', 'anna_neri'),
-('Scienze Naturali', '2023-05-01', '2023-08-31', 'marco_blu'),
-('Letteratura Italiana', '2023-06-01', '2023-07-31', 'sofia_gialli'),
-('Cinema e Spettacolo', '2023-07-01', '2023-12-15', 'andrea_viola'),
-('Sport e Olimpiadi', '2023-08-01', '2023-12-20', 'laura_rosa'),
-('Arte e Architettura', '2023-09-01', '2023-12-25', 'paolo_arancio'),
-('Musica Classica', '2023-10-01', '2023-12-30', 'chiara_azzurra');
+('Quiz di Storia Italiana', '2025-01-10', '2026-01-15', 'mario_rossi'),
+('Matematica di Base', '2025-01-25', '2026-01-30', 'giulia_bianchi'),
+('Cultura Generale', '2025-02-05', '2026-02-10', 'luca_verdi'),
+('Geografia Mondiale', '2025-02-15', '2026-02-20', 'anna_neri'),
+('Scienze Naturali', '2025-02-28', '2026-02-28', 'marco_blu'),
+('Letteratura Italiana', '2025-03-08', '2026-03-10', 'sofia_gialli'),
+('Cinema e Spettacolo', '2025-03-15', '2026-03-20', 'andrea_viola'),
+('Sport e Olimpiadi', '2025-03-22', '2026-03-25', 'laura_rosa'),
+('Arte e Architettura', '2025-03-29', '2026-03-30', 'paolo_arancio'),
+('Musica Classica', '2025-04-05', '2026-04-10', 'chiara_azzurra');
 
 -- Popolamento tabella Domanda per ogni Quiz
 -- Quiz 1: Storia Italiana
@@ -480,36 +480,36 @@ INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 
 -- Popolamento tabella Partecipazione (30 partecipazioni)
 INSERT INTO Partecipazione (utente, quiz, data) VALUES
-('mario_rossi', 2, '2023-03-15'),
-('giulia_bianchi', 1, '2023-02-10'),
-('luca_verdi', 3, '2023-04-20'),
-('anna_neri', 4, '2023-05-05'),
-('marco_blu', 5, '2023-06-12'),
-('sofia_gialli', 6, '2023-07-08'),
-('andrea_viola', 7, '2023-08-22'),
-('laura_rosa', 8, '2023-09-14'),
-('paolo_arancio', 9, '2023-10-03'),
-('chiara_azzurra', 10, '2023-11-18'),
-('roberto_marrone', 1, '2023-02-25'),
-('valentina_oro', 2, '2023-03-28'),
-('davide_argento', 3, '2023-04-15'),
-('elisa_bronzo', 4, '2023-05-20'),
-('fabio_platino', 5, '2023-06-10'),
-('mario_rossi', 6, '2023-07-05'),
-('giulia_bianchi', 7, '2023-08-15'),
-('luca_verdi', 8, '2023-09-22'),
-('anna_neri', 9, '2023-10-12'),
-('marco_blu', 10, '2023-11-28'),
-('sofia_gialli', 1, '2023-02-18'),
-('andrea_viola', 2, '2023-03-10'),
-('laura_rosa', 3, '2023-04-08'),
-('paolo_arancio', 4, '2023-05-15'),
-('chiara_azzurra', 5, '2023-06-25'),
-('roberto_marrone', 6, '2023-07-14'),
-('valentina_oro', 7, '2023-08-28'),
-('davide_argento', 8, '2023-09-09'),
-('elisa_bronzo', 9, '2023-10-20'),
-('fabio_platino', 10, '2023-11-05');
+('mario_rossi', 2, '2025-01-20'),
+('giulia_bianchi', 1, '2025-01-30'),
+('luca_verdi', 3, '2025-02-10'),
+('anna_neri', 4, '2025-02-18'),
+('marco_blu', 5, '2025-03-02'),
+('sofia_gialli', 6, '2025-03-10'),
+('andrea_viola', 7, '2025-03-18'),
+('laura_rosa', 8, '2025-03-25'),
+('paolo_arancio', 9, '2025-04-01'),
+('chiara_azzurra', 10, '2025-04-08'),
+('roberto_marrone', 1, '2025-01-22'),
+('valentina_oro', 2, '2025-02-01'),
+('davide_argento', 3, '2025-02-12'),
+('elisa_bronzo', 4, '2025-02-22'),
+('fabio_platino', 5, '2025-03-04'),
+('mario_rossi', 6, '2025-03-12'),
+('giulia_bianchi', 7, '2025-03-20'),
+('luca_verdi', 8, '2025-03-26'),
+('anna_neri', 9, '2025-04-03'),
+('marco_blu', 10, '2025-04-09'),
+('sofia_gialli', 1, '2025-01-25'),
+('andrea_viola', 2, '2025-02-03'),
+('laura_rosa', 3, '2025-02-15'),
+('paolo_arancio', 4, '2025-02-25'),
+('chiara_azzurra', 5, '2025-03-06'),
+('roberto_marrone', 6, '2025-03-14'),
+('valentina_oro', 7, '2025-03-21'),
+('davide_argento', 8, '2025-03-28'),
+('elisa_bronzo', 9, '2025-04-04'),
+('fabio_platino', 10, '2025-04-10');
 
 -- Popolamento tabella RispostaUtenteQuiz (risposte degli utenti alle domande)
 -- Partecipazione 1: mario_rossi al Quiz 2
