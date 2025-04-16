@@ -132,18 +132,17 @@
              break;
          }
          
-         $data = json_decode(file_get_contents('php://input'), true);
+         $data = $_POST;
          
-         if (!isset($data['titolo']) || !isset($data['domande']) || empty($data['domande'])) {
+         if (!isset($data['title']) || !isset($data['start_date']) || !isset($data['end_date'])) {
              http_response_code(400);
              echo json_encode(['status' => 'error', 'message' => 'Dati incompleti']);
              break;
          }
          
-         $titolo = trim($data['titolo']);
-         $descrizione = isset($data['descrizione']) ? trim($data['descrizione']) : null;
-         $dataApertura = isset($data['dataApertura']) ? trim($data['dataApertura']) : null;
-         $dataChiusura = isset($data['dataChiusura']) ? trim($data['dataChiusura']) : null;
+         $titolo = trim($data['title']);
+         $dataApertura = isset($data['start_date']) ? trim($data['start_date']) : null;
+         $dataChiusura = isset($data['end_date']) ? trim($data['end_date']) : null;
          $nomeUtente = $_SESSION['user']['nomeUtente'];
          
          try {
@@ -151,11 +150,10 @@
              
              // Inserimento del quiz
              $stmt = $pdo->prepare("
-                 INSERT INTO Quiz (titolo, descrizione, dataCreazione, dataApertura, dataChiusura, nomeUtente) 
-                 VALUES (:titolo, :descrizione, NOW(), :dataApertura, :dataChiusura, :nomeUtente)
+                 INSERT INTO Quiz (titolo, dataInizio, dataFine, creatore) 
+                 VALUES (:titolo, :dataApertura, :dataChiusura, :nomeUtente)
              ");
              $stmt->bindParam(':titolo', $titolo);
-             $stmt->bindParam(':descrizione', $descrizione);
              $stmt->bindParam(':dataApertura', $dataApertura);
              $stmt->bindParam(':dataChiusura', $dataChiusura);
              $stmt->bindParam(':nomeUtente', $nomeUtente);
