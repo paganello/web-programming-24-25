@@ -17,7 +17,7 @@
     
     <footer>
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> QuizBG - Università di Verona</p>
+            <p>&copy; <?php echo date('Y'); ?> QuizBG - Università di Bergamo</p>
         </div>
     </footer>
 

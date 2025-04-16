@@ -55,14 +55,14 @@ $conn->close();
         <?php if(!isset($_SESSION['user'])): ?>
             <div class="card">
                 <div class="card-content">
-                    <p>Benvenuto nel sistema di Quiz Online dell'Università di Verona.</p>
+                    <p>Benvenuto nel sistema di Quiz Online dell'Università di Bergamo.</p>
                     <p>Per creare o partecipare ai quiz, effettua il <a href="login.php">login</a> o <a href="register.php">registrati</a>.</p>
                 </div>
             </div>
         <?php else: ?>
             <div class="card">
                 <div class="card-content">
-                    <p>Benvenuto <?php echo $_SESSION['user']['nome'] . ' ' . $_SESSION['user']['cognome']; ?> nel sistema di Quiz Online dell'Università di Verona.</p>
+                    <p>Benvenuto <?php echo $_SESSION['user']['nome'] . ' ' . $_SESSION['user']['cognome']; ?> nel sistema di Quiz Online dell'Università di Bergamo.</p>
                     <p>Puoi creare nuovi quiz o partecipare a quiz creati da altri utenti.</p>
                     <p><a href="create_quiz.php" class="btn">Crea un nuovo Quiz</a> <a href="search_quiz.php" class="btn btn-secondary">Cerca Quiz</a>
                     </p>
