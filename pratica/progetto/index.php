@@ -15,25 +15,23 @@
 
 include 'includes/header.php';
 
-// Ottieni gli ultimi quiz disponibili
-$conn = connectDB();
 $today = date('Y-m-d');
 $sql = "SELECT q.*, u.nome, u.cognome 
         FROM Quiz q 
         JOIN Utente u ON q.creatore = u.nomeUtente 
-        WHERE q.dataFine >= ? 
+        WHERE q.dataFine >= :today 
         ORDER BY q.dataInizio DESC 
         LIMIT 6";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $today);
-$stmt->execute();
-$result = $stmt->get_result();
-$quizzes = [];
-while ($row = $result->fetch_assoc()) {
-    $quizzes[] = $row;
+
+try {
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':today', $today);
+    $stmt->execute();
+
+    $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Errore nella query: " . $e->getMessage());
 }
-$stmt->close();
-$conn->close();
 ?>
 
 <div class="main-content">

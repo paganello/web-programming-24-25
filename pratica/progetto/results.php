@@ -1,19 +1,11 @@
 <?php
 
 /**
- * Pagina di visualizzazione dei risultati
- * 
- * Questa pagina mostra i risultati di una partecipazione a un quiz.
- * Funzionalità implementate:
- * - Visualizzazione del punteggio totale ottenuto
- * - Dettaglio delle risposte corrette e sbagliate
- * - Statistiche comparative con altri partecipanti
- * - Possibilità di condividere i risultati
- * - Visualizzazione delle risposte corrette (se consentito)
- * - Link per partecipare ad altri quiz simili
+ * Pagina di visualizzazione dei risultati (PDO)
  */
 
- include 'includes/header.php';
+include 'includes/header.php';
+require_once 'config/database.php'; // Assicurati che venga creato $pdo
 
 // Controllo se l'utente è loggato
 if (!isset($_SESSION['user'])) {
@@ -27,82 +19,77 @@ if (!isset($_GET['participation']) || !is_numeric($_GET['participation'])) {
     exit;
 }
 
-$participation_id = $_GET['participation'];
+$participation_id = (int) $_GET['participation'];
 $user = $_SESSION['user']['nomeUtente'];
-$conn = connectDB();
 
-// Verifica se la partecipazione esiste e appartiene all'utente
-$sql = "SELECT p.*, q.titolo AS quiz_titolo, q.codice AS quiz_id 
-        FROM Partecipazione p 
-        JOIN Quiz q ON p.quiz = q.codice 
-        WHERE p.codice = ? AND p.utente = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("is", $participation_id, $user);
-$stmt->execute();
-$result = $stmt->get_result();
+try {
+    // Verifica partecipazione
+    $sql = "SELECT p.*, q.titolo AS quiz_titolo, q.codice AS quiz_id 
+            FROM Partecipazione p 
+            JOIN Quiz q ON p.quiz = q.codice 
+            WHERE p.codice = :id AND p.utente = :utente";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $participation_id, 'utente' => $user]);
+    $participation = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($result->num_rows === 0) {
-    $conn->close();
-    $_SESSION['error'] = "Partecipazione non trovata o non autorizzata.";
-    header('Location: index.php');
-    exit;
-}
+    if (!$participation) {
+        $_SESSION['error'] = "Partecipazione non trovata o non autorizzata.";
+        header('Location: index.php');
+        exit;
+    }
 
-$participation = $result->fetch_assoc();
-$quiz_id = $participation['quiz_id'];
-$stmt->close();
+    $quiz_id = $participation['quiz_id'];
 
-// Calcolo del punteggio totale
-$sql = "SELECT SUM(r.punteggio) AS total_score
-        FROM RispostaUtenteQuiz ruq
-        JOIN Risposta r ON ruq.quiz = r.quiz AND ruq.domanda = r.domanda AND ruq.risposta = r.numero
-        WHERE ruq.partecipazione = ? AND r.tipo = 'Corretta'";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $participation_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$score_data = $result->fetch_assoc();
-$total_score = $score_data ? $score_data['total_score'] : 0;
-$stmt->close();
+    // Calcolo del punteggio totale
+    $sql = "SELECT SUM(r.punteggio) AS total_score
+            FROM RispostaUtenteQuiz ruq
+            JOIN Risposta r ON ruq.quiz = r.quiz AND ruq.domanda = r.domanda AND ruq.risposta = r.numero
+            WHERE ruq.partecipazione = :id AND r.tipo = 'Corretta'";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $participation_id]);
+    $score_data = $stmt->fetch(PDO::FETCH_ASSOC);
+    $total_score = $score_data ? $score_data['total_score'] : 0;
 
-// Recupero tutte le domande e risposte date
-$sql = "SELECT d.numero AS domanda_numero, d.testo AS domanda_testo,
-               r.numero AS risposta_numero, r.testo AS risposta_testo, r.tipo AS risposta_tipo, r.punteggio,
-               ruq.risposta AS risposta_data
-        FROM Domanda d
-        LEFT JOIN Risposta r ON d.quiz = r.quiz AND d.numero = r.domanda
-        LEFT JOIN RispostaUtenteQuiz ruq ON ruq.quiz = r.quiz AND ruq.domanda = r.domanda AND ruq.risposta = r.numero AND ruq.partecipazione = ?
-        WHERE d.quiz = ?
-        ORDER BY d.numero, r.numero";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $participation_id, $quiz_id);
-$stmt->execute();
-$result = $stmt->get_result();
+    // Recupero tutte le domande e risposte date
+    $sql = "SELECT d.numero AS domanda_numero, d.testo AS domanda_testo,
+                   r.numero AS risposta_numero, r.testo AS risposta_testo, r.tipo AS risposta_tipo, r.punteggio,
+                   ruq.risposta AS risposta_data
+            FROM Domanda d
+            LEFT JOIN Risposta r ON d.quiz = r.quiz AND d.numero = r.domanda
+            LEFT JOIN RispostaUtenteQuiz ruq ON ruq.quiz = r.quiz AND ruq.domanda = r.domanda AND ruq.risposta = r.numero AND ruq.partecipazione = :partecipazione
+            WHERE d.quiz = :quiz
+            ORDER BY d.numero, r.numero";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'partecipazione' => $participation_id,
+        'quiz' => $quiz_id
+    ]);
 
-$questions = [];
-$current_question = null;
+    $questions = [];
 
-while ($row = $result->fetch_assoc()) {
-    $q_num = $row['domanda_numero'];
-    
-    if (!isset($questions[$q_num])) {
-        $questions[$q_num] = [
-            'numero' => $q_num,
-            'testo' => $row['domanda_testo'],
-            'answers' => []
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $q_num = $row['domanda_numero'];
+        
+        if (!isset($questions[$q_num])) {
+            $questions[$q_num] = [
+                'numero' => $q_num,
+                'testo' => $row['domanda_testo'],
+                'answers' => []
+            ];
+        }
+        
+        $questions[$q_num]['answers'][] = [
+            'numero' => $row['risposta_numero'],
+            'testo' => $row['risposta_testo'],
+            'tipo' => $row['risposta_tipo'],
+            'punteggio' => $row['punteggio'],
+            'selezionata' => $row['risposta_data'] !== null
         ];
     }
-    
-    $questions[$q_num]['answers'][] = [
-        'numero' => $row['risposta_numero'],
-        'testo' => $row['risposta_testo'],
-        'tipo' => $row['risposta_tipo'],
-        'punteggio' => $row['punteggio'],
-        'selezionata' => $row['risposta_data'] !== null
-    ];
+
+} catch (PDOException $e) {
+    die("Errore DB: " . $e->getMessage());
 }
-$stmt->close();
-$conn->close();
 ?>
 
 <div class="main-content">
