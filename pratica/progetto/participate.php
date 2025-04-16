@@ -1,19 +1,13 @@
 <?php
 
-/**
- * Pagina di partecipazione ai quiz (versione con PDO)
- */
-
 include 'includes/header.php';
-require_once 'config/database.php'; // Assicurati che qui venga definito $pdo
+require_once 'config/database.php';
 
-// Controllo se l'utente è loggato
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['nomeUtente'])) {
     header('Location: login.php');
     exit;
 }
 
-// Controllo se l'ID del quiz è stato fornito
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php');
     exit;
@@ -27,7 +21,9 @@ try {
     // Verifica se il quiz esiste e se è disponibile
     $sql = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :today AND dataFine >= :today";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['id' => $quiz_id, 'today' => $today]);
+    $stmt->bindParam(':id', $quiz_id, PDO::PARAM_INT);
+    $stmt->bindParam(':today', $today, PDO::PARAM_STR);
+    $stmt->execute();
     $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$quiz) {
@@ -39,7 +35,9 @@ try {
     // Verifica se l'utente ha già partecipato
     $sql = "SELECT * FROM Partecipazione WHERE utente = :utente AND quiz = :quiz";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['utente' => $user, 'quiz' => $quiz_id]);
+    $stmt->bindParam(':utente', $user, PDO::PARAM_STR);
+    $stmt->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
+    $stmt->execute();
     $participation = $stmt->fetch(PDO::FETCH_ASSOC);
     $has_participated = $participation !== false;
 
@@ -49,7 +47,10 @@ try {
         // Inserisce la partecipazione
         $sql = "INSERT INTO Partecipazione (utente, quiz, data) VALUES (:utente, :quiz, :data)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(['utente' => $user, 'quiz' => $quiz_id, 'data' => $today]);
+        $stmt->bindParam(':utente', $user, PDO::PARAM_STR);
+        $stmt->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
+        $stmt->bindParam(':data', $today, PDO::PARAM_STR);
+        $stmt->execute();
         $participation_id = $pdo->lastInsertId();
     } else {
         $participation_id = $participation['codice'];
@@ -57,7 +58,8 @@ try {
         // Verifica se ci sono già risposte
         $sql = "SELECT COUNT(*) FROM RispostaUtenteQuiz WHERE partecipazione = :partecipazione";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(['partecipazione' => $participation_id]);
+        $stmt->bindParam(':partecipazione', $participation_id, PDO::PARAM_INT);
+        $stmt->execute();
         $has_answers = $stmt->fetchColumn() > 0;
 
         if ($has_answers) {
@@ -70,17 +72,16 @@ try {
     // Recupero le domande
     $sql = "SELECT * FROM Domanda WHERE quiz = :quiz ORDER BY numero";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['quiz' => $quiz_id]);
+    $stmt->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
+    $stmt->execute();
     $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Per ogni domanda, recupero le risposte
     foreach ($questions as &$question) {
         $sql = "SELECT * FROM Risposta WHERE quiz = :quiz AND domanda = :domanda ORDER BY numero";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            'quiz' => $quiz_id,
-            'domanda' => $question['numero']
-        ]);
+        $stmt->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
+        $stmt->bindParam(':domanda', $question['numero'], PDO::PARAM_INT);
+        $stmt->execute();
         $question['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -88,6 +89,7 @@ try {
     die("Errore DB: " . $e->getMessage());
 }
 ?>
+
 
 <div class="main-content">
     <div class="content">
