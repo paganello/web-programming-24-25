@@ -1,19 +1,11 @@
 <?php
 
 /**
- * Pagina di visualizzazione dettagliata di un quiz
- * 
- * Questa pagina mostra i dettagli di un quiz specifico.
- * Funzionalità implementate:
- * - Visualizzazione delle informazioni generali del quiz
- * - Elenco delle domande (se visibili)
- * - Statistiche di partecipazione
- * - Pulsante per partecipare al quiz
- * - Possibilità di modificare il quiz (per il creatore)
- * - Visualizzazione del periodo di validità
+ * Pagina di visualizzazione dettagliata di un quiz (versione PDO)
  */
 
 include 'includes/header.php';
+require_once 'config/database.php'; // Assicurati che qui venga creato l'oggetto $pdo
 
 // Controllo se l'ID del quiz è stato fornito
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -21,59 +13,47 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     exit;
 }
 
-$quiz_id = $_GET['id'];
-$conn = connectDB();
+$quiz_id = (int) $_GET['id'];
 
-// Recupero informazioni sul quiz
-$sql = "SELECT q.*, u.nome, u.cognome 
-        FROM Quiz q 
-        JOIN Utente u ON q.creatore = u.nomeUtente 
-        WHERE q.codice = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $quiz_id);
-$stmt->execute();
-$result = $stmt->get_result();
+try {
+    // Recupero informazioni sul quiz
+    $sql = "SELECT q.*, u.nome, u.cognome 
+            FROM Quiz q 
+            JOIN Utente u ON q.creatore = u.nomeUtente 
+            WHERE q.codice = :quiz_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['quiz_id' => $quiz_id]);
+    $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($result->num_rows === 0) {
-    $conn->close();
-    header('Location: index.php');
-    exit;
-}
-
-$quiz = $result->fetch_assoc();
-$stmt->close();
-
-// Controllo se l'utente può visualizzare il quiz
-$today = date('Y-m-d');
-$can_participate = isset($_SESSION['user']) && $quiz['dataFine'] >= $today;
-
-// Recupero tutte le domande del quiz
-$sql = "SELECT * FROM Domanda WHERE quiz = ? ORDER BY numero";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $quiz_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$questions = [];
-while ($row = $result->fetch_assoc()) {
-    $questions[] = $row;
-}
-$stmt->close();
-
-// Per ogni domanda, recupero le risposte
-foreach ($questions as &$question) {
-    $sql = "SELECT * FROM Risposta WHERE quiz = ? AND domanda = ? ORDER BY numero";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $quiz_id, $question['numero']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $answers = [];
-    while ($row = $result->fetch_assoc()) {
-        $answers[] = $row;
+    if (!$quiz) {
+        header('Location: index.php');
+        exit;
     }
-    $question['answers'] = $answers;
+
+    // Controllo se l'utente può partecipare
+    $today = date('Y-m-d');
+    $can_participate = isset($_SESSION['user']) && $quiz['dataFine'] >= $today;
+
+    // Recupero tutte le domande del quiz
+    $sql = "SELECT * FROM Domanda WHERE quiz = :quiz_id ORDER BY numero";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['quiz_id' => $quiz_id]);
+    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Recupero risposte per ogni domanda
+    foreach ($questions as &$question) {
+        $sql = "SELECT * FROM Risposta WHERE quiz = :quiz AND domanda = :domanda ORDER BY numero";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'quiz' => $quiz_id,
+            'domanda' => $question['numero']
+        ]);
+        $question['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+} catch (PDOException $e) {
+    die("Errore DB: " . $e->getMessage());
 }
-$stmt->close();
-$conn->close();
 ?>
 
 <div class="main-content">
