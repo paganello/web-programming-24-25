@@ -163,7 +163,7 @@
              }
              
              $idQuiz = $pdo->lastInsertId();
-             
+
              // Inserimento delle domande e risposte
              foreach ($data['domande'] as $domanda) {
                  if (!isset($domanda['testo']) || !isset($domanda['risposte']) || empty($domanda['risposte'])) {

@@ -74,7 +74,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.status === 'success') {
                     showAlert('Quiz creato con successo!', 'success');
-                    $('#quiz-id').val(response.quiz_id);
+                    $('#quiz-id').val(response.idQuiz);
                     $('#quiz-details').hide();
                     $('#questions-section').show();
                 } else {
@@ -178,7 +178,7 @@ $(document).ready(function() {
     // Salvataggio domande e risposte
     $('#save-questions').click(function() {
         const quizId = $('#quiz-id').val();
-        const formData = $('#questions-form').serialize() + `&quiz_id=${quizId}`;
+        const formData = $('#questions-form').serialize() + `&idQuiz=${quizId}`;
         
         $.ajax({
             type: 'POST',
