@@ -1,0 +1,61 @@
+<?php
+// filepath: /home/rootino/Scrivania/Github/web-programming-24-25/pratica/progetto/search_quiz.php
+
+include 'includes/header.php';
+
+$today = date('Y-m-d');
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+$sql = "SELECT q.*, u.nome, u.cognome 
+        FROM Quiz q 
+        JOIN Utente u ON q.creatore = u.nomeUtente 
+        WHERE q.dataFine >= :today";
+
+if (!empty($search)) {
+    $sql .= " AND q.titolo LIKE :search";
+}
+
+$sql .= " ORDER BY q.dataInizio DESC LIMIT 6";
+
+try {
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':today', $today);
+    if (!empty($search)) {
+        $searchParam = '%' . $search . '%';
+        $stmt->bindParam(':search', $searchParam);
+    }
+    $stmt->execute();
+
+    $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Errore nella query: " . $e->getMessage());
+}
+?>
+
+<div class="content">
+    <h1>Risultati della ricerca</h1>
+    
+    <?php if (empty($quizzes)): ?>
+        <p>Nessun quiz trovato per la ricerca "<?php echo htmlspecialchars($search); ?>".</p>
+    <?php else: ?>
+        <div class="quiz-list">
+            <?php foreach ($quizzes as $quiz): ?>
+                <div class="quiz-item">
+                    <h3 class="quiz-title"><?php echo htmlspecialchars($quiz['titolo']); ?></h3>
+                    <div class="quiz-meta">
+                        <p>Creato da: <?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></p>
+                        <p>Disponibile dal <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?> al <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
+                    </div>
+                    <div class="quiz-actions">
+                        <a href="view_quiz.php?id=<?php echo $quiz['codice']; ?>" class="btn">Visualizza</a>
+                        <?php if (isset($_SESSION['user'])): ?>
+                            <a href="participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary">Partecipa</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php include 'includes/footer.php'; ?>
