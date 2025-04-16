@@ -21,7 +21,7 @@ require_once 'config/database.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Online - UniVR</title>
+    <title>Quiz Online - UniBG</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
