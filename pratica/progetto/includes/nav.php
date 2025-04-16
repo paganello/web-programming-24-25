@@ -18,7 +18,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <div class="container">
         <ul>
             <li><a href="index.php" <?php echo $current_page == 'index.php' ? 'class="active"' : ''; ?>>Home</a></li>
-            <li><a href="search_quiz.php" <?php echo $current_page == 'search_quiz.php' ? 'class="active"' : ''; ?>>Cerca Quiz</a></li>
             <?php if(isset($_SESSION['user'])): ?>
                 <li><a href="create_quiz.php" <?php echo $current_page == 'create_quiz.php' ? 'class="active"' : ''; ?>>Crea Quiz</a></li>
                 <li><a href="my_quizzes.php" <?php echo $current_page == 'my_quizzes.php' ? 'class="active"' : ''; ?>>I Miei Quiz</a></li>
