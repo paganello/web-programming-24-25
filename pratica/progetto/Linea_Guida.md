@@ -1,0 +1,131 @@
+# 📘 Linee Guida di Implementazione del Progetto **Quiz Online**
+
+## 📌 Introduzione
+Il progetto **"Quiz Online"** è un'applicazione web sviluppata in PHP che permette agli utenti di **creare quiz personalizzati** e **partecipare** a quelli creati da altri. L'architettura segue il pattern **MVC (Model-View-Controller)**, adattato a un contesto PHP per una chiara separazione tra API e front-end.
+
+&nbsp;
+
+## 🧱 Architettura del Sistema
+
+### 🗃️ 1. Struttura del Database
+Il database si basa sullo schema ER specificato nei documenti tecnici, e include le seguenti **entità principali**:
+
+- **Utente**: informazioni e credenziali degli utenti registrati.
+- **Quiz**: dati relativi ai quiz creati.
+- **Domanda**: domande associate ai quiz.
+- **Risposta**: opzioni di risposta per ogni domanda.
+- **Partecipazione**: tracciamento degli utenti che partecipano ai quiz.
+- **RispostaUtenteQuiz**: risposte fornite durante le sessioni di quiz.
+
+&nbsp;
+
+### 🗂️ 2. Organizzazione del Codice
+
+```
+quiz_online/
+├── api/                        # Endpoint API per le operazioni CRUD lato backend
+│   ├── answers.php             # Gestione delle risposte: crea, legge, modifica ed elimina risposte associate alle domande
+│   ├── participation.php       # Gestione delle partecipazioni: registra risposte e punteggi degli utenti ai quiz
+│   ├── questions.php           # Gestione delle domande: CRUD delle domande nei quiz
+│   ├── quiz.php                # Gestione dei quiz: creazione, modifica, eliminazione e recupero dei quiz
+│   └── users.php               # Gestione degli utenti: registrazione, login, profilo e autenticazione
+│
+├── assets/                     # Risorse statiche (es. immagini, icone, font)
+│
+├── css/                        # Fogli di stile CSS per l’interfaccia
+│   └── style.css               # Foglio di stile principale, definisce layout, colori, tipografia e responsive design
+│
+├── js/                         # Script JavaScript per interazioni dinamiche
+│   └── main.js                 # Script principale: gestisce le chiamate API, validazioni e dinamiche utente
+│
+├── config/                     # Configurazioni generali del sistema
+│   └── database.php            # Configurazione della connessione PDO al database (host, username, password, charset)
+│
+├── includes/                   # Componenti HTML/PHP riutilizzabili in più pagine
+│   ├── footer.php              # Footer comune per tutte le pagine
+│   ├── header.php              # Intestazione HTML con meta tag, inclusione CSS/JS e apertura del body
+│   └── nav.php                 # Barra di navigazione: link alle sezioni principali, login/logout dinamico
+│
+├── sql/                        # Script SQL per inizializzare e popolare il database
+│   ├── script.sql              # Script di creazione delle tabelle e delle relazioni del database
+│   └── data-seed.sql           # Script di popolamento con dati di esempio (quiz, domande, utenti, risposte)
+│
+├── create_quiz.php             # Interfaccia per la creazione di un nuovo quiz: aggiunta domande, risposte, date
+├── index.php                   # Homepage: introduzione al sito, accesso rapido ai quiz più recenti o consigliati
+├── login.php                   # Form di login utente: invia dati a `users.php` per autenticazione
+├── register.php                # Pagina per la registrazione di un nuovo utente con validazioni base
+├── participate.php             # Pagina per partecipare a un quiz: visualizza domande, gestisce invio risposte
+├── results.php                 # Mostra i risultati dei quiz svolti, punteggio ottenuto, risposte corrette/errate
+└── view_quiz.php               # Dettaglio di un quiz: titolo, descrizione, autore, numero di domande e date
+
+```
+
+&nbsp;
+
+## ⚙️ Approccio Implementativo
+
+### 🔧 3.1 Backend
+- **API RESTful** per le entità principali.
+- Ogni file API gestisce **una singola risorsa**.
+- Utilizzo di **PDO** con **prepared statements** per sicurezza e flessibilità.
+
+### 🎨 3.2 Frontend
+- Layout HTML coerente: *header*, *nav*, *contenuto*, *footer*.
+- **JavaScript** per interazioni dinamiche e chiamate API asincrone.
+- **CSS** responsive per una UX ottimale su dispositivi diversi.
+
+&nbsp;
+
+## 🚀 Funzionalità Principali
+
+### 👤 4.1 Gestione Utenti
+- **Registrazione** e **login** sicuri.
+- **Profilo utente** con cronologia dei quiz creati e completati.
+
+### 📝 4.2 Creazione Quiz
+- Creazione intuitiva di quiz con domande multiple.
+- Impostazione di **date di apertura/chiusura**.
+- Risposte multiple con **punteggi personalizzabili**.
+
+### 🧩 4.3 Partecipazione ai Quiz
+- Ricerca dei quiz disponibili.
+- Interfaccia user-friendly per rispondere.
+- Calcolo **automatico del punteggio** al termine.
+
+### 📊 4.4 Visualizzazione Risultati
+- Riepilogo quiz completati.
+- Statistiche dettagliate per creatori (es. media, partecipazioni, domande più sbagliate).
+
+&nbsp;
+
+## 🔐 Considerazioni sulla Sicurezza
+
+- **Validazione server-side** di tutti gli input.
+- Protezione da **SQL Injection** tramite prepared statements.
+- Gestione sicura delle **sessioni** utente.
+
+&nbsp;
+
+## ⚡ Considerazioni sulle Prestazioni
+
+- Query ottimizzate al database.
+- **Riduzione** del numero di chiamate API.
+- Caricamento **asincrono** dei contenuti.
+
+&nbsp;
+
+## 📈 Estensioni Future
+
+- Timer per quiz a tempo.
+- Nuovi formati di domanda (es. immagini, audio).
+- **Gamification**: badge, punteggi, classifiche.
+- Esportazione risultati in **CSV, PDF** o altri formati.
+
+&nbsp;
+
+## ✅ Conclusione
+
+L'obiettivo dell'applicazione **Quiz Online** è offrire un sistema **scalabile**, **sicuro** e **facile da usare**, che consenta una gestione completa dei quiz online. Il progetto è stato pensato per essere **modulare** e **espandibile**, in linea con le migliori pratiche di sviluppo web.
+
+
+
