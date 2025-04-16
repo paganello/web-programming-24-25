@@ -3,8 +3,6 @@
 ## 📌 Introduzione
 Il progetto **"Quiz Online"** è un'applicazione web sviluppata in PHP che permette agli utenti di **creare quiz personalizzati** e **partecipare** a quelli creati da altri. L'architettura segue il pattern **MVC (Model-View-Controller)**, adattato a un contesto PHP per una chiara separazione tra API e front-end.
 
-&nbsp;
-
 ## 🧱 Architettura del Sistema
 
 ### 🗃️ 1. Struttura del Database
@@ -16,8 +14,6 @@ Il database si basa sullo schema ER specificato nei documenti tecnici, e include
 - **Risposta**: opzioni di risposta per ogni domanda.
 - **Partecipazione**: tracciamento degli utenti che partecipano ai quiz.
 - **RispostaUtenteQuiz**: risposte fornite durante le sessioni di quiz.
-
-&nbsp;
 
 ### 🗂️ 2. Organizzazione del Codice
 
@@ -60,8 +56,6 @@ quiz_online/
 
 ```
 
-&nbsp;
-
 ## ⚙️ Approccio Implementativo
 
 ### 🔧 3.1 Backend
@@ -73,8 +67,6 @@ quiz_online/
 - Layout HTML coerente: *header*, *nav*, *contenuto*, *footer*.
 - **JavaScript** per interazioni dinamiche e chiamate API asincrone.
 - **CSS** responsive per una UX ottimale su dispositivi diversi.
-
-&nbsp;
 
 ## 🚀 Funzionalità Principali
 
@@ -96,15 +88,11 @@ quiz_online/
 - Riepilogo quiz completati.
 - Statistiche dettagliate per creatori (es. media, partecipazioni, domande più sbagliate).
 
-&nbsp;
-
 ## 🔐 Considerazioni sulla Sicurezza
 
 - **Validazione server-side** di tutti gli input.
 - Protezione da **SQL Injection** tramite prepared statements.
 - Gestione sicura delle **sessioni** utente.
-
-&nbsp;
 
 ## ⚡ Considerazioni sulle Prestazioni
 
@@ -112,16 +100,12 @@ quiz_online/
 - **Riduzione** del numero di chiamate API.
 - Caricamento **asincrono** dei contenuti.
 
-&nbsp;
-
 ## 📈 Estensioni Future
 
 - Timer per quiz a tempo.
 - Nuovi formati di domanda (es. immagini, audio).
 - **Gamification**: badge, punteggi, classifiche.
 - Esportazione risultati in **CSV, PDF** o altri formati.
-
-&nbsp;
 
 ## ✅ Conclusione
 
