@@ -41,14 +41,15 @@ try {
     $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Recupero risposte per ogni domanda
-    foreach ($questions as &$question) {
+    foreach ($questions as $i => $question) {
+        // Carica le risposte
         $sql = "SELECT * FROM Risposta WHERE quiz = :quiz AND domanda = :domanda ORDER BY numero";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'quiz' => $quiz_id,
             'domanda' => $question['numero']
         ]);
-        $question['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $questions[$i]['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 } catch (PDOException $e) {
