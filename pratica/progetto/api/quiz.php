@@ -160,47 +160,6 @@
              }
              
              $idQuiz = $pdo->lastInsertId();
-
-             // Inserimento delle domande e risposte
-             foreach ($data['domande'] as $domanda) {
-                 if (!isset($domanda['testo']) || !isset($domanda['risposte']) || empty($domanda['risposte'])) {
-                     throw new Exception("Dati incompleti per la domanda");
-                 }
-                 
-                 $testoDomanda = trim($domanda['testo']);
-                 
-                 $stmtDomanda = $pdo->prepare("
-                     INSERT INTO Domanda (idQuiz, testo) VALUES (:idQuiz, :testo)
-                 ");
-                 $stmtDomanda->bindParam(':idQuiz', $idQuiz);
-                 $stmtDomanda->bindParam(':testo', $testoDomanda);
-                 
-                 if (!$stmtDomanda->execute()) {
-                     throw new Exception("Errore nell'inserimento della domanda");
-                 }
-                 
-                 $idDomanda = $pdo->lastInsertId();
-                 
-                 foreach ($domanda['risposte'] as $risposta) {
-                     if (!isset($risposta['testo']) || !isset($risposta['punteggio'])) {
-                         throw new Exception("Dati incompleti per la risposta");
-                     }
-                     
-                     $testoRisposta = trim($risposta['testo']);
-                     $punteggio = (float) $risposta['punteggio'];
-                     
-                     $stmtRisposta = $pdo->prepare("
-                         INSERT INTO Risposta (idDomanda, testo, punteggio) VALUES (:idDomanda, :testo, :punteggio)
-                     ");
-                     $stmtRisposta->bindParam(':idDomanda', $idDomanda);
-                     $stmtRisposta->bindParam(':testo', $testoRisposta);
-                     $stmtRisposta->bindParam(':punteggio', $punteggio);
-                     
-                     if (!$stmtRisposta->execute()) {
-                         throw new Exception("Errore nell'inserimento della risposta");
-                     }
-                 }
-             }
              
              $pdo->commit();
              
