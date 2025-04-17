@@ -94,8 +94,27 @@ $(document).ready(function () {
                     showAlert(response.message, 'danger');
                 }
             },
-            error: function () {
-                showAlert('Errore durante la comunicazione con il server', 'danger');
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("Errore AJAX:");
+                console.error("Stato Testuale: ", textStatus); // Es: "timeout", "error", "abort", "parsererror"
+                console.error("Errore Lanciato: ", errorThrown); // Es: Oggetto Error o stringa
+                console.error("Risposta Ricevuta (raw): ", jqXHR.responseText); // Il testo grezzo della risposta
+                console.error("Oggetto jqXHR: ", jqXHR); // L'oggetto XHR completo
+                let errorMsg = 'Errore durante la comunicazione con il server.';
+                if (textStatus === 'parsererror') {
+                     errorMsg = 'Errore nel parsing della risposta JSON dal server.';
+                } else if (jqXHR.responseText) {
+                     // Prova a mostrare un messaggio più specifico se disponibile
+                     try {
+                         const errResponse = JSON.parse(jqXHR.responseText);
+                         if (errResponse && errResponse.message) {
+                             errorMsg = errResponse.message;
+                         }
+                     } catch(e) {
+                         // Non era JSON valido, mantieni il messaggio generico
+                     }
+                }
+                showAlert(errorMsg + ' (Status: ' + textStatus + ')', 'danger');
             }
         });
     });

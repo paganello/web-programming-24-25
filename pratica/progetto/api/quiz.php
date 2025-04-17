@@ -43,7 +43,7 @@ function isOwnerOfQuiz($pdo, $idQuiz, $nomeUtente)
 
 // Gestione delle operazioni in base al metodo HTTP
 switch ($method) {
-    case 'GET':
+    case 'GET':/*
         // Recupero dei quiz o di un singolo quiz
         if (isset($_GET['id'])) {
             // Recupero di un singolo quiz per ID
@@ -125,6 +125,157 @@ switch ($method) {
                 exit;
             }
 
+        } elseif (isset($_GET['action']) && $_GET['action'] === 'modify') {
+
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE || !$data) {
+                http_response_code(400); // Bad Request
+                echo json_encode(['message' => 'Dati JSON non validi o mancanti.']);
+                exit;
+            }
+
+            // Validazione dati base (aggiungi controlli più specifici)
+            $quizId = filter_var($data['quiz_id'] ?? null, FILTER_VALIDATE_INT);
+            $titolo = trim($data['titolo'] ?? '');
+            $dataInizio = $data['dataInizio'] ?? ''; // Aggiungi validazione formato data
+            $dataFine = $data['dataFine'] ?? '';   // Aggiungi validazione formato data
+            $questions = $data['questions'] ?? [];
+
+            if (!$quizId || empty($titolo) || empty($dataInizio) || empty($dataFine) || !is_array($questions)) {
+                http_response_code(400);
+                echo json_encode(['message' => 'Dati mancanti o non validi (quiz_id, titolo, date, questions).']);
+                exit;
+            }
+            // Aggiungere validazione date (formato, dataFine >= dataInizio etc.)
+
+            // --- Inizio Transazione e Operazioni DB ---
+            $pdo->beginTransaction();
+
+            try {
+                // 1. Verifica Proprietà Quiz
+                $sqlCheckOwner = "SELECT creatore FROM Quiz WHERE codice = :quizId";
+                $stmtCheckOwner = $pdo->prepare($sqlCheckOwner);
+                $stmtCheckOwner->bindParam(':quizId', $quizId, PDO::PARAM_INT);
+                $stmtCheckOwner->execute();
+                $owner = $stmtCheckOwner->fetchColumn();
+
+                if (!$owner) {
+                    $pdo->rollBack();
+                    http_response_code(404); // Not Found
+                    echo json_encode(['message' => 'Quiz non trovato.']);
+                    exit;
+                }
+                if ($owner !== $nomeUtente) {
+                    $pdo->rollBack();
+                    http_response_code(403); // Forbidden
+                    echo json_encode(['message' => 'Non sei autorizzato a modificare questo quiz.']);
+                    exit;
+                }
+
+                // 2. Aggiorna Dettagli Quiz
+                $sqlUpdateQuiz = "UPDATE Quiz SET titolo = :titolo, dataInizio = :dataInizio, dataFine = :dataFine WHERE codice = :quizId";
+                $stmtUpdateQuiz = $pdo->prepare($sqlUpdateQuiz);
+                $stmtUpdateQuiz->bindParam(':titolo', $titolo, PDO::PARAM_STR);
+                $stmtUpdateQuiz->bindParam(':dataInizio', $dataInizio, PDO::PARAM_STR);
+                $stmtUpdateQuiz->bindParam(':dataFine', $dataFine, PDO::PARAM_STR);
+                $stmtUpdateQuiz->bindParam(':quizId', $quizId, PDO::PARAM_INT);
+                if (!$stmtUpdateQuiz->execute()) {
+                    throw new Exception("Errore durante l'aggiornamento dei dettagli del quiz.");
+                }
+
+                // 3. Gestione Domande e Risposte (Approccio Semplificato: Cancella e Reinserisci)
+                //    ATTENZIONE: Questo approccio è semplice ma può essere inefficiente e resettare eventuali ID/numeri specifici.
+                //    Un approccio migliore traccerebbe gli `original_numero` per fare UPDATE/INSERT/DELETE mirati.
+
+                // 3a. Cancella TUTTE le domande e risposte esistenti per questo quiz
+                //     (ON DELETE CASCADE si occuperà delle risposte quando le domande vengono cancellate)
+                $sqlDeleteDomande = "DELETE FROM Domanda WHERE quiz = :quizId";
+                $stmtDeleteDomande = $pdo->prepare($sqlDeleteDomande);
+                $stmtDeleteDomande->bindParam(':quizId', $quizId, PDO::PARAM_INT);
+                if (!$stmtDeleteDomande->execute()) {
+                    throw new Exception("Errore durante la pulizia delle vecchie domande.");
+                }
+                // Nota: Le risposte associate vengono cancellate da ON DELETE CASCADE sulla FK Domanda(quiz)
+
+                // 3b. Reinserisci Domande e Risposte dai dati ricevuti
+                $sqlInsertDomanda = "INSERT INTO Domanda (quiz, numero, testo) VALUES (:quizId, :numero, :testo)";
+                $stmtInsertDomanda = $pdo->prepare($sqlInsertDomanda);
+
+                $sqlInsertRisposta = "INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES (:quizId, :domandaNum, :numero, :testo, :tipo, :punteggio)";
+                $stmtInsertRisposta = $pdo->prepare($sqlInsertRisposta);
+
+                $numeroDomandaAttuale = 1; // Riassegna i numeri sequenzialmente
+                foreach ($questions as $questionData) {
+                    $testoDomanda = trim($questionData['testo'] ?? '');
+                    $risposte = $questionData['answers'] ?? [];
+
+                    // Validazione minima domanda/risposte (aggiungi di più!)
+                    if (empty($testoDomanda) || !is_array($risposte) || empty($risposte)) {
+                        throw new Exception("Dati domanda/risposte non validi per la domanda #{$numeroDomandaAttuale}. Ogni domanda deve avere testo e almeno una risposta.");
+                    }
+
+                    // Inserisci la domanda
+                    $stmtInsertDomanda->bindParam(':quizId', $quizId, PDO::PARAM_INT);
+                    $stmtInsertDomanda->bindParam(':numero', $numeroDomandaAttuale, PDO::PARAM_INT);
+                    $stmtInsertDomanda->bindParam(':testo', $testoDomanda, PDO::PARAM_STR);
+                    if (!$stmtInsertDomanda->execute()) {
+                        throw new Exception("Errore durante l'inserimento della domanda #{$numeroDomandaAttuale}.");
+                    }
+
+                    $numeroRispostaAttuale = 1; // Riassegna i numeri sequenzialmente per questa domanda
+                    $hasCorrectAnswer = false;
+                    foreach ($risposte as $answerData) {
+                        $testoRisposta = trim($answerData['testo'] ?? '');
+                        $tipoRisposta = $answerData['tipo'] ?? '';
+                        $punteggioRisposta = filter_var($answerData['punteggio'] ?? 0, FILTER_VALIDATE_INT, ['options' => ['default' => 0]]); // Default a 0 se non valido
+
+                        if (empty($testoRisposta) || !in_array($tipoRisposta, ['Corretta', 'Sbagliata'])) {
+                            throw new Exception("Dati risposta non validi per domanda #{$numeroDomandaAttuale}, risposta #{$numeroRispostaAttuale}.");
+                        }
+
+                        if ($tipoRisposta == 'Corretta') {
+                            $hasCorrectAnswer = true;
+                        }
+
+                        // Inserisci la risposta
+                        $stmtInsertRisposta->bindParam(':quizId', $quizId, PDO::PARAM_INT);
+                        $stmtInsertRisposta->bindParam(':domandaNum', $numeroDomandaAttuale, PDO::PARAM_INT); // Numero della domanda appena inserita
+                        $stmtInsertRisposta->bindParam(':numero', $numeroRispostaAttuale, PDO::PARAM_INT);
+                        $stmtInsertRisposta->bindParam(':testo', $testoRisposta, PDO::PARAM_STR);
+                        $stmtInsertRisposta->bindParam(':tipo', $tipoRisposta, PDO::PARAM_STR);
+                        $stmtInsertRisposta->bindParam(':punteggio', $punteggioRisposta, PDO::PARAM_INT);
+                        if (!$stmtInsertRisposta->execute()) {
+                            throw new Exception("Errore durante l'inserimento della risposta #{$numeroRispostaAttuale} per la domanda #{$numeroDomandaAttuale}.");
+                        }
+                        $numeroRispostaAttuale++;
+                    }
+
+                    // Validazione: Assicurati che ogni domanda abbia almeno una risposta corretta
+                    if (!$hasCorrectAnswer) {
+                        throw new Exception("La domanda #{$numeroDomandaAttuale} deve avere almeno una risposta segnata come 'Corretta'.");
+                    }
+
+                    $numeroDomandaAttuale++;
+                }
+
+                // Se tutto è andato bene, conferma le modifiche
+                $pdo->commit();
+                http_response_code(200); // OK
+                echo json_encode(['message' => 'Quiz aggiornato con successo!']);
+                exit;
+
+            } catch (Exception $e) {
+                // Se qualcosa va storto, annulla tutte le modifiche
+                $pdo->rollBack();
+                http_response_code(500); // Internal Server Error
+                // Logga l'errore $e->getMessage() per il debug
+                error_log("Errore API modifica quiz: " . $e->getMessage());
+                echo json_encode(['message' => 'Errore del server durante l\'aggiornamento del quiz. Dettagli: ' . $e->getMessage()]); // Mostra messaggio di errore specifico per ora
+                exit;
+            }
+
         } else {
             // Recupero di tutti i quiz disponibili
             try {
@@ -157,7 +308,7 @@ switch ($method) {
                 http_response_code(500);
                 echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
             }
-        }
+        }*/
         break;
 
     case 'POST':
@@ -255,6 +406,8 @@ switch ($method) {
             http_response_code(500);
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
+
+
         break;
 
     case 'PUT':

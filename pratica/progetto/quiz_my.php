@@ -65,7 +65,8 @@ include 'includes/header.php';
                     <div class='quiz-actions'>
                         <a href='quiz_view.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn'>Visualizza</a>
                         <a href='quiz_modify.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn'>Modifica</a>
-                        <button delId="<?php echo htmlspecialchars($quiz['codice']); ?>" class='btn btn-danger delete-quiz-btn'>Elimina</button>
+                        <button delId="<?php echo htmlspecialchars($quiz['codice']); ?>"
+                            class='btn btn-danger delete-quiz-btn'>Elimina</button>
                     </div>
                 </div>
             <?php endforeach; ?>

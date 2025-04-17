@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db_connection.php'; // Assicurati di includere la tua connessione PDO ($pdo)
+require_once 'config/database.php'; // Assicurati di includere la tua connessione PDO ($pdo)
 
 // --- Autenticazione ---
 if (!isset($_SESSION['user'])) {
@@ -60,6 +60,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='assets/js/edit_quiz_script.js'></script>
     <title>Modifica Quiz - <?php echo htmlspecialchars($quiz['titolo']); ?></title>
     <style>
         /* Aggiungi un po' di stile base */

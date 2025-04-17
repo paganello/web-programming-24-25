@@ -28,7 +28,7 @@ if (!isset($_SESSION['user'])) {
 <div class="main-content">
     <div class="content">
         <h1>Crea un nuovo Quiz</h1>
-        
+
         <div id="quiz-details">
             <div class="card">
                 <div class="card-content">
@@ -37,17 +37,17 @@ if (!isset($_SESSION['user'])) {
                             <label for="title">Titolo del Quiz</label>
                             <input type="text" name="title" id="title" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="start_date">Data di inizio</label>
                             <input type="date" name="start_date" id="start_date" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="end_date">Data di fine</label>
                             <input type="date" name="end_date" id="end_date" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <button type="submit">Continua</button>
                         </div>
@@ -55,20 +55,20 @@ if (!isset($_SESSION['user'])) {
                 </div>
             </div>
         </div>
-        
+
         <div id="questions-section" style="display: none;">
             <h2>Aggiungi Domande</h2>
-            
+
             <input type="hidden" id="quiz-id" value="">
-            
+
             <form id="questions-form">
                 <div id="questions-container"></div>
-                
+
                 <div class="form-group">
-                    <br/>
+                    <br />
                     <button type="button" id="add-question" class="btn btn-secondary">Aggiungi Domanda</button>
                 </div>
-                
+
                 <div class="form-group">
                     <button type="button" id="save-questions" class="btn">Salva Quiz</button>
                 </div>

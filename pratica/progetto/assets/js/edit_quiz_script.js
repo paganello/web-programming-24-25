@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Dati inviati:", JSON.stringify(data, null, 2)); // Per Debug
 
         // Invia i dati all'API
-        fetch('api/quiz.php', { // Assicurati che il percorso sia corretto
+        fetch('api/quiz.php?action=modify', { // Assicurati che il percorso sia corretto
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -38,9 +38,9 @@ try {
     $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$quiz) {
-       $_SESSION['error'] = "Quiz non disponibile o non esistente.";
-       header('Location: index.php');
-       exit;
+        $_SESSION['error'] = "Quiz non disponibile o non esistente.";
+        header('Location: index.php');
+        exit;
     }
 
     // Verifica se l'utente ha già partecipato
@@ -106,11 +106,11 @@ try {
 <div class="main-content">
     <div class="content">
         <h1>Partecipazione al Quiz: <?php echo htmlspecialchars($quiz['titolo']); ?></h1>
-        
+
         <form id="participate-form">
             <input type="hidden" name="participation_id" value="<?php echo $participation_id; ?>">
             <input type="hidden" name="idQuiz" value="<?php echo $quiz_id; ?>">
-            
+
             <?php if (empty($questions)): ?>
                 <p>Nessuna domanda trovata per questo quiz.</p>
             <?php else: ?>
@@ -119,12 +119,13 @@ try {
                         <div class="question-text">
                             Domanda <?php echo $question['numero']; ?>: <?php echo htmlspecialchars($question['testo']); ?>
                         </div>
-                        
+
                         <div class="answer-options">
                             <?php foreach ($question['answers'] as $answer): ?>
                                 <div class="answer-option">
                                     <label>
-                                        <input type="checkbox" name="answers[<?php echo $question['numero']; ?>][]" value="<?php echo $answer['numero']; ?>">
+                                        <input type="checkbox" name="answers[<?php echo $question['numero']; ?>][]"
+                                            value="<?php echo $answer['numero']; ?>">
                                         <?php echo htmlspecialchars($answer['testo']); ?>
                                     </label>
                                 </div>
@@ -132,7 +133,7 @@ try {
                         </div>
                     </div>
                 <?php endforeach; ?>
-                
+
                 <div class="form-group">
                     <button type="submit" class="btn">Invia Risposte</button>
                 </div>

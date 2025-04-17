@@ -76,7 +76,7 @@ try {
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $q_num = $row['domanda_numero'];
-        
+
         if (!isset($questions[$q_num])) {
             $questions[$q_num] = [
                 'numero' => $q_num,
@@ -84,7 +84,7 @@ try {
                 'answers' => []
             ];
         }
-        
+
         $questions[$q_num]['answers'][] = [
             'numero' => $row['risposta_numero'],
             'testo' => $row['risposta_testo'],
@@ -102,18 +102,19 @@ try {
 <div class="main-content">
     <div class="content">
         <h1>Risultati Quiz: <?php echo htmlspecialchars($participation['quiz_titolo']); ?></h1>
-        
+
         <div class="card">
             <div class="card-content">
-                <p><strong>Data partecipazione:</strong> <?php echo date('d/m/Y', strtotime($participation['data'])); ?></p>
+                <p><strong>Data partecipazione:</strong> <?php echo date('d/m/Y', strtotime($participation['data'])); ?>
+                </p>
                 <p><strong>Punteggio totale:</strong> <?php echo $total_score; ?> punti</p>
-                
-                <a href="view_quiz.php?id=<?php echo $quiz_id; ?>" class="btn">Torna al Quiz</a>
+
+                <a href="quiz_view.php?id=<?php echo $quiz_id; ?>" class="btn">Torna al Quiz</a>
             </div>
         </div>
-        
+
         <h2>Risposte e Soluzioni</h2>
-        
+
         <?php if (empty($questions)): ?>
             <p>Nessuna domanda trovata per questo quiz.</p>
         <?php else: ?>
@@ -122,16 +123,17 @@ try {
                     <div class="question-text">
                         Domanda <?php echo $question['numero']; ?>: <?php echo htmlspecialchars($question['testo']); ?>
                     </div>
-                    
+
                     <div class="answer-options">
                         <?php foreach ($question['answers'] as $answer): ?>
-                            <div class="answer-option <?php echo $answer['selezionata'] ? ($answer['tipo'] === 'Corretta' ? 'correct' : 'wrong') : ''; ?>">
+                            <div
+                                class="answer-option <?php echo $answer['selezionata'] ? ($answer['tipo'] === 'Corretta' ? 'correct' : 'wrong') : ''; ?>">
                                 <?php if ($answer['selezionata']): ?>
-                                    <strong>✓</strong> 
+                                    <strong>✓</strong>
                                 <?php endif; ?>
-                                
+
                                 <?php echo htmlspecialchars($answer['testo']); ?>
-                                
+
                                 <?php if ($answer['tipo'] === 'Corretta'): ?>
                                     <span class="badge-correct">(Corretta - <?php echo $answer['punteggio']; ?> punti)</span>
                                 <?php endif; ?>
