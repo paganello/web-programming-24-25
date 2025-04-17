@@ -48,7 +48,7 @@ try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $participation_id]);
     $score_data = $stmt->fetch(PDO::FETCH_ASSOC);
-    $total_score = $score_data ? $score_data['total_score'] : 0;
+    $total_score = isset($score_data['total_score']) && $score_data['total_score'] !== NULL ? $score_data['total_score'] : 0;
 
     // Recupero tutte le domande e risposte date
     $sql = "SELECT d.numero AS domanda_numero, d.testo AS domanda_testo,
