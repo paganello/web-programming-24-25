@@ -14,6 +14,7 @@
 
 drop database if exists quiz_online;
 drop user if exists 'quiz_user'@'localhost';
+drop user if exists 'quiz_user'@'%';
 -- Creazione del database
 CREATE DATABASE quiz_online CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER 'quiz_user'@'localhost' IDENTIFIED BY '!*5633hH$rU7^t%65@J@';
