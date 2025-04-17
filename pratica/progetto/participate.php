@@ -19,17 +19,18 @@ $today = date('Y-m-d');
 
 try {
     // Verifica se il quiz esiste e se è disponibile
-    $sql = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :today AND dataFine >= :today";
+    $sql = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :oggi1 AND dataFine >= :oggi2";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $quiz_id, PDO::PARAM_INT);
-    $stmt->bindParam(':today', $today, PDO::PARAM_STR);
+    $stmt->bindParam(':oggi1', $today, PDO::PARAM_STR);
+    $stmt->bindParam(':oggi2', $today, PDO::PARAM_STR);
     $stmt->execute();
     $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$quiz) {
-        $_SESSION['error'] = "Quiz non disponibile o non esistente.";
-        header('Location: index.php');
-        exit;
+       $_SESSION['error'] = "Quiz non disponibile o non esistente.";
+       header('Location: index.php');
+       exit;
     }
 
     // Verifica se l'utente ha già partecipato
