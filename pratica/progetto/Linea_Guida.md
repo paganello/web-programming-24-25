@@ -52,7 +52,7 @@ quiz_online/
 ├── register.php                # Pagina per la registrazione di un nuovo utente con validazioni base
 ├── participate.php             # Pagina per partecipare a un quiz: visualizza domande, gestisce invio risposte
 ├── results.php                 # Mostra i risultati dei quiz svolti, punteggio ottenuto, risposte corrette/errate
-└── view_quiz.php               # Dettaglio di un quiz: titolo, descrizione, autore, numero di domande e date
+└── view_quiz.php               # Dettaglio di un quiz: titolo, autore, numero di domande e date
 
 ```
 

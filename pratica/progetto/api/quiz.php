@@ -258,12 +258,7 @@
                  $updateFields[] = "titolo = :titolo";
                  $params[':titolo'] = trim($data['titolo']);
              }
-             
-             if (isset($data['descrizione'])) {
-                 $updateFields[] = "descrizione = :descrizione";
-                 $params[':descrizione'] = trim($data['descrizione']);
-             }
-             
+
              if (isset($data['dataApertura'])) {
                  $updateFields[] = "dataApertura = :dataApertura";
                  $params[':dataApertura'] = trim($data['dataApertura']);
