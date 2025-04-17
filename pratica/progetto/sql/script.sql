@@ -13,10 +13,11 @@
 
 
 drop database if exists quiz_online;
+drop user if exists 'quiz_user'@'localhost';
 -- Creazione del database
 CREATE DATABASE quiz_online CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS 'quiz_user'@'%' IDENTIFIED BY '!*5633hH$rU7^t%65@J@';
-GRANT ALL PRIVILEGES ON quiz_online.* TO 'quiz_user'@'%';
+CREATE USER 'quiz_user'@'localhost' IDENTIFIED BY '!*5633hH$rU7^t%65@J@';
+GRANT ALL PRIVILEGES ON quiz_online.* TO 'quiz_user'@'localhost';
 FLUSH PRIVILEGES;
 -- Selezione del database
 USE quiz_online;
