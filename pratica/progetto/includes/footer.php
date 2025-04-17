@@ -13,7 +13,7 @@
  */
 
 ?>
-    </div><!-- fine .container -->
+    </div>
     
     <footer>
         <div class="container">
