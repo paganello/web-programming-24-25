@@ -65,7 +65,7 @@ try {
 
         if ($has_answers) {
             $_SESSION['error'] = "Hai già partecipato a questo quiz.";
-            header("Location: results.php?partecipation=$participation_id");
+            header("Location: results.php?participation=$participation_id");
             exit;
         }
     }

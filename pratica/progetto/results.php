@@ -19,7 +19,7 @@ if (!isset($_GET['participation']) || !is_numeric($_GET['participation'])) {
     exit;
 }
 
-$participation_id = (int) $_GET['partecipation'];
+$participation_id = (int) $_GET['participation'];
 $user = $_SESSION['user']['nomeUtente'];
 
 try {
