@@ -65,7 +65,7 @@ try {
 
         if ($has_answers) {
             $_SESSION['error'] = "Hai già partecipato a questo quiz.";
-            header("Location: results.php?participation=$participation_id");
+            header("Location: results.php?partecipation=$participation_id");
             exit;
         }
     }
@@ -85,6 +85,7 @@ try {
         $stmt->execute();
         $question['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    unset($question);
 
 } catch (PDOException $e) {
     die("Errore DB: " . $e->getMessage());
@@ -98,7 +99,7 @@ try {
         
         <form id="participate-form">
             <input type="hidden" name="participation_id" value="<?php echo $participation_id; ?>">
-            <input type="hidden" name="quiz_id" value="<?php echo $quiz_id; ?>">
+            <input type="hidden" name="idQuiz" value="<?php echo $quiz_id; ?>">
             
             <?php if (empty($questions)): ?>
                 <p>Nessuna domanda trovata per questo quiz.</p>

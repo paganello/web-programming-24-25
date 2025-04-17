@@ -162,7 +162,7 @@ switch ($method) {
         }
         
         // Recupero dei dati dalla richiesta JSON
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = $_POST;
         if (!$data || !isset($data['idQuiz'])) {
             http_response_code(400);
             echo json_encode(['status' => 'error', 'message' => 'Dati mancanti o formato non valido']);
@@ -176,7 +176,7 @@ switch ($method) {
             // Verifica se il quiz esiste ed è aperto
             $stmtQuiz = $pdo->prepare("
                 SELECT * FROM Quiz 
-                WHERE idQuiz = :idQuiz 
+                WHERE codice = :idQuiz 
                 AND dataInizio <= NOW() 
                 AND (dataFine IS NULL OR dataFine >= NOW())
             ");
@@ -192,7 +192,7 @@ switch ($method) {
             // Verifica se l'utente ha già partecipato a questo quiz
             $stmtPartecipazione = $pdo->prepare("
                 SELECT * FROM Partecipazione 
-                WHERE idQuiz = :idQuiz AND nomeUtente = :nomeUtente
+                WHERE quiz = :idQuiz AND utente = :nomeUtente
             ");
             $stmtPartecipazione->bindParam(':idQuiz', $idQuiz);
             $stmtPartecipazione->bindParam(':nomeUtente', $nomeUtente);
@@ -207,7 +207,7 @@ switch ($method) {
             
             // Crea una nuova partecipazione
             $stmt = $pdo->prepare("
-                INSERT INTO Partecipazione (idQuiz, nomeUtente, dataOra) 
+                INSERT INTO Partecipazione (quiz, utente, data) 
                 VALUES (:idQuiz, :nomeUtente, NOW())
             ");
             $stmt->bindParam(':idQuiz', $idQuiz);
@@ -218,10 +218,10 @@ switch ($method) {
             
             // Recupera la nuova partecipazione
             $stmtSelect = $pdo->prepare("
-                SELECT p.*, q.titolo, q.descrizione 
+                SELECT p.*, q.titolo
                 FROM Partecipazione p
-                JOIN Quiz q ON p.idQuiz = q.idQuiz
-                WHERE p.idPartecipazione = :idPartecipazione
+                JOIN Quiz q ON p.quiz = q.codice
+                WHERE p.codice = :idPartecipazione
             ");
             $stmtSelect->bindParam(':idPartecipazione', $idPartecipazione);
             $stmtSelect->execute();
@@ -256,10 +256,10 @@ switch ($method) {
         try {
             // Verifica che la partecipazione appartenga all'utente
             $stmtVerifica = $pdo->prepare("
-                SELECT p.*, q.idQuiz 
+                SELECT p.*, q.codice 
                 FROM Partecipazione p
-                JOIN Quiz q ON p.idQuiz = q.idQuiz
-                WHERE p.idPartecipazione = :idPartecipazione AND p.nomeUtente = :nomeUtente
+                JOIN Quiz q ON p.quiz = q.codice
+                WHERE p.codice = :idPartecipazione AND p.utente = :nomeUtente
             ");
             $stmtVerifica->bindParam(':idPartecipazione', $idPartecipazione);
             $stmtVerifica->bindParam(':nomeUtente', $nomeUtente);
@@ -280,7 +280,7 @@ switch ($method) {
             // Rimuovi eventuali risposte precedenti
             $stmtCancella = $pdo->prepare("
                 DELETE FROM RispostaUtenteQuiz 
-                WHERE idPartecipazione = :idPartecipazione AND nomeUtente = :nomeUtente
+                WHERE partecipazione = :idPartecipazione AND nomeUtente = :nomeUtente
             ");
             $stmtCancella->bindParam(':idPartecipazione', $idPartecipazione);
             $stmtCancella->bindParam(':nomeUtente', $nomeUtente);
