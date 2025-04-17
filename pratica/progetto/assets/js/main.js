@@ -8,66 +8,83 @@
  * - Gestione della navigazione e delle transizioni tra le diverse sezioni
  */
 
-$(document).ready(function() {
+$(document).ready(function () {
     // Login e Registrazione
-    $('#login-form').on('submit', function(e) {
+    $('#login-form').on('submit', function (e) {
         e.preventDefault();
-        
+
         $.ajax({
             type: 'POST',
             url: 'api/users.php?action=login',
             data: $(this).serialize(),
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.status === 'success') {
                     showAlert('Login effettuato con successo!', 'success');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.location.href = 'index.php';
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
                 }
             },
-            error: function() {
+            error: function () {
                 showAlert('Errore durante la comunicazione con il server', 'danger');
             }
         });
     });
 
-    $('#register-form').on('submit', function(e) {
+    $('#register-form').on('submit', function (e) {
         e.preventDefault();
-        
+
         $.ajax({
             type: 'POST',
             url: 'api/users.php?action=register',
             data: $(this).serialize(),
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.status === 'success') {
                     showAlert('Registrazione completata con successo!', 'success');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.location.href = 'login.php';
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
                 }
             },
-            error: function() {
+            error: function () {
                 showAlert('Errore durante la comunicazione con il server', 'danger');
             }
         });
     });
 
     // Creazione Quiz
-    $('#create-quiz-form').on('submit', function(e) {
+    $('#create-quiz-form').on('submit', function (e) {
         e.preventDefault();
-        
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalizza l'orario a mezzanotte
+
+        const startDate = new Date($('#start_date').val());
+        const endDate = new Date($('#end_date').val());
+
+        // Controllo: data di inizio < oggi
+        if (startDate < today) {
+            showAlert('La data di inizio non può essere precedente a oggi.', 'danger');
+            return;
+        }
+
+        // Controllo: data di fine < data di inizio
+        if (endDate < startDate) {
+            showAlert('La data di fine non può essere precedente alla data di inizio.', 'danger');
+            return;
+        }
         $.ajax({
             type: 'POST',
             url: 'api/quiz.php?action=create',
             data: $(this).serialize(),
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.status === 'success') {
                     showAlert('Quiz creato con successo!', 'success');
                     $('#quiz-id').val(response.idQuiz);
@@ -77,49 +94,49 @@ $(document).ready(function() {
                     showAlert(response.message, 'danger');
                 }
             },
-            error: function() {
+            error: function () {
                 showAlert('Errore durante la comunicazione con il server', 'danger');
             }
         });
     });
 
     // Funzione per rinumerare tutte le domande e risposte
-function renumberQuestions() {
-    $('.question-block').each(function(index) {
-        const qNum = index + 1;
-        $(this).attr('data-question', qNum);
-        $(this).find('label[for^="question-"]').attr('for', `question-${qNum}`);
-        $(this).find('textarea').attr('id', `question-${qNum}`).attr('name', `questions[${qNum}][text]`);
-        $(this).find('.answers-container').attr('id', `answers-container-${qNum}`);
-        $(this).find('.add-answer').data('question', qNum);
-        $(this).find('.remove-question').data('question', qNum);
+    function renumberQuestions() {
+        $('.question-block').each(function (index) {
+            const qNum = index + 1;
+            $(this).attr('data-question', qNum);
+            $(this).find('label[for^="question-"]').attr('for', `question-${qNum}`);
+            $(this).find('textarea').attr('id', `question-${qNum}`).attr('name', `questions[${qNum}][text]`);
+            $(this).find('.answers-container').attr('id', `answers-container-${qNum}`);
+            $(this).find('.add-answer').data('question', qNum);
+            $(this).find('.remove-question').data('question', qNum);
 
-        // Rinumeriamo anche le risposte
-        $(this).find('.answer-block').each(function(aIndex) {
-            const aNum = aIndex + 1;
-            $(this).attr('data-answer', aNum);
-            $(this).find('label[for^="question-"]').attr('for', `question-${qNum}-answer-${aNum}`);
-            $(this).find('input[type="text"]').attr({
-                'id': `question-${qNum}-answer-${aNum}`,
-                'name': `questions[${qNum}][answers][${aNum}][text]`
-            });
-            $(this).find('input[type="radio"]').each(function() {
-                const value = $(this).val();
-                $(this).attr('name', `questions[${qNum}][answers][${aNum}][type]`);
-            });
-            $(this).find('.points-group input').attr({
-                'id': `question-${qNum}-answer-${aNum}-points`,
-                'name': `questions[${qNum}][answers][${aNum}][points]`
+            // Rinumeriamo anche le risposte
+            $(this).find('.answer-block').each(function (aIndex) {
+                const aNum = aIndex + 1;
+                $(this).attr('data-answer', aNum);
+                $(this).find('label[for^="question-"]').attr('for', `question-${qNum}-answer-${aNum}`);
+                $(this).find('input[type="text"]').attr({
+                    'id': `question-${qNum}-answer-${aNum}`,
+                    'name': `questions[${qNum}][answers][${aNum}][text]`
+                });
+                $(this).find('input[type="radio"]').each(function () {
+                    const value = $(this).val();
+                    $(this).attr('name', `questions[${qNum}][answers][${aNum}][type]`);
+                });
+                $(this).find('.points-group input').attr({
+                    'id': `question-${qNum}-answer-${aNum}-points`,
+                    'name': `questions[${qNum}][answers][${aNum}][points]`
+                });
             });
         });
-    });
-}
+    }
 
-// Aggiunta domanda
-$('#add-question').click(function () {
-    const questionCounter = $('.question-block').length + 1;
+    // Aggiunta domanda
+    $('#add-question').click(function () {
+        const questionCounter = $('.question-block').length + 1;
 
-    const questionHtml = `
+        const questionHtml = `
         <div class="question-block" data-question="${questionCounter}">
             <div class="form-group">
                 <label for="question-${questionCounter}">Testo della domanda ${questionCounter}</label>
@@ -156,16 +173,16 @@ $('#add-question').click(function () {
         </div>
     `;
 
-    $('#questions-container').append(questionHtml);
-});
+        $('#questions-container').append(questionHtml);
+    });
 
-// Aggiunta risposta
-$(document).on('click', '.add-answer', function () {
-    const questionId = $(this).data('question');
-    const answersContainer = $(`#answers-container-${questionId}`);
-    const answerCount = answersContainer.find('.answer-block').length + 1;
+    // Aggiunta risposta
+    $(document).on('click', '.add-answer', function () {
+        const questionId = $(this).data('question');
+        const answersContainer = $(`#answers-container-${questionId}`);
+        const answerCount = answersContainer.find('.answer-block').length + 1;
 
-    const answerHtml = `
+        const answerHtml = `
         <div class="answer-block" data-answer="${answerCount}">
             <div class="form-group">
                 <label for="question-${questionId}-answer-${answerCount}">Risposta ${answerCount}</label>
@@ -190,96 +207,96 @@ $(document).on('click', '.add-answer', function () {
         </div>
     `;
 
-    answersContainer.append(answerHtml);
-});
+        answersContainer.append(answerHtml);
+    });
 
-// Rimozione risposta
-$(document).on('click', '.remove-answer', function () {
-    $(this).closest('.answer-block').remove();
-    renumberQuestions();
-});
+    // Rimozione risposta
+    $(document).on('click', '.remove-answer', function () {
+        $(this).closest('.answer-block').remove();
+        renumberQuestions();
+    });
 
-// Rimozione domanda
-$(document).on('click', '.remove-question', function () {
-    $(this).closest('.question-block').remove();
-    renumberQuestions();
-});
+    // Rimozione domanda
+    $(document).on('click', '.remove-question', function () {
+        $(this).closest('.question-block').remove();
+        renumberQuestions();
+    });
 
-// Mostra/nascondi punteggio
-$(document).on('change', 'input[type=radio]', function () {
-    const answerBlock = $(this).closest('.answer-block');
-    const pointsGroup = answerBlock.find('.points-group');
+    // Mostra/nascondi punteggio
+    $(document).on('change', 'input[type=radio]', function () {
+        const answerBlock = $(this).closest('.answer-block');
+        const pointsGroup = answerBlock.find('.points-group');
 
-    if ($(this).val() === 'Corretta') {
-        pointsGroup.show();
-    } else {
-        pointsGroup.hide();
-        pointsGroup.find('input').val(0);
-    }
-});
+        if ($(this).val() === 'Corretta') {
+            pointsGroup.show();
+        } else {
+            pointsGroup.hide();
+            pointsGroup.find('input').val(0);
+        }
+    });
 
-    
+
     // Salvataggio domande e risposte
-    $('#save-questions').click(function() {
+    $('#save-questions').click(function () {
         const quizId = $('#quiz-id').val();
         const formData = $('#questions-form').serialize() + `&idQuiz=${quizId}`;
-        
+
         $.ajax({
             type: 'POST',
             url: 'api/questions.php?action=save',
             data: formData,
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.status === 'success') {
                     showAlert('Domande e risposte salvate con successo!', 'success');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.location.href = 'view_quiz.php?id=' + quizId;
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
                 }
             },
-            error: function() {
+            error: function () {
                 showAlert('Errore durante la comunicazione con il server', 'danger');
             }
         });
     });
 
     // Partecipazione al quiz
-    $('#participate-form').on('submit', function(e) {
+    $('#participate-form').on('submit', function (e) {
         e.preventDefault();
-        
+
         $.ajax({
             type: 'POST',
             url: 'api/partecipation.php?action=submit',
             data: $(this).serialize(),
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.status === 'success') {
                     showAlert('Risposte inviate con successo!', 'success');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.location.href = 'results.php?participation=' + response.data.codice;
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
                 }
             },
-            error: function() {
+            error: function () {
                 showAlert('Errore durante la comunicazione con il server', 'danger');
             }
         });
     });
 
     // Ricerca Quiz
-    $('#search-quiz-form').on('submit', function(e) {
+    $('#search-quiz-form').on('submit', function (e) {
         e.preventDefault();
-        
+
         $.ajax({
             type: 'GET',
             url: 'api/quiz.php?action=search',
             data: $(this).serialize(),
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.status === 'success') {
                     displayQuizResults(response.quizzes);
                 } else {
@@ -287,7 +304,7 @@ $(document).on('change', 'input[type=radio]', function () {
                     $('#quiz-results').html('');
                 }
             },
-            error: function() {
+            error: function () {
                 showAlert('Errore durante la comunicazione con il server', 'danger');
             }
         });
@@ -296,12 +313,12 @@ $(document).on('change', 'input[type=radio]', function () {
     // Funzione per mostrare i risultati della ricerca
     function displayQuizResults(quizzes) {
         let html = '';
-        
+
         if (quizzes.length === 0) {
             html = '<p>Nessun quiz trovato.</p>';
         } else {
             html = '<div class="quiz-list">';
-            
+
             quizzes.forEach(quiz => {
                 html += `
                     <div class="quiz-item">
@@ -317,10 +334,10 @@ $(document).on('change', 'input[type=radio]', function () {
                     </div>
                 `;
             });
-            
+
             html += '</div>';
         }
-        
+
         $('#quiz-results').html(html);
     }
 
@@ -331,11 +348,11 @@ $(document).on('change', 'input[type=radio]', function () {
                 ${message}
             </div>
         `;
-        
+
         $('#alert-container').html(alertHtml);
-        
+
         // Auto-hide after 5 seconds
-        setTimeout(function() {
+        setTimeout(function () {
             $('#alert-container .alert').fadeOut();
         }, 5000);
     }
