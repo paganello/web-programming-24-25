@@ -14,8 +14,8 @@
  */
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_USER', 'quiz_user');
+define('DB_PASS', '!*5633hH$rU7^t%65@J@');
 define('DB_NAME', 'quiz_online');
 
 try {
