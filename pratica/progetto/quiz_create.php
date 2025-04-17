@@ -15,6 +15,10 @@
 
 include 'includes/header.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Controllo se l'utente è loggato
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');

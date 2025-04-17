@@ -1,7 +1,8 @@
 <?php
 // Inizializzazione della sessione
-session_start();
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Se l'utente è già loggato, reindirizza alla home
 if (isset($_SESSION['user'])) {
     header('Location: index.php');
