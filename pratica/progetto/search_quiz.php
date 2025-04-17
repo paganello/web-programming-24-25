@@ -33,6 +33,7 @@ try {
 ?>
 
 <div class="content">
+    <a href="index.php" class="btn">⟵ Torna alla Home</a>
     <h1>Risultati della ricerca</h1>
     
     <?php if (empty($quizzes)): ?>

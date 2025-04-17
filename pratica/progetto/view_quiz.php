@@ -59,6 +59,7 @@ try {
 
 <div class="main-content">
     <div class="content">
+        <a href="index.php" class="btn">⟵ Torna alla Home</a>
         <h1><?php echo htmlspecialchars($quiz['titolo']); ?></h1>
         
         <div class="card">
