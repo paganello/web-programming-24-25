@@ -10,8 +10,6 @@
  * - Modificare risposte esistenti
  * - Eliminare risposte
  * - Verificare la correttezza delle risposte selezionate da un utente
- * 
- * Utilizza prepared statements per prevenire SQL injection.
  */
 
  // Inizializzazione della sessione

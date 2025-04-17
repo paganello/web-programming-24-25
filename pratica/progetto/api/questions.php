@@ -10,9 +10,6 @@
  * - Eliminazione di domande
  * - Recupero di tutte le domande associate a un quiz specifico
  * - Recupero dei dettagli di una singola domanda
- * 
- * Include la validazione dei dati in input e controlli di autorizzazione
- * per garantire che solo il creatore del quiz possa modificare le domande.
  */
 
 // Inizializzazione della sessione
