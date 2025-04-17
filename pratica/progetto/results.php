@@ -1,7 +1,14 @@
 <?php
 
 /**
- * Pagina di visualizzazione dei risultati (PDO)
+ * Pagina di visualizzazione dei risultati di un quiz
+ * 
+ * Questa pagina mostra i risultati di un quiz a cui l'utente ha partecipato.
+ * Funzionalità principali:
+ * - Recupero dei dettagli della partecipazione
+ * - Calcolo del punteggio totale
+ * - Visualizzazione delle domande e delle risposte date
+ * - Evidenziazione delle risposte corrette e sbagliate
  */
 
 include 'includes/header.php';

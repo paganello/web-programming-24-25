@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Partecipazione al Quiz
+ * 
+ * Questo script gestisce la partecipazione degli utenti a un quiz.
+ * Funzionalità principali:
+ * - Controlla se l'utente è loggato, se il quiz è disponibile e se l'utente ha già partecipato.
+ * - Recupera le domande e le risposte associate al quiz.
+ * - Mostra il form per la partecipazione al quiz.
+ * - Invia le risposte al server per la registrazione.
+ */
 include 'includes/header.php';
 require_once 'config/database.php';
 

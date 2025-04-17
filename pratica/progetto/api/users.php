@@ -11,9 +11,6 @@
  * - Recupero delle informazioni dell'utente
  * - Recupero dei quiz creati da un utente
  * - Recupero delle partecipazioni di un utente
- * 
- * Implementa misure di sicurezza per la gestione delle password
- * e la validazione dei dati in input.
  */
 
  // Inizializzazione della sessione

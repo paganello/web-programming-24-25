@@ -1,14 +1,10 @@
 /**
  * assets/js/main.js
- * Script JavaScript principale
  * 
- * Questo file gestisce tutte le interazioni lato client dell'applicazione.
  * Funzionalità principali:
- * - Gestione delle chiamate asincrone alle API tramite fetch
+ * - Gestione delle chiamate alle API
  * - Validazione dei form lato client
- * - Gestione dinamica dell'interfaccia utente
  * - Aggiunta/rimozione dinamica di domande e risposte nei form di creazione quiz
- * - Controllo in tempo reale delle risposte durante la partecipazione ai quiz
  * - Gestione della navigazione e delle transizioni tra le diverse sezioni
  */
 

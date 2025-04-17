@@ -10,9 +10,6 @@
  * - Recupero delle partecipazioni per un quiz specifico
  * - Salvataggio delle risposte fornite dagli utenti
  * - Calcolo del punteggio ottenuto in un quiz
- * 
- * Implementa controlli per verificare che l'utente partecipi solo a quiz aperti
- * e che risponda solo a domande del quiz associato alla partecipazione.
  */
 
 // Inizializzazione della sessione

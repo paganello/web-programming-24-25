@@ -1,7 +1,14 @@
 <?php
 
 /**
- * Pagina di visualizzazione dettagliata di un quiz (versione PDO)
+ * Pagina di visualizzazione dettagliata di un quiz
+ * 
+ * Questa pagina mostra i dettagli di un quiz specifico, comprese le domande e le risposte.
+ * Funzionalità principali:
+ * - Visualizzazione del titolo del quiz
+ * - Visualizzazione del creatore del quiz
+ * - Visualizzazione delle date di inizio e fine
+ * - Visualizzazione delle domande e delle risposte
  */
 
 include 'includes/header.php';
