@@ -140,13 +140,6 @@ switch ($method) {
         $questions = $data['questions'];
         $nomeUtente = $_SESSION['user']['nomeUtente'];
 
-        // Verifica proprietà del quiz
-        if (!isOwnerOfQuiz($pdo, $idQuiz, $nomeUtente)) {
-            http_response_code(403); // Forbidden
-            echo json_encode(['status' => 'error', 'message' => 'Non autorizzato a modificare questo quiz']);
-            break;
-        }
-
         try {
             $pdo->beginTransaction();
             $numeroDomanda = 1;
@@ -181,7 +174,7 @@ switch ($method) {
 
                     $stmtRisposta = $pdo->prepare("
                     INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) 
-                    VALUES (:idQuiz, :numeroDomanda, :numero, :testo, :punteggio)
+                    VALUES (:idQuiz, :numeroDomanda, :numero, :testo, :tipo, :punteggio)
                 ");
                     $stmtRisposta->bindParam(':idQuiz', $idQuiz);
                     $stmtRisposta->bindParam(':numeroDomanda', $numeroDomanda);
