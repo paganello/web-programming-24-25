@@ -87,95 +87,141 @@ $(document).ready(function() {
         });
     });
 
-    // Aggiunta dinamica di domande e risposte
-    let questionCounter = 1;
+    // Funzione per rinumerare tutte le domande e risposte
+function renumberQuestions() {
+    $('.question-block').each(function(index) {
+        const qNum = index + 1;
+        $(this).attr('data-question', qNum);
+        $(this).find('label[for^="question-"]').attr('for', `question-${qNum}`);
+        $(this).find('textarea').attr('id', `question-${qNum}`).attr('name', `questions[${qNum}][text]`);
+        $(this).find('.answers-container').attr('id', `answers-container-${qNum}`);
+        $(this).find('.add-answer').data('question', qNum);
+        $(this).find('.remove-question').data('question', qNum);
+
+        // Rinumeriamo anche le risposte
+        $(this).find('.answer-block').each(function(aIndex) {
+            const aNum = aIndex + 1;
+            $(this).attr('data-answer', aNum);
+            $(this).find('label[for^="question-"]').attr('for', `question-${qNum}-answer-${aNum}`);
+            $(this).find('input[type="text"]').attr({
+                'id': `question-${qNum}-answer-${aNum}`,
+                'name': `questions[${qNum}][answers][${aNum}][text]`
+            });
+            $(this).find('input[type="radio"]').each(function() {
+                const value = $(this).val();
+                $(this).attr('name', `questions[${qNum}][answers][${aNum}][type]`);
+            });
+            $(this).find('.points-group input').attr({
+                'id': `question-${qNum}-answer-${aNum}-points`,
+                'name': `questions[${qNum}][answers][${aNum}][points]`
+            });
+        });
+    });
+}
+
+// Aggiunta domanda
+$('#add-question').click(function () {
+    const questionCounter = $('.question-block').length + 1;
+
+    const questionHtml = `
+        <div class="question-block" data-question="${questionCounter}">
+            <div class="form-group">
+                <label for="question-${questionCounter}">Testo della domanda ${questionCounter}</label>
+                <textarea name="questions[${questionCounter}][text]" id="question-${questionCounter}" required></textarea>
+            </div>
+            <div class="answers-container" id="answers-container-${questionCounter}">
+                <div class="answer-block" data-answer="1">
+                    <div class="form-group">
+                        <label for="question-${questionCounter}-answer-1">Risposta 1</label>
+                        <input type="text" name="questions[${questionCounter}][answers][1][text]" id="question-${questionCounter}-answer-1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo di risposta</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="questions[${questionCounter}][answers][1][type]" value="Corretta"> Corretta
+                            </label>
+                            <label>
+                                <input type="radio" name="questions[${questionCounter}][answers][1][type]" value="Sbagliata" checked> Sbagliata
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group points-group" style="display:none;">
+                        <label for="question-${questionCounter}-answer-1-points">Punteggio</label>
+                        <input type="number" name="questions[${questionCounter}][answers][1][points]" id="question-${questionCounter}-answer-1-points" value="0" min="0">
+                    </div>
+                    <button type="button" class="btn btn-danger remove-answer">Rimuovi Risposta</button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary add-answer" data-question="${questionCounter}">Aggiungi Risposta</button>
+            <button type="button" class="btn btn-danger remove-question" data-question="${questionCounter}">Rimuovi Domanda</button>
+            <hr>       
+        </div>
+    `;
+
+    $('#questions-container').append(questionHtml);
+});
+
+// Aggiunta risposta
+$(document).on('click', '.add-answer', function () {
+    const questionId = $(this).data('question');
+    const answersContainer = $(`#answers-container-${questionId}`);
+    const answerCount = answersContainer.find('.answer-block').length + 1;
+
+    const answerHtml = `
+        <div class="answer-block" data-answer="${answerCount}">
+            <div class="form-group">
+                <label for="question-${questionId}-answer-${answerCount}">Risposta ${answerCount}</label>
+                <input type="text" name="questions[${questionId}][answers][${answerCount}][text]" id="question-${questionId}-answer-${answerCount}" required>
+            </div>
+            <div class="form-group">
+                <label>Tipo di risposta</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="questions[${questionId}][answers][${answerCount}][type]" value="Corretta"> Corretta
+                    </label>
+                    <label>
+                        <input type="radio" name="questions[${questionId}][answers][${answerCount}][type]" value="Sbagliata" checked> Sbagliata
+                    </label>
+                </div>
+            </div>
+            <div class="form-group points-group" style="display:none;">
+                <label for="question-${questionId}-answer-${answerCount}-points">Punteggio</label>
+                <input type="number" name="questions[${questionId}][answers][${answerCount}][points]" id="question-${questionId}-answer-${answerCount}-points" value="0" min="0">
+            </div>
+            <button type="button" class="btn btn-danger remove-answer">Rimuovi Risposta</button>
+        </div>
+    `;
+
+    answersContainer.append(answerHtml);
+});
+
+// Rimozione risposta
+$(document).on('click', '.remove-answer', function () {
+    $(this).closest('.answer-block').remove();
+    renumberQuestions();
+});
+
+// Rimozione domanda
+$(document).on('click', '.remove-question', function () {
+    $(this).closest('.question-block').remove();
+    renumberQuestions();
+});
+
+// Mostra/nascondi punteggio
+$(document).on('change', 'input[type=radio]', function () {
+    const answerBlock = $(this).closest('.answer-block');
+    const pointsGroup = answerBlock.find('.points-group');
+
+    if ($(this).val() === 'Corretta') {
+        pointsGroup.show();
+    } else {
+        pointsGroup.hide();
+        pointsGroup.find('input').val(0);
+    }
+});
+
     
-    $('#add-question').click(function() {
-        const questionHtml = `
-            <div class="question-block" data-question="${questionCounter}">
-                <div class="form-group">
-                    <label for="question-${questionCounter}">Testo della domanda ${questionCounter}</label>
-                    <textarea name="questions[${questionCounter}][text]" id="question-${questionCounter}" required></textarea>
-                </div>
-                <div class="answers-container" id="answers-container-${questionCounter}">
-                    <div class="answer-block" data-answer="1">
-                        <div class="form-group">
-                            <label for="question-${questionCounter}-answer-1">Risposta 1</label>
-                            <input type="text" name="questions[${questionCounter}][answers][1][text]" id="question-${questionCounter}-answer-1" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo di risposta</label>
-                            <div class="radio-group">
-                                <label>
-                                    <input type="radio" name="questions[${questionCounter}][answers][1][type]" value="Corretta"> Corretta
-                                </label>
-                                <label>
-                                    <input type="radio" name="questions[${questionCounter}][answers][1][type]" value="Sbagliata" checked> Sbagliata
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group points-group" style="display:none;">
-                            <label for="question-${questionCounter}-answer-1-points">Punteggio</label>
-                            <input type="number" name="questions[${questionCounter}][answers][1][points]" id="question-${questionCounter}-answer-1-points" value="0" min="0">
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-secondary add-answer" data-question="${questionCounter}">Aggiungi Risposta</button>
-            </div>
-            <br/>
-            <hr>
-        `;
-        
-        $('#questions-container').append(questionHtml);
-        questionCounter++;
-    });
-
-    // Delegare l'evento per aggiungere risposte
-    $(document).on('click', '.add-answer', function() {
-        const questionId = $(this).data('question');
-        const answersContainer = $(`#answers-container-${questionId}`);
-        const answerCount = answersContainer.children().length + 1;
-        
-        const answerHtml = `
-            <div class="answer-block" data-answer="${answerCount}">
-                <div class="form-group">
-                    <label for="question-${questionId}-answer-${answerCount}">Risposta ${answerCount}</label>
-                    <input type="text" name="questions[${questionId}][answers][${answerCount}][text]" id="question-${questionId}-answer-${answerCount}" required>
-                </div>
-                <div class="form-group">
-                    <label>Tipo di risposta</label>
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" name="questions[${questionId}][answers][${answerCount}][type]" value="Corretta"> Corretta
-                        </label>
-                        <label>
-                            <input type="radio" name="questions[${questionId}][answers][${answerCount}][type]" value="Sbagliata" checked> Sbagliata
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group points-group" style="display:none;">
-                    <label for="question-${questionId}-answer-${answerCount}-points">Punteggio</label>
-                    <input type="number" name="questions[${questionId}][answers][${answerCount}][points]" id="question-${questionId}-answer-${answerCount}-points" value="0" min="0">
-                </div>
-            </div>
-        `;
-        
-        answersContainer.append(answerHtml);
-    });
-
-    // Mostra/nascondi campo punteggio in base al tipo di risposta
-    $(document).on('change', 'input[type=radio]', function() {
-        const answerBlock = $(this).closest('.answer-block');
-        const pointsGroup = answerBlock.find('.points-group');
-        
-        if ($(this).val() === 'Corretta') {
-            pointsGroup.show();
-        } else {
-            pointsGroup.hide();
-            pointsGroup.find('input').val(0);
-        }
-    });
-
     // Salvataggio domande e risposte
     $('#save-questions').click(function() {
         const quizId = $('#quiz-id').val();
