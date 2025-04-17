@@ -11,9 +11,6 @@
  * - Recupero di tutti i quiz disponibili
  * - Recupero dei dettagli di un quiz specifico
  * - Filtraggio dei quiz per data, creatore o stato (aperto/chiuso)
- * 
- * Implementa controlli per verificare le date di apertura e chiusura
- * e gestisce le associazioni con domande e risposte.
  */
 
 // Inizializzazione della sessione

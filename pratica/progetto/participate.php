@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Partecipazione al Quiz
+ * 
+ * Questo script gestisce la partecipazione degli utenti a un quiz.
+ * Funzionalità principali:
+ * - Controlla se l'utente è loggato, se il quiz è disponibile e se l'utente ha già partecipato.
+ * - Recupera le domande e le risposte associate al quiz.
+ * - Mostra il form per la partecipazione al quiz.
+ * - Invia le risposte al server per la registrazione.
+ */
 include 'includes/header.php';
 require_once 'config/database.php';
 
@@ -19,17 +29,18 @@ $today = date('Y-m-d');
 
 try {
     // Verifica se il quiz esiste e se è disponibile
-    $sql = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :today AND dataFine >= :today";
+    $sql = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :oggi1 AND dataFine >= :oggi2";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $quiz_id, PDO::PARAM_INT);
-    $stmt->bindParam(':today', $today, PDO::PARAM_STR);
+    $stmt->bindParam(':oggi1', $today, PDO::PARAM_STR);
+    $stmt->bindParam(':oggi2', $today, PDO::PARAM_STR);
     $stmt->execute();
     $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$quiz) {
-        $_SESSION['error'] = "Quiz non disponibile o non esistente.";
-        header('Location: index.php');
-        exit;
+       $_SESSION['error'] = "Quiz non disponibile o non esistente.";
+       header('Location: index.php');
+       exit;
     }
 
     // Verifica se l'utente ha già partecipato
@@ -84,6 +95,7 @@ try {
         $stmt->execute();
         $question['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    unset($question);
 
 } catch (PDOException $e) {
     die("Errore DB: " . $e->getMessage());
@@ -97,7 +109,7 @@ try {
         
         <form id="participate-form">
             <input type="hidden" name="participation_id" value="<?php echo $participation_id; ?>">
-            <input type="hidden" name="quiz_id" value="<?php echo $quiz_id; ?>">
+            <input type="hidden" name="idQuiz" value="<?php echo $quiz_id; ?>">
             
             <?php if (empty($questions)): ?>
                 <p>Nessuna domanda trovata per questo quiz.</p>

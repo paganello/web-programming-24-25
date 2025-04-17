@@ -1,6 +1,13 @@
 <?php
-// filepath: /home/rootino/Scrivania/Github/web-programming-24-25/pratica/progetto/search_quiz.php
 
+/**
+ * Pagina di ricerca dei quiz
+ * 
+ * Questa pagina permette agli utenti di cercare quiz disponibili.
+ * Funzionalità principali:
+ * - Visualizzazione dei quiz disponibili
+ * - Ricerca per titolo
+ */
 include 'includes/header.php';
 
 $today = date('Y-m-d');
@@ -33,6 +40,7 @@ try {
 ?>
 
 <div class="content">
+    <a href="index.php" class="btn">⟵ Torna alla Home</a>
     <h1>Risultati della ricerca</h1>
     
     <?php if (empty($quizzes)): ?>

@@ -1,7 +1,14 @@
 <?php
 
 /**
- * Pagina di visualizzazione dettagliata di un quiz (versione PDO)
+ * Pagina di visualizzazione dettagliata di un quiz
+ * 
+ * Questa pagina mostra i dettagli di un quiz specifico, comprese le domande e le risposte.
+ * Funzionalità principali:
+ * - Visualizzazione del titolo del quiz
+ * - Visualizzazione del creatore del quiz
+ * - Visualizzazione delle date di inizio e fine
+ * - Visualizzazione delle domande e delle risposte
  */
 
 include 'includes/header.php';
@@ -59,6 +66,7 @@ try {
 
 <div class="main-content">
     <div class="content">
+        <a href="index.php" class="btn">⟵ Torna alla Home</a>
         <h1><?php echo htmlspecialchars($quiz['titolo']); ?></h1>
         
         <div class="card">
@@ -67,6 +75,7 @@ try {
                 <p><strong>Disponibile dal:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?> <strong>al:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
                 
                 <?php if ($can_participate): ?>
+                    <br/>
                     <p>
                         <a href="participate.php?id=<?php echo $quiz_id; ?>" class="btn">Partecipa al Quiz</a>
                     </p>
