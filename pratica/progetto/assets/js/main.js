@@ -214,7 +214,7 @@ $(document).ready(function() {
                 if (response.status === 'success') {
                     showAlert('Risposte inviate con successo!', 'success');
                     setTimeout(function() {
-                        window.location.href = 'results.php?participation=' + response.participation_id;
+                        window.location.href = 'results.php?participation=' + response.data.codice;
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
