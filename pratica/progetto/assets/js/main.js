@@ -207,14 +207,14 @@ $(document).ready(function() {
         
         $.ajax({
             type: 'POST',
-            url: 'api/participation.php?action=submit',
+            url: 'api/partecipation.php?action=submit',
             data: $(this).serialize(),
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
                     showAlert('Risposte inviate con successo!', 'success');
                     setTimeout(function() {
-                        window.location.href = 'results.php?participation=' + response.participation_id;
+                        window.location.href = 'results.php?partecipation=' + response.participation_id;
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
