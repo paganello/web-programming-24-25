@@ -154,6 +154,7 @@ $('#add-question').click(function () {
                 </div>
             </div>
             <button type="button" class="btn btn-secondary add-answer" data-question="${questionCounter}">Aggiungi Risposta</button>
+            <br/><br/>
             <button type="button" class="btn btn-danger remove-question" data-question="${questionCounter}">Rimuovi Domanda</button>
             <hr>       
         </div>
