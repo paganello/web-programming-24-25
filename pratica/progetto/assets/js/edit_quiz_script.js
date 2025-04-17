@@ -55,12 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const answerBlock = event.target.closest('.answer-block');
             const answersContainer = answerBlock.closest('.answers-container');
             if (answersContainer.querySelectorAll('.answer-block').length > 1) { // Impedisci di rimuovere l'ultima risposta? O gestiscilo lato server? Qui lo impediamo.
-                 if (confirm('Sei sicuro di voler rimuovere questa risposta?')) {
-                    answerBlock.remove();
-                     // Non serve updateIndices() completo qui, basterebbe riordinare solo le risposte di questa domanda,
-                     // ma per semplicità lo facciamo comunque (non dovrebbe causare problemi)
-                    updateIndices();
-                 }
+                answerBlock.remove();
+               updateIndices();
             } else {
                 alert('Ogni domanda deve avere almeno una risposta.');
             }
@@ -140,9 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(form);
         const data = {
             quiz_id: formData.get('quiz_id'),
-            titolo: formData.get('titolo'),
-            dataInizio: formData.get('dataInizio'),
-            dataFine: formData.get('dataFine'),
+            title: formData.get('titolo'),
+            start_date: formData.get('dataInizio'),
+            end_date: formData.get('dataFine'),
             questions: []
         };
 
