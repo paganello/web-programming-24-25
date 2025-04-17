@@ -62,6 +62,7 @@ if (!isset($_SESSION['user'])) {
                 <div id="questions-container"></div>
                 
                 <div class="form-group">
+                    <br/>
                     <button type="button" id="add-question" class="btn btn-secondary">Aggiungi Domanda</button>
                 </div>
                 

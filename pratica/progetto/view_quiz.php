@@ -68,6 +68,7 @@ try {
                 <p><strong>Disponibile dal:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?> <strong>al:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
                 
                 <?php if ($can_participate): ?>
+                    <br/>
                     <p>
                         <a href="participate.php?id=<?php echo $quiz_id; ?>" class="btn">Partecipa al Quiz</a>
                     </p>

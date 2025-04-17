@@ -121,8 +121,9 @@ $(document).ready(function() {
                     </div>
                 </div>
                 <button type="button" class="btn btn-secondary add-answer" data-question="${questionCounter}">Aggiungi Risposta</button>
-                <hr>
             </div>
+            <br/>
+            <hr>
         `;
         
         $('#questions-container').append(questionHtml);
