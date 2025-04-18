@@ -64,9 +64,9 @@ switch ($method) {
                     $stmtRisposte = $pdo->prepare("
                         SELECT ruq.*, d.testo as testoDomanda, r.testo as testoRisposta, r.punteggio
                         FROM RispostaUtenteQuiz ruq
-                        JOIN Domanda d ON ruq.idDomanda = d.idDomanda
-                        JOIN Risposta r ON ruq.idRisposta = r.idRisposta
-                        WHERE ruq.nomeUtente = :nomeUtente AND ruq.idPartecipazione = :idPartecipazione
+                        JOIN Domanda d ON ruq.domanda = d.numero
+                        JOIN Risposta r ON ruq.risposta = r.numero
+                        WHERE ruq.nomeUtente = :nomeUtente AND ruq.partecipazione = :idPartecipazione
                     ");
                     $stmtRisposte->bindParam(':nomeUtente', $nomeUtente);
                     $stmtRisposte->bindParam(':idPartecipazione', $idPartecipazione);

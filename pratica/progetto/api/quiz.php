@@ -118,7 +118,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     // Elimina prima le risposte degli utenti
                     $stmt = $pdo->prepare("
                         DELETE ruq FROM RispostaUtenteQuiz ruq
-                        JOIN Domanda d ON ruq.idDomanda = d.idDomanda
+                        JOIN Domanda d ON ruq.domanda = d.numero
                         WHERE d.quiz = :quizId
                     ");
                     $stmt->bindParam(':quizId', $quizId);
