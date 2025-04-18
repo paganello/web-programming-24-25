@@ -1,6 +1,8 @@
 <?php
 // Inizializzazione della sessione
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Se l'utente è già loggato, reindirizza alla home
 if (isset($_SESSION['user'])) {
@@ -16,7 +18,7 @@ $error = '';
 // Gestione del form di login
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nomeUtente = trim($_POST['nomeUtente'] ?? '');
-    
+
     // Validazione di base
     if (empty($nomeUtente)) {
         $error = 'Inserisci il nome utente';
@@ -25,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("SELECT nomeUtente, nome, cognome, eMail FROM Utente WHERE nomeUtente = :nomeUtente");
             $stmt->bindParam(':nomeUtente', $nomeUtente);
             $stmt->execute();
-            
+
             if ($stmt->rowCount() > 0) {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                
+
                 // Login riuscito - Semplice login basato sul nome utente come specificato nella traccia
                 $_SESSION['user'] = [
                     'nomeUtente' => $user['nomeUtente'],
@@ -36,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'cognome' => $user['cognome'],
                     'eMail' => $user['eMail']
                 ];
-                
+
                 header('Location: index.php');
                 exit;
             } else {
@@ -64,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php echo htmlspecialchars($error); ?>
                         </div>
                     <?php endif; ?>
-                    
+
                     <form method="POST" action="">
                         <div class="form-group mb-3">
                             <label for="nomeUtente">Nome Utente</label>
@@ -74,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="submit" class="btn btn-primary">Accedi</button>
                         </div>
                     </form>
-                    
+
                     <div class="mt-3 text-center">
                         <p>Non hai un account? <a href="register.php">Registrati</a></p>
                     </div>

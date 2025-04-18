@@ -250,7 +250,7 @@ $(document).ready(function () {
                 if (response.status === 'success') {
                     showAlert('Domande e risposte salvate con successo!', 'success');
                     setTimeout(function () {
-                        window.location.href = 'view_quiz.php?id=' + quizId;
+                        window.location.href = 'quiz_view.php?id=' + quizId;
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
@@ -328,7 +328,7 @@ $(document).ready(function () {
                             <p>Disponibile dal ${quiz.dataInizio} al ${quiz.dataFine}</p>
                         </div>
                         <div class="quiz-actions">
-                            <a href="view_quiz.php?id=${quiz.codice}" class="btn">Visualizza</a>
+                            <a href="quiz_view.php?id=${quiz.codice}" class="btn">Visualizza</a>
                             <a href="participate.php?id=${quiz.codice}" class="btn btn-secondary">Partecipa</a>
                         </div>
                     </div>
@@ -395,4 +395,164 @@ $(document).ready(function () {
         }
     });
     
+});
+
+// Gestione modifica quiz
+$(document).ready(function() {
+    // Gestione aggiunta domande
+    $('#add-question-btn').click(function() {
+        const questionIndex = $('.question-block').length;
+        const template = $('#question-template').html()
+            .replace(/__Q_INDEX__/g, questionIndex)
+            .replace('__Q_DISPLAY_NUM__', questionIndex + 1);
+        
+        $('#questions-container').append(template);
+    });
+
+    // Gestione aggiunta risposte
+    $(document).on('click', '.add-answer-btn', function() {
+        const questionBlock = $(this).closest('.question-block');
+        const questionIndex = questionBlock.data('question-index');
+        const answerIndex = questionBlock.find('.answer-block').length;
+        const answersContainer = questionBlock.find('.answers-container');
+        
+        const template = $('#answer-template').html()
+            .replace(/__Q_INDEX__/g, questionIndex)
+            .replace(/__A_INDEX__/g, answerIndex)
+            .replace('__A_DISPLAY_NUM__', answerIndex + 1);
+        
+        answersContainer.append(template);
+    });
+
+    // Gestione rimozione domande
+    $(document).on('click', '.remove-question-btn', function() {
+        if ($('.question-block').length > 1) {
+            $(this).closest('.question-block').remove();
+            renumberQuestions();
+        } else {
+            alert('Un quiz deve avere almeno una domanda!');
+        }
+    });
+
+    // Gestione rimozione risposte
+    $(document).on('click', '.remove-answer-btn', function() {
+        const answerBlock = $(this).closest('.answer-block');
+        if (answerBlock.siblings('.answer-block').length >= 1) {
+            answerBlock.remove();
+            renumberAnswers(answerBlock.closest('.question-block'));
+        } else {
+            alert('Ogni domanda deve avere almeno una risposta!');
+        }
+    });
+
+    // Rinumerazione domande
+    function renumberQuestions() {
+        $('.question-block').each(function(index) {
+            $(this).attr('data-question-index', index);
+            $(this).find('h2').text('Domanda ' + (index + 1));
+            
+            // Aggiorna i nomi dei campi
+            $(this).find('[name^="questions["]').each(function() {
+                const newName = $(this).attr('name').replace(/questions\[\d+\]/, 'questions[' + index + ']');
+                $(this).attr('name', newName);
+            });
+            
+            // Rinumerazione risposte per questa domanda
+            renumberAnswers($(this));
+        });
+    }
+
+    // Rinumerazione risposte
+    function renumberAnswers(questionBlock) {
+        questionBlock.find('.answer-block').each(function(index) {
+            $(this).attr('data-answer-index', index);
+            $(this).find('h3').text('Risposta ' + (index + 1));
+            
+            // Aggiorna i nomi dei campi
+            $(this).find('[name^="questions["]').each(function() {
+                const nameParts = $(this).attr('name').match(/questions\[(\d+)\]\[answers\]\[(\d+)\]/);
+                if (nameParts) {
+                    const newName = $(this).attr('name')
+                        .replace(/questions\[\d+\]\[answers\]\[\d+\]/, 
+                                'questions[' + nameParts[1] + '][answers][' + index + ']');
+                    $(this).attr('name', newName);
+                }
+            });
+        });
+    }
+
+    // Invio del form
+    $('#edit-quiz-form').submit(function(e) {
+        e.preventDefault();
+        
+        // Validazione date
+        const startDate = new Date($('#dataInizio').val());
+        const endDate = new Date($('#dataFine').val());
+        
+        if (startDate >= endDate) {
+            showMessage('La data di fine deve essere successiva alla data di inizio', 'error');
+            return;
+        }
+        
+        // Validazione domande/risposte
+        let isValid = true;
+        $('.question-block').each(function() {
+            const questionText = $(this).find('textarea').val().trim();
+            if (!questionText) {
+                isValid = false;
+                return false;
+            }
+            
+            let hasCorrectAnswer = false;
+            $(this).find('.answer-block').each(function() {
+                const answerText = $(this).find('textarea').val().trim();
+                if (!answerText) {
+                    isValid = false;
+                    return false;
+                }
+                
+                if ($(this).find('input[type="radio"][value="Corretta"]').is(':checked')) {
+                    hasCorrectAnswer = true;
+                }
+            });
+            
+            if (!hasCorrectAnswer) {
+                isValid = false;
+                return false;
+            }
+        });
+        
+        if (!isValid) {
+            showMessage('Tutte le domande devono avere testo e almeno una risposta corretta', 'error');
+            return;
+        }
+        
+        // Invio AJAX
+        $.ajax({
+            url: 'api/quiz.php',
+            type: 'PUT',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    showMessage('Quiz aggiornato con successo!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'quiz_view.php?id=' + $('#edit-quiz-form input[name="quiz_id"]').val();
+                    }, 1500);
+                } else {
+                    showMessage(response.message || 'Errore durante il salvataggio', 'error');
+                }
+            },
+            error: function(xhr) {
+                showMessage('Errore di connessione: ' + xhr.statusText, 'error');
+            }
+        });
+    });
+
+    // Mostra messaggi
+    function showMessage(message, type) {
+        const alert = $('<div class="alert alert-' + type + '">' + message + '</div>');
+        $('#form-messages').empty().append(alert);
+        alert.delay(5000).fadeOut();
+    }
 });

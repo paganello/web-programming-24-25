@@ -42,7 +42,7 @@ try {
 <div class="content">
     <a href="index.php" class="btn">⟵ Torna alla Home</a>
     <h1>Risultati della ricerca</h1>
-    
+
     <?php if (empty($quizzes)): ?>
         <p>Nessun quiz trovato per la ricerca "<?php echo htmlspecialchars($search); ?>".</p>
     <?php else: ?>
@@ -52,10 +52,11 @@ try {
                     <h3 class="quiz-title"><?php echo htmlspecialchars($quiz['titolo']); ?></h3>
                     <div class="quiz-meta">
                         <p>Creato da: <?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></p>
-                        <p>Disponibile dal <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?> al <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
+                        <p>Disponibile dal <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?> al
+                            <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
                     </div>
                     <div class="quiz-actions">
-                        <a href="view_quiz.php?id=<?php echo $quiz['codice']; ?>" class="btn">Visualizza</a>
+                        <a href="quiz_view.php?id=<?php echo $quiz['codice']; ?>" class="btn">Visualizza</a>
                         <?php if (isset($_SESSION['user'])): ?>
                             <a href="participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary">Partecipa</a>
                         <?php endif; ?>

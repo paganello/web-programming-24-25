@@ -68,14 +68,16 @@ try {
     <div class="content">
         <a href="index.php" class="btn">⟵ Torna alla Home</a>
         <h1><?php echo htmlspecialchars($quiz['titolo']); ?></h1>
-        
+
         <div class="card">
             <div class="card-content">
-                <p><strong>Creato da:</strong> <?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></p>
-                <p><strong>Disponibile dal:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?> <strong>al:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
-                
+                <p><strong>Creato da:</strong> <?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?>
+                </p>
+                <p><strong>Disponibile dal:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?>
+                    <strong>al:</strong> <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
+
                 <?php if ($can_participate): ?>
-                    <br/>
+                    <br />
                     <p>
                         <a href="participate.php?id=<?php echo $quiz_id; ?>" class="btn">Partecipa al Quiz</a>
                     </p>
@@ -90,9 +92,9 @@ try {
                 <?php endif; ?>
             </div>
         </div>
-        
+
         <h2>Anteprima delle Domande</h2>
-        
+
         <?php if (empty($questions)): ?>
             <p>Nessuna domanda trovata per questo quiz.</p>
         <?php else: ?>
@@ -101,7 +103,7 @@ try {
                     <div class="question-text">
                         Domanda <?php echo $question['numero']; ?>: <?php echo htmlspecialchars($question['testo']); ?>
                     </div>
-                    
+
                     <div class="answer-options">
                         <?php foreach ($question['answers'] as $answer): ?>
                             <div class="answer-option">

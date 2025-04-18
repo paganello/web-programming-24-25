@@ -38,46 +38,9 @@ try {
     $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$quiz) {
-       $_SESSION['error'] = "Quiz non disponibile o non esistente.";
-       header('Location: index.php');
-       exit;
-    }
-
-    // Verifica se l'utente ha già partecipato
-    $sql = "SELECT * FROM Partecipazione WHERE utente = :utente AND quiz = :quiz";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':utente', $user, PDO::PARAM_STR);
-    $stmt->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $participation = $stmt->fetch(PDO::FETCH_ASSOC);
-    $has_participated = $participation !== false;
-
-    $participation_id = null;
-
-    if (!$has_participated) {
-        // Inserisce la partecipazione
-        $sql = "INSERT INTO Partecipazione (utente, quiz, data) VALUES (:utente, :quiz, :data)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':utente', $user, PDO::PARAM_STR);
-        $stmt->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
-        $stmt->bindParam(':data', $today, PDO::PARAM_STR);
-        $stmt->execute();
-        $participation_id = $pdo->lastInsertId();
-    } else {
-        $participation_id = $participation['codice'];
-
-        // Verifica se ci sono già risposte
-        $sql = "SELECT COUNT(*) FROM RispostaUtenteQuiz WHERE partecipazione = :partecipazione";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':partecipazione', $participation_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $has_answers = $stmt->fetchColumn() > 0;
-
-        if ($has_answers) {
-            $_SESSION['error'] = "Hai già partecipato a questo quiz.";
-            header("Location: results.php?participation=$participation_id");
-            exit;
-        }
+        $_SESSION['error'] = "Quiz non disponibile o non esistente.";
+        header('Location: index.php');
+        exit;
     }
 
     // Recupero le domande
@@ -106,11 +69,11 @@ try {
 <div class="main-content">
     <div class="content">
         <h1>Partecipazione al Quiz: <?php echo htmlspecialchars($quiz['titolo']); ?></h1>
-        
+
         <form id="participate-form">
             <input type="hidden" name="participation_id" value="<?php echo $participation_id; ?>">
             <input type="hidden" name="idQuiz" value="<?php echo $quiz_id; ?>">
-            
+
             <?php if (empty($questions)): ?>
                 <p>Nessuna domanda trovata per questo quiz.</p>
             <?php else: ?>
@@ -119,12 +82,13 @@ try {
                         <div class="question-text">
                             Domanda <?php echo $question['numero']; ?>: <?php echo htmlspecialchars($question['testo']); ?>
                         </div>
-                        
+
                         <div class="answer-options">
                             <?php foreach ($question['answers'] as $answer): ?>
                                 <div class="answer-option">
                                     <label>
-                                        <input type="checkbox" name="answers[<?php echo $question['numero']; ?>][]" value="<?php echo $answer['numero']; ?>">
+                                        <input type="checkbox" name="answers[<?php echo $question['numero']; ?>][]"
+                                            value="<?php echo $answer['numero']; ?>">
                                         <?php echo htmlspecialchars($answer['testo']); ?>
                                     </label>
                                 </div>
@@ -132,7 +96,7 @@ try {
                         </div>
                     </div>
                 <?php endforeach; ?>
-                
+
                 <div class="form-group">
                     <button type="submit" class="btn">Invia Risposte</button>
                 </div>
