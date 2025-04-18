@@ -48,10 +48,10 @@ switch ($method) {
 
             try {
                 $stmt = $pdo->prepare("
-                    SELECT p.*, q.titolo, q.descrizione 
+                    SELECT p.*, q.titolo 
                     FROM Partecipazione p
-                    JOIN Quiz q ON p.idQuiz = q.idQuiz
-                    WHERE p.idPartecipazione = :idPartecipazione AND p.nomeUtente = :nomeUtente
+                    JOIN Quiz q ON p.quiz = q.codice
+                    WHERE p.codice = :idPartecipazione AND p.utente = :nomeUtente
                 ");
                 $stmt->bindParam(':idPartecipazione', $idPartecipazione);
                 $stmt->bindParam(':nomeUtente', $nomeUtente);
@@ -112,11 +112,11 @@ switch ($method) {
                 } else {
                     // L'utente non è il creatore, mostra solo le sue partecipazioni
                     $stmt = $pdo->prepare("
-                        SELECT p.*, q.titolo, q.descrizione
+                        SELECT p.*, q.titolo
                         FROM Partecipazione p
-                        JOIN Quiz q ON p.idQuiz = q.idQuiz
-                        WHERE p.idQuiz = :idQuiz AND p.nomeUtente = :nomeUtente
-                        ORDER BY p.dataOra DESC
+                        JOIN Quiz q ON p.quiz = q.codice
+                        WHERE p.quiz = :idQuiz AND p.utente = :nomeUtente
+                        ORDER BY p.data DESC
                     ");
                     $stmt->bindParam(':idQuiz', $idQuiz);
                     $stmt->bindParam(':nomeUtente', $nomeUtente);
@@ -133,11 +133,11 @@ switch ($method) {
             // Recupero di tutte le partecipazioni dell'utente
             try {
                 $stmt = $pdo->prepare("
-                    SELECT p.*, q.titolo, q.descrizione 
+                    SELECT p.*, q.titolo
                     FROM Partecipazione p
-                    JOIN Quiz q ON p.idQuiz = q.idQuiz
-                    WHERE p.nomeUtente = :nomeUtente
-                    ORDER BY p.dataOra DESC
+                    JOIN Quiz q ON p.quiz = q.codice
+                    WHERE p.utente = :nomeUtente
+                    ORDER BY p.codice DESC
                 ");
                 $stmt->bindParam(':nomeUtente', $nomeUtente);
                 $stmt->execute();
@@ -352,9 +352,9 @@ switch ($method) {
 
             // Recupera la partecipazione aggiornata
             $stmtSelect = $pdo->prepare("
-                SELECT p.*, q.titolo, q.descrizione 
+                SELECT p.*, q.titolo 
                 FROM Partecipazione p
-                JOIN Quiz q ON p.idQuiz = q.idQuiz
+                JOIN Quiz q ON p.quiz = q.codice
                 WHERE p.idPartecipazione = :idPartecipazione
             ");
             $stmtSelect->bindParam(':idPartecipazione', $idPartecipazione);
