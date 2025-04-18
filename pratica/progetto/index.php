@@ -84,7 +84,7 @@ try {
                                 <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></p>
                         </div>
                         <div class="quiz-actions">
-                            <a href="view_quiz.php?id=<?php echo $quiz['codice']; ?>" class="btn">Visualizza</a>
+                            <a href="quiz_view.php?id=<?php echo $quiz['codice']; ?>" class="btn">Visualizza</a>
                             <?php if (isset($_SESSION['user'])): ?>
                                 <a href="participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary">Partecipa</a>
                             <?php endif; ?>

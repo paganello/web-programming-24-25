@@ -269,7 +269,7 @@ $(document).ready(function () {
                 if (response.status === 'success') {
                     showAlert('Domande e risposte salvate con successo!', 'success');
                     setTimeout(function () {
-                        window.location.href = 'view_quiz.php?id=' + quizId;
+                        window.location.href = 'quiz_view.php?id=' + quizId;
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
@@ -347,7 +347,7 @@ $(document).ready(function () {
                             <p>Disponibile dal ${quiz.dataInizio} al ${quiz.dataFine}</p>
                         </div>
                         <div class="quiz-actions">
-                            <a href="view_quiz.php?id=${quiz.codice}" class="btn">Visualizza</a>
+                            <a href="quiz_view.php?id=${quiz.codice}" class="btn">Visualizza</a>
                             <a href="participate.php?id=${quiz.codice}" class="btn btn-secondary">Partecipa</a>
                         </div>
                     </div>

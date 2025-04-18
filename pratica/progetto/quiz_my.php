@@ -50,7 +50,7 @@ include 'includes/header.php';
         <p class="error-message" style="color: red;"><?php echo htmlspecialchars($dbError); ?></p>
     <?php elseif (empty($quizzes)): ?>
         <p>Non hai ancora creato nessun quiz.</p>
-        <p><a href="crea_quiz.php" class="btn">Crea il tuo primo Quiz!</a></p>
+        <p><a href="quiz_create.php" class="btn">Crea il tuo primo Quiz!</a></p>
     <?php else: ?>
         <div class='quiz-list'>
             <?php foreach ($quizzes as $quiz): ?>

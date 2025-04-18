@@ -46,13 +46,13 @@ quiz_online/
 │   ├── script.sql              # Script di creazione delle tabelle e delle relazioni del database
 │   └── data-seed.sql           # Script di popolamento con dati di esempio (quiz, domande, utenti, risposte)
 │
-├── create_quiz.php             # Interfaccia per la creazione di un nuovo quiz: aggiunta domande, risposte, date
+├── quiz_create.php             # Interfaccia per la creazione di un nuovo quiz: aggiunta domande, risposte, date
 ├── index.php                   # Homepage: introduzione al sito, accesso rapido ai quiz più recenti o consigliati
 ├── login.php                   # Form di login utente: invia dati a `users.php` per autenticazione
 ├── register.php                # Pagina per la registrazione di un nuovo utente con validazioni base
 ├── participate.php             # Pagina per partecipare a un quiz: visualizza domande, gestisce invio risposte
 ├── results.php                 # Mostra i risultati dei quiz svolti, punteggio ottenuto, risposte corrette/errate
-└── view_quiz.php               # Dettaglio di un quiz: titolo, autore, numero di domande e date
+└── quiz_view.php               # Dettaglio di un quiz: titolo, autore, numero di domande e date
 
 ```
 
