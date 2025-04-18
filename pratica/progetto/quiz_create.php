@@ -34,18 +34,18 @@ if (!isset($_SESSION['user'])) {
                 <div class="card-content">
                     <form id="create-quiz-form">
                         <div class="form-group">
-                            <label for="title">Titolo del Quiz</label>
-                            <input type="text" name="title" id="title" required>
+                            <label for="titolo">Titolo del Quiz</label>
+                            <input type="text" name="titolo" id="titolo" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="start_date">Data di inizio</label>
-                            <input type="date" name="start_date" id="start_date" required>
+                            <label for="dataInizio">Data di inizio</label>
+                            <input type="date" name="dataInizio" id="dataInizio" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="end_date">Data di fine</label>
-                            <input type="date" name="end_date" id="end_date" required>
+                            <label for="dataFine">Data di fine</label>
+                            <input type="date" name="dataFine" id="dataFine" required>
                         </div>
 
                         <div class="form-group">

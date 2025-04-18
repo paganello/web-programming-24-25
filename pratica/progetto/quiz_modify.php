@@ -66,7 +66,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src='assets/js/edit_quiz_script.js'></script>
+    <script src='assets/js/main.js'></script>
     <title>Modifica Quiz - <?php echo htmlspecialchars($quiz['titolo']); ?></title>
 </head>
 
