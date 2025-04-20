@@ -356,47 +356,47 @@ $(document).ready(function () {
             $('#alert-container .alert').fadeOut();
         }, 5000);
     }
-
-    // Carica le partecipazioni
-    $.ajax({
-        url: 'api/partecipation.php',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            let html = '';
-            
-            // Se ci sono partecipazioni, le mostra
-            if (response.status === 'success' && response.data && response.data.length > 0) {
-                $.each(response.data, function(index, part) {
-                    const date = new Date(part.data).toLocaleDateString('it-IT');
-                    
-                    html += `
-                        <div class="partecipation-card">
-                            <h3>${part.titolo}</h3>
-                            <p>Data: ${date}</p>
-                        </div>
-                        <br/>
-                    `;
-                });
-            } else {
-                html = '<p>Nessuna partecipazione trovata</p>';
-            }
-            
-            $('#partecipations-container').html(html);
-        },
-        error: function(xhr, status, error) {
-            console.error("Errore AJAX:", status, error);
-            $('#partecipations-container').html('<p>Errore nel caricamento</p>');
-            
-            // Mostra alert solo se la funzione esiste
-            if (typeof showAlert === 'function') {
-                showAlert('Errore durante il caricamento delle partecipazioni', 'error');
-            }
-        }
-    });
     
-});
+    // Controlla se sei sulla pagina my_participations.php
+    if (window.location.pathname.endsWith('my_participations.php')) {
+        // Carica le partecipazioni tramite AJAX
+        $.ajax({
+            url: 'api/partecipation.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                let html = '';
 
+                if (response.status === 'success' && response.data && response.data.length > 0) {
+                    $.each(response.data, function (index, part) {
+                        const date = new Date(part.data).toLocaleDateString('it-IT');
+
+                        html += `
+                            <div class="partecipation-card">
+                                <h3>${part.titolo}</h3>
+                                <p>Data: ${date}</p>
+                            </div>
+                            <br/>
+                        `;
+                    });
+                } else {
+                    html = '<p>Nessuna partecipazione trovata</p>';
+                }
+
+                $('#partecipations-container').html(html);
+            },
+            error: function (xhr, status, error) {
+                console.error("Errore AJAX:", status, error);
+                $('#partecipations-container').html('<p>Errore nel caricamento</p>');
+
+                if (typeof showAlert === 'function') {
+                    showAlert('Errore durante il caricamento delle partecipazioni', 'error');
+                }
+            }
+        });
+    }
+});
+    
 // Gestione modifica quiz
 $(document).ready(function() {
     // Gestione aggiunta domande
