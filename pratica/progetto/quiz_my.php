@@ -66,7 +66,7 @@ include 'includes/header.php';
                         <a href='quiz_view.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn'>Visualizza</a>
                         <a href='quiz_modify.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn'>Modifica</a>
                         <button delId="<?php echo htmlspecialchars($quiz['codice']); ?>"
-                            class='btn btn-danger delete-quiz-btn'>Elimina</button>
+                            class='btn delete-quiz-btn'>Elimina</button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -79,7 +79,7 @@ include 'includes/header.php';
                 <p>L'azione è irreversibile.</p>
                 <div class="modal-actions">
                     <button id="cancelDeleteBtn" class="btn btn-secondary">Annulla</button>
-                    <button id="confirmDeleteActionBtn" class="btn btn-danger">Elimina</button>
+                    <button id="confirmDeleteActionBtn" class="btn">Elimina</button>
                 </div>
             </div>
         </div>

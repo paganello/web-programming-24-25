@@ -221,12 +221,12 @@ $(document).ready(function () {
                         <label for="question-${questionCounter}-answer-1-points">Punteggio</label>
                         <input type="number" name="questions[${questionCounter}][answers][1][points]" id="question-${questionCounter}-answer-1-points" value="0" min="0">
                     </div>
-                    <button type="button" class="btn btn-danger remove-answer">Rimuovi Risposta</button>
+                    <button type="button" class="btn remove-answer">Rimuovi Risposta</button>
                 </div>
             </div>
             <button type="button" class="btn btn-secondary add-answer" data-question="${questionCounter}">Aggiungi Risposta</button>
             <br/><br/>
-            <button type="button" class="btn btn-danger remove-question" data-question="${questionCounter}">Rimuovi Domanda</button>
+            <button type="button" class="btn remove-question" data-question="${questionCounter}">Rimuovi Domanda</button>
             <hr>       
         </div>
     `;
@@ -260,7 +260,7 @@ $(document).ready(function () {
                 <label for="question-${questionId}-answer-${answerCount}-points">Punteggio</label>
                 <input type="number" name="questions[${questionId}][answers][${answerCount}][points]" id="question-${questionId}-answer-${answerCount}-points" value="0" min="0">
             </div>
-            <button type="button" class="btn btn-danger remove-answer">Rimuovi Risposta</button>
+            <button type="button" class="btn remove-answer">Rimuovi Risposta</button>
         </div>
     `;
 
