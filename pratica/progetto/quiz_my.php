@@ -40,7 +40,7 @@ include 'includes/header.php';
 ?>
 
 
-<script src="assets/js/script.js" defer></script>
+<script src="assets/js/main.js" defer></script>
 
 <div class="container">
     <br>

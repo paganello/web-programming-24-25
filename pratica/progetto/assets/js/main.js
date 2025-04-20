@@ -9,6 +9,19 @@
  * - Gestione modali
  */
 
+function checkDateRange(startDate, endDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalizza l'orario a mezzanotte
+
+    if (startDate < today) {
+        return 'La data di inizio non può essere precedente a oggi.';
+    }
+    if (endDate < startDate) {
+        return 'La data di fine non può essere precedente alla data di inizio.';
+    }
+    return null;
+}
+
 $(document).ready(function () {
     // Login e Registrazione
     $('#login-form').on('submit', function (e) {
@@ -63,23 +76,14 @@ $(document).ready(function () {
     $('#create-quiz-form').on('submit', function (e) {
         e.preventDefault();
 
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Normalizza l'orario a mezzanotte
-
-        const startDate = new Date($('#start_date').val());
-        const endDate = new Date($('#end_date').val());
-
-        // Controllo: data di inizio < oggi
-        if (startDate < today) {
-            showAlert('La data di inizio non può essere precedente a oggi.', 'danger');
+        const startDate = new Date($('#dataInizio').val());
+        const endDate = new Date($('#dataFine').val());
+        const errorMessage = checkDateRange(startDate, endDate);
+        if (errorMessage) {
+            showAlert(errorMessage, 'danger');
             return;
         }
-
-        // Controllo: data di fine < data di inizio
-        if (endDate < startDate) {
-            showAlert('La data di fine non può essere precedente alla data di inizio.', 'danger');
-            return;
-        }
+        
         $.ajax({
             type: 'POST',
             url: 'api/quiz.php?action=create',
@@ -490,44 +494,12 @@ $(document).ready(function() {
         const startDate = new Date($('#dataInizio').val());
         const endDate = new Date($('#dataFine').val());
         
-        if (startDate >= endDate) {
-            showMessage('La data di fine deve essere successiva alla data di inizio', 'error');
+        const errorMessage = checkDateRange(startDate, endDate);
+        if (errorMessage) {
+            showMessage(errorMessage, 'error');
             return;
         }
-        
-        // Validazione domande/risposte
-        let isValid = true;
-        $('.question-block').each(function() {
-            const questionText = $(this).find('textarea').val().trim();
-            if (!questionText) {
-                isValid = false;
-                return false;
-            }
-            
-            let hasCorrectAnswer = false;
-            $(this).find('.answer-block').each(function() {
-                const answerText = $(this).find('textarea').val().trim();
-                if (!answerText) {
-                    isValid = false;
-                    return false;
-                }
                 
-                if ($(this).find('input[type="radio"][value="Corretta"]').is(':checked')) {
-                    hasCorrectAnswer = true;
-                }
-            });
-            
-            if (!hasCorrectAnswer) {
-                isValid = false;
-                return false;
-            }
-        });
-        
-        if (!isValid) {
-            showMessage('Tutte le domande devono avere testo e almeno una risposta corretta', 'error');
-            return;
-        }
-        
         // Invio AJAX
         $.ajax({
             url: 'api/quiz.php',
