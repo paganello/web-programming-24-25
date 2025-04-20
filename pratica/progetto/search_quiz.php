@@ -22,7 +22,7 @@ if (!empty($search)) {
     $sql .= " AND q.titolo LIKE :search";
 }
 
-$sql .= " ORDER BY q.dataInizio DESC LIMIT 6";
+$sql .= " ORDER BY q.codice DESC";
 
 try {
     $stmt = $pdo->prepare($sql);

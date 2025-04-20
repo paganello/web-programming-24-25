@@ -20,8 +20,7 @@ $sql = "SELECT q.*, u.nome, u.cognome
         FROM Quiz q 
         JOIN Utente u ON q.creatore = u.nomeUtente 
         WHERE q.dataFine >= :today 
-        ORDER BY q.dataInizio DESC 
-        LIMIT 6";
+        ORDER BY q.codice DESC";
 
 try {
     $stmt = $pdo->prepare($sql);
