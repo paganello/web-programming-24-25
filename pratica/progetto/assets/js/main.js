@@ -6,6 +6,7 @@
  * - Validazione dei form lato client
  * - Aggiunta/rimozione dinamica di domande e risposte nei form di creazione quiz
  * - Gestione della navigazione e delle transizioni tra le diverse sezioni
+ * - Gestione modali
  */
 
 $(document).ready(function () {
@@ -356,7 +357,7 @@ $(document).ready(function () {
             $('#alert-container .alert').fadeOut();
         }, 5000);
     }
-    
+
     // Controlla se sei sulla pagina my_participations.php
     if (window.location.pathname.endsWith('my_participations.php')) {
         // Carica le partecipazioni tramite AJAX
@@ -555,4 +556,62 @@ $(document).ready(function() {
         $('#form-messages').empty().append(alert);
         alert.delay(5000).fadeOut();
     }
+});
+
+// Gestione modal di conferma eliminazione
+$(document).ready(function () {
+    const $modal = $('#confirmDeleteModal');
+    const $confirmDeleteButton = $('#confirmDeleteActionBtn');
+    const $cancelDeleteBtn = $('#cancelDeleteBtn');
+    const $closeButton = $modal.find('.close-button');
+
+    let quizIdToDelete = null; // Variabile per memorizzare l'ID
+
+    // --- Listener per i link "Elimina" nella lista ---
+    $('.delete-quiz-btn').on('click', function (event) {
+        event.preventDefault();
+        quizIdToDelete = $(this).attr('delId');
+        if (quizIdToDelete && quizIdToDelete !== '#') {
+            $modal.show();
+        }
+    });
+
+    // --- Listener per il pulsante "Conferma" nel modale ---
+    $confirmDeleteButton.on('click', function () {
+        const apiUrl = `api/quiz.php?delId=${quizIdToDelete}`; // Cambia con il tuo URL API
+        console.log(`Invio richiesta a: ${apiUrl}`); // Utile per il debug
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            success: function (response, status, xhr) {
+                if (xhr.status === 204) {
+                    location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Errore durante l\'eliminazione del quiz:', error);
+                alert(`Si è verificato un errore durante l'eliminazione del quiz ID ${quizIdToDelete}. Controlla la console per i dettagli.`);
+            }
+        });
+    });
+
+    const hideModal = () => {
+        $modal.hide();
+        quizIdToDelete = null;
+    };
+
+    // --- Listener per il pulsante "Annulla" e chiusura del modale ---
+    $cancelDeleteBtn.on('click', hideModal);
+    $closeButton.on('click', hideModal);
+
+    // --- Listener per clic fuori dal modale ---
+    $(window).on('click', function (event) {
+        if ($(event.target).is($modal)) hideModal();
+    });
+
+    // --- Listener per il tasto "Escape" ---
+    $(window).on('keydown', function (event) {
+        if (event.key === 'Escape' && $modal.is(':visible')) hideModal();
+    });
 });
