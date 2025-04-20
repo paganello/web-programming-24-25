@@ -50,6 +50,7 @@ quiz_online/
 ├── quiz_my.php                 # Interfaccia per la visualizzazione dei miei quiz
 ├── index.php                   # Homepage: introduzione al sito, accesso rapido ai quiz più recenti o consigliati
 ├── login.php                   # Form di login utente: invia dati a `users.php` per autenticazione
+├── logout.php                  # Gestisce il logout dell'utente
 ├── register.php                # Pagina per la registrazione di un nuovo utente con validazioni base
 ├── participate.php             # Pagina per partecipare a un quiz: visualizza domande, gestisce invio risposte
 ├── results.php                 # Mostra il risultato del quiz appena svolto, punteggio ottenuto, risposte corrette/errate
