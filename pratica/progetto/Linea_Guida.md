@@ -20,7 +20,6 @@ Il database si basa sullo schema ER specificato nei documenti tecnici, e include
 ```
 quiz_online/
 ├── api/                        # Endpoint API per le operazioni CRUD lato backend
-│   ├── answers.php             # Gestione delle risposte: crea, legge, modifica ed elimina risposte associate alle domande
 │   ├── participation.php       # Gestione delle partecipazioni: registra risposte e punteggi degli utenti ai quiz
 │   ├── questions.php           # Gestione delle domande: CRUD delle domande nei quiz
 │   ├── quiz.php                # Gestione dei quiz: creazione, modifica, eliminazione e recupero dei quiz
@@ -47,12 +46,16 @@ quiz_online/
 │   └── data-seed.sql           # Script di popolamento con dati di esempio (quiz, domande, utenti, risposte)
 │
 ├── quiz_create.php             # Interfaccia per la creazione di un nuovo quiz: aggiunta domande, risposte, date
+├── quiz_modify.php             # Interfaccia per la modifica dei quiz: aggiunta e modifica domande, risposte, date
+├── quiz_my.php                 # Interfaccia per la visualizzazione dei miei quiz
 ├── index.php                   # Homepage: introduzione al sito, accesso rapido ai quiz più recenti o consigliati
 ├── login.php                   # Form di login utente: invia dati a `users.php` per autenticazione
 ├── register.php                # Pagina per la registrazione di un nuovo utente con validazioni base
 ├── participate.php             # Pagina per partecipare a un quiz: visualizza domande, gestisce invio risposte
-├── results.php                 # Mostra i risultati dei quiz svolti, punteggio ottenuto, risposte corrette/errate
+├── results.php                 # Mostra il risultato del quiz appena svolto, punteggio ottenuto, risposte corrette/errate
+├── my_participations.php       # Visualizza le mie partecipazioni: quiz, data di partecipazione
 └── quiz_view.php               # Dettaglio di un quiz: titolo, autore, numero di domande e date
+
 
 ```
 
@@ -64,18 +67,18 @@ quiz_online/
 - Utilizzo di **PDO** con **prepared statements** per sicurezza e flessibilità.
 
 ### 🎨 3.2 Frontend
-- Layout HTML coerente: *header*, *nav*, *contenuto*, *footer*.
+- Layout HTML: *header*, *nav*, *contenuto*, *footer*.
 - **JavaScript** per interazioni dinamiche e chiamate API asincrone.
 - **CSS** responsive per una UX ottimale su dispositivi diversi.
 
 ## 🚀 Funzionalità Principali
 
 ### 👤 4.1 Gestione Utenti
-- **Registrazione** e **login** sicuri.
+- **Registrazione** e **login**.
 - **Profilo utente** con cronologia dei quiz creati e completati.
 
 ### 📝 4.2 Creazione Quiz
-- Creazione intuitiva di quiz con domande multiple.
+- Creazione di quiz con domande multiple.
 - Impostazione di **date di apertura/chiusura**.
 - Risposte multiple con **punteggi personalizzabili**.
 
@@ -86,7 +89,6 @@ quiz_online/
 
 ### 📊 4.4 Visualizzazione Risultati
 - Riepilogo quiz completati.
-- Statistiche dettagliate per creatori (es. media, partecipazioni, domande più sbagliate).
 
 ## 🔐 Considerazioni sulla Sicurezza
 
@@ -109,7 +111,7 @@ quiz_online/
 
 ## ✅ Conclusione
 
-L'obiettivo dell'applicazione **Quiz Online** è offrire un sistema **scalabile**, **sicuro** e **facile da usare**, che consenta una gestione completa dei quiz online. Il progetto è stato pensato per essere **modulare** e **espandibile**, in linea con le migliori pratiche di sviluppo web.
+L'obiettivo dell'applicazione **Quiz Online** è offrire un sistema **facile da usare** che consenta una gestione completa dei quiz online. Il progetto è stato pensato per essere **espandibile**, in linea con le migliori pratiche di sviluppo web.
 
 
 
