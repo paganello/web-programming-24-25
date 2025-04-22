@@ -1,20 +1,14 @@
 <?php
 
 /**
- * Home page dell'applicazione Quiz Online
+ * Home page dell'applicazione Quiz Online.
  * 
  * Questa pagina rappresenta il punto di ingresso dell'applicazione.
- * Funzionalità principali:
- * - Visualizzazione dei quiz disponibili
- * - Filtri per la ricerca dei quiz
- * - Link per la creazione di nuovi quiz
- * - Informazioni generali sull'applicazione
- * - Accesso alla registrazione e al login
- * - Visualizzazione delle statistiche dei quiz più popolari
  */
 
 include 'includes/header.php';
 
+// --- Quiz disponibili ---
 $today = date('Y-m-d');
 $sql = "SELECT q.*, u.nome, u.cognome 
         FROM Quiz q 
