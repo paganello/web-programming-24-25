@@ -37,7 +37,7 @@ try {
     <div class="sidebar">
         <div class="search-filter">
             <h3>Ricerca Rapida</h3>
-            <form id="quick-search-form" method="GET" action="search_quiz.php">
+            <form id="quick-search-form" method="GET" action="quiz_search.php">
                 <div class="form-group">
                     <input type="text" name="search" placeholder="Cerca quiz..."
                         value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
