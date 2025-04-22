@@ -1,12 +1,9 @@
 <?php
 
 /**
- * Pagina di ricerca dei quiz
+ * Pagina di ricerca dei quiz.
  * 
  * Questa pagina permette agli utenti di cercare quiz disponibili.
- * Funzionalità principali:
- * - Visualizzazione dei quiz disponibili
- * - Ricerca per titolo
  */
 include 'includes/header.php';
 
@@ -22,6 +19,7 @@ if (!empty($search)) {
     $sql .= " AND q.titolo LIKE :search";
 }
 
+// Ordina i risultati per codice quiz in ordine decrescente (dal più recente).
 $sql .= " ORDER BY q.codice DESC";
 
 try {
@@ -58,7 +56,7 @@ try {
                     <div class="quiz-actions">
                         <a href="quiz_view.php?id=<?php echo $quiz['codice']; ?>" class="btn">Visualizza</a>
                         <?php if (isset($_SESSION['user'])): ?>
-                            <a href="participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary">Partecipa</a>
+                            <a href="quiz_participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary">Partecipa</a>
                         <?php endif; ?>
                     </div>
                 </div>

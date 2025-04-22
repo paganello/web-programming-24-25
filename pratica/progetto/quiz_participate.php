@@ -1,23 +1,21 @@
 <?php
 
 /**
- * Partecipazione al Quiz
+ * Pagina di partecipazione al Quiz.
  * 
- * Questo script gestisce la partecipazione degli utenti a un quiz.
- * Funzionalità principali:
- * - Controlla se l'utente è loggato, se il quiz è disponibile e se l'utente ha già partecipato.
- * - Recupera le domande e le risposte associate al quiz.
- * - Mostra il form per la partecipazione al quiz.
- * - Invia le risposte al server per la registrazione.
+ * Questa pagina permette agli utenti di partecipare a un quiz esistente.
  */
+
 include 'includes/header.php';
 require_once 'config/database.php';
 
+// Controllo se l'utente è loggato.
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['nomeUtente'])) {
-    header('Location: login.php');
+    header('Location: auth_login.php');
     exit;
 }
 
+// Controllo se l'ID del quiz è stato fornito.
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php');
     exit;
@@ -28,7 +26,7 @@ $user = $_SESSION['user']['nomeUtente'];
 $today = date('Y-m-d');
 
 try {
-    // Verifica se il quiz esiste e se è disponibile
+    // --- Verifica partecipazione ---
     $sql = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :oggi1 AND dataFine >= :oggi2";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $quiz_id, PDO::PARAM_INT);
@@ -43,7 +41,7 @@ try {
         exit;
     }
 
-    // Recupero le domande
+    // --- Recupero domande ---
     $sql = "SELECT * FROM Domanda WHERE quiz = :quiz ORDER BY numero";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);

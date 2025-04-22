@@ -1,15 +1,9 @@
 <?php
 
 /**
- * Pagina di creazione dei quiz
+ * Pagina di creazione dei quiz.
  * 
  * Questa pagina permette agli utenti di creare nuovi quiz.
- * Funzionalità principali:
- * - Form per l'inserimento dei dettagli del quiz (titolo, date)
- * - Aggiunta dinamica di domande
- * - Aggiunta dinamica di risposte per ogni domanda
- * - Specificazione delle risposte corrette e dei relativi punteggi
- * - Salvataggio del quiz nel database
  */
 
 include 'includes/header.php';
@@ -18,9 +12,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Controllo se l'utente è loggato
+// Controllo se l'utente è loggato.
 if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
+    header('Location: auth_login.php');
     exit;
 }
 ?>

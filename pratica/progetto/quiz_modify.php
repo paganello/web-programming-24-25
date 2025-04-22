@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Pagina di modifica quiz.
+ * 
+ * Questa pagina permette all'utente di modificare un quiz esistente.
+ */
+
 include "includes/header.php";
 require_once 'config/database.php';
 
@@ -7,9 +13,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// --- Controllo accesso ---
 $nomeUtente = $_SESSION['user']['nomeUtente'];
 if (!isset($nomeUtente)) {
-    header('Location: login.php');
+    header('Location: auth_login.php');
     echo "<p>Devi effettuare l'accesso per vedere i tuoi quiz.</p>";
     include 'includes/footer.php';
     exit;
@@ -23,7 +30,7 @@ $quizId = (int) $_GET['id'];
 
 // --- Fetch Dati Quiz, Domande, Risposte ---
 try {
-    // Verifica proprietà e recupera dettagli quiz
+    // Verifica proprietà e recupera dettagli quiz.
     $sqlQuiz = "SELECT codice, titolo, dataInizio, dataFine FROM Quiz WHERE codice = :quizId AND creatore = :nomeUtente";
     $stmtQuiz = $pdo->prepare($sqlQuiz);
     $stmtQuiz->bindParam(':quizId', $quizId, PDO::PARAM_INT);
@@ -35,21 +42,21 @@ try {
         die("Quiz non trovato o non autorizzato a modificarlo.");
     }
 
-    // Recupera Domande
+    // Recupera Domande.
     $sqlDomande = "SELECT numero, testo FROM Domanda WHERE quiz = :quizId ORDER BY numero ASC";
     $stmtDomande = $pdo->prepare($sqlDomande);
     $stmtDomande->bindParam(':quizId', $quizId, PDO::PARAM_INT);
     $stmtDomande->execute();
     $domande = $stmtDomande->fetchAll(PDO::FETCH_ASSOC);
 
-    // Recupera Risposte (raggruppate per domanda)
+    // Recupera Risposte (raggruppate per domanda).
     $sqlRisposte = "SELECT domanda, numero, testo, tipo, punteggio FROM Risposta WHERE quiz = :quizId ORDER BY domanda ASC, numero ASC";
     $stmtRisposte = $pdo->prepare($sqlRisposte);
     $stmtRisposte->bindParam(':quizId', $quizId, PDO::PARAM_INT);
     $stmtRisposte->execute();
     $risposteRaw = $stmtRisposte->fetchAll(PDO::FETCH_ASSOC);
 
-    // Organizza le risposte per domanda
+    // Organizza le risposte per domanda.
     $risposteOrganizzate = [];
     foreach ($risposteRaw as $risposta) {
         $risposteOrganizzate[$risposta['domanda']][] = $risposta;

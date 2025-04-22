@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form>
 
                     <div class="mt-3 text-center">
-                        <p>Non hai un account? <a href="register.php">Registrati</a></p>
+                        <p>Non hai un account? <a href="auth_register.php">Registrati</a></p>
                     </div>
                 </div>
             </div>

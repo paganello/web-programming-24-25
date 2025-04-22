@@ -2,13 +2,14 @@
  * assets/js/main.js
  * 
  * Funzionalità principali:
- * - Gestione delle chiamate alle API
- * - Validazione dei form lato client
- * - Aggiunta/rimozione dinamica di domande e risposte nei form di creazione quiz
- * - Gestione della navigazione e delle transizioni tra le diverse sezioni
+ * - Gestione delle chiamate alle API;
+ * - Validazione dei form lato client;
+ * - Aggiunta/rimozione dinamica di domande e risposte nei form di creazione quiz;
+ * - Gestione della navigazione e delle transizioni tra le diverse sezioni;
  * - Gestione modali
  */
 
+// Funzione per controllare il range di date.
 function checkDateRange(startDate, endDate) {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalizza l'orario a mezzanotte
@@ -22,7 +23,7 @@ function checkDateRange(startDate, endDate) {
     return null;
 }
 
-// Funzione per mostrare messaggi di alert
+// Funzione per mostrare messaggi di alert in alto.
 function showAlert(message, type) {
     const alertHtml = `
         <div class="alert alert-${type}">
@@ -32,20 +33,20 @@ function showAlert(message, type) {
 
     $('#alert-container').html(alertHtml);
 
-    // Auto-hide after 5 seconds
+    // Fade out dopo 5 secondi.
     setTimeout(function () {
         $('#alert-container .alert').fadeOut();
     }, 5000);
 }
 
-// Mostra messaggi
+// Funzione per mostrare messaggi di alert in un form di modifica.
 function showEditAlerts(message, type) {
     const alert = $('<div class="alert alert-' + type + '">' + message + '</div>');
     $('#form-messages').empty().append(alert);
     alert.delay(5000).fadeOut();
 }
 
-// Funzione per rinumerare tutte le domande e risposte
+// Funzione per rinumerare tutte le domande e risposte dopo una modifica.
 function renumberQuestions() {
     $('.question-block').each(function (index) {
         const qNum = index + 1;
@@ -56,7 +57,7 @@ function renumberQuestions() {
         $(this).find('.add-answer').data('question', qNum);
         $(this).find('.remove-question').data('question', qNum);
 
-        // Rinumeriamo anche le risposte
+        // Rinumeriamo anche le risposte.
         $(this).find('.answer-block').each(function (aIndex) {
             const aNum = aIndex + 1;
             $(this).attr('data-answer', aNum);
@@ -77,7 +78,7 @@ function renumberQuestions() {
     });
 }
 
-// Funzione per mostrare i risultati della ricerca
+// Funzione per mostrare i risultati della ricerca.
 function displayQuizResults(quizzes) {
     let html = '';
 
@@ -96,7 +97,7 @@ function displayQuizResults(quizzes) {
                         </div>
                         <div class="quiz-actions">
                             <a href="quiz_view.php?id=${quiz.codice}" class="btn">Visualizza</a>
-                            <a href="participate.php?id=${quiz.codice}" class="btn btn-secondary">Partecipa</a>
+                            <a href="quiz_participate.php?id=${quiz.codice}" class="btn btn-secondary">Partecipa</a>
                         </div>
                     </div>
                 `;
@@ -146,7 +147,7 @@ $(document).ready(function () {
                 if (response.status === 'success') {
                     showAlert('Registrazione completata con successo!', 'success');
                     setTimeout(function () {
-                        window.location.href = 'login.php';
+                        window.location.href = 'auth_login.php';
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
@@ -328,7 +329,7 @@ $(document).ready(function () {
                 if (response.status === 'success') {
                     showAlert('Risposte inviate con successo!', 'success');
                     setTimeout(function () {
-                        window.location.href = 'results.php?participation=' + response.data.codice;
+                        window.location.href = 'quiz_results.php?participation=' + response.data.codice;
                     }, 1500);
                 } else {
                     showAlert(response.message, 'danger');
@@ -363,8 +364,8 @@ $(document).ready(function () {
         });
     });
 
-    // Controlla se sei sulla pagina my_participations.php
-    if (window.location.pathname.endsWith('my_participations.php')) {
+    // Controlla se sei sulla pagina quiz_participations.php
+    if (window.location.pathname.endsWith('quiz_participations.php')) {
         // Carica le partecipazioni tramite AJAX
         $.ajax({
             url: 'api/partecipation.php',

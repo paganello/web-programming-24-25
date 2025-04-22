@@ -33,10 +33,10 @@ require_once 'config/database.php';
             <div class="user-info">
                 <?php if(isset($_SESSION['user'])): ?>
                     <span>Benvenuto, <?php echo $_SESSION['user']['nome']; ?></span>
-                    <a href="logout.php">Logout</a>
+                    <a href="auth_logout.php">Logout</a>
                 <?php else: ?>
-                    <a href="login.php">Login</a>
-                    <a href="register.php">Registrati</a>
+                    <a href="auth_login.php">Login</a>
+                    <a href="auth_register.php">Registrati</a>
                 <?php endif; ?>
             </div>
         </div>

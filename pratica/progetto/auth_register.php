@@ -1,35 +1,39 @@
 <?php
-// Inizializzazione della sessione
+
+/**
+ * Registrazione di un nuovo utente.
+ * 
+ * Questa pagina permette agli utenti di registrarsi al sistema.
+ */
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Se l'utente è già loggato, reindirizza alla home
+// Se l'utente è già loggato, reindirizza alla home.
 if (isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
 }
 
-// Include la configurazione del database
 require_once 'config/database.php';
 
 $error = '';
 $success = '';
 
-// Gestione del form di registrazione
+// --- Gestione del form di registrazione ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nomeUtente = trim($_POST['nomeUtente'] ?? '');
     $nome = trim($_POST['nome'] ?? '');
     $cognome = trim($_POST['cognome'] ?? '');
     $eMail = trim($_POST['eMail'] ?? '');
 
-    // Validazione di base
     if (empty($nomeUtente) || empty($nome) || empty($cognome) || empty($eMail)) {
         $error = 'Tutti i campi sono obbligatori';
     } elseif (!filter_var($eMail, FILTER_VALIDATE_EMAIL)) {
         $error = 'Email non valida';
     } else {
         try {
-            // Verifica se il nome utente è già registrato
+            // Verifica se il nome utente è già registrato.
             $stmt = $pdo->prepare("SELECT nomeUtente FROM Utente WHERE nomeUtente = :nomeUtente");
             $stmt->bindParam(':nomeUtente', $nomeUtente);
             $stmt->execute();
@@ -37,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->rowCount() > 0) {
                 $error = 'Nome utente già registrato';
             } else {
-                // Verifica se l'email è già registrata
+                // Verifica se l'email è già registrata.
                 $stmt = $pdo->prepare("SELECT nomeUtente FROM Utente WHERE eMail = :eMail");
                 $stmt->bindParam(':eMail', $eMail);
                 $stmt->execute();
@@ -45,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($stmt->rowCount() > 0) {
                     $error = 'Email già registrata';
                 } else {
-                    // Inserimento del nuovo utente
+                    // Inserimento del nuovo utente.
                     $stmt = $pdo->prepare("INSERT INTO Utente (nomeUtente, nome, cognome, eMail) VALUES (:nomeUtente, :nome, :cognome, :eMail)");
                     $stmt->bindParam(':nomeUtente', $nomeUtente);
                     $stmt->bindParam(':nome', $nome);
@@ -86,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="alert alert-success">
                             <?php echo htmlspecialchars($success); ?>
                             <div class="mt-2">
-                                <a href="login.php" class="btn btn-primary">Vai al login</a>
+                                <a href="auth_login.php" class="btn btn-primary">Vai al login</a>
                             </div>
                         </div>
                     <?php else: ?>
@@ -117,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </form>
 
                         <div class="mt-3 text-center">
-                            <p>Hai già un account? <a href="login.php">Accedi</a></p>
+                            <p>Hai già un account? <a href="auth_login.php">Accedi</a></p>
                         </div>
                     <?php endif; ?>
                 </div>

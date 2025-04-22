@@ -1,8 +1,17 @@
 <?php
-session_start();
+
+/**
+ * Pagina di visualizzazione delle partecipazioni dell'utente.
+ * 
+ * Questa pagina mostra le partecipazioni dell'utente ai quiz.
+ */
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
+    header("Location: auth_login.php");
     exit();
 }
 

@@ -54,8 +54,8 @@ try {
             <div class="card">
                 <div class="card-content">
                     <p>Benvenuto nel sistema di Quiz Online dell'Università di Bergamo.</p>
-                    <p>Per creare o partecipare ai quiz, effettua il <a href="login.php">login</a> o <a
-                            href="register.php">registrati</a>.</p>
+                    <p>Per creare o partecipare ai quiz, effettua il <a href="auth_login.php">login</a> o <a
+                            href="auth_register.php">registrati</a>.</p>
                 </div>
             </div>
         <?php else: ?>
@@ -85,7 +85,7 @@ try {
                         <div class="quiz-actions">
                             <a href="quiz_view.php?id=<?php echo $quiz['codice']; ?>" class="btn">Visualizza</a>
                             <?php if (isset($_SESSION['user'])): ?>
-                                <a href="participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary">Partecipa</a>
+                                <a href="quiz_participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary">Partecipa</a>
                             <?php endif; ?>
                         </div>
                     </div>

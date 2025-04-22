@@ -1,26 +1,21 @@
 <?php
 
 /**
- * Pagina di visualizzazione dei risultati di un quiz
+ * Pagina di visualizzazione dei risultati di un quiz.
  * 
  * Questa pagina mostra i risultati di un quiz a cui l'utente ha partecipato.
- * Funzionalità principali:
- * - Recupero dei dettagli della partecipazione
- * - Calcolo del punteggio totale
- * - Visualizzazione delle domande e delle risposte date
- * - Evidenziazione delle risposte corrette e sbagliate
  */
 
 include 'includes/header.php';
-require_once 'config/database.php'; // Assicurati che venga creato $pdo
+require_once 'config/database.php';
 
-// Controllo se l'utente è loggato
+// Controllo se l'utente è loggato.
 if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
+    header('Location: auth_login.php');
     exit;
 }
 
-// Controllo se l'ID della partecipazione è stato fornito
+// Controllo se l'ID della partecipazione è stato fornito.
 if (!isset($_GET['participation']) || !is_numeric($_GET['participation'])) {
     header('Location: index.php');
     exit;
@@ -30,7 +25,7 @@ $participation_id = (int) $_GET['participation'];
 $user = $_SESSION['user']['nomeUtente'];
 
 try {
-    // Verifica partecipazione
+    // Verifica partecipazione.
     $sql = "SELECT p.*, q.titolo AS quiz_titolo, q.codice AS quiz_id 
             FROM Partecipazione p 
             JOIN Quiz q ON p.quiz = q.codice 
@@ -47,7 +42,7 @@ try {
 
     $quiz_id = $participation['quiz_id'];
 
-    // Calcolo del punteggio totale
+    // Calcolo del punteggio totale.
     $sql = "SELECT SUM(r.punteggio) AS total_score
             FROM RispostaUtenteQuiz ruq
             JOIN Risposta r ON ruq.quiz = r.quiz AND ruq.domanda = r.domanda AND ruq.risposta = r.numero
@@ -57,7 +52,7 @@ try {
     $score_data = $stmt->fetch(PDO::FETCH_ASSOC);
     $total_score = isset($score_data['total_score']) && $score_data['total_score'] !== NULL ? $score_data['total_score'] : 0;
 
-    // Recupero tutte le domande e risposte date
+    // Recupero tutte le domande e risposte date.
     $sql = "SELECT d.numero AS domanda_numero, d.testo AS domanda_testo,
                    r.numero AS risposta_numero, r.testo AS risposta_testo, r.tipo AS risposta_tipo, r.punteggio,
                    ruq.risposta AS risposta_data

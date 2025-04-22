@@ -1,14 +1,20 @@
 <?php
 
+/**
+ * Pagina di visualizzazione dei quiz creati dall'utente.
+ * 
+ * Questa pagina mostra all'utente i quiz che ha creato, con la possibilità di modificarli o eliminarli.
+ */
+
 require_once 'config/database.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Se l'utente non è loggato, reindirizza alla pagina di login.
 if (!isset($_SESSION['user']['nomeUtente'])) {
-    // Utente non loggato: reindirizza alla pagina di login o mostra un errore
-    header('Location: login.php');
+    header('Location: auth_login.php');
     echo "<p>Devi effettuare l'accesso per vedere i tuoi quiz.</p>";
     include 'includes/footer.php';
     exit;

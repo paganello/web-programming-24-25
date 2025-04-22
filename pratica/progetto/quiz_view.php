@@ -1,20 +1,15 @@
 <?php
 
 /**
- * Pagina di visualizzazione dettagliata di un quiz
+ * Pagina di visualizzazione dettagliata di un quiz.
  * 
  * Questa pagina mostra i dettagli di un quiz specifico, comprese le domande e le risposte.
- * Funzionalità principali:
- * - Visualizzazione del titolo del quiz
- * - Visualizzazione del creatore del quiz
- * - Visualizzazione delle date di inizio e fine
- * - Visualizzazione delle domande e delle risposte
  */
 
 include 'includes/header.php';
-require_once 'config/database.php'; // Assicurati che qui venga creato l'oggetto $pdo
+require_once 'config/database.php';
 
-// Controllo se l'ID del quiz è stato fornito
+// Controllo se l'ID del quiz è stato fornito.
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php');
     exit;
@@ -23,7 +18,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $quiz_id = (int) $_GET['id'];
 
 try {
-    // Recupero informazioni sul quiz
     $sql = "SELECT q.*, u.nome, u.cognome 
             FROM Quiz q 
             JOIN Utente u ON q.creatore = u.nomeUtente 
@@ -37,19 +31,18 @@ try {
         exit;
     }
 
-    // Controllo se l'utente può partecipare
+    // Controllo se l'utente può partecipare.
     $today = date('Y-m-d');
     $can_participate = isset($_SESSION['user']) && $quiz['dataFine'] >= $today;
 
-    // Recupero tutte le domande del quiz
+    // Recupero tutte le domande del quiz.
     $sql = "SELECT * FROM Domanda WHERE quiz = :quiz_id ORDER BY numero";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['quiz_id' => $quiz_id]);
     $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Recupero risposte per ogni domanda
     foreach ($questions as $i => $question) {
-        // Carica le risposte
+        // Carica le risposte.
         $sql = "SELECT * FROM Risposta WHERE quiz = :quiz AND domanda = :domanda ORDER BY numero";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -79,11 +72,11 @@ try {
                 <?php if ($can_participate): ?>
                     <br />
                     <p>
-                        <a href="participate.php?id=<?php echo $quiz_id; ?>" class="btn">Partecipa al Quiz</a>
+                        <a href="quiz_participate.php?id=<?php echo $quiz_id; ?>" class="btn">Partecipa al Quiz</a>
                     </p>
                 <?php elseif (!isset($_SESSION['user'])): ?>
                     <p>
-                        Effettua il <a href="login.php">login</a> per partecipare a questo quiz.
+                        Effettua il <a href="auth_login.php">login</a> per partecipare a questo quiz.
                     </p>
                 <?php elseif ($quiz['dataFine'] < $today): ?>
                     <p>

@@ -1,39 +1,35 @@
 <?php
 
 /**
- * API per la gestione delle partecipazioni ai quiz
+ * API per la gestione delle partecipazioni ai quiz.
  * 
  * Questo file gestisce le operazioni relative alle partecipazioni degli utenti ai quiz.
  * Funzionalità principali:
- * - Registrazione di una nuova partecipazione
- * - Recupero delle partecipazioni di un utente specifico
- * - Recupero delle partecipazioni per un quiz specifico
- * - Salvataggio delle risposte fornite dagli utenti
- * - Calcolo del punteggio ottenuto in un quiz
+ * - Registrazione di una nuova partecipazione;
+ * - Recupero delle partecipazioni di un utente specifico;
+ * - Recupero delle partecipazioni per un quiz specifico;
+ * - Salvataggio delle risposte fornite dagli utenti;
+ * - Calcolo del punteggio ottenuto in un quiz;
  */
 
-// Inizializzazione della sessione
-session_start();
-
-// Include la configurazione del database
+// --- Inizializzazione della sessione ---
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once '../config/database.php';
-
-// Impostazione degli header per le risposte JSON
 header('Content-Type: application/json');
-
-// Verifica del metodo HTTP
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Verifica se l'utente è autenticato
+// Verifica se l'utente è autenticato.
 function isAuthenticated()
 {
     return isset($_SESSION['user']);
 }
 
-// Gestione delle operazioni in base al metodo HTTP
+// --- Gestione delle richieste API ---
 switch ($method) {
+    // --- Recupero delle partecipazioni ---
     case 'GET':
-        // Recupero delle partecipazioni
         if (!isAuthenticated()) {
             http_response_code(401);
             echo json_encode(['status' => 'error', 'message' => 'Non autenticato']);
@@ -43,9 +39,8 @@ switch ($method) {
         $nomeUtente = $_SESSION['user']['nomeUtente'];
 
         if (isset($_GET['id'])) {
-            // Recupero di una singola partecipazione per ID
+            // Recupero di una singola partecipazione per ID.
             $idPartecipazione = $_GET['id'];
-
             try {
                 $stmt = $pdo->prepare("
                     SELECT p.*, q.titolo 
@@ -59,8 +54,7 @@ switch ($method) {
 
                 if ($stmt->rowCount() > 0) {
                     $partecipazione = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    // Recupera le risposte fornite dall'utente
+                    // Recupera le risposte fornite dall'utente.
                     $stmtRisposte = $pdo->prepare("
                         SELECT ruq.*, d.testo as testoDomanda, r.testo as testoRisposta, r.punteggio
                         FROM RispostaUtenteQuiz ruq
@@ -85,18 +79,18 @@ switch ($method) {
                 echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
             }
         } elseif (isset($_GET['quiz_id'])) {
-            // Recupero di tutte le partecipazioni a un quiz specifico
+            // Recupero di tutte le partecipazioni a un quiz specifico.
             $idQuiz = $_GET['quiz_id'];
 
             try {
-                // Prima verifica se l'utente è il creatore del quiz
+                // Prima verifica se l'utente è il creatore del quiz.
                 $stmtCreatore = $pdo->prepare("SELECT * FROM Quiz WHERE idQuiz = :idQuiz AND nomeUtente = :nomeUtente");
                 $stmtCreatore->bindParam(':idQuiz', $idQuiz);
                 $stmtCreatore->bindParam(':nomeUtente', $nomeUtente);
                 $stmtCreatore->execute();
 
                 if ($stmtCreatore->rowCount() > 0) {
-                    // L'utente è il creatore, mostra tutte le partecipazioni
+                    // L'utente è il creatore, mostra tutte le partecipazioni.
                     $stmt = $pdo->prepare("
                         SELECT p.*, u.nome, u.cognome, u.eMail
                         FROM Partecipazione p
@@ -110,7 +104,7 @@ switch ($method) {
 
                     echo json_encode(['status' => 'success', 'data' => $partecipazioni]);
                 } else {
-                    // L'utente non è il creatore, mostra solo le sue partecipazioni
+                    // L'utente non è il creatore, mostra solo le sue partecipazioni.
                     $stmt = $pdo->prepare("
                         SELECT p.*, q.titolo
                         FROM Partecipazione p
@@ -130,7 +124,7 @@ switch ($method) {
                 echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
             }
         } else {
-            // Recupero di tutte le partecipazioni dell'utente
+            // Recupero di tutte le partecipazioni dell'utente.
             try {
                 $stmt = $pdo->prepare("
                     SELECT p.*, q.titolo
@@ -151,15 +145,13 @@ switch ($method) {
         }
         break;
 
+    // --- Creazione di una nuova partecipazione ---
     case 'POST':
-        // Creazione di una nuova partecipazione
         if (!isAuthenticated()) {
             http_response_code(401);
             echo json_encode(['status' => 'error', 'message' => 'Non autenticato']);
             break;
         }
-
-        // Recupero dei dati dalla richiesta JSON
         $data = $_POST;
         if (!$data || !isset($data['idQuiz'])) {
             http_response_code(400);
@@ -171,7 +163,7 @@ switch ($method) {
         $nomeUtente = $_SESSION['user']['nomeUtente'];
 
         try {
-            // Verifica se il quiz esiste ed è aperto
+            // Verifica se il quiz esiste ed è aperto.
             $stmtQuiz = $pdo->prepare("
         SELECT * FROM Quiz 
         WHERE codice = :idQuiz 
@@ -187,7 +179,7 @@ switch ($method) {
                 break;
             }
 
-            // Crea una nuova partecipazione
+            // Crea una nuova partecipazione.
             $stmt = $pdo->prepare("
         INSERT INTO Partecipazione (quiz, utente, data) 
         VALUES (:idQuiz, :nomeUtente, NOW())
@@ -198,7 +190,7 @@ switch ($method) {
 
             $idPartecipazione = $pdo->lastInsertId();
 
-            // Recupera la nuova partecipazione
+            // Recupera la nuova partecipazione.
             $stmtSelect = $pdo->prepare("
         SELECT p.*, q.titolo
         FROM Partecipazione p
@@ -209,12 +201,11 @@ switch ($method) {
             $stmtSelect->execute();
             $nuovaPartecipazione = $stmtSelect->fetch(PDO::FETCH_ASSOC);
 
-            // Salvataggio delle risposte
+            // Salvataggio delle risposte.
             $risposte = $data['answers'];
             foreach ($risposte as $idDomanda => $rispostaArray) {
                 foreach ($rispostaArray as $idRisposta) {
-
-                    // Inserisci la risposta nella tabella RispostaUtenteQuiz
+                    // Inserisci la risposta nella tabella RispostaUtenteQuiz.
                     $stmtInserisciRisposta = $pdo->prepare("
                 INSERT INTO RispostaUtenteQuiz (partecipazione, quiz, domanda, risposta) 
                 VALUES (:idPartecipazione, :idQuiz, :idDomanda, :idRisposta)
