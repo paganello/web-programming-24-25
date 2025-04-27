@@ -225,10 +225,10 @@ $(document).ready(function () {
                     <button type="button" class="btn remove-answer">Rimuovi Risposta</button>
                 </div>
             </div>
+            <br/>
             <button type="button" class="btn btn-secondary add-answer" data-question="${questionCounter}">Aggiungi Risposta</button>
             <br/><br/>
             <button type="button" class="btn remove-question" data-question="${questionCounter}">Rimuovi Domanda</button>
-            <hr>       
         </div>
     `;
 
