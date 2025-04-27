@@ -65,6 +65,7 @@ if (!isset($_SESSION['user'])) {
 
                 <div class="form-group">
                     <button type="button" id="save-questions" class="btn">Salva Quiz</button>
+                    <button type="button" id="abort-quiz-creation" class="btn btn-danger">Annulla</button>
                 </div>
             </form>
         </div>

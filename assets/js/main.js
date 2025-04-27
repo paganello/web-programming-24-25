@@ -290,7 +290,7 @@ $(document).ready(function () {
             pointsGroup.find('input').val(0);
         }
     });
-
+    
     $('#save-questions').click(function () {
         const quizId = $('#quiz-id').val();
         const formData = $('#questions-form').serialize() + `&idQuiz=${quizId}`;
@@ -314,6 +314,35 @@ $(document).ready(function () {
                 showAlert('Errore durante la comunicazione con il server', 'danger');
             }
         });
+    });
+
+    // Bottone annulla - annulla creazione quiz
+    $('#abort-quiz-creation').click(function () {
+        quizIdToDelete = $('#quiz-id').val();
+        const apiUrl = `api/quiz.php?delId=${quizIdToDelete}`;
+        console.log(`Invio richiesta a: ${apiUrl}`);
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            success: function (response, status, xhr) {
+                if (xhr.status === 204) {                
+                    window.location.href = 'quiz_create.php';
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Errore durante l\'eliminazione del quiz:', error);
+                alert(`Si è verificato un errore durante l'eliminazione del quiz ID ${quizIdToDelete}.`);
+            }
+        });
+
+        // Nascondi la sezione delle domande
+        $('#questions-section').hide();
+        // Mostra la sezione dei dettagli del quiz
+        $('#quiz-details').show();
+        // Resetta il contenuto del form delle domande
+        $('#questions-form')[0].reset();
+        $('#questions-container').empty();
     });
 
     // -- Partecipazione ---
