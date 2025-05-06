@@ -599,3 +599,15 @@ $(document).ready(function () {
         if (event.key === 'Escape' && $modal.is(':visible')) hideModal();
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const resetButton = document.getElementById('reset-form');
+
+    if (resetButton) {
+        resetButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            // Reindirizza alla pagina corrente senza parametri GET per resettare i filtri
+            window.location.href = window.location.pathname;
+        });
+    }
+});

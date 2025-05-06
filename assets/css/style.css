@@ -456,3 +456,329 @@ footer {
     border: 1px solid #ddd;
     border-radius: 10px;
 }
+.search-form .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.search-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+.search-form .form-group label {
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+}
+.search-form .form-group input[type="text"],
+.search-form .form-group input[type="date"],
+.search-form .form-group select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Aggiunto per consistenza padding/border */
+}
+.search-form .form-group-checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem; /* Spazio tra checkbox e label */
+}
+.search-form .form-group-checkbox input[type="checkbox"] {
+    margin-top: 0; /* Allinea meglio con la label */
+}
+.search-form .form-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+.quiz-list {
+    margin-top: 20px;
+}
+.quiz-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.quiz-title {
+    margin-top: 0;
+    color: #333;
+}
+.quiz-meta p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+.quiz-actions {
+    margin-top: 10px;
+}
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.search-filter {
+    background-color: #f5f8fa;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-filter h3 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.search-form-sidebar .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.8rem;
+}
+
+.search-form-sidebar .form-group label {
+    margin-bottom: 0.2rem;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #34495e;
+}
+
+.search-form-sidebar .form-group input[type="text"],
+.search-form-sidebar .form-group input[type="date"],
+.search-form-sidebar .form-group select {
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 0.95em;
+    transition: border-color 0.3s ease;
+}
+
+.search-form-sidebar .form-group input[type="text"]:focus,
+.search-form-sidebar .form-group input[type="date"]:focus,
+.search-form-sidebar .form-group select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 3px rgba(52, 152, 219, 0.5);
+}
+
+.search-form-sidebar .form-group-checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.search-form-sidebar .form-group-checkbox input[type="checkbox"] {
+    margin-right: 5px;
+    width: 16px;
+    height: 16px;
+    accent-color: #3498db;
+}
+
+.search-form-sidebar .form-group-checkbox label {
+    font-weight: normal;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    color: #2980b9;
+}
+
+.search-form-sidebar .form-actions-sidebar {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.search-form-sidebar .form-actions-sidebar .btn,
+.search-form-sidebar .form-actions-sidebar .btn-secondary {
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem 0;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.search-form-sidebar .form-actions-sidebar .btn {
+    background-color: #3498db;
+    color: white !important;
+}
+
+.search-form-sidebar .form-actions-sidebar .btn:hover {
+    background-color: #2980b9;
+}
+
+.search-form-sidebar .form-actions-sidebar .btn-secondary {
+    background-color: #ecf0f1;
+    color: #34495e !important;
+    border: 1px solid #ddd;
+}
+
+.search-form-sidebar .form-actions-sidebar .btn-secondary:hover {
+    background-color: #dfe6e9;
+}
+
+/* Stili per la lista dei quiz */
+.quiz-list {
+    margin-top: 20px;
+}
+
+.quiz-item {
+    border: 1px solid #e0e0e0;
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quiz-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-title {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 8px;
+}
+
+.quiz-meta {
+    padding: 5px 0;
+}
+
+.quiz-meta p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.quiz-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.quiz-actions .btn {
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.quiz-actions .btn {
+    background-color: #3498db;
+    color: white !important;
+}
+
+.quiz-actions .btn:hover {
+    background-color: #2980b9;
+}
+
+.quiz-actions .btn-secondary {
+    background-color: #6c757d;
+    color: white !important;
+}
+
+.quiz-actions .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Layout principale */
+.main-content {
+    display: flex;
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.sidebar {
+    flex: 0 0 280px;
+}
+
+.content {
+    flex: 1;
+}
+
+/* Badge di stato */
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.status-badge.available {
+    background-color: #e6f7ee;
+    color: #27ae60;
+}
+
+.status-badge.pending {
+    background-color: #fff8e1;
+    color: #f39c12;
+}
+
+.status-badge.expired {
+    background-color: #ffebee;
+    color: #e74c3c;
+}
+
+/* Card di benvenuto */
+.welcome-card {
+    background-color: #f1f9ff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-left: 4px solid #3498db;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-card .card-content {
+    line-height: 1.5;
+}
+
+.text-link {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.text-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Messaggio di nessun risultato */
+.no-results {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+    color: #7f8c8d;
+}
+
+.no-results i {
+    margin-right: 5px;
+}
