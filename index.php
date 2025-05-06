@@ -131,18 +131,6 @@ echo '<script src="assets/js/search-filter.js" defer></script>';
                     <input type="date" id="search_data_fine_a_sidebar" name="search_data_fine_a" value="<?php echo htmlspecialchars($search_data_fine_a); ?>">
                 </div>
 
-                <div class="form-group">
-                    <label for="sort_by_sidebar">Ordina per:</label>
-                    <select id="sort_by_sidebar" name="sort_by">
-                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc') echo 'selected'; ?>>Più Recenti (Default)</option>
-                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc') echo 'selected'; ?>>Meno Recenti</option>
-                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc') echo 'selected'; ?>>Titolo (A-Z)</option>
-                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
-                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
-                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
-                    </select>
-                </div>
-
                 <div class="form-actions-sidebar">
                     <button type="submit" class="btn" style="margin-bottom: 10px;"><i class="fas fa-search"></i> Cerca</button>
                     <button type="button" id="reset-form" class="btn-secondary"><i class="fas fa-undo"></i> Resetta Filtri</button>
@@ -171,7 +159,28 @@ echo '<script src="assets/js/search-filter.js" defer></script>';
             </div>
         <?php endif; ?>
 
-        <h2><?php echo htmlspecialchars($page_content_title); ?></h2>
+        <div class="results-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 20px;">
+    <h2 style="margin: 0;"><?php echo htmlspecialchars($page_content_title); ?></h2>
+
+    <form method="GET" id="sort-form" style="margin: 0;">
+        <?php
+        foreach ($_GET as $key => $value) {
+            if ($key !== 'sort_by') {
+                echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+            }
+        }
+        ?>
+        <label for="sort_by_inline" style="margin-right: 8px;">Ordina per:</label>
+        <select id="sort_by_inline" name="sort_by" onchange="document.getElementById('sort-form').submit()" style="max-width: 220px;">
+            <option value="codice_desc" <?php if ($sort_by == 'codice_desc') echo 'selected'; ?>>Più Recenti (Default)</option>
+            <option value="codice_asc" <?php if ($sort_by == 'codice_asc') echo 'selected'; ?>>Meno Recenti</option>
+            <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc') echo 'selected'; ?>>Titolo (A-Z)</option>
+            <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
+            <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
+            <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
+        </select>
+    </form>
+</div>
 
         <?php if (empty($quizzes_to_display)): ?>
             <?php if ($is_search_active): ?>

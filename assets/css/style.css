@@ -782,3 +782,12 @@ footer {
 .no-results i {
     margin-right: 5px;
 }
+
+.sort-form-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.sort-form-inline label {
+    margin: 0;
+}

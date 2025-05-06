@@ -600,6 +600,7 @@ $(document).ready(function () {
     });
 });
 
+// Gestione del reset dei filtri
 document.addEventListener('DOMContentLoaded', function() {
     const resetButton = document.getElementById('reset-form');
 
