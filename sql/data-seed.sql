@@ -1,9 +1,9 @@
 /**
-15 utenti con nomi, cognomi e email italianizzati
-10 quiz su vari argomenti (Storia Italiana, Matematica, Cultura Generale, ecc.)
+500 utenti con nomi, cognomi e email italianizzati
+500 quiz su vari argomenti (Storia Italiana, Matematica, Cultura Generale, ecc.)
 5 domande per ogni quiz
 4 possibili risposte per ogni domanda, con indicazione della risposta corretta e dei punteggi
-30 partecipazioni degli utenti ai quiz
+200 partecipazioni degli utenti ai quiz
 */
 
 -- Popolamento tabella Utente con 500 record
