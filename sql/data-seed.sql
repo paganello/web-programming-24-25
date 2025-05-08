@@ -509,7 +509,7 @@ INSERT INTO Utente (nomeUtente, nome, cognome, eMail) VALUES
 ('lucio_gritti', 'Lucio', 'Gritti', 'lucio.gritti@example.com'),
 ('olga_barillaro', 'Olga', 'Barillaro', 'olga.barillaro@example.com');
 
--- Popolamento tabella Quiz con  record
+-- Popolamento tabella Quiz con 500 record
 INSERT INTO Quiz (titolo, dataInizio, dataFine, creatore) VALUES
 ('Storia dellarte', '2025-01-01', '2025-01-10', 'beatrice_barberini'),
 ('Matematica avanzata', '2025-01-05', '2025-01-15', 'rocco_fagiani'),
