@@ -1,11 +1,3 @@
-/**
-500 utenti con nomi, cognomi e email italianizzati
-500 quiz su vari argomenti (Storia Italiana, Matematica, Cultura Generale, ecc.)
-5 domande per ogni quiz
-4 possibili risposte per ogni domanda, con indicazione della risposta corretta e dei punteggi
-200 partecipazioni degli utenti ai quiz
-*/
-
 -- Popolamento tabella Utente con 500 record
 INSERT INTO Utente (nomeUtente, nome, cognome, eMail) VALUES
 ('beatrice_barberini', 'Beatrice', 'Barberini', 'beatrice.barberini@example.com'),
@@ -994,7 +986,7 @@ INSERT INTO Quiz (titolo, dataInizio, dataFine, creatore) VALUES
 ('Economia politica e globalizzazione', '2026-06-25', '2026-07-05', 'silvestro_luria'),
 ('Sociologia rurale e sviluppo', '2026-07-01', '2026-07-10', 'rosario_ajello'),
 ('Antropologia fisica e evoluzione', '2026-07-05', '2026-07-15', 'alderano_corcos'),
-('Storia dellAfrica moderna', '2026-07-10', '2026-07-20', 'gianna_necci');
+('Storia dellAfrica moderna', '2026-07-10', '2026-07-20', 'gianna_necci'),
 ('Programmazione Python', '2025-01-03', '2025-01-13', 'beatrice_barberini'),
 ('Machine Learning Basics', '2025-01-08', '2025-01-18', 'rocco_fagiani'),
 ('Data Science Fundamentals', '2025-01-12', '2025-01-22', 'eva_angiolello'),
@@ -5640,12 +5632,6350 @@ INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 (20, 5, 3, 'Eruzione vulcanica sottomarina', 'Sbagliata', 0), -- Può causare tsunami, non il terremoto in sé
 (20, 5, 4, 'Crollo di grandi cavità sotterranee', 'Sbagliata', 0); -- Terremoti da crollo (rari)
 
--- Continua così per tutti i quiz e le relative risposte...
--- ... (Ometto le altre 478 * 5 * 4 = 9560 righe INSERT per Risposta per brevità)
--- ... Assicurati di aver corretto TUTTI gli apostrofi interni alle stringhe testo
--- ... in TUTTE le righe INSERT INTO Risposta qui sotto
+-- Popolamento tabella Risposta (Quiz 21-85)
 
--- Popolamento tabella Risposta per Quiz 482: Programmazione Python
+-- Quiz 21: Storia romana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(21, 1, 1, '753 a.C.', 'Corretta', 10),
+(21, 1, 2, '476 d.C. (Caduta Impero d''Occidente)', 'Sbagliata', 0),
+(21, 1, 3, '1492 d.C. (Scoperta dell''America)', 'Sbagliata', 0),
+(21, 1, 4, '1000 a.C.', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(21, 2, 1, 'Augusto (Ottaviano)', 'Corretta', 10),
+(21, 2, 2, 'Giulio Cesare', 'Sbagliata', 0),
+(21, 2, 3, 'Nerone', 'Sbagliata', 0),
+(21, 2, 4, 'Romolo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(21, 3, 1, 'Conflitti tra Roma e Cartagine per il controllo del Mediterraneo', 'Corretta', 10),
+(21, 3, 2, 'Guerre civili tra Mario e Silla', 'Sbagliata', 0),
+(21, 3, 3, 'Guerre combattute da Roma contro i Galli (es. Cesare)', 'Sbagliata', 0),
+(21, 3, 4, 'Guerre combattute da Roma contro le città greche', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(21, 4, 1, 'Processo graduale culminato nel 476 d.C. con la deposizione di Romolo Augustolo', 'Corretta', 10),
+(21, 4, 2, 'Conquista da parte di Alessandro Magno', 'Sbagliata', 0),
+(21, 4, 3, 'Distruzione causata dall''eruzione del Vesuvio', 'Sbagliata', 0),
+(21, 4, 4, 'Unificazione pacifica con l''Impero Romano d''Oriente', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(21, 5, 1, 'Organo consultivo e legislativo, con potere variabile nel tempo', 'Corretta', 10),
+(21, 5, 2, 'Comando supremo dell''esercito romano', 'Sbagliata', 0),
+(21, 5, 3, 'Corte di giustizia per i crimini contro lo Stato', 'Sbagliata', 0),
+(21, 5, 4, 'Assemblea religiosa guidata dal Pontefice Massimo', 'Sbagliata', 0);
+
+-- Quiz 22: Matematica di base
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(22, 1, 1, 'Numeri interi non negativi (0, 1, 2, 3...)', 'Corretta', 10),
+(22, 1, 2, 'Numeri interi positivi e negativi (...-1, 0, 1...)', 'Sbagliata', 0),
+(22, 1, 3, 'Numeri che possono essere espressi come frazioni', 'Sbagliata', 0),
+(22, 1, 4, 'Numeri che hanno una parte decimale', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(22, 2, 1, 'Incolonnando i numeri rispetto alla virgola', 'Corretta', 10),
+(22, 2, 2, 'Ignorando la virgola e sommandoli come interi', 'Sbagliata', 0),
+(22, 2, 3, 'Moltiplicando prima i numeri per 10', 'Sbagliata', 0),
+(22, 2, 4, 'Sommando separatamente la parte intera e quella decimale', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(22, 3, 1, 'Il quadrato ha tutti i lati uguali, il rettangolo lati uguali a coppie', 'Corretta', 10),
+(22, 3, 2, 'Il quadrato ha 4 angoli retti, il rettangolo no', 'Sbagliata', 0),
+(22, 3, 3, 'Il rettangolo ha diagonali uguali, il quadrato no', 'Sbagliata', 0),
+(22, 3, 4, 'Non c''è differenza, sono la stessa figura', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(22, 4, 1, 'Un numero che rappresenta una parte di un intero (rapporto tra due interi)', 'Corretta', 10),
+(22, 4, 2, 'Un numero con la virgola', 'Sbagliata', 0),
+(22, 4, 3, 'Un numero intero negativo', 'Sbagliata', 0),
+(22, 4, 4, 'Il risultato di una divisione con resto', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(22, 5, 1, 'La misura della lunghezza del contorno della figura', 'Corretta', 10),
+(22, 5, 2, 'La misura della superficie interna della figura', 'Sbagliata', 0),
+(22, 5, 3, 'La lunghezza della diagonale della figura', 'Sbagliata', 0),
+(22, 5, 4, 'Il numero di lati della figura', 'Sbagliata', 0);
+
+-- Quiz 23: Fisica classica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(23, 1, 1, 'Inerzia, F=ma, Azione-Reazione', 'Corretta', 10),
+(23, 1, 2, 'Leggi di Keplero sul moto planetario', 'Sbagliata', 0),
+(23, 1, 3, 'Principi della termodinamica', 'Sbagliata', 0),
+(23, 1, 4, 'Leggi dell''elettromagnetismo di Maxwell', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(23, 2, 1, 'L''energia posseduta da un corpo a causa del suo movimento', 'Corretta', 10),
+(23, 2, 2, 'L''energia posseduta da un corpo a causa della sua posizione (es. altezza)', 'Sbagliata', 0),
+(23, 2, 3, 'L''energia termica di un corpo', 'Sbagliata', 0),
+(23, 2, 4, 'La quantità di moto di un corpo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(23, 3, 1, 'La forza di attrazione reciproca tra corpi dotati di massa', 'Corretta', 10),
+(23, 3, 2, 'La forza che si oppone al moto (attrito)', 'Sbagliata', 0),
+(23, 3, 3, 'La forza che tiene unito il nucleo atomico', 'Sbagliata', 0),
+(23, 3, 4, 'La forza tra cariche elettriche', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(23, 4, 1, 'Massa: misura dell''inerzia; Peso: forza di gravità sulla massa', 'Corretta', 10),
+(23, 4, 2, 'Sono la stessa cosa, misurate in kg', 'Sbagliata', 0),
+(23, 4, 3, 'Massa si misura in Newton, Peso in kg', 'Sbagliata', 0),
+(23, 4, 4, 'Massa è scalare, Peso è scalare', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(23, 5, 1, 'L''energia totale di un sistema isolato rimane costante', 'Corretta', 10),
+(23, 5, 2, 'La quantità di moto totale di un sistema isolato rimane costante', 'Sbagliata', 0),
+(23, 5, 3, 'L''entropia di un sistema isolato tende ad aumentare', 'Sbagliata', 0),
+(23, 5, 4, 'La massa si conserva nelle reazioni chimiche', 'Sbagliata', 0);
+
+-- Quiz 24: Letteratura francese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(24, 1, 1, 'Victor Hugo', 'Corretta', 10),
+(24, 1, 2, 'Gustave Flaubert', 'Sbagliata', 0),
+(24, 1, 3, 'Alexandre Dumas', 'Sbagliata', 0),
+(24, 1, 4, 'Stendhal', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(24, 2, 1, 'Primato della ragione, critica all''autorità, fiducia nel progresso', 'Corretta', 10),
+(24, 2, 2, 'Enfasi sul sentimento, individualismo, natura', 'Sbagliata', 0),
+(24, 2, 3, 'Rappresentazione oggettiva della realtà, analisi sociale', 'Sbagliata', 0),
+(24, 2, 4, 'Uso del simbolo, suggestione, musicalità del verso', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(24, 3, 1, 'Lo Straniero', 'Corretta', 10),
+(24, 3, 2, 'La Nausea', 'Sbagliata', 0),
+(24, 3, 3, 'Aspettando Godot', 'Sbagliata', 0),
+(24, 3, 4, 'Il secondo sesso', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(24, 4, 1, 'Movimento che mira a rappresentare fedelmente la realtà sociale e quotidiana', 'Corretta', 10),
+(24, 4, 2, 'Movimento che esalta l''immaginazione e il sentimento', 'Sbagliata', 0),
+(24, 4, 3, 'Movimento che esplora l''irrazionale e il sogno', 'Sbagliata', 0),
+(24, 4, 4, 'Movimento basato sull''imitazione dei classici greco-romani', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(24, 5, 1, 'Antoine de Saint-Exupéry', 'Corretta', 10),
+(24, 5, 2, 'Jules Verne', 'Sbagliata', 0),
+(24, 5, 3, 'Marcel Proust', 'Sbagliata', 0),
+(24, 5, 4, 'Albert Camus', 'Sbagliata', 0);
+
+-- Quiz 25: Geografia italiana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(25, 1, 1, 'Roma', 'Corretta', 10),
+(25, 1, 2, 'Milano', 'Sbagliata', 0),
+(25, 1, 3, 'Firenze', 'Sbagliata', 0),
+(25, 1, 4, 'Torino', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(25, 2, 1, 'Po, Tevere, Adige', 'Corretta', 10),
+(25, 2, 2, 'Arno, Piave, Brenta', 'Sbagliata', 0),
+(25, 2, 3, 'Volga, Danubio, Reno', 'Sbagliata', 0),
+(25, 2, 4, 'Nilo, Gange, Mississippi', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(25, 3, 1, 'Alpi e Appennini', 'Corretta', 10),
+(25, 3, 2, 'Pirenei e Carpazi', 'Sbagliata', 0),
+(25, 3, 3, 'Ande e Himalaya', 'Sbagliata', 0),
+(25, 3, 4, 'Urali e Caucaso', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(25, 4, 1, 'Sicilia, Sardegna, Valle d''Aosta, Trentino-Alto Adige, Friuli-Venezia Giulia', 'Corretta', 10),
+(25, 4, 2, 'Lombardia, Veneto, Toscana, Lazio, Campania', 'Sbagliata', 0),
+(25, 4, 3, 'Piemonte, Liguria, Emilia-Romagna, Marche, Umbria', 'Sbagliata', 0),
+(25, 4, 4, 'Puglia, Calabria, Abruzzo, Molise, Basilicata', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(25, 5, 1, 'Mar Mediterraneo (Ligure, Tirreno, Ionio, Adriatico)', 'Corretta', 10),
+(25, 5, 2, 'Mar Nero e Mar Caspio', 'Sbagliata', 0),
+(25, 5, 3, 'Oceano Atlantico e Mare del Nord', 'Sbagliata', 0),
+(25, 5, 4, 'Mar Rosso e Golfo Persico', 'Sbagliata', 0);
+
+-- Quiz 26: Chimica analitica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(26, 1, 1, 'Identificazione delle sostanze presenti in un campione', 'Corretta', 10),
+(26, 1, 2, 'Determinazione della quantità di sostanze in un campione', 'Sbagliata', 0),
+(26, 1, 3, 'Studio della struttura molecolare', 'Sbagliata', 0),
+(26, 1, 4, 'Sintesi di nuovi composti chimici', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(26, 2, 1, 'Determinare la quantità o concentrazione di una o più sostanze (analiti) in un campione', 'Corretta', 10),
+(26, 2, 2, 'Identificare quali sostanze sono presenti', 'Sbagliata', 0),
+(26, 2, 3, 'Separare i componenti di una miscela', 'Sbagliata', 0),
+(26, 2, 4, 'Studiare la velocità delle reazioni chimiche', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(26, 3, 1, 'Titolazione acido-base con indicatore di pH', 'Corretta', 10),
+(26, 3, 2, 'Cromatografia liquida ad alte prestazioni (HPLC)', 'Sbagliata', 0),
+(26, 3, 3, 'Spettroscopia infrarossa (IR)', 'Sbagliata', 0),
+(26, 3, 4, 'Distillazione frazionata', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(26, 4, 1, 'Strumento che misura l''assorbimento/trasmissione di luce a diverse lunghezze d''onda', 'Corretta', 10),
+(26, 4, 2, 'Strumento che misura la massa delle molecole', 'Sbagliata', 0),
+(26, 4, 3, 'Strumento per misurare il pH di una soluzione', 'Sbagliata', 0),
+(26, 4, 4, 'Strumento per separare composti in base alla polarità', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(26, 5, 1, 'Relazioni quantitative tra reagenti e prodotti nelle reazioni chimiche', 'Corretta', 10),
+(26, 5, 2, 'Studio dell''equilibrio chimico', 'Sbagliata', 0),
+(26, 5, 3, 'Identificazione dei gruppi funzionali', 'Sbagliata', 0),
+(26, 5, 4, 'Misurazione delle proprietà fisiche dei composti', 'Sbagliata', 0);
+
+-- Quiz 27: Biologia molecolare
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(27, 1, 1, 'Acido desossiribonucleico, contiene l''informazione genetica', 'Corretta', 10),
+(27, 1, 2, 'Acido ribonucleico, coinvolto nella sintesi proteica', 'Sbagliata', 0),
+(27, 1, 3, 'Molecola energetica della cellula', 'Sbagliata', 0),
+(27, 1, 4, 'Componente strutturale delle membrane cellulari', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(27, 2, 1, 'Sintesi di una molecola di RNA a partire da uno stampo di DNA', 'Corretta', 10),
+(27, 2, 2, 'Duplicazione della molecola di DNA', 'Sbagliata', 0),
+(27, 2, 3, 'Sintesi di una proteina a partire dall''RNA messaggero', 'Sbagliata', 0),
+(27, 2, 4, 'Modifica dell''RNA dopo la trascrizione', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(27, 3, 1, 'I monomeri che costituiscono le proteine', 'Corretta', 10),
+(27, 3, 2, 'I monomeri che costituiscono gli acidi nucleici', 'Sbagliata', 0),
+(27, 3, 3, 'Zuccheri semplici', 'Sbagliata', 0),
+(27, 3, 4, 'Molecole lipidiche', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(27, 4, 1, 'Trasporta l''informazione genetica dal DNA ai ribosomi per la sintesi proteica', 'Corretta', 10),
+(27, 4, 2, 'Componente strutturale dei ribosomi', 'Sbagliata', 0),
+(27, 4, 3, 'Trasporta gli amminoacidi ai ribosomi', 'Sbagliata', 0),
+(27, 4, 4, 'Regola l''espressione genica', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(27, 5, 1, 'La corrispondenza tra triplette di nucleotidi (codoni) sull''mRNA e amminoacidi', 'Corretta', 10),
+(27, 5, 2, 'L''intera sequenza di DNA di un organismo', 'Sbagliata', 0),
+(27, 5, 3, 'Il processo di divisione cellulare', 'Sbagliata', 0),
+(27, 5, 4, 'La struttura a doppia elica del DNA', 'Sbagliata', 0);
+
+-- Quiz 28: Storia greca
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(28, 1, 1, 'Atene, Sparta, Tebe, Corinto', 'Corretta', 10),
+(28, 1, 2, 'Roma, Cartagine, Siracusa', 'Sbagliata', 0),
+(28, 1, 3, 'Babilonia, Ninive, Ur', 'Sbagliata', 0),
+(28, 1, 4, 'Menfi, Tebe (egizia), Alessandria', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(28, 2, 1, 'Re di Macedonia che conquistò un vasto impero fino all''India', 'Corretta', 10),
+(28, 2, 2, 'Legislatore ateniese che introdusse la democrazia', 'Sbagliata', 0),
+(28, 2, 3, 'Filosofo greco, maestro di Platone', 'Sbagliata', 0),
+(28, 2, 4, 'Re spartano che combatté alle Termopili', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(28, 3, 1, 'Conflitti tra le città greche e l''Impero Persiano', 'Corretta', 10),
+(28, 3, 2, 'Guerra tra Atene e Sparta per l''egemonia sulla Grecia', 'Sbagliata', 0),
+(28, 3, 3, 'Guerre tra Roma e Cartagine', 'Sbagliata', 0),
+(28, 3, 4, 'Spedizioni militari cristiane in Terrasanta', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(28, 4, 1, 'Forma di governo in cui i cittadini partecipavano direttamente alla vita politica', 'Corretta', 10),
+(28, 4, 2, 'Monarchia assoluta guidata da un re divino', 'Sbagliata', 0),
+(28, 4, 3, 'Oligarchia militare guidata da pochi aristocratici', 'Sbagliata', 0),
+(28, 4, 4, 'Repubblica governata da un senato', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(28, 5, 1, 'Socrate, Platone, Aristotele', 'Corretta', 10),
+(28, 5, 2, 'Omero, Esiodo, Sofocle', 'Sbagliata', 0),
+(28, 5, 3, 'Pericle, Temistocle, Alcibiade', 'Sbagliata', 0),
+(28, 5, 4, 'Fidia, Prassitele, Mirone', 'Sbagliata', 0);
+
+-- Quiz 29: Letteratura spagnola
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(29, 1, 1, 'Miguel de Cervantes', 'Corretta', 10),
+(29, 1, 2, 'Lope de Vega', 'Sbagliata', 0),
+(29, 1, 3, 'Calderón de la Barca', 'Sbagliata', 0),
+(29, 1, 4, 'Francisco de Quevedo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(29, 2, 1, 'Fioritura artistica e letteraria tra XVI e XVII secolo (Cervantes, Lope, Velázquez)', 'Corretta', 10),
+(29, 2, 2, 'Movimento di rinnovamento culturale alla fine del XIX secolo', 'Sbagliata', 0),
+(29, 2, 3, 'Periodo dell''Illuminismo spagnolo', 'Sbagliata', 0),
+(29, 2, 4, 'Periodo del Romanticismo spagnolo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(29, 3, 1, 'La casa di Bernarda Alba', 'Corretta', 10),
+(29, 3, 2, 'Don Giovanni Tenorio', 'Sbagliata', 0),
+(29, 3, 3, 'Platero y yo', 'Sbagliata', 0),
+(29, 3, 4, 'La famiglia di Pascual Duarte', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(29, 4, 1, 'Movimento letterario di fine XIX / inizio XX sec. influenzato dal simbolismo e parnassianismo francese', 'Corretta', 10),
+(29, 4, 2, 'Movimento realista del XIX secolo', 'Sbagliata', 0),
+(29, 4, 3, 'Corrente letteraria del dopoguerra focalizzata sul sociale (Tremendismo)', 'Sbagliata', 0),
+(29, 4, 4, 'Lo stile barocco del Siglo de Oro', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(29, 5, 1, 'Javier Marías', 'Corretta', 10),
+(29, 5, 2, 'Miguel de Unamuno', 'Sbagliata', 0),
+(29, 5, 3, 'Benito Pérez Galdós', 'Sbagliata', 0),
+(29, 5, 4, 'Gustavo Adolfo Bécquer', 'Sbagliata', 0);
+
+-- Quiz 30: Filosofia moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(30, 1, 1, 'John Locke', 'Corretta', 10),
+(30, 1, 2, 'René Descartes (Cartesio)', 'Sbagliata', 0),
+(30, 1, 3, 'Immanuel Kant', 'Sbagliata', 0),
+(30, 1, 4, 'Baruch Spinoza', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(30, 2, 1, 'Critica della Ragion Pura', 'Corretta', 10),
+(30, 2, 2, 'Discorso sul Metodo', 'Sbagliata', 0),
+(30, 2, 3, 'Leviatano', 'Sbagliata', 0),
+(30, 2, 4, 'Etica', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(30, 3, 1, 'L''atto del pensare dimostra l''esistenza del soggetto pensante', 'Corretta', 10),
+(30, 3, 2, 'La conoscenza deriva esclusivamente dall''esperienza sensibile', 'Sbagliata', 0),
+(30, 3, 3, 'La realtà ultima è costituita da monadi spirituali', 'Sbagliata', 0),
+(30, 3, 4, 'Lo Stato si basa su un contratto sociale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(30, 4, 1, 'Centralità dell''esistenza individuale, libertà, angoscia, scelta', 'Corretta', 10),
+(30, 4, 2, 'Ricerca della felicità attraverso il piacere moderato', 'Sbagliata', 0),
+(30, 4, 3, 'Accettazione razionale del destino e dovere morale', 'Sbagliata', 0),
+(30, 4, 4, 'La conoscenza si basa sull''analisi logica del linguaggio', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(30, 5, 1, 'Jean-Paul Sartre: L''esistenza precede l''essenza', 'Corretta', 10),
+(30, 5, 2, 'Ludwig Wittgenstein: I limiti del linguaggio sono i limiti del mondo', 'Sbagliata', 0),
+(30, 5, 3, 'Michel Foucault: Analisi del potere e della conoscenza', 'Sbagliata', 0),
+(30, 5, 4, 'Bertrand Russell: Logicismo e atomismo logico', 'Sbagliata', 0);
+
+-- Quiz 31: Psicologia sociale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(31, 1, 1, 'Come pensieri, sentimenti e comportamenti sono influenzati dalla presenza (reale o immaginata) di altri', 'Corretta', 10),
+(31, 1, 2, 'Lo sviluppo psicologico dell''individuo dalla nascita alla morte', 'Sbagliata', 0),
+(31, 1, 3, 'I disturbi mentali e il loro trattamento', 'Sbagliata', 0),
+(31, 1, 4, 'Le basi biologiche del comportamento', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(31, 2, 1, 'Studio sulla tendenza a obbedire a un''autorità anche impartendo ordini dolorosi', 'Corretta', 10),
+(31, 2, 2, 'Studio sul conformismo in un gruppo (giudizio sulla lunghezza di linee)', 'Sbagliata', 0),
+(31, 2, 3, 'Studio sui ruoli sociali e la deindividuazione (simulazione carceraria)', 'Sbagliata', 0),
+(31, 2, 4, 'Studio sull''apprendimento per osservazione (bambini e bambola Bobo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(31, 3, 1, 'Modificare il proprio comportamento o credenze per adeguarsi a un gruppo', 'Corretta', 10),
+(31, 3, 2, 'Agire in modo diverso da soli rispetto a quando si è in gruppo', 'Sbagliata', 0),
+(31, 3, 3, 'Aiutare gli altri senza aspettarsi ricompense', 'Sbagliata', 0),
+(31, 3, 4, 'Formare un giudizio negativo su un gruppo sociale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(31, 4, 1, 'Il processo mentale attraverso cui si spiegano le cause del comportamento altrui e proprio', 'Corretta', 10),
+(31, 4, 2, 'La tendenza a sovrastimare l''influenza dei fattori disposizionali (errore fondamentale di attribuzione)', 'Sbagliata', 0),
+(31, 4, 3, 'La formazione delle prime impressioni sugli altri', 'Sbagliata', 0),
+(31, 4, 4, 'Il cambiamento di atteggiamento dovuto a un messaggio persuasivo', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(31, 5, 1, 'Stato di disagio psicologico derivante da credenze o comportamenti incoerenti', 'Corretta', 10),
+(31, 5, 2, 'La tendenza a conformarsi alle opinioni del gruppo', 'Sbagliata', 0),
+(31, 5, 3, 'L''attrazione interpersonale verso qualcuno', 'Sbagliata', 0),
+(31, 5, 4, 'Una credenza semplificata e generalizzata su un gruppo sociale', 'Sbagliata', 0);
+
+-- Quiz 32: Economia aziendale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(32, 1, 1, 'Documento contabile che riassume la situazione patrimoniale e finanziaria e il risultato economico dell''impresa', 'Corretta', 10),
+(32, 1, 2, 'Il piano strategico a lungo termine dell''azienda', 'Sbagliata', 0),
+(32, 1, 3, 'L''organigramma aziendale', 'Sbagliata', 0),
+(32, 1, 4, 'Il budget preventivo delle vendite', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(32, 2, 1, 'Fissi: non variano con la produzione; Variabili: variano con la produzione', 'Corretta', 10),
+(32, 2, 2, 'Fissi: costi del personale; Variabili: costi delle materie prime', 'Sbagliata', 0),
+(32, 2, 3, 'Fissi: costi diretti; Variabili: costi indiretti', 'Sbagliata', 0),
+(32, 2, 4, 'Fissi: costi nel breve periodo; Variabili: costi nel lungo periodo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(32, 3, 1, 'Il punto in cui i ricavi totali eguagliano i costi totali (profitto zero)', 'Corretta', 10),
+(32, 3, 2, 'Il livello massimo di produzione raggiungibile', 'Sbagliata', 0),
+(32, 3, 3, 'Il momento in cui l''azienda inizia a fare profitti', 'Sbagliata', 0),
+(32, 3, 4, 'Il rapporto tra costi fissi e costi variabili', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(32, 4, 1, 'Product, Price, Place, Promotion (Prodotto, Prezzo, Distribuzione, Promozione)', 'Corretta', 10),
+(32, 4, 2, 'Strengths, Weaknesses, Opportunities, Threats (Analisi SWOT)', 'Sbagliata', 0),
+(32, 4, 3, 'Ricerca, Sviluppo, Produzione, Vendita', 'Sbagliata', 0),
+(32, 4, 4, 'Pianificazione, Organizzazione, Guida, Controllo (Funzioni manageriali)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(32, 5, 1, 'Pianificare, organizzare, guidare e controllare le risorse aziendali per raggiungere gli obiettivi', 'Corretta', 10),
+(32, 5, 2, 'Eseguire le operazioni produttive quotidiane', 'Sbagliata', 0),
+(32, 5, 3, 'Gestire esclusivamente le relazioni con i clienti', 'Sbagliata', 0),
+(32, 5, 4, 'Occuparsi solo degli aspetti finanziari e contabili', 'Sbagliata', 0);
+
+-- Quiz 33: Sociologia urbana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(33, 1, 1, 'La vita sociale, le strutture e i processi nelle aree urbane', 'Corretta', 10),
+(33, 1, 2, 'La pianificazione fisica e architettonica delle città', 'Sbagliata', 0),
+(33, 1, 3, 'L''economia delle città e le attività produttive urbane', 'Sbagliata', 0),
+(33, 1, 4, 'La storia dello sviluppo delle città nel tempo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(33, 2, 1, 'Traffico, inquinamento, disuguaglianze sociali, segregazione, costi abitativi elevati', 'Corretta', 10),
+(33, 2, 2, 'Mancanza di opportunità lavorative', 'Sbagliata', 0),
+(33, 2, 3, 'Scarsità di servizi culturali e ricreativi', 'Sbagliata', 0),
+(33, 2, 4, 'Isolamento sociale eccessivo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(33, 3, 1, 'Processo di riqualificazione di aree degradate con afflusso di ceti medio-alti e possibile espulsione dei residenti originari', 'Corretta', 10),
+(33, 3, 2, 'Costruzione di nuove aree residenziali in periferia', 'Sbagliata', 0),
+(33, 3, 3, 'Creazione di aree pedonali nel centro città', 'Sbagliata', 0),
+(33, 3, 4, 'Abbandono di aree industriali dismesse', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(33, 4, 1, 'Separazione spaziale di gruppi sociali (base etnica, reddito) all''interno della città', 'Corretta', 10),
+(33, 4, 2, 'Mescolanza di diverse culture nello stesso quartiere', 'Sbagliata', 0),
+(33, 4, 3, 'Concentrazione di attività commerciali in specifiche aree', 'Sbagliata', 0),
+(33, 4, 4, 'Processo di integrazione dei nuovi arrivati', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(33, 5, 1, 'Louis Wirth (Scuola di Chicago)', 'Corretta', 10),
+(33, 5, 2, 'Max Weber', 'Sbagliata', 0),
+(33, 5, 3, 'Karl Marx', 'Sbagliata', 0),
+(33, 5, 4, 'Émile Durkheim', 'Sbagliata', 0);
+
+-- Quiz 34: Antropologia culturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(34, 1, 1, 'Gli oggetti fisici creati, utilizzati e modificati da un gruppo umano', 'Corretta', 10),
+(34, 1, 2, 'Le credenze, i valori e le norme di una cultura', 'Sbagliata', 0),
+(34, 1, 3, 'I resti archeologici di culture passate', 'Sbagliata', 0),
+(34, 1, 4, 'Le opere d''arte prodotte da una società', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(34, 2, 1, 'Comprendere le pratiche culturali nel loro contesto specifico, senza giudizi etnocentrici', 'Corretta', 10),
+(34, 2, 2, 'Credere che la propria cultura sia superiore alle altre', 'Sbagliata', 0),
+(34, 2, 3, 'Lo studio comparativo delle diverse culture', 'Sbagliata', 0),
+(34, 2, 4, 'L''idea che esistano valori culturali universali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(34, 3, 1, 'Cerimonia che segna il cambiamento di status sociale di un individuo', 'Corretta', 10),
+(34, 3, 2, 'Un pellegrinaggio religioso annuale', 'Sbagliata', 0),
+(34, 3, 3, 'Una festa popolare legata al ciclo agricolo', 'Sbagliata', 0),
+(34, 3, 4, 'Un racconto mitologico sulla creazione del mondo', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(34, 4, 1, 'Mito: racconto sacro sulle origini; Leggenda: racconto con base storica ma elementi fantastici', 'Corretta', 10),
+(34, 4, 2, 'Mito: racconto falso; Leggenda: racconto vero', 'Sbagliata', 0),
+(34, 4, 3, 'Mito: riguarda gli dei; Leggenda: riguarda gli eroi', 'Sbagliata', 0),
+(34, 4, 4, 'Non c''è differenza sostanziale', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(34, 5, 1, 'Diversi sistemi di parentela (es. matrilineare, patrilineare)', 'Corretta', 10),
+(34, 5, 2, 'L''uso universale del linguaggio verbale', 'Sbagliata', 0),
+(34, 5, 3, 'L''organizzazione statale come unica forma politica', 'Sbagliata', 0),
+(34, 5, 4, 'La religione monoteista come unica forma di credo', 'Sbagliata', 0);
+
+-- Quiz 35: Storia moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(35, 1, 1, 'Scoperta dell''America (1492) o Caduta di Costantinopoli (1453)', 'Corretta', 10),
+(35, 1, 2, 'Caduta dell''Impero Romano d''Occidente (476)', 'Sbagliata', 0),
+(35, 1, 3, 'Congresso di Vienna (1815)', 'Sbagliata', 0),
+(35, 1, 4, 'Rivoluzione Francese (1789)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(35, 2, 1, 'Movimento religioso del XVI sec. che ruppe l''unità cristiana occidentale (Lutero, Calvino)', 'Corretta', 10),
+(35, 2, 2, 'Movimento filosofico del XVIII sec. basato sulla ragione', 'Sbagliata', 0),
+(35, 2, 3, 'La risposta della Chiesa Cattolica alla Riforma (Concilio di Trento)', 'Sbagliata', 0),
+(35, 2, 4, 'Rinascita culturale e artistica del XV-XVI sec.', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(35, 3, 1, 'Fine dell''Antico Regime, affermazione dei diritti dell''uomo, diffusione idee liberali e nazionali', 'Corretta', 10),
+(35, 3, 2, 'Restaurazione delle monarchie assolute in Europa', 'Sbagliata', 0),
+(35, 3, 3, 'Nascita degli Stati Uniti d''America', 'Sbagliata', 0),
+(35, 3, 4, 'Unificazione della Germania', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(35, 4, 1, 'Generale e politico francese che divenne Imperatore e conquistò gran parte d''Europa', 'Corretta', 10),
+(35, 4, 2, 'Re di Francia ghigliottinato durante la Rivoluzione', 'Sbagliata', 0),
+(35, 4, 3, 'Leader giacobino durante il Terrore', 'Sbagliata', 0),
+(35, 4, 4, 'Filosofo illuminista autore dell''Enciclopedia', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(35, 5, 1, 'Movimento culturale e filosofico del XVIII sec. che esaltava la ragione e la critica', 'Corretta', 10),
+(35, 5, 2, 'Movimento artistico e letterario basato sull''emozione e l''immaginazione', 'Sbagliata', 0),
+(35, 5, 3, 'Periodo di fioritura artistica e culturale in Italia (XV-XVI sec.)', 'Sbagliata', 0),
+(35, 5, 4, 'Stile artistico elaborato e teatrale del XVII sec.', 'Sbagliata', 0);
+
+-- Quiz 36: Letteratura tedesca
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(36, 1, 1, 'Johann Wolfgang von Goethe', 'Corretta', 10),
+(36, 1, 2, 'Friedrich Schiller', 'Sbagliata', 0),
+(36, 1, 3, 'Thomas Mann', 'Sbagliata', 0),
+(36, 1, 4, 'Franz Kafka', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(36, 2, 1, 'Ribellione giovanile contro razionalismo e convenzioni, enfasi sul sentimento e genio individuale', 'Corretta', 10),
+(36, 2, 2, 'Ricerca di equilibrio, armonia e idealizzazione (Classicismo di Weimar)', 'Sbagliata', 0),
+(36, 2, 3, 'Rappresentazione oggettiva della realtà sociale (Realismo)', 'Sbagliata', 0),
+(36, 2, 4, 'Esplorazione dell''irrazionale, angoscia esistenziale (Espressionismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(36, 3, 1, 'La Metamorfosi', 'Corretta', 10),
+(36, 3, 2, 'La Montagna Incantata', 'Sbagliata', 0),
+(36, 3, 3, 'Il Lupo della Steppa', 'Sbagliata', 0),
+(36, 3, 4, 'Così parlò Zarathustra', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(36, 4, 1, 'Avanguardia artistica e letteraria del primo XX sec., caratterizzata da forte soggettività, deformazione e critica sociale', 'Corretta', 10),
+(36, 4, 2, 'Movimento letterario focalizzato sulla vita borghese e domestica (Biedermeier)', 'Sbagliata', 0),
+(36, 4, 3, 'Stile letterario basato sulla descrizione dettagliata e scientifica (Naturalismo)', 'Sbagliata', 0),
+(36, 4, 4, 'Corrente letteraria che esalta il sentimento e la natura (Romanticismo)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(36, 5, 1, 'Günter Grass', 'Corretta', 10),
+(36, 5, 2, 'Bertolt Brecht', 'Sbagliata', 0),
+(36, 5, 3, 'Heinrich Heine', 'Sbagliata', 0),
+(36, 5, 4, 'Rainer Maria Rilke', 'Sbagliata', 0);
+
+-- Quiz 37: Fisica applicata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(37, 1, 1, 'Radiografia (raggi X), Tomografia Computerizzata (TC), Risonanza Magnetica (RM), Ecografia', 'Corretta', 10),
+(37, 1, 2, 'Costruzione di ponti e edifici', 'Sbagliata', 0),
+(37, 1, 3, 'Previsioni meteorologiche', 'Sbagliata', 0),
+(37, 1, 4, 'Progettazione di circuiti elettronici', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(37, 2, 1, 'Convertono la luce solare direttamente in elettricità tramite l''effetto fotovoltaico', 'Corretta', 10),
+(37, 2, 2, 'Sfruttano il calore del sole per riscaldare acqua (solare termico)', 'Sbagliata', 0),
+(37, 2, 3, 'Utilizzano il vento per generare elettricità (eolico)', 'Sbagliata', 0),
+(37, 2, 4, 'Bruciano biomassa per produrre energia', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(37, 3, 1, 'Interazione tra campi magnetici e nuclei atomici (spin)', 'Corretta', 10),
+(37, 3, 2, 'Assorbimento differenziale dei raggi X da parte dei tessuti', 'Sbagliata', 0),
+(37, 3, 3, 'Riflessione delle onde ultrasonore sui tessuti', 'Sbagliata', 0),
+(37, 3, 4, 'Decadimento radioattivo di traccianti iniettati', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(37, 4, 1, 'Principi termodinamici (ciclo Otto/Diesel), espansione dei gas', 'Corretta', 10),
+(37, 4, 2, 'Leggi dell''elettromagnetismo (induzione)', 'Sbagliata', 0),
+(37, 4, 3, 'Effetto fotovoltaico', 'Sbagliata', 0),
+(37, 4, 4, 'Reazioni nucleari di fissione', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(37, 5, 1, 'Studio del moto dei fluidi (liquidi e gas); aerodinamica, idraulica, meteorologia', 'Corretta', 10),
+(37, 5, 2, 'Studio delle proprietà termiche dei materiali', 'Sbagliata', 0),
+(37, 5, 3, 'Studio della propagazione del suono', 'Sbagliata', 0),
+(37, 5, 4, 'Studio delle proprietà elettriche dei materiali', 'Sbagliata', 0);
+
+-- Quiz 38: Chimica fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(38, 1, 1, 'Applica principi fisici (termodinamica, quantistica) allo studio dei sistemi chimici', 'Corretta', 10),
+(38, 1, 2, 'Lo studio esclusivo delle reazioni chimiche veloci', 'Sbagliata', 0),
+(38, 1, 3, 'La sintesi di composti organici complessi', 'Sbagliata', 0),
+(38, 1, 4, 'L''analisi qualitativa e quantitativa dei campioni', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(38, 2, 1, 'Principio zero, Primo (conservazione energia), Secondo (entropia), Terzo (entropia a 0 K)', 'Corretta', 10),
+(38, 2, 2, 'Leggi dei gas ideali (Boyle, Charles, Gay-Lussac)', 'Sbagliata', 0),
+(38, 2, 3, 'Leggi di Newton del moto', 'Sbagliata', 0),
+(38, 2, 4, 'Leggi dell''elettromagnetismo di Maxwell', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(38, 3, 1, 'Stato in cui le velocità delle reazioni diretta e inversa si eguagliano (concentrazioni costanti)', 'Corretta', 10),
+(38, 3, 2, 'Stato in cui la reazione si è completamente arrestata', 'Sbagliata', 0),
+(38, 3, 3, 'Condizione in cui tutti i reagenti si sono trasformati in prodotti', 'Sbagliata', 0),
+(38, 3, 4, 'Il punto di massima velocità di una reazione', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(38, 4, 1, 'Lo studio della velocità delle reazioni chimiche e dei fattori che la influenzano', 'Corretta', 10),
+(38, 4, 2, 'Lo studio dell''energia scambiata durante le reazioni', 'Sbagliata', 0),
+(38, 4, 3, 'Lo studio della struttura atomica e molecolare', 'Sbagliata', 0),
+(38, 4, 4, 'Lo studio delle proprietà delle soluzioni', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(38, 5, 1, 'Esotermico: libera calore; Endotermico: assorbe calore', 'Corretta', 10),
+(38, 5, 2, 'Esotermico: spontaneo; Endotermico: non spontaneo', 'Sbagliata', 0),
+(38, 5, 3, 'Esotermico: veloce; Endotermico: lento', 'Sbagliata', 0),
+(38, 5, 4, 'Esotermico: aumenta l''entropia; Endotermico: la diminuisce', 'Sbagliata', 0);
+
+-- Quiz 39: Geografia fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(39, 1, 1, 'Gli elementi fisici della superficie terrestre (rilievo, clima, acque, suoli, vegetazione)', 'Corretta', 10),
+(39, 1, 2, 'La distribuzione della popolazione e delle attività umane', 'Sbagliata', 0),
+(39, 1, 3, 'L''organizzazione politica del territorio (stati, confini)', 'Sbagliata', 0),
+(39, 1, 4, 'La storia delle esplorazioni geografiche', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(39, 2, 1, 'Acque correnti, ghiacciai, vento, mare', 'Corretta', 10),
+(39, 2, 2, 'Tettonica a placche, vulcanismo', 'Sbagliata', 0),
+(39, 2, 3, 'Uomo (attività antropiche)', 'Sbagliata', 0),
+(39, 2, 4, 'Animali e piante', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(39, 3, 1, 'Movimento continuo dell''acqua sulla Terra (evaporazione, condensazione, precipitazione, deflusso)', 'Corretta', 10),
+(39, 3, 2, 'Il ciclo delle stagioni', 'Sbagliata', 0),
+(39, 3, 3, 'Il ciclo vitale degli organismi acquatici', 'Sbagliata', 0),
+(39, 3, 4, 'Il ciclo delle rocce (litogenetico)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(39, 4, 1, 'Involucro gassoso che circonda la Terra; Troposfera, Stratosfera, Mesosfera, Termosfera', 'Corretta', 10),
+(39, 4, 2, 'La parte liquida della Terra (oceani, mari, fiumi, laghi)', 'Sbagliata', 0),
+(39, 4, 3, 'La parte solida esterna della Terra (crosta, mantello superiore)', 'Sbagliata', 0),
+(39, 4, 4, 'L''insieme degli organismi viventi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(39, 5, 1, 'Tempo: condizioni atmosferiche istantanee; Clima: condizioni medie a lungo termine', 'Corretta', 10),
+(39, 5, 2, 'Tempo: si misura con termometro; Clima: si misura con barometro', 'Sbagliata', 0),
+(39, 5, 3, 'Tempo: riguarda le precipitazioni; Clima: riguarda la temperatura', 'Sbagliata', 0),
+(39, 5, 4, 'Non c''è differenza sostanziale', 'Sbagliata', 0);
+
+-- Quiz 40: Storia dellEuropa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(40, 1, 1, 'Organizzazione politica ed economica sovranazionale di stati europei', 'Corretta', 10),
+(40, 1, 2, 'Alleanza militare tra paesi europei e nordamericani', 'Sbagliata', 0),
+(40, 1, 3, 'Area di libero scambio commerciale in Europa', 'Sbagliata', 0),
+(40, 1, 4, 'Confederazione di stati sovrani esistita nel XIX secolo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(40, 2, 1, 'CECA, CEE (Trattato di Roma), Mercato Unico, Unione Europea (Maastricht), Euro', 'Corretta', 10),
+(40, 2, 2, 'Congresso di Vienna, Santa Alleanza, Concerto Europeo', 'Sbagliata', 0),
+(40, 2, 3, 'Formazione imperi coloniali, Prima Guerra Mondiale, Società delle Nazioni', 'Sbagliata', 0),
+(40, 2, 4, 'Guerra Fredda, Patto di Varsavia, Caduta Muro di Berlino', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(40, 3, 1, 'Guerre Jugoslave (anni ''90)', 'Corretta', 10),
+(40, 3, 2, 'Guerra di Corea', 'Sbagliata', 0),
+(40, 3, 3, 'Guerra del Vietnam', 'Sbagliata', 0),
+(40, 3, 4, 'Guerra civile spagnola', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(40, 4, 1, 'Fine della divisione della Germania e dell''Europa, riunificazione tedesca, accelerazione integrazione UE', 'Corretta', 10),
+(40, 4, 2, 'Inizio della Guerra Fredda', 'Sbagliata', 0),
+(40, 4, 3, 'Creazione della NATO', 'Sbagliata', 0),
+(40, 4, 4, 'Crisi economica globale', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(40, 5, 1, 'Jean Monnet / Robert Schuman / Konrad Adenauer / Alcide De Gasperi', 'Corretta', 10),
+(40, 5, 2, 'Napoleone Bonaparte', 'Sbagliata', 0),
+(40, 5, 3, 'Otto von Bismarck', 'Sbagliata', 0),
+(40, 5, 4, 'Winston Churchill', 'Sbagliata', 0);
+
+-- Quiz 41: Matematica finanziaria
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(41, 1, 1, 'Interesse calcolato anche sugli interessi accumulati precedentemente', 'Corretta', 10),
+(41, 1, 2, 'Interesse calcolato solo sul capitale iniziale (interesse semplice)', 'Sbagliata', 0),
+(41, 1, 3, 'Tasso di interesse applicato dalle banche centrali', 'Sbagliata', 0),
+(41, 1, 4, 'Interesse al netto delle tasse', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(41, 2, 1, 'Azione: quota di proprietà; Obbligazione: titolo di debito', 'Corretta', 10),
+(41, 2, 2, 'Azione: rendimento variabile; Obbligazione: rendimento fisso', 'Sbagliata', 0),
+(41, 2, 3, 'Azione: emessa da società; Obbligazione: emessa da stati', 'Sbagliata', 0),
+(41, 2, 4, 'Non c''è differenza sostanziale', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(41, 3, 1, 'Valore attuale dei flussi di cassa futuri attesi da un investimento, scontati al costo opportunità del capitale', 'Corretta', 10),
+(41, 3, 2, 'Il tasso di rendimento interno di un investimento (TIR)', 'Sbagliata', 0),
+(41, 3, 3, 'Il tempo necessario per recuperare l''investimento iniziale (payback period)', 'Sbagliata', 0),
+(41, 3, 4, 'Il valore contabile di un asset', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(41, 4, 1, 'Tasso utilizzato per attualizzare flussi di cassa futuri al valore odierno', 'Corretta', 10),
+(41, 4, 2, 'Tasso di interesse applicato ai prestiti interbancari', 'Sbagliata', 0),
+(41, 4, 3, 'Tasso di inflazione previsto', 'Sbagliata', 0),
+(41, 4, 4, 'Sconto applicato sul prezzo di un prodotto', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(41, 5, 1, 'Calcolo interessi su mutui o prestiti, valutazione investimenti, piani pensionistici', 'Corretta', 10),
+(41, 5, 2, 'Calcolo dell''area di figure geometriche', 'Sbagliata', 0),
+(41, 5, 3, 'Risoluzione di equazioni differenziali', 'Sbagliata', 0),
+(41, 5, 4, 'Ottimizzazione di percorsi (teoria dei grafi)', 'Sbagliata', 0);
+
+-- Quiz 42: Fisica teorica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(42, 1, 1, 'Sviluppa modelli matematici per spiegare e prevedere fenomeni fisici', 'Corretta', 10),
+(42, 1, 2, 'Conduce esperimenti per verificare le teorie fisiche', 'Sbagliata', 0),
+(42, 1, 3, 'Applica i principi fisici a problemi tecnologici', 'Sbagliata', 0),
+(42, 1, 4, 'Studia la storia della fisica', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(42, 2, 1, 'Unificare tutte le forze fondamentali della natura in un unico quadro teorico', 'Corretta', 10),
+(42, 2, 2, 'Spiegare l''origine dell''universo (Big Bang)', 'Sbagliata', 0),
+(42, 2, 3, 'Trovare nuove particelle elementari', 'Sbagliata', 0),
+(42, 2, 4, 'Sviluppare nuove fonti di energia pulita', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(42, 3, 1, 'Oggetti unidimensionali vibranti che costituirebbero le particelle elementari', 'Corretta', 10),
+(42, 3, 2, 'Particelle ipotetiche più piccole dei quark', 'Sbagliata', 0),
+(42, 3, 3, 'Campi quantistici che permeano lo spaziotempo', 'Sbagliata', 0),
+(42, 3, 4, 'Stringhe utilizzate per legare pacchi', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(42, 4, 1, 'Forme ipotetiche di materia ed energia che non interagiscono con la luce, ma hanno effetti gravitazionali', 'Corretta', 10),
+(42, 4, 2, 'L''antimateria, composta da antiparticelle', 'Sbagliata', 0),
+(42, 4, 3, 'L''energia contenuta nei buchi neri', 'Sbagliata', 0),
+(42, 4, 4, 'Forme di energia rinnovabile non ancora scoperte', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(42, 5, 1, 'Stephen Hawking', 'Corretta', 10),
+(42, 5, 2, 'Albert Einstein', 'Sbagliata', 0),
+(42, 5, 3, 'Richard Feynman', 'Sbagliata', 0),
+(42, 5, 4, 'Enrico Fermi', 'Sbagliata', 0);
+
+-- Quiz 43: Letteratura russa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(43, 1, 1, 'Lev Tolstoj', 'Corretta', 10),
+(43, 1, 2, 'Fëdor Dostoevskij', 'Sbagliata', 0),
+(43, 1, 3, 'Ivan Turgenev', 'Sbagliata', 0),
+(43, 1, 4, 'Anton Čechov', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(43, 2, 1, 'Rappresentazione dettagliata della società, analisi psicologica, critica sociale', 'Corretta', 10),
+(43, 2, 2, 'Enfasi sul soprannaturale, l''irrazionale, il sentimento', 'Sbagliata', 0),
+(43, 2, 3, 'Uso del simbolo, linguaggio evocativo, temi mistici', 'Sbagliata', 0),
+(43, 2, 4, 'Sperimentalismo formale, linguaggio frammentato', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(43, 3, 1, 'Delitto e Castigo / I fratelli Karamazov / L''idiota', 'Corretta', 10),
+(43, 3, 2, 'Anna Karenina', 'Sbagliata', 0),
+(43, 3, 3, 'Padri e figli', 'Sbagliata', 0),
+(43, 3, 4, 'Il Gabbiano', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(43, 4, 1, 'Movimento letterario e artistico di fine XIX / inizio XX sec. che usa simboli per esprimere idee e emozioni', 'Corretta', 10),
+(43, 4, 2, 'Movimento che esalta la macchina e la velocità (Futurismo)', 'Sbagliata', 0),
+(43, 4, 3, 'Movimento che propugna una letteratura al servizio del proletariato (Realismo Socialista)', 'Sbagliata', 0),
+(43, 4, 4, 'Movimento focalizzato sulla rappresentazione oggettiva della realtà (Realismo)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(43, 5, 1, 'Vladimir Sorokin', 'Corretta', 10),
+(43, 5, 2, 'Michail Bulgakov', 'Sbagliata', 0),
+(43, 5, 3, 'Boris Pasternak', 'Sbagliata', 0),
+(43, 5, 4, 'Aleksandr Solženicyn', 'Sbagliata', 0);
+
+-- Quiz 44: Geografia politica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(44, 1, 1, 'Le relazioni tra potere politico, territorio e spazio geografico', 'Corretta', 10),
+(44, 1, 2, 'La distribuzione dei climi e della vegetazione', 'Sbagliata', 0),
+(44, 1, 3, 'Lo studio delle forme del rilievo terrestre', 'Sbagliata', 0),
+(44, 1, 4, 'L''analisi della distribuzione della popolazione', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(44, 2, 1, 'Entità politica sovrana con un territorio definito, una popolazione e un governo', 'Corretta', 10),
+(44, 2, 2, 'Un gruppo umano con identità culturale comune (Nazione)', 'Sbagliata', 0),
+(44, 2, 3, 'Una regione amministrativa all''interno di uno stato federale', 'Sbagliata', 0),
+(44, 2, 4, 'Un''organizzazione internazionale come l''ONU', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(44, 3, 1, 'Confine: linea precisa di separazione; Frontiera: zona di transizione o contatto', 'Corretta', 10),
+(44, 3, 2, 'Confine: naturale; Frontiera: artificiale', 'Sbagliata', 0),
+(44, 3, 3, 'Confine: terrestre; Frontiera: marittima', 'Sbagliata', 0),
+(44, 3, 4, 'Non c''è differenza, sono sinonimi', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(44, 4, 1, 'Conflitto israelo-palestinese / Guerra in Ucraina / Tensioni nel Mar Cinese Meridionale', 'Corretta', 10),
+(44, 4, 2, 'Disputa commerciale tra USA e Cina', 'Sbagliata', 0),
+(44, 4, 3, 'Competizione sportiva tra nazioni (Olimpiadi)', 'Sbagliata', 0),
+(44, 4, 4, 'Dibattito scientifico sui cambiamenti climatici', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(44, 5, 1, 'Interconnessione crescente tra diverse aree del mondo (economica, politica, culturale)', 'Corretta', 10),
+(44, 5, 2, 'La formazione di grandi alleanze militari', 'Sbagliata', 0),
+(44, 5, 3, 'Il predominio di una singola superpotenza', 'Sbagliata', 0),
+(44, 5, 4, 'La tendenza all''isolazionismo da parte degli stati', 'Sbagliata', 0);
+
+-- Quiz 45: Chimica industriale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(45, 1, 1, 'Trasformazione su larga scala di materie prime in prodotti chimici utili', 'Corretta', 10),
+(45, 1, 2, 'Sintesi di piccole quantità di composti in laboratorio', 'Sbagliata', 0),
+(45, 1, 3, 'Analisi della composizione chimica dei materiali', 'Sbagliata', 0),
+(45, 1, 4, 'Studio delle reazioni chimiche a livello molecolare', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(45, 2, 1, 'Processo Haber-Bosch: sintesi dell''ammoniaca da azoto e idrogeno', 'Corretta', 10),
+(45, 2, 2, 'Elettrolisi dell''acqua: produzione di idrogeno e ossigeno', 'Sbagliata', 0),
+(45, 2, 3, 'Fotosintesi clorofilliana: produzione di zuccheri nelle piante', 'Sbagliata', 0),
+(45, 2, 4, 'Distillazione frazionata del petrolio: separazione idrocarburi', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(45, 3, 1, 'Inquinamento aria/acqua/suolo, consumo risorse, produzione rifiuti', 'Corretta', 10),
+(45, 3, 2, 'Costo elevato dei reagenti chimici', 'Sbagliata', 0),
+(45, 3, 3, 'Lentezza di alcune reazioni chimiche', 'Sbagliata', 0),
+(45, 3, 4, 'Difficoltà nel trovare personale qualificato', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(45, 4, 1, 'Sostanza che accelera una reazione chimica senza essere consumato', 'Corretta', 10),
+(45, 4, 2, 'Reagente che viene completamente consumato nella reazione', 'Sbagliata', 0),
+(45, 4, 3, 'Prodotto secondario indesiderato di una reazione', 'Sbagliata', 0),
+(45, 4, 4, 'Sostanza che rallenta una reazione chimica', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(45, 5, 1, 'Plastica (es. polietilene), fertilizzanti, farmaci, detergenti', 'Corretta', 10),
+(45, 5, 2, 'Legno, pietra, cotone', 'Sbagliata', 0),
+(45, 5, 3, 'Computer, smartphone', 'Sbagliata', 0),
+(45, 5, 4, 'Pane, vino, formaggio', 'Sbagliata', 0);
+
+-- Quiz 46: Biologia evolutiva
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(46, 1, 1, 'I processi di cambiamento degli organismi viventi nel tempo e l''origine della biodiversità', 'Corretta', 10),
+(46, 1, 2, 'La classificazione degli organismi viventi', 'Sbagliata', 0),
+(46, 1, 3, 'Il funzionamento degli organismi a livello molecolare e cellulare', 'Sbagliata', 0),
+(46, 1, 4, 'Le interazioni tra organismi e il loro ambiente', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(46, 2, 1, 'Charles Darwin (e Alfred Russel Wallace)', 'Corretta', 10),
+(46, 2, 2, 'Gregor Mendel', 'Sbagliata', 0),
+(46, 2, 3, 'Jean-Baptiste Lamarck', 'Sbagliata', 0),
+(46, 2, 4, 'Louis Pasteur', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(46, 3, 1, 'Il processo evolutivo che porta alla formazione di nuove specie', 'Corretta', 10),
+(46, 3, 2, 'La scomparsa totale di una specie', 'Sbagliata', 0),
+(46, 3, 3, 'Il cambiamento delle frequenze geniche in una popolazione nel tempo', 'Sbagliata', 0),
+(46, 3, 4, 'L''adattamento di un organismo al suo ambiente', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(46, 4, 1, 'Variazione casuale delle frequenze alleliche in una popolazione, specialmente se piccola', 'Corretta', 10),
+(46, 4, 2, 'Movimento di geni tra popolazioni diverse', 'Sbagliata', 0),
+(46, 4, 3, 'Sopravvivenza e riproduzione differenziale di individui con diverse caratteristiche', 'Sbagliata', 0),
+(46, 4, 4, 'Comparsa di nuove variazioni genetiche', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(46, 5, 1, 'Mimetismo (es. insetto stecco), resistenza agli antibiotici nei batteri, collo lungo delle giraffe', 'Corretta', 10),
+(46, 5, 2, 'La presenza di ali negli uccelli e negli insetti (evoluzione convergente)', 'Sbagliata', 0),
+(46, 5, 3, 'L''estinzione dei dinosauri', 'Sbagliata', 0),
+(46, 5, 4, 'La divisione cellulare (mitosi)', 'Sbagliata', 0);
+
+-- Quiz 47: Storia dellAsia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(47, 1, 1, 'Civiltà della Valle dell''Indo, Civiltà Cinese (Shang, Zhou...), Impero Persiano', 'Corretta', 10),
+(47, 1, 2, 'Civiltà Romana, Civiltà Greca', 'Sbagliata', 0),
+(47, 1, 3, 'Civiltà Egizia, Civiltà Mesopotamica', 'Sbagliata', 0),
+(47, 1, 4, 'Civiltà Maya, Civiltà Inca', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(47, 2, 1, 'Rete di rotte commerciali che collegava Oriente e Occidente, facilitando scambi culturali e materiali', 'Corretta', 10),
+(47, 2, 2, 'Un grande muro difensivo costruito in Cina', 'Sbagliata', 0),
+(47, 2, 3, 'Un canale artificiale che collega Mediterraneo e Mar Rosso', 'Sbagliata', 0),
+(47, 2, 4, 'Un testo sacro del Buddhismo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(47, 3, 1, 'Impero musulmano che governò gran parte dell''India dal XVI al XIX secolo', 'Corretta', 10),
+(47, 3, 2, 'Impero cinese guidato da Gengis Khan', 'Sbagliata', 0),
+(47, 3, 3, 'Impero che dominò il Sud-Est asiatico con centro ad Angkor', 'Sbagliata', 0),
+(47, 3, 4, 'Impero turco che controllava Anatolia, Balcani e Medio Oriente', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(47, 4, 1, 'Dominazione politica, sfruttamento economico, trasformazioni sociali e culturali, nascita nazionalismi', 'Corretta', 10),
+(47, 4, 2, 'Diffusione della democrazia e del benessere economico', 'Sbagliata', 0),
+(47, 4, 3, 'Isolamento culturale e chiusura dei commerci', 'Sbagliata', 0),
+(47, 4, 4, 'Mantenimento delle strutture politiche tradizionali', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(47, 5, 1, 'Fondatore dell''Impero Mongolo nel XIII secolo', 'Corretta', 10),
+(47, 5, 2, 'Imperatore cinese che unificò la Cina', 'Sbagliata', 0),
+(47, 5, 3, 'Condottiero turco-mongolo del XIV secolo', 'Sbagliata', 0),
+(47, 5, 4, 'Fondatore della dinastia Moghul in India', 'Sbagliata', 0);
+
+-- Quiz 48: Letteratura americana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(48, 1, 1, 'Herman Melville', 'Corretta', 10),
+(48, 1, 2, 'Nathaniel Hawthorne', 'Sbagliata', 0),
+(48, 1, 3, 'Edgar Allan Poe', 'Sbagliata', 0),
+(48, 1, 4, 'Mark Twain', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(48, 2, 1, 'Enfasi sull''intuizione, individualismo, natura, critica al materialismo (Emerson, Thoreau)', 'Corretta', 10),
+(48, 2, 2, 'Rappresentazione realistica della società post-Guerra Civile', 'Sbagliata', 0),
+(48, 2, 3, 'Esplorazione del lato oscuro della psiche umana (Gotico americano)', 'Sbagliata', 0),
+(48, 2, 4, 'Sperimentalismo formale e disillusione del primo Novecento (Modernismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(48, 3, 1, 'Addio alle armi / Per chi suona la campana / Il vecchio e il mare', 'Corretta', 10),
+(48, 3, 2, 'Furore / Uomini e topi', 'Sbagliata', 0),
+(48, 3, 3, 'Il grande Gatsby', 'Sbagliata', 0),
+(48, 3, 4, 'L''urlo e il furore / Assalonne, Assalonne!', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(48, 4, 1, 'Gruppo di scrittori americani (es. Hemingway, Fitzgerald) che vissero in Europa dopo la WWI, segnati dalla disillusione', 'Corretta', 10),
+(48, 4, 2, 'Movimento letterario e culturale afroamericano degli anni ''20 (Rinascimento di Harlem)', 'Sbagliata', 0),
+(48, 4, 3, 'Gruppo di poeti e scrittori anticonformisti degli anni ''50 (Beat Generation)', 'Sbagliata', 0),
+(48, 4, 4, 'Corrente filosofica e letteraria del New England nel XIX sec. (Trascendentalismo)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(48, 5, 1, 'Toni Morrison / Philip Roth / Don DeLillo / Cormac McCarthy', 'Corretta', 10),
+(48, 5, 2, 'Jack Kerouac', 'Sbagliata', 0),
+(48, 5, 3, 'Sylvia Plath', 'Sbagliata', 0),
+(48, 5, 4, 'Arthur Miller', 'Sbagliata', 0);
+
+-- Quiz 49: Filosofia contemporanea
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(49, 1, 1, 'Filosofia analitica, Fenomenologia, Esistenzialismo, Strutturalismo/Post-strutturalismo, Ermeneutica', 'Corretta', 10),
+(49, 1, 2, 'Razionalismo, Empirismo, Criticismo', 'Sbagliata', 0),
+(49, 1, 3, 'Stoicismo, Epicureismo, Scetticismo', 'Sbagliata', 0),
+(49, 1, 4, 'Idealismo, Positivismo, Marxismo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(49, 2, 1, 'Critica alla morale tradizionale, "morte di Dio", volontà di potenza, superuomo', 'Corretta', 10),
+(49, 2, 2, 'Materialismo storico, critica al capitalismo, alienazione', 'Sbagliata', 0),
+(49, 2, 3, 'Analisi dell''angoscia, della libertà e della scelta individuale', 'Sbagliata', 0),
+(49, 2, 4, 'Ricerca dei fondamenti logici della matematica', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(49, 3, 1, 'Approccio filosofico che studia l''esperienza vissuta e la coscienza (Husserl)', 'Corretta', 10),
+(49, 3, 2, 'Analisi logica del linguaggio per risolvere problemi filosofici', 'Sbagliata', 0),
+(49, 3, 3, 'Teoria critica della società e della cultura (Scuola di Francoforte)', 'Sbagliata', 0),
+(49, 3, 4, 'Interpretazione dei testi e della comprensione umana (Ermeneutica)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(49, 4, 1, 'Metodo critico (Derrida) che smonta le opposizioni binarie e i significati stabili nei testi', 'Corretta', 10),
+(49, 4, 2, 'Analisi delle strutture profonde del linguaggio e della cultura (Strutturalismo)', 'Sbagliata', 0),
+(49, 4, 3, 'Studio dell''essere e dell''esistenza (Ontologia)', 'Sbagliata', 0),
+(49, 4, 4, 'Ricerca di una sintesi tra diverse prospettive filosofiche', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(49, 5, 1, 'Jürgen Habermas: teoria dell''agire comunicativo', 'Corretta', 10),
+(49, 5, 2, 'Simone de Beauvoir: analisi della condizione femminile ("Il secondo sesso")', 'Sbagliata', 0),
+(49, 5, 3, 'John Rawls: teoria della giustizia come equità', 'Sbagliata', 0),
+(49, 5, 4, 'Thomas Kuhn: concetto di paradigma scientifico', 'Sbagliata', 0);
+
+-- Quiz 50: Psicologia clinica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(50, 1, 1, 'La comprensione, prevenzione e trattamento dei disturbi psicologici e del disagio mentale', 'Corretta', 10),
+(50, 1, 2, 'Le interazioni sociali e l''influenza del gruppo sull''individuo', 'Sbagliata', 0),
+(50, 1, 3, 'I processi cognitivi come memoria, attenzione, linguaggio', 'Sbagliata', 0),
+(50, 1, 4, 'Lo sviluppo psicologico lungo l''arco della vita', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(50, 2, 1, 'Psicologo: laurea in psicologia, usa terapia; Psichiatra: laurea in medicina, può prescrivere farmaci', 'Corretta', 10),
+(50, 2, 2, 'Psicologo: tratta casi gravi; Psichiatra: casi lievi', 'Sbagliata', 0),
+(50, 2, 3, 'Psicologo: lavora in ospedale; Psichiatra: studio privato', 'Sbagliata', 0),
+(50, 2, 4, 'Non c''è differenza sostanziale', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(50, 3, 1, 'Terapia cognitivo-comportamentale (CBT): modifica pensieri e comportamenti disfunzionali', 'Corretta', 10),
+(50, 3, 2, 'Terapia farmacologica: uso di psicofarmaci', 'Sbagliata', 0),
+(50, 3, 3, 'Elettroshock (TEC): stimolazione elettrica cerebrale', 'Sbagliata', 0),
+(50, 3, 4, 'Ricovero ospedaliero', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(50, 4, 1, 'Manuale diagnostico e statistico dei disturbi mentali (classificazione standard)', 'Corretta', 10),
+(50, 4, 2, 'Un test proiettivo di personalità (es. Rorschach)', 'Sbagliata', 0),
+(50, 4, 3, 'Un manuale di tecniche psicoterapeutiche', 'Sbagliata', 0),
+(50, 4, 4, 'L''organizzazione mondiale degli psicologi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(50, 5, 1, 'Disturbo d''ansia generalizzata, Fobie specifiche, Disturbo di panico, Ansia sociale', 'Corretta', 10),
+(50, 5, 2, 'Depressione maggiore, Disturbo bipolare', 'Sbagliata', 0),
+(50, 5, 3, 'Schizofrenia, Disturbo delirante', 'Sbagliata', 0),
+(50, 5, 4, 'Anoressia nervosa, Bulimia nervosa', 'Sbagliata', 0);
+
+-- Quiz 51: Economia politica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(51, 1, 1, 'Uso della spesa pubblica e della tassazione per influenzare l''economia', 'Corretta', 10),
+(51, 1, 2, 'Controllo dell''offerta di moneta e dei tassi di interesse (politica monetaria)', 'Sbagliata', 0),
+(51, 1, 3, 'Regolamentazione del commercio internazionale (politica commerciale)', 'Sbagliata', 0),
+(51, 1, 4, 'Interventi per correggere i fallimenti del mercato', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(51, 2, 1, 'Controllare l''offerta di moneta, fissare i tassi di interesse, vigilare sulle banche', 'Corretta', 10),
+(51, 2, 2, 'Emettere titoli di stato per finanziare il debito pubblico', 'Sbagliata', 0),
+(51, 2, 3, 'Stabilire le aliquote fiscali', 'Sbagliata', 0),
+(51, 2, 4, 'Gestire i fondi pensione pubblici', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(51, 3, 1, 'Condizione di chi cerca lavoro ma non lo trova; tipologie: frizionale, strutturale, ciclica', 'Corretta', 10),
+(51, 3, 2, 'Aumento generalizzato dei prezzi (inflazione)', 'Sbagliata', 0),
+(51, 3, 3, 'Differenza tra importazioni ed esportazioni (bilancia commerciale)', 'Sbagliata', 0),
+(51, 3, 4, 'Valore totale dei beni e servizi prodotti (PIL)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(51, 4, 1, 'Ammontare totale del debito accumulato dallo Stato', 'Corretta', 10),
+(51, 4, 2, 'Differenza annuale tra spesa pubblica ed entrate fiscali (deficit pubblico)', 'Sbagliata', 0),
+(51, 4, 3, 'Il debito estero di un paese', 'Sbagliata', 0),
+(51, 4, 4, 'L''insieme delle passività delle imprese private', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(51, 5, 1, 'Curva di Phillips (relazione inflazione-disoccupazione)', 'Corretta', 10),
+(51, 5, 2, 'Legge della domanda e dell''offerta', 'Sbagliata', 0),
+(51, 5, 3, 'Teoria dei giochi', 'Sbagliata', 0),
+(51, 5, 4, 'Teorema di Coase (esternalità)', 'Sbagliata', 0);
+
+-- Quiz 52: Sociologia rurale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(52, 1, 1, 'La vita sociale, le strutture e i processi nelle aree non urbane', 'Corretta', 10),
+(52, 1, 2, 'Le tecniche agricole e l''allevamento', 'Sbagliata', 0),
+(52, 1, 3, 'L''economia agricola e i mercati dei prodotti rurali', 'Sbagliata', 0),
+(52, 1, 4, 'La storia delle comunità contadine', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(52, 2, 1, 'Declino agricoltura tradizionale, spopolamento, nuove funzioni (turismo, residenza), globalizzazione', 'Corretta', 10),
+(52, 2, 2, 'Crescita demografica esponenziale', 'Sbagliata', 0),
+(52, 2, 3, 'Isolamento completo dalle aree urbane', 'Sbagliata', 0),
+(52, 2, 4, 'Scomparsa totale delle attività agricole', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(52, 3, 1, 'Gruppo sociale residente in area rurale con legami sociali, identità e cultura condivisi', 'Corretta', 10),
+(52, 3, 2, 'Un villaggio turistico in campagna', 'Sbagliata', 0),
+(52, 3, 3, 'Un''azienda agricola di grandi dimensioni', 'Sbagliata', 0),
+(52, 3, 4, 'L''insieme degli abitanti di una provincia', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(52, 4, 1, 'Competizione mercati globali, standardizzazione prodotti, influenza su politiche agricole', 'Corretta', 10),
+(52, 4, 2, 'Aumento dell''autosufficienza alimentare locale', 'Sbagliata', 0),
+(52, 4, 3, 'Rivitalizzazione delle piccole fattorie tradizionali', 'Sbagliata', 0),
+(52, 4, 4, 'Interruzione dei flussi migratori verso le città', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(52, 5, 1, 'Invecchiamento popolazione, carenza servizi, divario digitale, gestione sostenibile risorse', 'Corretta', 10),
+(52, 5, 2, 'Eccessiva densità abitativa', 'Sbagliata', 0),
+(52, 5, 3, 'Inquinamento atmosferico da traffico intenso', 'Sbagliata', 0),
+(52, 5, 4, 'Mancanza di spazi verdi', 'Sbagliata', 0);
+
+-- Quiz 53: Antropologia fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(53, 1, 1, 'L''evoluzione biologica, la variabilità e l''adattamento della specie umana', 'Corretta', 10),
+(53, 1, 2, 'Le culture e le società umane', 'Sbagliata', 0),
+(53, 1, 3, 'I resti materiali delle civiltà passate', 'Sbagliata', 0),
+(53, 1, 4, 'Il linguaggio umano e la sua evoluzione', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(53, 2, 1, 'Dagli ominidi ancestrali (es. Australopithecus) al genere Homo (habilis, erectus, sapiens)', 'Corretta', 10),
+(53, 2, 2, 'Dalle scimmie alle scimmie antropomorfe', 'Sbagliata', 0),
+(53, 2, 3, 'Dall''uomo di Neanderthal all''uomo moderno', 'Sbagliata', 0),
+(53, 2, 4, 'La creazione divina secondo testi religiosi', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(53, 3, 1, 'Lo studio dei primati non umani (scimmie) per comprendere l''evoluzione e il comportamento umano', 'Corretta', 10),
+(53, 3, 2, 'Lo studio dei fossili di dinosauri', 'Sbagliata', 0),
+(53, 3, 3, 'L''analisi delle ossa umane in contesti forensi', 'Sbagliata', 0),
+(53, 3, 4, 'Lo studio delle malattie nelle popolazioni antiche', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(53, 4, 1, 'Le differenze biologiche (genetiche, morfologiche) tra individui e popolazioni umane', 'Corretta', 10),
+(53, 4, 2, 'Le differenze culturali tra società diverse', 'Sbagliata', 0),
+(53, 4, 3, 'Le disuguaglianze sociali basate sulla razza', 'Sbagliata', 0),
+(53, 4, 4, 'Le diverse lingue parlate nel mondo', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(53, 5, 1, 'Lucy (Australopithecus afarensis): evidenza del bipedismo precoce', 'Corretta', 10),
+(53, 5, 2, 'Tyrannosaurus Rex', 'Sbagliata', 0),
+(53, 5, 3, 'Ötzi (Uomo di Similaun)', 'Sbagliata', 0),
+(53, 5, 4, 'Trilobite', 'Sbagliata', 0);
+
+-- Quiz 54: Storia dell Africa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(54, 1, 1, 'Regno del Ghana, Impero del Mali, Impero Songhai, Regno del Congo, Grande Zimbabwe', 'Corretta', 10),
+(54, 1, 2, 'Impero Romano, Impero Persiano', 'Sbagliata', 0),
+(54, 1, 3, 'Impero Azteco, Impero Inca', 'Sbagliata', 0),
+(54, 1, 4, 'Impero Ottomano (parte Nord Africa), Impero Moghul', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(54, 2, 1, 'Spopolamento, destabilizzazione politica e sociale, perdita forza lavoro, sviluppo economie basate sulla tratta', 'Corretta', 10),
+(54, 2, 2, 'Rapido sviluppo economico e tecnologico', 'Sbagliata', 0),
+(54, 2, 3, 'Unificazione politica del continente', 'Sbagliata', 0),
+(54, 2, 4, 'Diffusione pacifica della cultura europea', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(54, 3, 1, 'La "corsa all''Africa" che portò alla spartizione del continente tra le potenze europee', 'Corretta', 10),
+(54, 3, 2, 'L''esplorazione geografica dell''interno del continente', 'Sbagliata', 0),
+(54, 3, 3, 'L''abolizione della tratta degli schiavi', 'Sbagliata', 0),
+(54, 3, 4, 'La diffusione delle missioni cristiane', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(54, 4, 1, 'Sistema di segregazione razziale istituzionalizzato', 'Corretta', 10),
+(54, 4, 2, 'Movimento per l''indipendenza del Sudafrica', 'Sbagliata', 0),
+(54, 4, 3, 'Guerra civile tra diverse etnie sudafricane', 'Sbagliata', 0),
+(54, 4, 4, 'Politica economica basata sull''autarchia', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(54, 5, 1, 'Nelson Mandela (Sudafrica) / Kwame Nkrumah (Ghana) / Jomo Kenyatta (Kenya)', 'Corretta', 10),
+(54, 5, 2, 'Mahatma Gandhi', 'Sbagliata', 0),
+(54, 5, 3, 'Simón Bolívar', 'Sbagliata', 0),
+(54, 5, 4, 'Ho Chi Minh', 'Sbagliata', 0);
+
+-- Quiz 55: Letteratura giapponese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(55, 1, 1, 'Murasaki Shikibu', 'Corretta', 10),
+(55, 1, 2, 'Sei Shōnagon', 'Sbagliata', 0),
+(55, 1, 3, 'Yasunari Kawabata', 'Sbagliata', 0),
+(55, 1, 4, 'Yukio Mishima', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(55, 2, 1, 'Haiku (5-7-5 sillabe), Tanka (5-7-5-7-7 sillabe)', 'Corretta', 10),
+(55, 2, 2, 'Sonetto, Ode, Elegia', 'Sbagliata', 0),
+(55, 2, 3, 'Quartina, Terzina, Distico', 'Sbagliata', 0),
+(55, 2, 4, 'Manga, Anime', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(55, 3, 1, 'Confessioni di una maschera (Mishima) / Norwegian Wood (Murakami)', 'Corretta', 10),
+(55, 3, 2, 'Il paese delle nevi (Kawabata)', 'Sbagliata', 0),
+(55, 3, 3, 'Kokoro (Natsume Sōseki)', 'Sbagliata', 0),
+(55, 3, 4, 'Rashōmon (Akutagawa)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(55, 4, 1, 'Nō: teatro stilizzato con maschere; Kabuki: teatro popolare con trucco elaborato', 'Corretta', 10),
+(55, 4, 2, 'Nō: commedia; Kabuki: tragedia', 'Sbagliata', 0),
+(55, 4, 3, 'Nō: usa marionette; Kabuki: attori reali', 'Sbagliata', 0),
+(55, 4, 4, 'Sono forme di danza moderna', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(55, 5, 1, 'Enfasi sulla natura, impermanenza, semplicità, suggestione', 'Corretta', 10),
+(55, 5, 2, 'Focus sulla critica sociale e politica', 'Sbagliata', 0),
+(55, 5, 3, 'Uso di linguaggio complesso e retorico', 'Sbagliata', 0),
+(55, 5, 4, 'Celebrazione dell''eroismo guerriero (samurai)', 'Sbagliata', 0);
+
+-- Quiz 56: Fisica nucleare
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(56, 1, 1, 'La struttura, le proprietà e le reazioni dei nuclei atomici', 'Corretta', 10),
+(56, 1, 2, 'Gli elettroni esterni e i legami chimici', 'Sbagliata', 0),
+(56, 1, 3, 'Le particelle elementari e le loro interazioni', 'Sbagliata', 0),
+(56, 1, 4, 'I fenomeni elettrici e magnetici', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(56, 2, 1, 'Nucleo centrale (protoni+neutroni) circondato da elettroni', 'Corretta', 10),
+(56, 2, 2, 'Modello a panettone (Thomson)', 'Sbagliata', 0),
+(56, 2, 3, 'Modello planetario (Rutherford)', 'Sbagliata', 0),
+(56, 2, 4, 'Atomo composto solo da elettroni', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(56, 3, 1, 'Emissione spontanea di particelle/radiazioni da nuclei instabili; alfa, beta, gamma', 'Corretta', 10),
+(56, 3, 2, 'Reazione chimica che libera energia', 'Sbagliata', 0),
+(56, 3, 3, 'Divisione di un nucleo pesante (fissione)', 'Sbagliata', 0),
+(56, 3, 4, 'Fusione di nuclei leggeri (fusione)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(56, 4, 1, 'Fissione: divisione nucleo pesante; Fusione: unione nuclei leggeri', 'Corretta', 10),
+(56, 4, 2, 'Fissione: libera energia; Fusione: assorbe energia', 'Sbagliata', 0),
+(56, 4, 3, 'Fissione: avviene nelle stelle; Fusione: nelle centrali nucleari', 'Sbagliata', 0),
+(56, 4, 4, 'Non c''è differenza sostanziale', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(56, 5, 1, 'Medicina: radioterapia, diagnostica (PET, SPECT); Industria: sterilizzazione, controlli materiali', 'Corretta', 10),
+(56, 5, 2, 'Produzione di energia elettrica tramite combustibili fossili', 'Sbagliata', 0),
+(56, 5, 3, 'Costruzione di computer quantistici', 'Sbagliata', 0),
+(56, 5, 4, 'Previsioni meteorologiche', 'Sbagliata', 0);
+
+-- Quiz 57: Chimica ambientale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(57, 1, 1, 'Le sostanze chimiche nell''ambiente, i loro cicli e il loro impatto', 'Corretta', 10),
+(57, 1, 2, 'La sintesi di nuovi farmaci', 'Sbagliata', 0),
+(57, 1, 3, 'L''analisi della composizione degli alimenti', 'Sbagliata', 0),
+(57, 1, 4, 'Lo studio dei polimeri e delle materie plastiche', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(57, 2, 1, 'Riscaldamento atmosfera dovuto a gas che trattengono radiazione infrarossa; CO2, CH4, N2O', 'Corretta', 10),
+(57, 2, 2, 'Riduzione dello strato di ozono stratosferico (buco dell''ozono)', 'Sbagliata', 0),
+(57, 2, 3, 'Formazione di piogge acide', 'Sbagliata', 0),
+(57, 2, 4, 'Aumento della temperatura degli oceani', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(57, 3, 1, 'Presenza nell''aria di sostanze dannose; fonti: traffico, industria, riscaldamento', 'Corretta', 10),
+(57, 3, 2, 'Contaminazione delle acque da scarichi industriali o agricoli', 'Sbagliata', 0),
+(57, 3, 3, 'Accumulo di rifiuti solidi non biodegradabili', 'Sbagliata', 0),
+(57, 3, 4, 'Eccesso di rumore in ambiente urbano', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(57, 4, 1, 'Assottigliamento dello strato di ozono stratosferico, causato da CFC', 'Corretta', 10),
+(57, 4, 2, 'Aumento dell''ozono troposferico (smog fotochimico)', 'Sbagliata', 0),
+(57, 4, 3, 'Il riscaldamento globale causato dai gas serra', 'Sbagliata', 0),
+(57, 4, 4, 'Un buco nero nello spazio', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(57, 5, 1, 'Scarsità, inquinamento, sovrasfruttamento, conflitti per l''acqua', 'Corretta', 10),
+(57, 5, 2, 'Acidificazione degli oceani', 'Sbagliata', 0),
+(57, 5, 3, 'Deforestazione e perdita di biodiversità', 'Sbagliata', 0),
+(57, 5, 4, 'Fusione dei ghiacciai', 'Sbagliata', 0);
+
+-- Quiz 58: Geografia economica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(58, 1, 1, 'La distribuzione spaziale delle attività economiche e i fattori che la influenzano', 'Corretta', 10),
+(58, 1, 2, 'La storia del pensiero economico', 'Sbagliata', 0),
+(58, 1, 3, 'L''organizzazione politica ed amministrativa del territorio', 'Sbagliata', 0),
+(58, 1, 4, 'Le caratteristiche fisiche della superficie terrestre', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(58, 2, 1, 'Primario (agricoltura, estrazione), Secondario (industria), Terziario (servizi)', 'Corretta', 10),
+(58, 2, 2, 'Pubblico, Privato, Non-profit', 'Sbagliata', 0),
+(58, 2, 3, 'Locale, Regionale, Nazionale, Globale', 'Sbagliata', 0),
+(58, 2, 4, 'Micro, Piccole, Medie, Grandi imprese', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(58, 3, 1, 'Crescente interconnessione e interdipendenza delle economie mondiali', 'Corretta', 10),
+(58, 3, 2, 'Protezionismo commerciale e chiusura dei mercati', 'Sbagliata', 0),
+(58, 3, 3, 'Predominio dell''agricoltura sull''industria', 'Sbagliata', 0),
+(58, 3, 4, 'Regolamentazione statale dell''economia', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(58, 4, 1, 'Sviluppo che soddisfa i bisogni presenti senza compromettere le generazioni future', 'Corretta', 10),
+(58, 4, 2, 'Massimizzazione della crescita economica a breve termine', 'Sbagliata', 0),
+(58, 4, 3, 'Sviluppo basato esclusivamente sulle esportazioni', 'Sbagliata', 0),
+(58, 4, 4, 'Ritorno a forme economiche pre-industriali', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(58, 5, 1, 'Silicon Valley (USA), Distretto tessile di Prato (Italia), Motor Valley (Emilia-Romagna)', 'Corretta', 10),
+(58, 5, 2, 'Parco nazionale, Area marina protetta', 'Sbagliata', 0),
+(58, 5, 3, 'Centro commerciale, Zona fieristica', 'Sbagliata', 0),
+(58, 5, 4, 'Quartiere residenziale, Villaggio turistico', 'Sbagliata', 0);
+
+-- Quiz 59: Storia dell America
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(59, 1, 1, 'Navigatore genovese che raggiunse le Americhe nel 1492; inizio colonizzazione europea', 'Corretta', 10),
+(59, 1, 2, 'Esploratore portoghese che circumnavigò l''Africa', 'Sbagliata', 0),
+(59, 1, 3, 'Conquistador spagnolo che sottomise gli Aztechi', 'Sbagliata', 0),
+(59, 1, 4, 'Navigatore fiorentino da cui l''America prese il nome', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(59, 2, 1, 'Maya (Mesoamerica), Aztechi (Messico), Inca (Ande)', 'Corretta', 10),
+(59, 2, 2, 'Egizi, Sumeri, Babilonesi', 'Sbagliata', 0),
+(59, 2, 3, 'Romani, Greci, Etruschi', 'Sbagliata', 0),
+(59, 2, 4, 'Cinesi (Han), Indiani (Valle Indo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(59, 3, 1, 'Tassazione senza rappresentanza, limitazioni commerciali, idee illuministe', 'Corretta', 10),
+(59, 3, 2, 'Disputa sulla schiavitù tra Nord e Sud', 'Sbagliata', 0),
+(59, 3, 3, 'Espansione verso Ovest e conflitti con i nativi', 'Sbagliata', 0),
+(59, 3, 4, 'Intervento americano nella Prima Guerra Mondiale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(59, 4, 1, 'Espansione dei coloni americani verso i territori occidentali nel XIX secolo', 'Corretta', 10),
+(59, 4, 2, 'La ricerca dell''oro in California (Gold Rush)', 'Sbagliata', 0),
+(59, 4, 3, 'La costruzione della ferrovia transcontinentale', 'Sbagliata', 0),
+(59, 4, 4, 'La guerra contro il Messico', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(59, 5, 1, 'Rivoluzione Cubana (1959)', 'Corretta', 10),
+(59, 5, 2, 'Costruzione del Canale di Panama', 'Sbagliata', 0),
+(59, 5, 3, 'Guerra ispano-americana (1898)', 'Sbagliata', 0),
+(59, 5, 4, 'Scoperta del Machu Picchu', 'Sbagliata', 0);
+
+-- Quiz 60: Matematica discreta
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(60, 1, 1, 'Una struttura matematica composta da nodi (vertici) e collegamenti (archi)', 'Corretta', 10),
+(60, 1, 2, 'Un tipo di diagramma statistico', 'Sbagliata', 0),
+(60, 1, 3, 'Una funzione matematica continua', 'Sbagliata', 0),
+(60, 1, 4, 'Una matrice di numeri', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(60, 2, 1, 'Tecnica dimostrativa per provare affermazioni su numeri naturali (base, passo induttivo)', 'Corretta', 10),
+(60, 2, 2, 'Metodo per calcolare integrali definiti', 'Sbagliata', 0),
+(60, 2, 3, 'Algoritmo per ordinare un elenco di numeri', 'Sbagliata', 0),
+(60, 2, 4, 'Principio fisico sulla conservazione dell''energia', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(60, 3, 1, 'Branca della matematica che studia insiemi finiti e le loro strutture (contare, organizzare)', 'Corretta', 10),
+(60, 3, 2, 'Studio delle forme geometriche nello spazio', 'Sbagliata', 0),
+(60, 3, 3, 'Analisi delle funzioni continue e dei limiti', 'Sbagliata', 0),
+(60, 3, 4, 'Studio dei numeri primi e delle loro proprietà', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(60, 4, 1, 'Permutazione: conta l''ordine; Combinazione: non conta l''ordine', 'Corretta', 10),
+(60, 4, 2, 'Permutazione: con ripetizione; Combinazione: senza ripetizione', 'Sbagliata', 0),
+(60, 4, 3, 'Permutazione: riguarda insiemi; Combinazione: riguarda sequenze', 'Sbagliata', 0),
+(60, 4, 4, 'Non c''è differenza, sono sinonimi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(60, 5, 1, 'Teoria dei grafi (reti), Logica (circuiti), Combinatoria (algoritmi), Teoria numeri (crittografia)', 'Corretta', 10),
+(60, 5, 2, 'Calcolo delle orbite dei satelliti', 'Sbagliata', 0),
+(60, 5, 3, 'Simulazione fluidodinamica', 'Sbagliata', 0),
+(60, 5, 4, 'Analisi statistica di dati medici', 'Sbagliata', 0);
+
+-- Quiz 61: Fisica dei materiali
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(61, 1, 1, 'La relazione tra la struttura, le proprietà e le prestazioni dei materiali', 'Corretta', 10),
+(61, 1, 2, 'La sintesi di nuovi composti chimici', 'Sbagliata', 0),
+(61, 1, 3, 'L''estrazione e la lavorazione dei minerali', 'Sbagliata', 0),
+(61, 1, 4, 'La fisica delle particelle elementari', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(61, 2, 1, 'Metalli, Ceramici, Polimeri, Compositi', 'Corretta', 10),
+(61, 2, 2, 'Solidi, Liquidi, Gassosi, Plasma', 'Sbagliata', 0),
+(61, 2, 3, 'Conduttori, Isolanti, Semiconduttori', 'Sbagliata', 0),
+(61, 2, 4, 'Naturali, Sintetici, Artificiali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(61, 3, 1, 'Durezza (resistenza a scalfitura), Tenacità (resistenza a frattura), Resistenza a trazione, Elasticità', 'Corretta', 10),
+(61, 3, 2, 'Conducibilità elettrica, Conducibilità termica', 'Sbagliata', 0),
+(61, 3, 3, 'Densità, Temperatura di fusione', 'Sbagliata', 0),
+(61, 3, 4, 'Colore, Lucentezza, Opacità', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(61, 4, 1, 'La disposizione ordinata e ripetitiva degli atomi in un solido', 'Corretta', 10),
+(61, 4, 2, 'La forma esterna di un cristallo', 'Sbagliata', 0),
+(61, 4, 3, 'La composizione chimica del materiale', 'Sbagliata', 0),
+(61, 4, 4, 'Lo stato amorfo (non cristallino) di un solido', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(61, 5, 1, 'Grafene (elettronica), Nanotubi di carbonio (compositi), Metamateriali (ottica)', 'Corretta', 10),
+(61, 5, 2, 'Acciaio inossidabile', 'Sbagliata', 0),
+(61, 5, 3, 'Polietilene (plastica comune)', 'Sbagliata', 0),
+(61, 5, 4, 'Vetro da finestra', 'Sbagliata', 0);
+
+-- Quiz 62: Letteratura cinese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(62, 1, 1, 'Il Romanzo dei Tre Regni / Il Sogno della Camera Rossa / Il Viaggio in Occidente / I Briganti', 'Corretta', 10),
+(62, 1, 2, 'Storia di Genji', 'Sbagliata', 0),
+(62, 1, 3, 'Ramayana / Mahabharata', 'Sbagliata', 0),
+(62, 1, 4, 'Le Mille e una Notte', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(62, 2, 1, 'Etica sociale, ordine, armonia (Confucianesimo); Natura, spontaneità, non-azione (Taoismo)', 'Corretta', 10),
+(62, 2, 2, 'Cristianesimo, Ebraismo', 'Sbagliata', 0),
+(62, 2, 3, 'Illuminismo, Romanticismo', 'Sbagliata', 0),
+(62, 2, 4, 'Platonismo, Aristotelismo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(62, 3, 1, 'La vera storia di Ah Q (Lu Xun) / Sorgo Rosso (Mo Yan)', 'Corretta', 10),
+(62, 3, 2, 'Cent''anni di solitudine (García Márquez)', 'Sbagliata', 0),
+(62, 3, 3, '1984 (Orwell)', 'Sbagliata', 0),
+(62, 3, 4, 'Il nome della rosa (Eco)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(62, 4, 1, 'Forma lirica breve, perfezione formale, temi: natura, amicizia, malinconia', 'Corretta', 10),
+(62, 4, 2, 'Poesia epica lunga che celebra eroi guerrieri', 'Sbagliata', 0),
+(62, 4, 3, 'Poesia satirica che critica la società', 'Sbagliata', 0),
+(62, 4, 4, 'Poesia religiosa che loda le divinità', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(62, 5, 1, 'Periodo di repressione politica e culturale (1966-76), forte influenza ideologica sulla letteratura', 'Corretta', 10),
+(62, 5, 2, 'Movimento di apertura e riforme economiche (anni ''80)', 'Sbagliata', 0),
+(62, 5, 3, 'Periodo di grande fioritura artistica sotto la dinastia Tang', 'Sbagliata', 0),
+(62, 5, 4, 'Guerra civile tra Nazionalisti e Comunisti', 'Sbagliata', 0);
+
+-- Quiz 63: Geografia culturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(63, 1, 1, 'Le relazioni tra cultura umana e spazio geografico', 'Corretta', 10),
+(63, 1, 2, 'Le caratteristiche fisiche della superficie terrestre', 'Sbagliata', 0),
+(63, 1, 3, 'La distribuzione delle attività economiche', 'Sbagliata', 0),
+(63, 1, 4, 'L''organizzazione politica del territorio', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(63, 2, 1, 'L''impronta visibile dell''attività umana sull''ambiente fisico', 'Corretta', 10),
+(63, 2, 2, 'Una mappa che rappresenta elementi culturali', 'Sbagliata', 0),
+(63, 2, 3, 'Un''area geografica definita da caratteristiche fisiche omogenee', 'Sbagliata', 0),
+(63, 2, 4, 'Un''opera d''arte che raffigura un paesaggio', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(63, 3, 1, 'Migrazione, diffusione (per espansione, gerarchica, per contagio), media', 'Corretta', 10),
+(63, 3, 2, 'Esclusivamente tramite eredità genetica', 'Sbagliata', 0),
+(63, 3, 3, 'Solo attraverso l''imposizione politica', 'Sbagliata', 0),
+(63, 3, 4, 'Rimangono confinate nei loro luoghi d''origine', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(63, 4, 1, 'Senso di appartenenza a un gruppo culturale, spesso legato a un territorio specifico', 'Corretta', 10),
+(63, 4, 2, 'La nazionalità indicata sul passaporto', 'Sbagliata', 0),
+(63, 4, 3, 'Le caratteristiche biologiche di un individuo', 'Sbagliata', 0),
+(63, 4, 4, 'L''opinione politica di una persona', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(63, 5, 1, 'Architettura vernacolare, organizzazione degli spazi agricoli, luoghi di culto', 'Corretta', 10),
+(63, 5, 2, 'Formazione delle montagne', 'Sbagliata', 0),
+(63, 5, 3, 'Distribuzione dei tipi di clima', 'Sbagliata', 0),
+(63, 5, 4, 'Presenza di risorse minerarie', 'Sbagliata', 0);
+
+-- Quiz 64: Chimica biologica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(64, 1, 1, 'Le molecole e le reazioni chimiche negli organismi viventi', 'Corretta', 10),
+(64, 1, 2, 'La chimica dei composti inorganici', 'Sbagliata', 0),
+(64, 1, 3, 'La chimica dell''ambiente', 'Sbagliata', 0),
+(64, 1, 4, 'La sintesi di nuovi materiali polimerici', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(64, 2, 1, 'Carboidrati, Lipidi, Proteine, Acidi Nucleici', 'Corretta', 10),
+(64, 2, 2, 'Vitamine, Sali minerali, Acqua', 'Sbagliata', 0),
+(64, 2, 3, 'Metalli, Non metalli, Gas nobili', 'Sbagliata', 0),
+(64, 2, 4, 'Cellule, Tessuti, Organi, Sistemi', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(64, 3, 1, 'Catalizzano (accelerano) le reazioni biochimiche', 'Corretta', 10),
+(64, 3, 2, 'Trasportano ossigeno nel sangue', 'Sbagliata', 0),
+(64, 3, 3, 'Forniscono energia di riserva', 'Sbagliata', 0),
+(64, 3, 4, 'Costituiscono il materiale genetico', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(64, 4, 1, 'L''insieme delle reazioni chimiche che avvengono in un organismo', 'Corretta', 10),
+(64, 4, 2, 'Il processo di divisione cellulare', 'Sbagliata', 0),
+(64, 4, 3, 'La trasmissione dei caratteri ereditari', 'Sbagliata', 0),
+(64, 4, 4, 'La risposta del sistema immunitario', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(64, 5, 1, 'Fotosintesi: produce zuccheri da CO2 e luce; Respirazione: demolisce zuccheri per produrre ATP', 'Corretta', 10),
+(64, 5, 2, 'Fotosintesi: avviene negli animali; Respirazione: nelle piante', 'Sbagliata', 0),
+(64, 5, 3, 'Fotosintesi: consuma ossigeno; Respirazione: produce ossigeno', 'Sbagliata', 0),
+(64, 5, 4, 'Sono due nomi per lo stesso processo', 'Sbagliata', 0);
+
+-- Quiz 65: Biologia marina
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(65, 1, 1, 'Gli organismi viventi negli ambienti marini e le loro interazioni', 'Corretta', 10),
+(65, 1, 2, 'Le proprietà fisiche e chimiche degli oceani', 'Sbagliata', 0),
+(65, 1, 3, 'La geologia dei fondali oceanici', 'Sbagliata', 0),
+(65, 1, 4, 'La pesca e l''acquacoltura', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(65, 2, 1, 'Barriere coralline, Foreste di kelp, Piane abissali, Mangrovie, Zone pelagiche', 'Corretta', 10),
+(65, 2, 2, 'Deserti, Tundre, Foreste pluviali', 'Sbagliata', 0),
+(65, 2, 3, 'Laghi, Fiumi, Paludi', 'Sbagliata', 0),
+(65, 2, 4, 'Città, Campagne, Aree industriali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(65, 3, 1, 'Osmoregolazione nei pesci, Bioluminescenza negli abissi, Camuffamento', 'Corretta', 10),
+(65, 3, 2, 'Respirazione polmonare nei mammiferi terrestri', 'Sbagliata', 0),
+(65, 3, 3, 'Fotosintesi nelle piante terrestri', 'Sbagliata', 0),
+(65, 3, 4, 'Volo negli uccelli', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(65, 4, 1, 'Inquinamento (plastica, chimico), Pesca eccessiva, Cambiamenti climatici (riscaldamento, acidificazione)', 'Corretta', 10),
+(65, 4, 2, 'Eccessiva evaporazione', 'Sbagliata', 0),
+(65, 4, 3, 'Aumento della salinità', 'Sbagliata', 0),
+(65, 4, 4, 'Introduzione di specie aliene d''acqua dolce', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(65, 5, 1, 'Fitoplancton -> Zooplancton -> Pesci piccoli -> Pesci grandi -> Predatori apicali (squali, mammiferi marini)', 'Corretta', 10),
+(65, 5, 2, 'Erba -> Zebra -> Leone', 'Sbagliata', 0),
+(65, 5, 3, 'Alghe -> Lumache -> Pesci d''acqua dolce -> Uccelli acquatici', 'Sbagliata', 0),
+(65, 5, 4, 'Batteri -> Funghi -> Detrito', 'Sbagliata', 0);
+
+-- Quiz 66: Storia dell Oceania
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(66, 1, 1, 'Australia, Nuova Zelanda, Papua Nuova Guinea, Fiji, Samoa', 'Corretta', 10),
+(66, 1, 2, 'Giappone, Filippine, Indonesia', 'Sbagliata', 0),
+(66, 1, 3, 'Madagascar, Mauritius, Seychelles', 'Sbagliata', 0),
+(66, 1, 4, 'Hawaii, Isola di Pasqua (parte culturalmente)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(66, 2, 1, 'Olandesi, Britannici (Cook), Francesi', 'Corretta', 10),
+(66, 2, 2, 'Spagnoli e Portoghesi', 'Sbagliata', 0),
+(66, 2, 3, 'Vichinghi', 'Sbagliata', 0),
+(66, 2, 4, 'Cinesi (Zheng He)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(66, 3, 1, 'Culture antiche con forte legame spirituale con la terra, arte, mitologia e sistemi sociali complessi', 'Corretta', 10),
+(66, 3, 2, 'Culture nomadi del deserto sahariano', 'Sbagliata', 0),
+(66, 3, 3, 'Culture guerriere vichinghe', 'Sbagliata', 0),
+(66, 3, 4, 'Culture urbane dell''antica Mesopotamia', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(66, 4, 1, 'Innalzamento livello mare, eventi meteorologici estremi, sbiancamento coralli', 'Corretta', 10),
+(66, 4, 2, 'Aumento delle risorse ittiche', 'Sbagliata', 0),
+(66, 4, 3, 'Maggiore stabilità politica', 'Sbagliata', 0),
+(66, 4, 4, 'Diminuzione del turismo', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(66, 5, 1, 'Indipendenza di Fiji (1970) / Trattato di Waitangi (Nuova Zelanda, 1840)', 'Corretta', 10),
+(66, 5, 2, 'Rivoluzione Cubana', 'Sbagliata', 0),
+(66, 5, 3, 'Guerra Civile Americana', 'Sbagliata', 0),
+(66, 5, 4, 'Caduta del Muro di Berlino', 'Sbagliata', 0);
+
+-- Quiz 67: Letteratura africana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(67, 1, 1, 'Chinua Achebe', 'Corretta', 10),
+(67, 1, 2, 'Wole Soyinka', 'Sbagliata', 0),
+(67, 1, 3, 'Ngugi wa Thiong''o', 'Sbagliata', 0),
+(67, 1, 4, 'Nadine Gordimer', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(67, 2, 1, 'Colonialismo, identità culturale, lotta per l''indipendenza, critica al neocolonialismo', 'Corretta', 10),
+(67, 2, 2, 'Vita borghese, amore romantico', 'Sbagliata', 0),
+(67, 2, 3, 'Esplorazione spaziale, intelligenza artificiale', 'Sbagliata', 0),
+(67, 2, 4, 'Miti e leggende dell''antica Grecia', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(67, 3, 1, 'La morte e il cavaliere del re (Soyinka) / La figlia di Burger (Gordimer)', 'Corretta', 10),
+(67, 3, 2, 'Un chicco di grano (Ngugi)', 'Sbagliata', 0),
+(67, 3, 3, 'Le cose crollano (Achebe)', 'Sbagliata', 0),
+(67, 3, 4, 'Discepolo della polvere (Okri)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(67, 4, 1, 'Base fondamentale per molte letterature, influenza su stile e temi narrativi', 'Corretta', 10),
+(67, 4, 2, 'È stata completamente sostituita dalla scrittura', 'Sbagliata', 0),
+(67, 4, 3, 'Rilevante solo per la poesia, non per la prosa', 'Sbagliata', 0),
+(67, 4, 4, 'Considerata inferiore alla letteratura scritta', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(67, 5, 1, 'Dilemma tra esprimersi nella lingua del colonizzatore o nelle lingue native', 'Corretta', 10),
+(67, 5, 2, 'Uso esclusivo delle lingue europee', 'Sbagliata', 0),
+(67, 5, 3, 'Completo abbandono delle lingue coloniali', 'Sbagliata', 0),
+(67, 5, 4, 'Creazione di una lingua artificiale panafricana', 'Sbagliata', 0);
+
+-- Quiz 68: Filosofia orientale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(68, 1, 1, 'Induismo, Buddhismo, Giainismo, Sikhismo (India); Confucianesimo, Taoismo (Cina); Shintoismo (Giappone)', 'Corretta', 10),
+(68, 1, 2, 'Platonismo, Aristotelismo, Stoicismo, Epicureismo', 'Sbagliata', 0),
+(68, 1, 3, 'Ebraismo, Cristianesimo, Islam', 'Sbagliata', 0),
+(68, 1, 4, 'Razionalismo, Empirismo, Idealismo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(68, 2, 1, 'Karma: legge causa-effetto azioni; Nirvana: liberazione dal ciclo delle rinascite (Buddhismo)', 'Corretta', 10),
+(68, 2, 2, 'Karma: destino immutabile; Nirvana: paradiso celeste', 'Sbagliata', 0),
+(68, 2, 3, 'Karma: dovere sociale; Nirvana: stato di meditazione profonda', 'Sbagliata', 0),
+(68, 2, 4, 'Sono concetti esclusivi dell''Induismo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(68, 3, 1, 'Induismo: Veda, Upanishad; Buddhismo: Canone Pali (Tripitaka), Sutra Mahayana', 'Corretta', 10),
+(68, 3, 2, 'Bibbia (Ebraismo/Cristianesimo), Corano (Islam)', 'Sbagliata', 0),
+(68, 3, 3, 'Dialoghi di Platone, Opere di Aristotele', 'Sbagliata', 0),
+(68, 3, 4, 'Tao Te Ching (Taoismo), Analecta (Confucianesimo)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(68, 4, 1, 'Simbolo di dualità complementari e interdipendenti (es. maschile/femminile, luce/buio)', 'Corretta', 10),
+(68, 4, 2, 'Rappresentazione della Trinità divina', 'Sbagliata', 0),
+(68, 4, 3, 'Simbolo del ciclo delle rinascite (Samsara)', 'Sbagliata', 0),
+(68, 4, 4, 'Diagramma per la meditazione (Mandala)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(68, 5, 1, 'Buddha / Confucio / Lao Tzu / Shankara', 'Corretta', 10),
+(68, 5, 2, 'Socrate / Platone / Aristotele', 'Sbagliata', 0),
+(68, 5, 3, 'Gesù / Maometto / Mosè', 'Sbagliata', 0),
+(68, 5, 4, 'Kant / Hegel / Nietzsche', 'Sbagliata', 0);
+
+-- Quiz 69: Psicologia dello sviluppo
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(69, 1, 1, 'I cambiamenti psicologici (cognitivi, emotivi, sociali) lungo l''arco della vita', 'Corretta', 10),
+(69, 1, 2, 'I disturbi mentali e il loro trattamento', 'Sbagliata', 0),
+(69, 1, 3, 'Le influenze sociali sul comportamento individuale', 'Sbagliata', 0),
+(69, 1, 4, 'Le differenze individuali nella personalità', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(69, 2, 1, 'Sensomotorio, Preoperatorio, Operatorio concreto, Operatorio formale', 'Corretta', 10),
+(69, 2, 2, 'Orale, Anale, Fallico, Latenza, Genitale', 'Sbagliata', 0),
+(69, 2, 3, 'Fiducia/Sfiducia, Autonomia/Vergogna, ecc.', 'Sbagliata', 0),
+(69, 2, 4, 'Livello pre-convenzionale, convenzionale, post-convenzionale', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(69, 3, 1, 'Legame emotivo profondo tra bambino e caregiver, importante per lo sviluppo socio-emotivo', 'Corretta', 10),
+(69, 3, 2, 'Teoria sull''apprendimento tramite rinforzi e punizioni', 'Sbagliata', 0),
+(69, 3, 3, 'Teoria sullo sviluppo cognitivo a stadi', 'Sbagliata', 0),
+(69, 3, 4, 'Teoria sullo sviluppo dell''identità nell''adolescenza', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(69, 4, 1, 'Periodo di transizione tra infanzia ed età adulta, con cambiamenti fisici, cognitivi e sociali', 'Corretta', 10),
+(69, 4, 2, 'La fase finale dello sviluppo, caratterizzata da declino cognitivo', 'Sbagliata', 0),
+(69, 4, 3, 'Il periodo prescolare (3-6 anni)', 'Sbagliata', 0),
+(69, 4, 4, 'La prima età adulta (20-40 anni)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(69, 5, 1, 'Fattori genetici, ambiente familiare, contesto socio-culturale, esperienze educative', 'Corretta', 10),
+(69, 5, 2, 'Solo il patrimonio genetico', 'Sbagliata', 0),
+(69, 5, 3, 'Solo l''ambiente e l''educazione', 'Sbagliata', 0),
+(69, 5, 4, 'Principalmente la dieta e l''attività fisica', 'Sbagliata', 0);
+
+-- Quiz 70: Economia internazionale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(70, 1, 1, 'Registro di tutte le transazioni economiche tra residenti di un paese e il resto del mondo', 'Corretta', 10),
+(70, 1, 2, 'Il bilancio dello Stato (entrate e uscite pubbliche)', 'Sbagliata', 0),
+(70, 1, 3, 'Differenza tra esportazioni e importazioni di beni (bilancia commerciale)', 'Sbagliata', 0),
+(70, 1, 4, 'Il livello del debito pubblico di un paese', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(70, 2, 1, 'Promuovere stabilità finanziaria globale, fornire prestiti, assistere sviluppo economico', 'Corretta', 10),
+(70, 2, 2, 'Regolamentare il commercio internazionale (WTO)', 'Sbagliata', 0),
+(70, 2, 3, 'Fissare i tassi di cambio tra le valute', 'Sbagliata', 0),
+(70, 2, 4, 'Gestire le riserve auree mondiali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(70, 3, 1, 'Il prezzo di una valuta espresso in termini di un''altra valuta', 'Corretta', 10),
+(70, 3, 2, 'Il tasso di interesse applicato ai prestiti internazionali', 'Sbagliata', 0),
+(70, 3, 3, 'L''indice dei prezzi al consumo internazionale', 'Sbagliata', 0),
+(70, 3, 4, 'La differenza tra tasso di inflazione di due paesi', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(70, 4, 1, 'Scambio di beni e servizi tra paesi diversi; vantaggi: specializzazione, efficienza; svantaggi: dipendenza, concorrenza', 'Corretta', 10),
+(70, 4, 2, 'Investimenti diretti esteri (IDE)', 'Sbagliata', 0),
+(70, 4, 3, 'Movimenti internazionali di capitali finanziari', 'Sbagliata', 0),
+(70, 4, 4, 'Migrazioni internazionali di lavoratori', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(70, 5, 1, 'WTO (Organizzazione Mondiale Commercio), UE (Unione Europea), NAFTA/USMCA', 'Corretta', 10),
+(70, 5, 2, 'ONU (Organizzazione Nazioni Unite)', 'Sbagliata', 0),
+(70, 5, 3, 'NATO (Organizzazione Trattato Atlantico Nord)', 'Sbagliata', 0),
+(70, 5, 4, 'OMS (Organizzazione Mondiale Sanità)', 'Sbagliata', 0);
+
+-- Quiz 71: Sociologia della famiglia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(71, 1, 1, 'L''istituzione familiare, le sue forme, funzioni e trasformazioni sociali', 'Corretta', 10),
+(71, 1, 2, 'Lo sviluppo psicologico del bambino all''interno della famiglia', 'Sbagliata', 0),
+(71, 1, 3, 'Le leggi che regolano matrimonio, divorzio e filiazione', 'Sbagliata', 0),
+(71, 1, 4, 'La storia delle strutture familiari nel passato', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(71, 2, 1, 'Declino famiglia nucleare tradizionale, aumento convivenze, divorzi, famiglie monogenitoriali/ricostituite', 'Corretta', 10),
+(71, 2, 2, 'Rafforzamento del modello patriarcale', 'Sbagliata', 0),
+(71, 2, 3, 'Scomparsa totale della famiglia come istituzione', 'Sbagliata', 0),
+(71, 2, 4, 'Ritorno alla famiglia estesa multi-generazionale', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(71, 3, 1, 'Aspettative e comportamenti sociali associati all''essere maschio o femmina', 'Corretta', 10),
+(71, 3, 2, 'Le differenze biologiche tra uomini e donne', 'Sbagliata', 0),
+(71, 3, 3, 'La divisione del lavoro domestico', 'Sbagliata', 0),
+(71, 3, 4, 'L''orientamento sessuale degli individui', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(71, 4, 1, 'Nucleare, Estesa, Monogenitoriale, Ricostituita, Coppie di fatto, Unioni omosessuali', 'Corretta', 10),
+(71, 4, 2, 'Solo la famiglia nucleare (genitori+figli)', 'Sbagliata', 0),
+(71, 4, 3, 'Patriarcale, Matriarcale', 'Sbagliata', 0),
+(71, 4, 4, 'Rurale, Urbana', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(71, 5, 1, 'Conciliazione lavoro-famiglia, violenza domestica, povertà infantile, declino nascite', 'Corretta', 10),
+(71, 5, 2, 'Eccessiva influenza dei nonni', 'Sbagliata', 0),
+(71, 5, 3, 'Mancanza di abitazioni disponibili', 'Sbagliata', 0),
+(71, 5, 4, 'Difficoltà nell''uso delle nuove tecnologie', 'Sbagliata', 0);
+
+-- Quiz 72: Antropologia linguistica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(72, 1, 1, 'Il rapporto tra linguaggio, cultura e società', 'Corretta', 10),
+(72, 1, 2, 'La struttura grammaticale delle lingue', 'Sbagliata', 0),
+(72, 1, 3, 'L''origine e l''evoluzione storica delle lingue', 'Sbagliata', 0),
+(72, 1, 4, 'L''acquisizione del linguaggio nei bambini', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(72, 2, 1, 'L''idea che la lingua influenzi (o determini) il modo di pensare e percepire la realtà', 'Corretta', 10),
+(72, 2, 2, 'L''idea che tutte le lingue abbiano una grammatica universale sottostante', 'Sbagliata', 0),
+(72, 2, 3, 'Lo studio della variazione linguistica in base a fattori sociali', 'Sbagliata', 0),
+(72, 2, 4, 'La teoria sull''origine del linguaggio umano', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(72, 3, 1, 'Lo studio della variazione linguistica in relazione a fattori sociali (classe, genere, età, etnia)', 'Corretta', 10),
+(72, 3, 2, 'Lo studio del significato delle parole (semantica)', 'Sbagliata', 0),
+(72, 3, 3, 'Lo studio dei suoni del linguaggio (fonetica/fonologia)', 'Sbagliata', 0),
+(72, 3, 4, 'Lo studio della struttura delle frasi (sintassi)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(72, 4, 1, 'Attraverso l''interazione sociale e l''esposizione alla lingua madre', 'Corretta', 10),
+(72, 4, 2, 'È un processo puramente innato e geneticamente determinato', 'Sbagliata', 0),
+(72, 4, 3, 'Solo tramite l''insegnamento formale a scuola', 'Sbagliata', 0),
+(72, 4, 4, 'Imparando a memoria le regole grammaticali', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(72, 5, 1, 'Fondamentale: la lingua veicola valori, conoscenze, memoria storica e senso di appartenenza', 'Corretta', 10),
+(72, 5, 2, 'Irrilevante: l''identità culturale dipende solo da fattori economici', 'Sbagliata', 0),
+(72, 5, 3, 'Limitata: le tradizioni si conservano anche senza lingua specifica', 'Sbagliata', 0),
+(72, 5, 4, 'Negativa: la lingua può creare divisioni e conflitti', 'Sbagliata', 0);
+
+-- Quiz 73: Storia dell antica Grecia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(73, 1, 1, 'Zeus, Era, Poseidone, Atena, Apollo, Artemide, Afrodite, Ares, Efesto, Ermes, Demetra, Dioniso', 'Corretta', 10),
+(73, 1, 2, 'Giove, Giunone, Nettuno, Minerva, Marte', 'Sbagliata', 0),
+(73, 1, 3, 'Osiride, Iside, Horus, Ra', 'Sbagliata', 0),
+(73, 1, 4, 'Odino, Thor, Loki, Freya', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(73, 2, 1, 'Evento religioso e sportivo panellenico che univa le città-stato', 'Corretta', 10),
+(73, 2, 2, 'Un festival teatrale dedicato a Dioniso', 'Sbagliata', 0),
+(73, 2, 3, 'Un mercato annuale di schiavi', 'Sbagliata', 0),
+(73, 2, 4, 'Un''assemblea politica di tutte le poleis', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(73, 3, 1, 'Guerra tra Atene e Sparta per l''egemonia sulla Grecia (431-404 a.C.)', 'Corretta', 10),
+(73, 3, 2, 'Guerre tra Greci e Persiani (V sec a.C.)', 'Sbagliata', 0),
+(73, 3, 3, 'Guerra di Troia (epoca micenea/mitologica)', 'Sbagliata', 0),
+(73, 3, 4, 'Conquiste di Alessandro Magno (IV sec a.C.)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(73, 4, 1, 'Ordine dorico, ionico, corinzio; ricerca di proporzione e armonia', 'Corretta', 10),
+(73, 4, 2, 'Archi a tutto sesto, volte a botte, cupole (architettura romana)', 'Sbagliata', 0),
+(73, 4, 3, 'Grandi piramidi e templi ipogei (architettura egizia)', 'Sbagliata', 0),
+(73, 4, 4, 'Archi ogivali, volte a crociera, rosoni (architettura gotica)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(73, 5, 1, 'Filosofia, democrazia, teatro, arte, scienza, storiografia', 'Corretta', 10),
+(73, 5, 2, 'Diritto romano, ingegneria civile', 'Sbagliata', 0),
+(73, 5, 3, 'Sistema di scrittura geroglifica, conoscenze mediche', 'Sbagliata', 0),
+(73, 5, 4, 'Religioni monoteiste', 'Sbagliata', 0);
+
+-- Quiz 74: Matematica per principianti
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(74, 1, 1, 'Addizione, Sottrazione, Moltiplicazione, Divisione', 'Corretta', 10),
+(74, 1, 2, 'Potenza, Radice quadrata, Logaritmo', 'Sbagliata', 0),
+(74, 1, 3, 'Derivata, Integrale, Limite', 'Sbagliata', 0),
+(74, 1, 4, 'Massimo Comun Divisore, Minimo Comune Multiplo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(74, 2, 1, '(Base * Altezza) / 2', 'Corretta', 10),
+(74, 2, 2, 'Base * Altezza', 'Sbagliata', 0),
+(74, 2, 3, 'Lato * Lato', 'Sbagliata', 0),
+(74, 2, 4, 'Somma dei lati', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(74, 3, 1, 'Un numero naturale maggiore di 1 divisibile solo per 1 e per se stesso', 'Corretta', 10),
+(74, 3, 2, 'Un numero divisibile per 2', 'Sbagliata', 0),
+(74, 3, 3, 'Un numero non divisibile per 2', 'Sbagliata', 0),
+(74, 3, 4, 'Un numero ottenuto moltiplicando due numeri primi', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(74, 4, 1, 'Una frazione con denominatore 100', 'Corretta', 10),
+(74, 4, 2, 'Un numero intero molto grande', 'Sbagliata', 0),
+(74, 4, 3, 'Il risultato di una radice quadrata', 'Sbagliata', 0),
+(74, 4, 4, 'Un tipo di angolo geometrico', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(74, 5, 1, 'Isolando l''incognita (x) applicando operazioni inverse', 'Corretta', 10),
+(74, 5, 2, 'Sostituendo valori a caso per x', 'Sbagliata', 0),
+(74, 5, 3, 'Usando la formula risolutiva per le equazioni di secondo grado', 'Sbagliata', 0),
+(74, 5, 4, 'Disegnando il grafico della funzione corrispondente', 'Sbagliata', 0);
+
+-- Quiz 75: Fisica delle particelle
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(75, 1, 1, 'Costituenti fondamentali della materia (quark formano adroni, leptoni sono es. elettroni)', 'Corretta', 10),
+(75, 1, 2, 'Particelle che mediano le forze fondamentali (bosoni)', 'Sbagliata', 0),
+(75, 1, 3, 'Particelle composte da quark (es. protoni, neutroni)', 'Sbagliata', 0),
+(75, 1, 4, 'Atomi con stesso numero di protoni ma diverso numero di neutroni', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(75, 2, 1, 'Teoria che classifica le particelle elementari e le loro interazioni fondamentali (eccetto gravità)', 'Corretta', 10),
+(75, 2, 2, 'Modello atomico di Bohr', 'Sbagliata', 0),
+(75, 2, 3, 'Teoria della relatività generale di Einstein', 'Sbagliata', 0),
+(75, 2, 4, 'Legge di gravitazione universale di Newton', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(75, 3, 1, 'Macchina che accelera particelle cariche ad alte energie per studiare le loro collisioni', 'Corretta', 10),
+(75, 3, 2, 'Un tipo di telescopio per osservare raggi cosmici', 'Sbagliata', 0),
+(75, 3, 3, 'Un reattore nucleare per la produzione di energia', 'Sbagliata', 0),
+(75, 3, 4, 'Uno strumento per misurare la radioattività', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(75, 4, 1, 'Particella associata al campo di Higgs, responsabile della massa delle particelle elementari', 'Corretta', 10),
+(75, 4, 2, 'Mediatore della forza elettromagnetica (fotone)', 'Sbagliata', 0),
+(75, 4, 3, 'Mediatore della forza nucleare forte (gluone)', 'Sbagliata', 0),
+(75, 4, 4, 'Particella ipotetica che costituisce la materia oscura', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(75, 5, 1, 'Materia composta da antiparticelle (stessa massa, carica opposta)', 'Corretta', 10),
+(75, 5, 2, 'Materia invisibile che interagisce solo gravitazionalmente (materia oscura)', 'Sbagliata', 0),
+(75, 5, 3, 'Materia con massa negativa', 'Sbagliata', 0),
+(75, 5, 4, 'Materia superdensa all''interno delle stelle di neutroni', 'Sbagliata', 0);
+
+-- Quiz 76: Letteratura russa (Ripetuto, uso Q43)
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(76, 1, 1, 'Michail Bulgakov', 'Corretta', 10),
+(76, 1, 2, 'Lev Tolstoj', 'Sbagliata', 0),
+(76, 1, 3, 'Fëdor Dostoevskij', 'Sbagliata', 0),
+(76, 1, 4, 'Boris Pasternak', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(76, 2, 1, 'Inutilità della vita, monotonia provinciale, incapacità di comunicare, fallimento aspirazioni', 'Corretta', 10),
+(76, 2, 2, 'Grandi questioni filosofiche e religiose (Dostoevskij)', 'Sbagliata', 0),
+(76, 2, 3, 'Affreschi storici e critica aristocrazia (Tolstoj)', 'Sbagliata', 0),
+(76, 2, 4, 'Celebrazione del regime sovietico (Realismo Socialista)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(76, 3, 1, 'Periodo dopo la morte di Stalin (anni ''50-''60) con parziale liberalizzazione culturale', 'Corretta', 10),
+(76, 3, 2, 'Periodo delle grandi purghe staliniane (anni ''30)', 'Sbagliata', 0),
+(76, 3, 3, 'Periodo della Rivoluzione d''Ottobre (1917)', 'Sbagliata', 0),
+(76, 3, 4, 'Periodo della Perestrojka di Gorbaciov (anni ''80)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(76, 4, 1, 'Considerato il fondatore della letteratura russa moderna, ha codificato la lingua letteraria', 'Corretta', 10),
+(76, 4, 2, 'Ha introdotto il Realismo Socialista', 'Sbagliata', 0),
+(76, 4, 3, 'Ha vinto il primo Premio Nobel russo per la letteratura', 'Sbagliata', 0),
+(76, 4, 4, 'Ha scritto la prima grande epopea russa (Guerra e Pace)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(76, 5, 1, 'Anna Achmatova / Osip Mandel''štam / Vladimir Majakovskij / Boris Pasternak', 'Corretta', 10),
+(76, 5, 2, 'Aleksandr Puškin', 'Sbagliata', 0),
+(76, 5, 3, 'Michail Lermontov', 'Sbagliata', 0),
+(76, 5, 4, 'Nikolaj Nekrasov', 'Sbagliata', 0);
+
+-- Quiz 77: Geografia dell Italia (Ripetuto, uso Q25)
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(77, 1, 1, 'Sicilia e Sardegna', 'Corretta', 10),
+(77, 1, 2, 'Corsica e Creta', 'Sbagliata', 0),
+(77, 1, 3, 'Elba e Capri', 'Sbagliata', 0),
+(77, 1, 4, 'Malta e Cipro', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(77, 2, 1, 'Estati calde e secche, inverni miti e piovosi', 'Corretta', 10),
+(77, 2, 2, 'Estati fresche e umide, inverni freddi e nevosi', 'Sbagliata', 0),
+(77, 2, 3, 'Clima caldo e umido tutto l''anno', 'Sbagliata', 0),
+(77, 2, 4, 'Clima arido con scarse precipitazioni', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(77, 3, 1, 'Firenze, Roma, Venezia', 'Corretta', 10),
+(77, 3, 2, 'Milano, Torino, Genova', 'Sbagliata', 0),
+(77, 3, 3, 'Napoli, Palermo, Bari', 'Sbagliata', 0),
+(77, 3, 4, 'Bologna, Perugia, Siena', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(77, 4, 1, 'Lago di Garda, Lago Maggiore, Lago di Como', 'Corretta', 10),
+(77, 4, 2, 'Lago Trasimeno, Lago di Bolsena, Lago di Bracciano', 'Sbagliata', 0),
+(77, 4, 3, 'Lago di Lesina, Lago di Varano', 'Sbagliata', 0),
+(77, 4, 4, 'Lago di Lugano, Lago Lemano', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(77, 5, 1, 'Toscana: colline, cipressi, città d''arte (Firenze, Siena)', 'Corretta', 10),
+(77, 5, 2, 'Sicilia: vulcano Etna, templi greci, mare', 'Sbagliata', 0),
+(77, 5, 3, 'Veneto: laguna di Venezia, Dolomiti, pianura fertile', 'Sbagliata', 0),
+(77, 5, 4, 'Puglia: Trulli, ulivi secolari, costa lunga', 'Sbagliata', 0);
+
+-- Quiz 78: Chimica dei materiali
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(78, 1, 1, 'Polimero: macromolecola formata da unità ripetute (monomeri)', 'Corretta', 10),
+(78, 1, 2, 'Polimero: piccola molecola; Monomero: grande molecola', 'Sbagliata', 0),
+(78, 1, 3, 'Polimero: materiale cristallino; Monomero: materiale amorfo', 'Sbagliata', 0),
+(78, 1, 4, 'Polimero: composto organico; Monomero: composto inorganico', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(78, 2, 1, 'Alluminio: leggero, resistente corrosione (aeronautica, imballaggi); Rame: alta conducibilità (cavi elettrici)', 'Corretta', 10),
+(78, 2, 2, 'Ferro: fragile, magnetico (utensili)', 'Sbagliata', 0),
+(78, 2, 3, 'Oro: reattivo, economico (gioielleria)', 'Sbagliata', 0),
+(78, 2, 4, 'Piombo: leggero, non tossico (batterie)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(78, 3, 1, 'Materiale inorganico, non metallico, prodotto ad alte temperature, con proprietà specifiche (es. zirconia, nitruro silicio)', 'Corretta', 10),
+(78, 3, 2, 'Un tipo di plastica molto resistente', 'Sbagliata', 0),
+(78, 3, 3, 'Una lega metallica con prestazioni elevate', 'Sbagliata', 0),
+(78, 3, 4, 'Un materiale isolante termico naturale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(78, 4, 1, 'Materiale con almeno una dimensione su scala nanometrica (1-100 nm); elettronica, medicina', 'Corretta', 10),
+(78, 4, 2, 'Materiale visibile solo al microscopio ottico', 'Sbagliata', 0),
+(78, 4, 3, 'Materiale composto da un singolo atomo', 'Sbagliata', 0),
+(78, 4, 4, 'Materiale estremamente leggero', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(78, 5, 1, 'La disposizione atomica (cristallina/amorfa) e i legami determinano proprietà meccaniche, elettriche, termiche', 'Corretta', 10),
+(78, 5, 2, 'La struttura atomica non ha alcuna influenza sulle proprietà macroscopiche', 'Sbagliata', 0),
+(78, 5, 3, 'Solo il numero atomico determina le proprietà', 'Sbagliata', 0),
+(78, 5, 4, 'Le proprietà macroscopiche dipendono solo dalla forma esterna del materiale', 'Sbagliata', 0);
+
+-- Quiz 79: Biologia marina (Ripetuto, uso Q65)
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(79, 1, 1, 'Movimenti di masse d''acqua oceanica; distribuiscono calore, nutrienti, organismi', 'Corretta', 10),
+(79, 1, 2, 'Onde generate dal vento sulla superficie', 'Sbagliata', 0),
+(79, 1, 3, 'Flussi di marea vicino alle coste', 'Sbagliata', 0),
+(79, 1, 4, 'Fiumi sottomarini di acqua dolce', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(79, 2, 1, 'Organismi adattati a buio, alta pressione, basse temperature; chemiosintesi', 'Corretta', 10),
+(79, 2, 2, 'Abbondanza di alghe fotosintetiche', 'Sbagliata', 0),
+(79, 2, 3, 'Presenza di grandi mammiferi marini come le balene', 'Sbagliata', 0),
+(79, 2, 4, 'Barriere coralline rigogliose', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(79, 3, 1, 'Base della catena alimentare marina; produzione di ossigeno (fitoplancton)', 'Corretta', 10),
+(79, 3, 2, 'Organismi che vivono attaccati al fondale', 'Sbagliata', 0),
+(79, 3, 3, 'Grandi pesci predatori', 'Sbagliata', 0),
+(79, 3, 4, 'Organismi che decompongono la materia organica morta', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(79, 4, 1, 'Diminuzione del pH oceanico dovuta all''assorbimento di CO2 atmosferica', 'Corretta', 10),
+(79, 4, 2, 'Aumento della salinità degli oceani', 'Sbagliata', 0),
+(79, 4, 3, 'Inquinamento da sostanze acide industriali', 'Sbagliata', 0),
+(79, 4, 4, 'Aumento della temperatura degli oceani', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(79, 5, 1, 'Tartarughe marine (pesca accidentale, perdita habitat), Squali (pinne), Coralli (sbiancamento)', 'Corretta', 10),
+(79, 5, 2, 'Acciughe (sovrapesca locale, ma non a rischio globale)', 'Sbagliata', 0),
+(79, 5, 3, 'Meduse (in aumento in alcune aree)', 'Sbagliata', 0),
+(79, 5, 4, 'Plancton (base catena alimentare, ma non "specie" a rischio)', 'Sbagliata', 0);
+
+-- Quiz 80: Storia del Rinascimento
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(80, 1, 1, 'Firenze, Roma, Venezia, Milano', 'Corretta', 10),
+(80, 1, 2, 'Parigi, Londra, Madrid', 'Sbagliata', 0),
+(80, 1, 3, 'Atene, Sparta, Tebe', 'Sbagliata', 0),
+(80, 1, 4, 'Costantinopoli, Baghdad, Cordoba', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(80, 2, 1, 'Potente famiglia fiorentina, grandi mecenati di artisti e letterati', 'Corretta', 10),
+(80, 2, 2, 'Famiglia reale spagnola', 'Sbagliata', 0),
+(80, 2, 3, 'Dinastia imperiale del Sacro Romano Impero', 'Sbagliata', 0),
+(80, 2, 4, 'Famosi condottieri mercenari', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(80, 3, 1, 'Maggiore diffusione di libri e idee, accelerazione alfabetizzazione e scambi culturali', 'Corretta', 10),
+(80, 3, 2, 'Declino della scrittura e ritorno all''oralità', 'Sbagliata', 0),
+(80, 3, 3, 'Controllo ecclesiastico totale sulla produzione libraria', 'Sbagliata', 0),
+(80, 3, 4, 'Limitata circolazione di testi scientifici', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(80, 4, 1, 'Viaggi di Colombo, Vespucci, Magellano; scoperta Americhe, circumnavigazione globo', 'Corretta', 10),
+(80, 4, 2, 'Invenzione del telescopio e scoperte astronomiche di Galileo', 'Sbagliata', 0),
+(80, 4, 3, 'Viaggi di Marco Polo in Asia', 'Sbagliata', 0),
+(80, 4, 4, 'Esplorazione dell''Africa interna (Livingstone, Stanley)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(80, 5, 1, 'Erasmo da Rotterdam (Umanesimo), Albrecht Dürer (Pittura/Incisione), Jan van Eyck (Pittura)', 'Corretta', 10),
+(80, 5, 2, 'Leonardo da Vinci', 'Sbagliata', 0),
+(80, 5, 3, 'Michelangelo Buonarroti', 'Sbagliata', 0),
+(80, 5, 4, 'Raffaello Sanzio', 'Sbagliata', 0);
+
+-- Quiz 81: Astronomia moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(81, 1, 1, 'Pianeti che orbitano attorno a stelle diverse dal Sole; metodi: transiti, velocità radiali', 'Corretta', 10),
+(81, 1, 2, 'Pianeti nani all''interno del nostro sistema solare (es. Plutone)', 'Sbagliata', 0),
+(81, 1, 3, 'Corpi rocciosi nella fascia principale tra Marte e Giove', 'Sbagliata', 0),
+(81, 1, 4, 'Satelliti naturali dei pianeti (lune)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(81, 2, 1, 'Increspature dello spaziotempo generate da eventi cosmici violenti (fusione buchi neri/stelle neutroni)', 'Corretta', 10),
+(81, 2, 2, 'Onde elettromagnetiche ad alta energia (raggi gamma)', 'Sbagliata', 0),
+(81, 2, 3, 'Particelle subatomiche quasi senza massa (neutrini)', 'Sbagliata', 0),
+(81, 2, 4, 'Fluttuazioni della radiazione cosmica di fondo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(81, 3, 1, 'Voyager, Cassini-Huygens (Saturno), New Horizons (Plutone), Mars Rovers (Curiosity, Perseverance)', 'Corretta', 10),
+(81, 3, 2, 'Telescopio Spaziale Hubble', 'Sbagliata', 0),
+(81, 3, 3, 'Stazione Spaziale Internazionale (ISS)', 'Sbagliata', 0),
+(81, 3, 4, 'Apollo (missioni lunari)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(81, 4, 1, 'Telescopio spaziale infrarosso successore di Hubble; studio prime galassie, esopianeti', 'Corretta', 10),
+(81, 4, 2, 'Radiotelescopio terrestre per onde gravitazionali (LIGO/Virgo)', 'Sbagliata', 0),
+(81, 4, 3, 'Sonda spaziale per lo studio del Sole (Parker Solar Probe)', 'Sbagliata', 0),
+(81, 4, 4, 'Acceleratore di particelle per studiare fisica fondamentale (LHC)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(81, 5, 1, 'Universo iniziato da singolarità calda e densa in espansione; supportato da espansione, CMB, nucleosintesi', 'Corretta', 10),
+(81, 5, 2, 'Teoria dello stato stazionario (universo eterno e immutabile)', 'Sbagliata', 0),
+(81, 5, 3, 'Modello ciclico (espansioni e contrazioni infinite)', 'Sbagliata', 0),
+(81, 5, 4, 'Creazione divina descritta in testi religiosi', 'Sbagliata', 0);
+
+-- Quiz 82: Informatica avanzata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(82, 1, 1, 'AI: sistemi che simulano intelligenza umana; ML: sottoinsieme AI in cui sistemi imparano dai dati', 'Corretta', 10),
+(82, 1, 2, 'AI: robot fisici; ML: algoritmi software', 'Sbagliata', 0),
+(82, 1, 3, 'AI: solo reti neurali; ML: tutti gli altri algoritmi', 'Sbagliata', 0),
+(82, 1, 4, 'Sono sinonimi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(82, 2, 1, 'Erogazione di risorse IT via Internet; IaaS (infra), PaaS (piattaforma), SaaS (software)', 'Corretta', 10),
+(82, 2, 2, 'Archiviazione dati su server locali', 'Sbagliata', 0),
+(82, 2, 3, 'Virtualizzazione di desktop', 'Sbagliata', 0),
+(82, 2, 4, 'Un tipo specifico di database NoSQL', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(82, 3, 1, 'Protezione sistemi informatici da minacce; malware, phishing, attacchi rete', 'Corretta', 10),
+(82, 3, 2, 'Sviluppo di software antivirus', 'Sbagliata', 0),
+(82, 3, 3, 'Gestione di backup e ripristino dati', 'Sbagliata', 0),
+(82, 3, 4, 'Amministrazione di reti locali', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(82, 4, 1, 'Grandi volumi di dati eterogenei e veloci; Hadoop, Spark per analisi', 'Corretta', 10),
+(82, 4, 2, 'Database relazionali molto grandi', 'Sbagliata', 0),
+(82, 4, 3, 'Dati provenienti solo da sensori IoT', 'Sbagliata', 0),
+(82, 4, 4, 'File di log generati dai server web', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(82, 5, 1, 'Registro distribuito e immutabile; criptovalute, smart contract, supply chain', 'Corretta', 10),
+(82, 5, 2, 'Un nuovo tipo di criptovaluta', 'Sbagliata', 0),
+(82, 5, 3, 'Una tecnica di crittografia simmetrica', 'Sbagliata', 0),
+(82, 5, 4, 'Un database centralizzato altamente sicuro', 'Sbagliata', 0);
+
+-- Quiz 83: Filosofia contemporanea
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(83, 1, 1, 'Adorno, Horkheimer, Marcuse, Habermas (Teoria Critica)', 'Corretta', 10),
+(83, 1, 2, 'Sartre, Camus, de Beauvoir (Esistenzialismo)', 'Sbagliata', 0),
+(83, 1, 3, 'Russell, Wittgenstein, Carnap (Filosofia Analitica)', 'Sbagliata', 0),
+(83, 1, 4, 'Husserl, Heidegger, Merleau-Ponty (Fenomenologia)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(83, 2, 1, 'Analisi delle relazioni tra potere, sapere e discorso nelle istituzioni sociali', 'Corretta', 10),
+(83, 2, 2, 'Teoria della giustizia come equità', 'Sbagliata', 0),
+(83, 2, 3, 'Critica alla ragione strumentale', 'Sbagliata', 0),
+(83, 2, 4, 'Decostruzione del linguaggio e della metafisica', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(83, 3, 1, 'Movimento filosofico (anni ''60-''70) che critica le basi dello strutturalismo (es. Foucault, Derrida)', 'Corretta', 10),
+(83, 3, 2, 'Analisi delle strutture profonde del linguaggio e della cultura (Lévi-Strauss)', 'Sbagliata', 0),
+(83, 3, 3, 'Filosofia basata sull''esperienza concreta e l''azione (Pragmatismo)', 'Sbagliata', 0),
+(83, 3, 4, 'Teoria estetica focalizzata sulla forma e la struttura', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(83, 4, 1, 'Applicazione di teorie etiche a problemi concreti; Bioetica, Etica ambientale, Etica affari', 'Corretta', 10),
+(83, 4, 2, 'Studio della natura dei giudizi morali (Metaetica)', 'Sbagliata', 0),
+(83, 4, 3, 'Studio dei sistemi morali normativi (Etica normativa)', 'Sbagliata', 0),
+(83, 4, 4, 'Storia delle dottrine morali', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(83, 5, 1, 'Rapporto mente-corpo, coscienza, intelligenza artificiale, libero arbitrio', 'Corretta', 10),
+(83, 5, 2, 'Natura della conoscenza, giustificazione, scetticismo (Epistemologia)', 'Sbagliata', 0),
+(83, 5, 3, 'Natura della realtà, essere, esistenza (Metafisica/Ontologia)', 'Sbagliata', 0),
+(83, 5, 4, 'Principi del ragionamento valido (Logica)', 'Sbagliata', 0);
+
+-- Quiz 84: Psicologia cognitiva
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(84, 1, 1, 'I processi mentali come percezione, attenzione, memoria, linguaggio, pensiero, problem solving', 'Corretta', 10),
+(84, 1, 2, 'Il comportamento osservabile e l''apprendimento tramite condizionamento', 'Sbagliata', 0),
+(84, 1, 3, 'L''influenza dell''inconscio e delle esperienze passate', 'Sbagliata', 0),
+(84, 1, 4, 'Lo sviluppo psicologico lungo l''arco della vita', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(84, 2, 1, 'Modello multi-magazzino (Atkinson-Shiffrin), Memoria di lavoro (Baddeley)', 'Corretta', 10),
+(84, 2, 2, 'Memoria eidetica (fotografica)', 'Sbagliata', 0),
+(84, 2, 3, 'Memoria muscolare', 'Sbagliata', 0),
+(84, 2, 4, 'Memoria collettiva', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(84, 3, 1, 'Processo cognitivo che seleziona stimoli rilevanti ignorando distrattori; attenzione selettiva, divisa, sostenuta', 'Corretta', 10),
+(84, 3, 2, 'Lo stato di consapevolezza di sé e dell''ambiente (coscienza)', 'Sbagliata', 0),
+(84, 3, 3, 'La capacità di ricordare informazioni', 'Sbagliata', 0),
+(84, 3, 4, 'Il processo di comprensione del linguaggio', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(84, 4, 1, 'Trovare una soluzione a un problema; strategie: algoritmi, euristiche, insight', 'Corretta', 10),
+(84, 4, 2, 'Prendere una decisione tra diverse alternative', 'Sbagliata', 0),
+(84, 4, 3, 'Formulare giudizi basati su informazioni incomplete', 'Sbagliata', 0),
+(84, 4, 4, 'Apprendere nuove abilità motorie', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(84, 5, 1, 'Errore sistematico nel pensiero che influenza giudizi e decisioni; es. bias di conferma', 'Corretta', 10),
+(84, 5, 2, 'Un disturbo specifico dell''apprendimento', 'Sbagliata', 0),
+(84, 5, 3, 'Un meccanismo di difesa psicologico', 'Sbagliata', 0),
+(84, 5, 4, 'Un''illusione ottica', 'Sbagliata', 0);
+
+-- Quiz 85: Economia globale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(85, 1, 1, 'FMI (Fondo Monetario Internazionale), Banca Mondiale, WTO (Organizzazione Mondiale Commercio)', 'Corretta', 10),
+(85, 1, 2, 'ONU (Organizzazione Nazioni Unite), NATO', 'Sbagliata', 0),
+(85, 1, 3, 'BCE (Banca Centrale Europea), Federal Reserve (USA)', 'Sbagliata', 0),
+(85, 1, 4, 'Greenpeace, Medici Senza Frontiere', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(85, 2, 1, 'Opportunità di crescita, accesso a mercati/tecnologie, ma anche aumento disuguaglianze e vulnerabilità', 'Corretta', 10),
+(85, 2, 2, 'Solo effetti negativi (sfruttamento, dipendenza)', 'Sbagliata', 0),
+(85, 2, 3, 'Solo effetti positivi (crescita, riduzione povertà)', 'Sbagliata', 0),
+(85, 2, 4, 'Nessun impatto significativo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(85, 3, 1, 'Reti internazionali di produzione in cui diverse fasi avvengono in paesi diversi', 'Corretta', 10),
+(85, 3, 2, 'Accordi commerciali tra nazioni', 'Sbagliata', 0),
+(85, 3, 3, 'Catene di supermercati internazionali', 'Sbagliata', 0),
+(85, 3, 4, 'Flussi migratori globali', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(85, 4, 1, 'Cambiamenti climatici, disuguaglianze economiche, instabilità finanziaria, pandemie', 'Corretta', 10),
+(85, 4, 2, 'Esplorazione spaziale', 'Sbagliata', 0),
+(85, 4, 3, 'Conservazione dei beni culturali', 'Sbagliata', 0),
+(85, 4, 4, 'Sviluppo di nuovi videogiochi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(85, 5, 1, 'Impresa che opera in più paesi; ruolo: investimenti, trasferimento tecnologie, ma anche elusione fiscale, sfruttamento', 'Corretta', 10),
+(85, 5, 2, 'Piccola impresa che esporta i propri prodotti', 'Sbagliata', 0),
+(85, 5, 3, 'Organizzazione non governativa internazionale', 'Sbagliata', 0),
+(85, 5, 4, 'Azienda statale di un grande paese', 'Sbagliata', 0);
+
+-- Quiz 86: Sociologia delle migrazioni
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(86, 1, 1, 'I movimenti di popolazione tra diverse aree geografiche, le loro cause e conseguenze sociali', 'Corretta', 10),
+(86, 1, 2, 'Il turismo internazionale', 'Sbagliata', 0),
+(86, 1, 3, 'Lo spostamento quotidiano dei pendolari', 'Sbagliata', 0),
+(86, 1, 4, 'L''evoluzione delle specie animali', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(86, 2, 1, 'Push: fattori che spingono a lasciare (povertà, guerre); Pull: fattori che attraggono (lavoro, libertà)', 'Corretta', 10),
+(86, 2, 2, 'Push: fattori climatici; Pull: fattori culturali', 'Sbagliata', 0),
+(86, 2, 3, 'Push: desiderio di avventura; Pull: legami familiari', 'Sbagliata', 0),
+(86, 2, 4, 'Push: politiche governative; Pull: infrastrutture', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(86, 3, 1, 'Il processo di inserimento dei migranti nella società di arrivo (economico, sociale, culturale)', 'Corretta', 10),
+(86, 3, 2, 'La completa assimilazione culturale, con perdita della cultura d''origine', 'Sbagliata', 0), -- Assimilazione (un tipo di integrazione)
+(86, 3, 3, 'La segregazione spaziale dei gruppi migranti', 'Sbagliata', 0), -- Contrario dell'integrazione
+(86, 3, 4, 'Il ritorno dei migranti nel paese d''origine', 'Sbagliata', 0); -- Remigrazione
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(86, 4, 1, 'Comunità di migranti dispersa che mantiene legami con la terra d''origine e tra le comunità all''estero', 'Corretta', 10),
+(86, 4, 2, 'Un ghetto etnico in una grande città', 'Sbagliata', 0),
+(86, 4, 3, 'Un gruppo di turisti all''estero', 'Sbagliata', 0),
+(86, 4, 4, 'Un movimento politico nazionalista', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(86, 5, 1, 'Controllo delle frontiere, quote d''ingresso, politiche di integrazione, gestione dei rifugiati', 'Corretta', 10),
+(86, 5, 2, 'Politiche fiscali e monetarie', 'Sbagliata', 0),
+(86, 5, 3, 'Politiche ambientali', 'Sbagliata', 0),
+(86, 5, 4, 'Politiche sanitarie universali', 'Sbagliata', 0);
+
+-- Quiz 87: Antropologia sociale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(87, 1, 1, 'Le strutture sociali, le istituzioni e le relazioni nelle diverse società umane', 'Corretta', 10),
+(87, 1, 2, 'L''evoluzione biologica dell''uomo', 'Sbagliata', 0), -- Antropologia fisica
+(87, 1, 3, 'I sistemi di credenze e i simboli culturali', 'Sbagliata', 0), -- Antropologia culturale (strettamente legata)
+(87, 1, 4, 'Il linguaggio e la comunicazione umana', 'Sbagliata', 0); -- Antropologia linguistica
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(87, 2, 1, 'Ricerca sul campo prolungata vivendo all''interno della comunità studiata', 'Corretta', 10),
+(87, 2, 2, 'Analisi statistica di dati quantitativi raccolti tramite questionari', 'Sbagliata', 0), -- Metodo sociologico quantitativo
+(87, 2, 3, 'Esperimenti controllati in laboratorio', 'Sbagliata', 0), -- Metodo psicologico/scientifico
+(87, 2, 4, 'Analisi di documenti storici e archivistici', 'Sbagliata', 0); -- Metodo storico
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(87, 3, 1, 'Le regole che definiscono le relazioni familiari (discendenza, matrimonio, residenza)', 'Corretta', 10),
+(87, 3, 2, 'L''organizzazione politica di una società', 'Sbagliata', 0), -- Sistemi politici
+(87, 3, 3, 'Le credenze religiose e i rituali', 'Sbagliata', 0), -- Sistemi religiosi
+(87, 3, 4, 'Le norme che regolano l''economia', 'Sbagliata', 0); -- Sistemi economici
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(87, 4, 1, 'La divisione gerarchica della società in gruppi (classi, caste, ceti)', 'Corretta', 10),
+(87, 4, 2, 'L''organizzazione del lavoro in base all''età e al genere', 'Sbagliata', 0), -- Divisione sociale del lavoro
+(87, 4, 3, 'Il sistema di governo di uno Stato', 'Sbagliata', 0),
+(87, 4, 4, 'La distribuzione della popolazione sul territorio', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(87, 5, 1, 'Malinowski: Argonauti del Pacifico Occidentale (Kula)', 'Corretta', 10),
+(87, 5, 2, 'Durkheim: Le forme elementari della vita religiosa', 'Sbagliata', 0), -- Sociologia
+(87, 5, 3, 'Mead: L''adolescenza in Samoa', 'Sbagliata', 0), -- Antropologia culturale
+(87, 5, 4, 'Lévi-Strauss: Le strutture elementari della parentela', 'Sbagliata', 0); -- Strutturalismo
+
+-- Quiz 88: Storia dell Impero Romano
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(88, 1, 1, 'Italia, Gallia, Spagna, Britannia, Nord Africa, Medio Oriente', 'Corretta', 10),
+(88, 1, 2, 'Solo l''Italia e la Grecia', 'Sbagliata', 0),
+(88, 1, 3, 'Tutta l''Asia', 'Sbagliata', 0),
+(88, 1, 4, 'Le Americhe', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(88, 2, 1, 'Imperatore (princeps), Senato (potere ridotto), burocrazia imperiale, esercito', 'Corretta', 10),
+(88, 2, 2, 'Consoli, Senato, Assemblee popolari (Repubblica)', 'Sbagliata', 0),
+(88, 2, 3, 'Re, consiglio degli anziani (Monarchia arcaica)', 'Sbagliata', 0),
+(88, 2, 4, 'Sistema feudale con imperatore e vassalli', 'Sbagliata', 0); -- Medioevo
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(88, 3, 1, 'Periodo di relativa pace e stabilità all''interno dell''Impero (I-II sec d.C.)', 'Corretta', 10),
+(88, 3, 2, 'La pace firmata dopo le Guerre Puniche', 'Sbagliata', 0),
+(88, 3, 3, 'Periodo di continue guerre civili', 'Sbagliata', 0), -- Contrario
+(88, 3, 4, 'L''editto di Costantino che concesse libertà di culto', 'Sbagliata', 0); -- Editto di Milano
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(88, 4, 1, 'Instabilità politica (imperatori militari), pressioni barbariche, crisi economica', 'Corretta', 10),
+(88, 4, 2, 'L''eruzione del Vesuvio', 'Sbagliata', 0), -- Evento locale
+(88, 4, 3, 'La diffusione del Cristianesimo', 'Sbagliata', 0), -- Fattore complesso, non causa diretta della crisi
+(88, 4, 4, 'La conquista da parte dell''Impero Persiano', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(88, 5, 1, 'Sistema giuridico complesso e razionale, base per molti sistemi legali moderni', 'Corretta', 10),
+(88, 5, 2, 'Sistema basato su consuetudini tribali', 'Sbagliata', 0),
+(88, 5, 3, 'Diritto basato esclusivamente su precetti religiosi', 'Sbagliata', 0),
+(88, 5, 4, 'Codice penale estremamente indulgente', 'Sbagliata', 0);
+
+-- Quiz 89: Letteratura francese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(89, 1, 1, 'Gustave Flaubert', 'Corretta', 10),
+(89, 1, 2, 'Victor Hugo', 'Sbagliata', 0),
+(89, 1, 3, 'Émile Zola', 'Sbagliata', 0),
+(89, 1, 4, 'Stendhal', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(89, 2, 1, 'Ricerca della musicalità, uso del simbolo, suggestione, evasione dalla realtà (Baudelaire, Verlaine, Mallarmé)', 'Corretta', 10),
+(89, 2, 2, 'Descrizione oggettiva e scientifica della realtà (Naturalismo)', 'Sbagliata', 0),
+(89, 2, 3, 'Espressione diretta dei sentimenti e passioni individuali (Romanticismo)', 'Sbagliata', 0),
+(89, 2, 4, 'Esplorazione dell''inconscio e del sogno (Surrealismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(89, 3, 1, 'La Nausea (Sartre) / Il secondo sesso (de Beauvoir)', 'Corretta', 10),
+(89, 3, 2, 'Lo Straniero (Camus)', 'Sbagliata', 0),
+(89, 3, 3, 'Alla ricerca del tempo perduto (Proust)', 'Sbagliata', 0),
+(89, 3, 4, 'Viaggio al termine della notte (Céline)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(89, 4, 1, 'Corrente letteraria del secondo dopoguerra che rifiuta il romanzo tradizionale (personaggio, trama) (Robbe-Grillet, Sarraute)', 'Corretta', 10),
+(89, 4, 2, 'Romanzo storico ambientato nell''antica Roma', 'Sbagliata', 0),
+(89, 4, 3, 'Romanzo epistolare settecentesco', 'Sbagliata', 0),
+(89, 4, 4, 'Genere di romanzo popolare d''appendice', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(89, 5, 1, 'Diffusione idee illuministe, critica Antico Regime, nascita temi libertà/nazione', 'Corretta', 10),
+(89, 5, 2, 'Ritorno ai modelli classici greco-romani', 'Sbagliata', 0),
+(89, 5, 3, 'Focus esclusivo su temi religiosi', 'Sbagliata', 0),
+(89, 5, 4, 'Celebrazione della monarchia assoluta', 'Sbagliata', 0);
+
+-- Quiz 90: Fisica quantistica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(90, 1, 1, 'Fenomeno quantistico in cui stati di due o più particelle sono legati indipendentemente dalla distanza', 'Corretta', 10),
+(90, 1, 2, 'La natura duale onda-particella della materia', 'Sbagliata', 0),
+(90, 1, 3, 'L''impossibilità di misurare simultaneamente grandezze coniugate (principio indeterminazione)', 'Sbagliata', 0),
+(90, 1, 4, 'La sovrapposizione di stati quantistici', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(90, 2, 1, 'Pacchetto discreto e indivisibile di energia (introdotto da Planck)', 'Corretta', 10),
+(90, 2, 2, 'La particella fondamentale della luce (fotone)', 'Sbagliata', 0),
+(90, 2, 3, 'Una misura della probabilità di trovare una particella', 'Sbagliata', 0),
+(90, 2, 4, 'L''energia cinetica di una particella', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(90, 3, 1, 'Equazione fondamentale che descrive l''evoluzione temporale della funzione d''onda di un sistema quantistico', 'Corretta', 10),
+(90, 3, 2, 'Equazione che descrive la relatività generale (campo gravitazionale)', 'Sbagliata', 0), -- Equazioni di campo di Einstein
+(90, 3, 3, 'Equazione che descrive le onde elettromagnetiche', 'Sbagliata', 0), -- Equazioni di Maxwell
+(90, 3, 4, 'Equazione che lega pressione, volume e temperatura di un gas ideale', 'Sbagliata', 0); -- Equazione di stato dei gas perfetti
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(90, 4, 1, 'Laser, Transistor (semiconduttori), Microscopio elettronico, Risonanza Magnetica Nucleare (RMN)', 'Corretta', 10),
+(90, 4, 2, 'Motore a vapore', 'Sbagliata', 0), -- Fisica classica
+(90, 4, 3, 'Lente ottica', 'Sbagliata', 0), -- Ottica classica
+(90, 4, 4, 'Leva meccanica', 'Sbagliata', 0); -- Meccanica classica
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(90, 5, 1, 'Il passaggio da una sovrapposizione di stati a uno stato definito a seguito di una misurazione', 'Corretta', 10),
+(90, 5, 2, 'Il decadimento radioattivo di un nucleo instabile', 'Sbagliata', 0),
+(90, 5, 3, 'L''interferenza tra onde quantistiche', 'Sbagliata', 0),
+(90, 5, 4, 'L''annichilazione particella-antiparticella', 'Sbagliata', 0);
+
+-- Quiz 91: Chimica organica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(91, 1, 1, 'Idrocarburi contenenti uno o più anelli benzenici; es. Benzene, Toluene', 'Corretta', 10),
+(91, 1, 2, 'Idrocarburi a catena aperta saturi (Alcani)', 'Sbagliata', 0),
+(91, 1, 3, 'Idrocarburi contenenti doppi legami (Alcheni)', 'Sbagliata', 0),
+(91, 1, 4, 'Composti organici contenenti ossigeno (Alcoli, Eteri)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(91, 2, 1, 'Addizione di H2 (idrogenazione), alogeni (alogenazione), acidi alogenidrici', 'Corretta', 10),
+(91, 2, 2, 'Sostituzione di un idrogeno con un alogeno (alogenazione radicalica)', 'Sbagliata', 0), -- Reazione alcani
+(91, 2, 3, 'Ossidazione ad acido carbossilico', 'Sbagliata', 0), -- Reazione alcoli/aldeidi
+(91, 2, 4, 'Formazione di un legame peptidico', 'Sbagliata', 0); -- Reazione amminoacidi
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(91, 3, 1, 'Macromolecole formate dall''unione di molte unità ripetute (monomeri)', 'Corretta', 10),
+(91, 3, 2, 'Molecole con stessa formula bruta ma diversa struttura (Isomeri)', 'Sbagliata', 0),
+(91, 3, 3, 'Composti contenenti solo carbonio e idrogeno (Idrocarburi)', 'Sbagliata', 0),
+(91, 3, 4, 'Anelli aromatici a sei atomi di carbonio', 'Sbagliata', 0); -- Benzene e derivati
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(91, 4, 1, 'Primario: -OH legato a C primario; Secondario: a C secondario; Terziario: a C terziario', 'Corretta', 10),
+(91, 4, 2, 'Primario: 1 gruppo -OH; Secondario: 2; Terziario: 3', 'Sbagliata', 0), -- Polioli
+(91, 4, 3, 'Dipende dal numero di atomi di carbonio totali', 'Sbagliata', 0),
+(91, 4, 4, 'Non c''è differenza chimica rilevante', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(91, 5, 1, 'Isomeria dovuta alla diversa disposizione spaziale degli atomi (enantiomeri, diastereoisomeri)', 'Corretta', 10),
+(91, 5, 2, 'Isomeria dovuta a diversa connettività degli atomi (isomeri strutturali)', 'Sbagliata', 0),
+(91, 5, 3, 'La presenza di doppi o tripli legami', 'Sbagliata', 0),
+(91, 5, 4, 'La capacità di formare anelli', 'Sbagliata', 0);
+
+-- Quiz 92: Geologia applicata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(92, 1, 1, 'Applicazione conoscenze geologiche a problemi pratici; ingegneria civile, risorse idriche, rischi naturali', 'Corretta', 10),
+(92, 1, 2, 'Studio dei fossili per ricostruire storia della vita', 'Sbagliata', 0), -- Paleontologia
+(92, 1, 3, 'Studio della struttura interna della Terra tramite onde sismiche', 'Sbagliata', 0), -- Sismologia
+(92, 1, 4, 'Ricerca di giacimenti petroliferi', 'Sbagliata', 0); -- Geologia petrolifera (una branca)
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(92, 2, 1, 'Sondaggi, prove penetrometriche, analisi geofisiche per caratterizzare terreni e rocce', 'Corretta', 10),
+(92, 2, 2, 'Analisi chimica delle acque sotterranee', 'Sbagliata', 0), -- Idrogeologia
+(92, 2, 3, 'Rilevamento topografico del terreno', 'Sbagliata', 0), -- Topografia
+(92, 2, 4, 'Studio dei reperti archeologici nel sito', 'Sbagliata', 0); -- Archeologia
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(92, 3, 1, 'Frane, Terremoti, Eruzioni vulcaniche, Alluvioni, Subsidenza', 'Corretta', 10),
+(92, 3, 2, 'Inquinamento atmosferico, Buco dell''ozono', 'Sbagliata', 0), -- Rischi ambientali
+(92, 3, 3, 'Epidemie, Pandemie', 'Sbagliata', 0), -- Rischi sanitari
+(92, 3, 4, 'Crisi economiche, Guerre', 'Sbagliata', 0); -- Rischi socio-politici
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(92, 4, 1, 'Individuazione acquiferi, valutazione quantità/qualità acqua, protezione da inquinamento', 'Corretta', 10),
+(92, 4, 2, 'Progettazione di dighe e acquedotti', 'Sbagliata', 0), -- Ingegneria idraulica
+(92, 4, 3, 'Analisi delle precipitazioni e dei deflussi superficiali', 'Sbagliata', 0), -- Idrologia
+(92, 4, 4, 'Studio degli ecosistemi acquatici', 'Sbagliata', 0); -- Ecologia acquatica
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(92, 5, 1, 'Rimozione o neutralizzazione di contaminanti da suolo e acque sotterranee', 'Corretta', 10),
+(92, 5, 2, 'Costruzione di discariche controllate', 'Sbagliata', 0),
+(92, 5, 3, 'Riciclaggio dei rifiuti solidi urbani', 'Sbagliata', 0),
+(92, 5, 4, 'Installazione di depuratori per le acque reflue', 'Sbagliata', 0);
+
+-- Quiz 93: Storia medievale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(93, 1, 1, 'Migrazioni di popoli germanici che contribuirono alla caduta dell''Impero Romano d''Occidente', 'Corretta', 10),
+(93, 1, 2, 'Le spedizioni militari cristiane in Terrasanta (Crociate)', 'Sbagliata', 0),
+(93, 1, 3, 'Le incursioni vichinghe in Europa', 'Sbagliata', 0),
+(93, 1, 4, 'L''espansione araba nel Mediterraneo', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(93, 2, 1, 'Sistema gerarchico basato su legami personali (vassallaggio) e concessione di terre (feudi)', 'Corretta', 10),
+(93, 2, 2, 'Organizzazione basata su città-stato indipendenti (poleis greche)', 'Sbagliata', 0),
+(93, 2, 3, 'Sistema centralizzato con burocrazia imperiale (Impero Romano)', 'Sbagliata', 0),
+(93, 2, 4, 'Società egualitaria senza classi sociali', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(93, 3, 1, 'Copiatura manoscritti, centri studio, scuole monastiche', 'Corretta', 10),
+(93, 3, 2, 'Organizzazione delle Crociate', 'Sbagliata', 0), -- Ruolo papale/cavalleresco
+(93, 3, 3, 'Amministrazione della giustizia civile', 'Sbagliata', 0), -- Potere laico/ecclesiastico locale
+(93, 3, 4, 'Gestione delle finanze reali', 'Sbagliata', 0); -- Potere regio
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(93, 4, 1, 'Periodo di ripresa demografica, economica e culturale dopo l''anno 1000', 'Corretta', 10),
+(93, 4, 2, 'La nascita del Sacro Romano Impero con Carlo Magno', 'Sbagliata', 0), -- IX secolo
+(93, 4, 3, 'La diffusione dell''arte gotica', 'Sbagliata', 0), -- XII-XIII secolo
+(93, 4, 4, 'La crisi del XIV secolo (peste, guerre)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(93, 5, 1, 'Pandemia che colpì l''Europa a metà XIV sec.; grave calo demografico, crisi economica e sociale', 'Corretta', 10),
+(93, 5, 2, 'Malattia endemica infantile', 'Sbagliata', 0),
+(93, 5, 3, 'Epidemia di influenza all''inizio del XX sec. (Spagnola)', 'Sbagliata', 0),
+(93, 5, 4, 'Malattia legata alla malnutrizione (scorbuto)', 'Sbagliata', 0);
+
+-- Quiz 94: Matematica discreta
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(94, 1, 1, 'Sistema formale per rappresentare e ragionare su proposizioni logiche (vero/falso)', 'Corretta', 10),
+(94, 1, 2, 'Studio delle funzioni trigonometriche', 'Sbagliata', 0),
+(94, 1, 3, 'Teoria degli insiemi e operazioni insiemistiche', 'Sbagliata', 0),
+(94, 1, 4, 'Calcolo combinatorio (permutazioni, combinazioni)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(94, 2, 1, 'Sequenza finita di istruzioni per risolvere un problema; proprietà: finitezza, effettività, determinismo', 'Corretta', 10),
+(94, 2, 2, 'Un programma scritto in un linguaggio specifico', 'Sbagliata', 0), -- Implementazione di un algoritmo
+(94, 2, 3, 'Una formula matematica', 'Sbagliata', 0),
+(94, 2, 4, 'Una struttura dati per organizzare informazioni', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(94, 3, 1, 'Equazioni che definiscono una sequenza in base ai termini precedenti; risolvibili con tecniche specifiche', 'Corretta', 10),
+(94, 3, 2, 'Equazioni che coinvolgono derivate di funzioni', 'Sbagliata', 0), -- Equazioni differenziali
+(94, 3, 3, 'Sistemi di equazioni lineari', 'Sbagliata', 0),
+(94, 3, 4, 'Equazioni che coinvolgono logaritmi ed esponenziali', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(94, 4, 1, 'Concetto base: collezione di oggetti; Operazioni: unione (∪), intersezione (∩), complemento (¬)', 'Corretta', 10),
+(94, 4, 2, 'Studio delle relazioni tra lati e angoli dei triangoli', 'Sbagliata', 0), -- Trigonometria
+(94, 4, 3, 'Studio degli spazi vettoriali e delle matrici', 'Sbagliata', 0), -- Algebra lineare
+(94, 4, 4, 'Analisi della probabilità di eventi casuali', 'Sbagliata', 0); -- Teoria della probabilità
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(94, 5, 1, 'Problema del commesso viaggiatore (TSP), Colorazione grafi, Cammini minimi (Dijkstra)', 'Corretta', 10),
+(94, 5, 2, 'Calcolo dell''integrale di una funzione', 'Sbagliata', 0),
+(94, 5, 3, 'Risoluzione di equazioni di secondo grado', 'Sbagliata', 0),
+(94, 5, 4, 'Fattorizzazione di numeri interi', 'Sbagliata', 0); -- Teoria dei numeri
+
+-- Quiz 95: Fisica classica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(95, 1, 1, 'Lavoro: energia trasferita da una forza; Potenza: lavoro fatto nell''unità di tempo', 'Corretta', 10),
+(95, 1, 2, 'Lavoro: quantità di moto; Potenza: energia cinetica', 'Sbagliata', 0),
+(95, 1, 3, 'Lavoro: si misura in Watt; Potenza: si misura in Joule', 'Sbagliata', 0), -- Inverso
+(95, 1, 4, 'Sono la stessa grandezza fisica', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(95, 2, 1, 'La forza di attrazione tra due masse è proporzionale al prodotto delle masse e inversa al quadrato della distanza', 'Corretta', 10),
+(95, 2, 2, 'La forza è uguale alla massa per l''accelerazione (F=ma)', 'Sbagliata', 0), -- Seconda legge di Newton
+(95, 2, 3, 'L''energia totale di un sistema isolato si conserva', 'Sbagliata', 0), -- Conservazione energia
+(95, 2, 4, 'Ad ogni azione corrisponde una reazione uguale e contraria', 'Sbagliata', 0); -- Terza legge di Newton
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(95, 3, 1, 'Un corpo immerso in un fluido riceve una spinta verso l''alto pari al peso del fluido spostato', 'Corretta', 10),
+(95, 3, 2, 'La pressione in un fluido si trasmette inalterata in tutte le direzioni (Principio di Pascal)', 'Sbagliata', 0),
+(95, 3, 3, 'La portata di un fluido è costante lungo un condotto (Equazione di continuità)', 'Sbagliata', 0),
+(95, 3, 4, 'La somma di pressione, energia cinetica ed energia potenziale è costante lungo una linea di flusso (Teorema di Bernoulli)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(95, 4, 1, 'Moto periodico oscillatorio descritto da una funzione sinusoidale (es. pendolo semplice, massa-molla)', 'Corretta', 10),
+(95, 4, 2, 'Moto rettilineo uniforme', 'Sbagliata', 0),
+(95, 4, 3, 'Moto uniformemente accelerato', 'Sbagliata', 0),
+(95, 4, 4, 'Moto circolare uniforme', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(95, 5, 1, 'Scalari: solo magnitudo (massa, tempo, energia); Vettoriali: magnitudo e direzione (forza, velocità, spostamento)', 'Corretta', 10),
+(95, 5, 2, 'Scalari: si misurano in SI; Vettoriali: altre unità', 'Sbagliata', 0),
+(95, 5, 3, 'Scalari: costanti nel tempo; Vettoriali: variabili nel tempo', 'Sbagliata', 0),
+(95, 5, 4, 'Non c''è differenza fondamentale', 'Sbagliata', 0);
+
+-- Quiz 96: Letteratura italiana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(96, 1, 1, 'Giovanni Boccaccio', 'Corretta', 10),
+(96, 1, 2, 'Francesco Petrarca', 'Sbagliata', 0),
+(96, 1, 3, 'Dante Alighieri', 'Sbagliata', 0),
+(96, 1, 4, 'Ludovico Ariosto', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(96, 2, 1, 'Esaltazione sentimento, individualismo, patria, storia, natura (Foscolo, Manzoni, Leopardi)', 'Corretta', 10),
+(96, 2, 2, 'Rifiuto della tradizione, sperimentalismo (Neoavanguardia)', 'Sbagliata', 0),
+(96, 2, 3, 'Rappresentazione oggettiva realtà, impersonalità (Verismo)', 'Sbagliata', 0),
+(96, 2, 4, 'Ricerca parola pura, analogia, oscurità (Ermetismo)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(96, 3, 1, 'Il fu Mattia Pascal / Uno, nessuno e centomila / Sei personaggi in cerca d''autore', 'Corretta', 10),
+(96, 3, 2, 'La coscienza di Zeno', 'Sbagliata', 0), -- Italo Svevo
+(96, 3, 3, 'Ossi di seppia', 'Sbagliata', 0), -- Eugenio Montale
+(96, 3, 4, 'I Malavoglia', 'Sbagliata', 0); -- Giovanni Verga
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(96, 4, 1, 'Corrente del secondo dopoguerra, rappresenta realtà popolare post-bellica con linguaggio semplice', 'Corretta', 10),
+(96, 4, 2, 'Movimento decadentista di fine Ottocento', 'Sbagliata', 0),
+(96, 4, 3, 'Avanguardia futurista di inizio Novecento', 'Sbagliata', 0),
+(96, 4, 4, 'Scuola poetica siciliana del Duecento', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(96, 5, 1, 'Poeta centrale del Romanticismo, lirica basata su riflessione esistenziale e "pessimismo cosmico"', 'Corretta', 10),
+(96, 5, 2, 'Iniziatore del Dolce Stil Novo', 'Sbagliata', 0), -- Guinizzelli
+(96, 5, 3, 'Massimo esponente dell''Umanesimo e del Petrarchismo', 'Sbagliata', 0), -- Petrarca
+(96, 5, 4, 'Poeta civile del Risorgimento', 'Sbagliata', 0); -- Berchet/Manzoni
+
+-- Quiz 97: Geografia politica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(97, 1, 1, 'Nazione: gruppo umano con identità comune; Nazionalismo: ideologia che esalta la nazione', 'Corretta', 10),
+(97, 1, 2, 'Nazione: stato sovrano; Nazionalismo: patriottismo', 'Sbagliata', 0),
+(97, 1, 3, 'Nazione: sinonimo di popolo; Nazionalismo: xenofobia', 'Sbagliata', 0),
+(97, 1, 4, 'Nazione: entità geografica; Nazionalismo: politica estera aggressiva', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(97, 2, 1, 'Repubblica (parlamentare, presidenziale), Monarchia (costituzionale, assoluta)', 'Corretta', 10),
+(97, 2, 2, 'Democrazia, Dittatura, Totalitarismo', 'Sbagliata', 0), -- Forme di regime
+(97, 2, 3, 'Stato federale, Stato unitario, Confederazione', 'Sbagliata', 0), -- Forme di stato (struttura)
+(97, 2, 4, 'Capitalismo, Socialismo, Comunismo', 'Sbagliata', 0); -- Sistemi economici
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(97, 3, 1, 'ONU (Organizzazione Nazioni Unite), UE (Unione Europea)', 'Corretta', 10),
+(97, 3, 2, 'NATO (Alleanza militare)', 'Sbagliata', 0),
+(97, 3, 3, 'FMI, Banca Mondiale (Economiche)', 'Sbagliata', 0),
+(97, 3, 4, 'Greenpeace, Amnesty International (ONG)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(97, 4, 1, 'Potere supremo dello Stato sul proprio territorio e indipendenza da altri stati', 'Corretta', 10),
+(97, 4, 2, 'Il diritto di voto dei cittadini', 'Sbagliata', 0), -- Sovranità popolare (un aspetto)
+(97, 4, 3, 'L''insieme delle leggi di uno Stato', 'Sbagliata', 0), -- Ordinamento giuridico
+(97, 4, 4, 'Il controllo militare delle frontiere', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(97, 5, 1, 'Kashmir (India-Pakistan), Cipro (Grecia-Turchia), Isole Falkland/Malvinas (UK-Argentina)', 'Corretta', 10),
+(97, 5, 2, 'Disputa commerciale USA-Cina', 'Sbagliata', 0),
+(97, 5, 3, 'Conflitto religioso Irlanda del Nord', 'Sbagliata', 0), -- Interno (con aspetti territoriali)
+(97, 5, 4, 'Secessione della Catalogna dalla Spagna', 'Sbagliata', 0); -- Conflitto interno
+
+-- Quiz 98: Chimica analitica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(98, 1, 1, 'Sistematico: deviazione costante dal valore vero; Casuale: fluttuazioni imprevedibili', 'Corretta', 10),
+(98, 1, 2, 'Sistematico: errore dell''operatore; Casuale: errore dello strumento', 'Sbagliata', 0),
+(98, 1, 3, 'Sistematico: errore grande; Casuale: errore piccolo', 'Sbagliata', 0),
+(98, 1, 4, 'Sistematico: può essere corretto; Casuale: non può essere corretto', 'Sbagliata', 0); -- Si può ridurre, non eliminare
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(98, 2, 1, 'Tecnica per separare componenti di una miscela; GC (gas), HPLC (liquido)', 'Corretta', 10),
+(98, 2, 2, 'Tecnica per misurare l''assorbimento di luce (Spettrofotometria)', 'Sbagliata', 0),
+(98, 2, 3, 'Tecnica basata su reazione chimica con volume noto (Titolazione)', 'Sbagliata', 0),
+(98, 2, 4, 'Tecnica per misurare la massa delle molecole (Spettrometria di massa)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(98, 3, 1, 'Misura il potenziale elettrico per determinare la concentrazione di ioni H+ (pH)', 'Corretta', 10),
+(98, 3, 2, 'Misura la conducibilità elettrica della soluzione', 'Sbagliata', 0),
+(98, 3, 3, 'Misura l''assorbimento di luce a una specifica lunghezza d''onda', 'Sbagliata', 0),
+(98, 3, 4, 'Separa gli ioni in base al rapporto massa/carica', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(98, 4, 1, 'Verificare che lo strumento fornisca misure accurate usando standard noti', 'Corretta', 10),
+(98, 4, 2, 'Pulire regolarmente lo strumento', 'Sbagliata', 0),
+(98, 4, 3, 'Aggiornare il software dello strumento', 'Sbagliata', 0),
+(98, 4, 4, 'Registrare i dati su un quaderno di laboratorio', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(98, 5, 1, 'La più bassa concentrazione di analita che può essere rilevata con affidabilità statistica', 'Corretta', 10),
+(98, 5, 2, 'La concentrazione massima misurabile dallo strumento', 'Sbagliata', 0), -- Limite di linearità
+(98, 5, 3, 'L''errore associato a ogni misura', 'Sbagliata', 0), -- Incertezza di misura
+(98, 5, 4, 'La velocità con cui lo strumento fornisce il risultato', 'Sbagliata', 0);
+
+-- Quiz 99: Biologia molecolare
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(99, 1, 1, 'Processo di duplicazione del DNA in cui ogni nuova molecola ha un filamento vecchio e uno nuovo', 'Corretta', 10),
+(99, 1, 2, 'Sintesi di RNA da DNA (Trascrizione)', 'Sbagliata', 0),
+(99, 1, 3, 'Sintesi di proteine da RNA (Traduzione)', 'Sbagliata', 0),
+(99, 1, 4, 'Meccanismo di riparazione del DNA', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(99, 2, 1, 'Sintesi di una catena polipeptidica (proteina) usando l''informazione dell''mRNA sui ribosomi', 'Corretta', 10),
+(99, 2, 2, 'Copia dell''informazione genetica da DNA a RNA (Trascrizione)', 'Sbagliata', 0),
+(99, 2, 3, 'Duplicazione della molecola di DNA (Replicazione)', 'Sbagliata', 0),
+(99, 2, 4, 'Modifica della proteina dopo la sintesi', 'Sbagliata', 0); -- Modifica post-traduzionale
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(99, 3, 1, 'Cambiamenti nella sequenza del DNA; possono essere silenti, dannose o (raramente) vantaggiose', 'Corretta', 10),
+(99, 3, 2, 'Errori durante la divisione cellulare che alterano il numero di cromosomi', 'Sbagliata', 0), -- Mutazioni cromosomiche
+(99, 3, 3, 'Modifiche epigenetiche che non alterano la sequenza del DNA', 'Sbagliata', 0),
+(99, 3, 4, 'Il normale processo di ricombinazione genetica durante la meiosi', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(99, 4, 1, 'Tecnica per amplificare (copiare molte volte) specifiche sequenze di DNA in vitro', 'Corretta', 10),
+(99, 4, 2, 'Tecnica per separare molecole in base alla dimensione e carica (Elettroforesi)', 'Sbagliata', 0),
+(99, 4, 3, 'Tecnica per determinare la sequenza dei nucleotidi del DNA (Sequenziamento)', 'Sbagliata', 0),
+(99, 4, 4, 'Tecnica per tagliare il DNA in punti specifici (Enzimi di restrizione)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(99, 5, 1, 'Insieme di tecniche per modificare il materiale genetico di un organismo; agricoltura, medicina', 'Corretta', 10),
+(99, 5, 2, 'Clonazione di interi organismi', 'Sbagliata', 0), -- Una possibile applicazione
+(99, 5, 3, 'Studio dell''evoluzione delle specie a livello molecolare', 'Sbagliata', 0), -- Filogenesi molecolare
+(99, 5, 4, 'Analisi del DNA per scopi forensi', 'Sbagliata', 0); -- Genetica forense (applicazione)
+
+-- Quiz 100: Storia dell Asia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(100, 1, 1, 'Unificazione politica, standardizzazione pesi/misure/scrittura, inizio Grande Muraglia', 'Corretta', 10),
+(100, 1, 2, 'Massima espansione territoriale, fioritura culturale (poesia, pittura)', 'Sbagliata', 0), -- Dinastia Tang
+(100, 1, 3, 'Introduzione del Buddhismo in Cina', 'Sbagliata', 0), -- Dinastia Han (diffusione)
+(100, 1, 4, 'Periodo dei regni combattenti prima dell''unificazione', 'Sbagliata', 0); -- Dinastia Zhou orientale
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(100, 2, 1, 'Vasto impero turco (XIV-XX sec.) che controllava Anatolia, Balcani, Medio Oriente, Nord Africa', 'Corretta', 10),
+(100, 2, 2, 'Impero persiano antico rivale dei Greci', 'Sbagliata', 0), -- Impero Achemenide
+(100, 2, 3, 'Impero musulmano in India (XVI-XIX sec.)', 'Sbagliata', 0), -- Impero Moghul
+(100, 2, 4, 'Impero fondato da Gengis Khan nel XIII sec.', 'Sbagliata', 0); -- Impero Mongolo
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(100, 3, 1, 'Leader della lotta non violenta per l''indipendenza dell''India dal dominio britannico', 'Corretta', 10),
+(100, 3, 2, 'Fondatore della Repubblica Popolare Cinese', 'Sbagliata', 0), -- Mao Zedong
+(100, 3, 3, 'Leader della rivoluzione vietnamita', 'Sbagliata', 0), -- Ho Chi Minh
+(100, 3, 4, 'Primo Primo Ministro dell''India indipendente', 'Sbagliata', 0); -- Jawaharlal Nehru
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(100, 4, 1, 'Corea: divisione paese; Vietnam: unificazione sotto regime comunista, impatto su USA', 'Corretta', 10),
+(100, 4, 2, 'Entrambe portarono alla vittoria degli USA', 'Sbagliata', 0),
+(100, 4, 3, 'Non ebbero conseguenze significative a livello internazionale', 'Sbagliata', 0),
+(100, 4, 4, 'Portarono alla creazione dell''ONU', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(100, 5, 1, 'Induismo, Buddhismo (origini indiane), Confucianesimo, Taoismo (origini cinesi)', 'Corretta', 10),
+(100, 5, 2, 'Cristianesimo, Islam (origini mediorientali)', 'Sbagliata', 0),
+(100, 5, 3, 'Religioni animiste africane', 'Sbagliata', 0),
+(100, 5, 4, 'Filosofia greca classica', 'Sbagliata', 0);
+
+-- Quiz 101: Letteratura spagnola
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(101, 1, 1, 'Gruppo di poeti attivi negli anni ''20 (Lorca, Alberti, Guillén, Salinas...)', 'Corretta', 10),
+(101, 1, 2, 'Scrittori che reagirono alla crisi del 1898 (Unamuno, Machado, Baroja...)', 'Sbagliata', 0), -- Generazione del '98
+(101, 1, 3, 'Autori del Siglo de Oro (Cervantes, Lope...)', 'Sbagliata', 0),
+(101, 1, 4, 'Narratori del "Boom" latinoamericano', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(101, 2, 1, 'Romanzo realistico e satirico con protagonista un anti-eroe di bassa estrazione sociale', 'Corretta', 10),
+(101, 2, 2, 'Romanzo cavalleresco con eroi idealizzati', 'Sbagliata', 0),
+(101, 2, 3, 'Romanzo pastorale ambientato in un mondo idilliaco', 'Sbagliata', 0),
+(101, 2, 4, 'Romanzo storico ambientato nel Medioevo', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(101, 3, 1, 'Cent''anni di solitudine / L''amore ai tempi del colera', 'Corretta', 10),
+(101, 3, 2, 'La città e i cani (Vargas Llosa)', 'Sbagliata', 0),
+(101, 3, 3, 'Rayuela (Cortázar)', 'Sbagliata', 0),
+(101, 3, 4, 'Finzioni (Borges)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(101, 4, 1, 'Fenomeno editoriale e letterario anni ''60-''70 con autori come García Márquez, Vargas Llosa, Cortázar, Fuentes', 'Corretta', 10),
+(101, 4, 2, 'Movimento poetico modernista di inizio XX secolo', 'Sbagliata', 0),
+(101, 4, 3, 'Corrente realista magica esclusiva del Messico', 'Sbagliata', 0),
+(101, 4, 4, 'Gruppo di scrittori spagnoli esiliati dopo la Guerra Civile', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(101, 5, 1, 'Memoria storica (Guerra Civile), crisi identità, precarietà, metanarrativa', 'Corretta', 10),
+(101, 5, 2, 'Esaltazione della monarchia e della Chiesa', 'Sbagliata', 0),
+(101, 5, 3, 'Avventure cavalleresche e amore cortese', 'Sbagliata', 0),
+(101, 5, 4, 'Descrizione idilliaca della vita rurale', 'Sbagliata', 0);
+
+-- Quiz 102: Filosofia antica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(102, 1, 1, 'Stoicismo (virtù, ragione, apatheia), Epicureismo (piacere, atarassia), Scetticismo (sospensione giudizio)', 'Corretta', 10),
+(102, 1, 2, 'Platonismo, Aristotelismo, Neoplatonismo', 'Sbagliata', 0), -- Altre scuole antiche
+(102, 1, 3, 'Sofistica, Cinismo', 'Sbagliata', 0), -- Altre scuole antiche
+(102, 1, 4, 'Scuola Ionica, Pitagorica, Eleatica', 'Sbagliata', 0); -- Presocratici
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(102, 2, 1, 'Esistenza di un mondo intelligibile di forme perfette (Idee) di cui il mondo sensibile è copia imperfetta', 'Corretta', 10),
+(102, 2, 2, 'Teoria atomistica della realtà (Democrito)', 'Sbagliata', 0),
+(102, 2, 3, 'Concezione della realtà come sostanza unica (Spinoza/Parmenide)', 'Sbagliata', 0),
+(102, 2, 4, 'Dottrina delle quattro cause di Aristotele', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(102, 3, 1, 'Sistema deduttivo basato su proposizioni (premesse) e conclusioni necessarie (sillogismo)', 'Corretta', 10),
+(102, 3, 2, 'Metodo dialogico socratico (maieutica)', 'Sbagliata', 0),
+(102, 3, 3, 'Logica matematica moderna (Frege, Russell)', 'Sbagliata', 0),
+(102, 3, 4, 'Logica induttiva basata sull''osservazione (Bacone)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(102, 4, 1, 'Atarassia (Epicuro): assenza di turbamento; Apatheia (Stoici): assenza di passioni', 'Corretta', 10),
+(102, 4, 2, 'Eudaimonia (Aristotele): felicità come realizzazione di sé', 'Sbagliata', 0),
+(102, 4, 3, 'Hedoné (Cirenaici): piacere fisico immediato', 'Sbagliata', 0),
+(102, 4, 4, 'Nirvana (Buddhismo): liberazione dalla sofferenza', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(102, 5, 1, 'Maestri di retorica a pagamento, criticati da Socrate per relativismo e focus su persuasione', 'Corretta', 10),
+(102, 5, 2, 'Filosofi presocratici che cercavano l''archè', 'Sbagliata', 0),
+(102, 5, 3, 'Discepoli diretti di Aristotele (Peripatetici)', 'Sbagliata', 0),
+(102, 5, 4, 'Seguaci di Epicuro', 'Sbagliata', 0);
+
+-- Quiz 103: Psicologia sociale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(103, 1, 1, 'Pregiudizio: atteggiamento negativo; Stereotipo: credenza generalizzata', 'Corretta', 10),
+(103, 1, 2, 'Pregiudizio: credenza; Stereotipo: atteggiamento', 'Sbagliata', 0),
+(103, 1, 3, 'Pregiudizio: comportamento; Stereotipo: credenza', 'Sbagliata', 0), -- Pregiudizio è atteggiamento, la discriminazione è comportamento
+(103, 1, 4, 'Sono sinonimi', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(103, 2, 1, 'Studio su come i ruoli sociali assegnati (guardie/prigionieri) influenzano il comportamento', 'Corretta', 10),
+(103, 2, 2, 'Studio sull''obbedienza all''autorità (Milgram)', 'Sbagliata', 0),
+(103, 2, 3, 'Studio sul conformismo (Asch)', 'Sbagliata', 0),
+(103, 2, 4, 'Studio sull''effetto spettatore (Latané & Darley)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(103, 3, 1, 'Rapidemente, basandosi su indizi superficiali (aspetto fisico, comportamento non verbale)', 'Corretta', 10),
+(103, 3, 2, 'Solo dopo una lunga conoscenza e interazione', 'Sbagliata', 0),
+(103, 3, 3, 'Basandosi esclusivamente su informazioni oggettive', 'Sbagliata', 0),
+(103, 3, 4, 'In modo casuale e imprevedibile', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(103, 4, 1, 'Come il comportamento di un individuo è modificato dalla presenza (reale o immaginata) di altri', 'Corretta', 10),
+(103, 4, 2, 'L''attrazione tra due persone', 'Sbagliata', 0), -- Attrazione interpersonale
+(103, 4, 3, 'La capacità di comunicare efficacemente', 'Sbagliata', 0),
+(103, 4, 4, 'La percezione delle proprie capacità (autoefficacia)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(103, 5, 1, 'Regole implicite o esplicite che guidano il comportamento in un gruppo o società', 'Corretta', 10),
+(103, 5, 2, 'Le leggi scritte di uno Stato', 'Sbagliata', 0), -- Norme giuridiche
+(103, 5, 3, 'Le credenze condivise su un gruppo (stereotipi)', 'Sbagliata', 0),
+(103, 5, 4, 'I valori morali individuali', 'Sbagliata', 0);
+
+-- Quiz 104: Economia aziendale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(104, 1, 1, 'S.p.A. (Società per Azioni), S.r.l. (Società a Responsabilità Limitata), Società di persone, Ditta individuale', 'Corretta', 10),
+(104, 1, 2, 'Multinazionale, PMI (Piccola Media Impresa)', 'Sbagliata', 0), -- Classificazione dimensionale/geografica
+(104, 1, 3, 'Azienda pubblica, Azienda privata, Azienda non-profit', 'Sbagliata', 0), -- Classificazione per finalità/proprietà
+(104, 1, 4, 'Startup, Azienda consolidata', 'Sbagliata', 0); -- Classificazione per fase di vita
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(104, 2, 1, 'Modello che descrive le attività primarie e di supporto che creano valore per il cliente', 'Corretta', 10),
+(104, 2, 2, 'Analisi dei punti di forza, debolezza, opportunità e minacce (SWOT)', 'Sbagliata', 0),
+(104, 2, 3, 'Diagramma che rappresenta la struttura organizzativa (Organigramma)', 'Sbagliata', 0),
+(104, 2, 4, 'Il bilancio d''esercizio dell''impresa', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(104, 3, 1, 'Analisi strategica dei punti di forza/debolezza interni e opportunità/minacce esterne', 'Corretta', 10),
+(104, 3, 2, 'Analisi del punto di pareggio (Break-Even Point)', 'Sbagliata', 0),
+(104, 3, 3, 'Le 4 P del marketing mix', 'Sbagliata', 0),
+(104, 3, 4, 'Valutazione del ritorno sull''investimento (ROI)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(104, 4, 1, 'Reclutamento, selezione, formazione, valutazione, motivazione del personale', 'Corretta', 10),
+(104, 4, 2, 'Gestione della produzione e della logistica', 'Sbagliata', 0),
+(104, 4, 3, 'Sviluppo delle strategie di marketing', 'Sbagliata', 0),
+(104, 4, 4, 'Controllo finanziario e contabilità', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(104, 5, 1, 'Impegno dell''impresa a contribuire allo sviluppo sostenibile (economico, sociale, ambientale)', 'Corretta', 10),
+(104, 5, 2, 'Massimizzazione del profitto a breve termine', 'Sbagliata', 0), -- Obiettivo tradizionale (a volte in conflitto)
+(104, 5, 3, 'Rispetto delle sole normative legali', 'Sbagliata', 0), -- La CSR va oltre la legge
+(104, 5, 4, 'Attività filantropiche occasionali', 'Sbagliata', 0); -- Può essere parte, ma non esaurisce la CSR
+
+-- Quiz 105: Sociologia urbana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(105, 1, 1, 'Scuola di Chicago (ecologia umana, anomia), Weber (città occidentale), Simmel (vita metropolitana)', 'Corretta', 10),
+(105, 1, 2, 'Teorie marxiste sul conflitto di classe', 'Sbagliata', 0), -- Applicabili, ma non specifiche della sociologia urbana classica
+(105, 1, 3, 'Teorie funzionaliste sulla struttura sociale (Durkheim, Parsons)', 'Sbagliata', 0),
+(105, 1, 4, 'Teorie psicologiche sull''individuo', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(105, 2, 1, 'Processo di crescita della popolazione residente nelle città', 'Corretta', 10),
+(105, 2, 2, 'Espansione fisica della città nello spazio (urban sprawl)', 'Sbagliata', 0),
+(105, 2, 3, 'Processo di declino e abbandono delle aree urbane', 'Sbagliata', 0), -- Deurbanizzazione
+(105, 2, 4, 'Riqualificazione di aree urbane degradate (gentrificazione)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(105, 3, 1, 'Aree accessibili a tutti (piazze, parchi, strade) importanti per socialità, democrazia, identità', 'Corretta', 10),
+(105, 3, 2, 'Proprietà immobiliari dello Stato', 'Sbagliata', 0),
+(105, 3, 3, 'Spazi privati ad uso collettivo (centri commerciali)', 'Sbagliata', 0),
+(105, 3, 4, 'Aree verdi non accessibili al pubblico', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(105, 4, 1, 'Rivendicazione del potere degli abitanti di plasmare la città secondo i propri bisogni', 'Corretta', 10),
+(105, 4, 2, 'Il diritto di proprietà immobiliare in città', 'Sbagliata', 0),
+(105, 4, 3, 'Il diritto alla libera circolazione all''interno della città', 'Sbagliata', 0),
+(105, 4, 4, 'Il diritto di voto nelle elezioni municipali', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(105, 5, 1, 'Sostenibilità ambientale, inclusione sociale, governance partecipativa, mobilità sostenibile', 'Corretta', 10),
+(105, 5, 2, 'Massimizzazione della crescita demografica', 'Sbagliata', 0),
+(105, 5, 3, 'Espansione urbana illimitata', 'Sbagliata', 0),
+(105, 5, 4, 'Privatizzazione di tutti i servizi pubblici', 'Sbagliata', 0);
+
+-- Quiz 106: Antropologia culturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(106, 1, 1, 'Cultura: idee/comportamenti appresi; Società: gruppo organizzato di persone', 'Corretta', 10),
+(106, 1, 2, 'Cultura: arte/letteratura; Società: economia/politica', 'Sbagliata', 0),
+(106, 1, 3, 'Cultura: immateriale; Società: materiale', 'Sbagliata', 0),
+(106, 1, 4, 'Sono sinonimi', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(106, 2, 1, 'Descrizione dettagliata di una cultura basata sulla ricerca sul campo (osservazione partecipante)', 'Corretta', 10),
+(106, 2, 2, 'Studio comparativo di diverse culture (Etnologia)', 'Sbagliata', 0),
+(106, 2, 3, 'Scavo e analisi di resti materiali (Archeologia)', 'Sbagliata', 0),
+(106, 2, 4, 'Analisi statistica di dati demografici', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(106, 3, 1, 'Reciprocità (dono), Redistribuzione, Mercato', 'Corretta', 10),
+(106, 3, 2, 'Capitalismo, Socialismo, Comunismo', 'Sbagliata', 0), -- Sistemi economici moderni
+(106, 3, 3, 'Baratto, Moneta, Credito', 'Sbagliata', 0), -- Mezzi di scambio
+(106, 3, 4, 'Produzione, Distribuzione, Consumo', 'Sbagliata', 0); -- Fasi del processo economico
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(106, 4, 1, 'Analizzando miti, rituali, simboli, cosmologie e pratiche religiose nel loro contesto culturale', 'Corretta', 10),
+(106, 4, 2, 'Valutando la verità o falsità delle credenze religiose', 'Sbagliata', 0), -- Approccio non antropologico
+(106, 4, 3, 'Studiando solo le religioni monoteiste', 'Sbagliata', 0),
+(106, 4, 4, 'Concentrandosi esclusivamente sui testi sacri', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(106, 5, 1, 'Diffusione globale fast food, musica pop, ma anche resistenza e ibridazione culturale', 'Corretta', 10),
+(106, 5, 2, 'Scomparsa totale delle culture locali', 'Sbagliata', 0), -- Estremizzazione
+(106, 5, 3, 'Rafforzamento dell''isolamento culturale', 'Sbagliata', 0), -- Contrario
+(106, 5, 4, 'Nessun impatto significativo', 'Sbagliata', 0);
+
+-- Quiz 107: Storia moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(107, 1, 1, 'Sistema politico in cui il sovrano detiene potere assoluto (es. Luigi XIV in Francia)', 'Corretta', 10),
+(107, 1, 2, 'Monarchia costituzionale con poteri limitati del re', 'Sbagliata', 0),
+(107, 1, 3, 'Repubblica democratica', 'Sbagliata', 0),
+(107, 1, 4, 'Sistema feudale decentralizzato', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(107, 2, 1, 'Conflitto tra Re e Parlamento, affermazione monarchia costituzionale', 'Corretta', 10),
+(107, 2, 2, 'Guerra tra Inghilterra e Francia per il trono (Guerra Cent''anni)', 'Sbagliata', 0), -- Medioevo
+(107, 2, 3, 'Rivolta contadina contro i nobili', 'Sbagliata', 0),
+(107, 2, 4, 'Introduzione della Riforma Anglicana', 'Sbagliata', 0); -- XVI secolo
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(107, 3, 1, 'Creazione vasti imperi (Americhe, Asia), sfruttamento risorse, scambi commerciali globali', 'Corretta', 10),
+(107, 3, 2, 'Declino economico e isolamento dell''Europa', 'Sbagliata', 0),
+(107, 3, 3, 'Diffusione della pace e della democrazia nel mondo', 'Sbagliata', 0), -- Effetto controverso
+(107, 3, 4, 'Fine delle monarchie europee', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(107, 4, 1, 'Sistema sociale e politico pre-rivoluzionario in Francia (monarchia assoluta, società divisa in ordini)', 'Corretta', 10),
+(107, 4, 2, 'Il sistema feudale medievale', 'Sbagliata', 0),
+(107, 4, 3, 'L''Impero Romano', 'Sbagliata', 0),
+(107, 4, 4, 'Il sistema politico degli Stati Uniti', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(107, 5, 1, 'Voltaire / Rousseau / Montesquieu / Kant / Newton (scienziato influente)', 'Corretta', 10),
+(107, 5, 2, 'Lutero / Calvino (Riforma)', 'Sbagliata', 0),
+(107, 5, 3, 'Leonardo da Vinci / Michelangelo (Rinascimento)', 'Sbagliata', 0),
+(107, 5, 4, 'Marx / Hegel (XIX secolo)', 'Sbagliata', 0);
+
+-- Quiz 108: Letteratura tedesca
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(108, 1, 1, 'Franz Kafka', 'Corretta', 10),
+(108, 1, 2, 'Thomas Mann', 'Sbagliata', 0),
+(108, 1, 3, 'Hermann Hesse', 'Sbagliata', 0),
+(108, 1, 4, 'Bertolt Brecht', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(108, 2, 1, 'Enfasi sul sentimento, individualismo, natura, irrazionale, folklore (Goethe giovane, Schiller, fratelli Schlegel)', 'Corretta', 10),
+(108, 2, 2, 'Ricerca di ordine, armonia, misura (Classicismo di Weimar)', 'Sbagliata', 0),
+(108, 2, 3, 'Rappresentazione oggettiva della realtà quotidiana (Realismo)', 'Sbagliata', 0),
+(108, 2, 4, 'Stile sobrio e concentrato sulla vita borghese (Biedermeier)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(108, 3, 1, 'Madre Coraggio e i suoi figli / Vita di Galileo / L''opera da tre soldi', 'Corretta', 10),
+(108, 3, 2, 'Il processo (Kafka)', 'Sbagliata', 0),
+(108, 3, 3, 'Buddenbrook (Mann)', 'Sbagliata', 0),
+(108, 3, 4, 'Siddhartha (Hesse)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(108, 4, 1, 'Periodo letterario (ca. 1815-1848) focalizzato su vita domestica, ordine, rassegnazione', 'Corretta', 10),
+(108, 4, 2, 'Movimento rivoluzionario giovanile (Sturm und Drang)', 'Sbagliata', 0),
+(108, 4, 3, 'Avanguardia artistica del primo Novecento (Espressionismo)', 'Sbagliata', 0),
+(108, 4, 4, 'Stile letterario del dopoguerra (Trümmerliteratur - Letteratura macerie)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(108, 5, 1, 'Elaborazione del passato nazista e della Shoah', 'Corretta', 10),
+(108, 5, 2, 'Celebrazione dell''eroismo militare', 'Sbagliata', 0),
+(108, 5, 3, 'Descrizione idilliaca della vita rurale', 'Sbagliata', 0),
+(108, 5, 4, 'Critica alla religione cristiana', 'Sbagliata', 0);
+
+-- Quiz 109: Fisica applicata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(109, 1, 1, 'Trasmettono luce su lunghe distanze con basse perdite; telecomunicazioni, medicina (endoscopia)', 'Corretta', 10),
+(109, 1, 2, 'Convertono energia solare in elettricità (pannelli fotovoltaici)', 'Sbagliata', 0),
+(109, 1, 3, 'Amplificano segnali elettrici (transistor)', 'Sbagliata', 0),
+(109, 1, 4, 'Generano campi magnetici intensi (superconduttori)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(109, 2, 1, 'Sistema di posizionamento globale basato su segnali da satelliti; usa tempi di percorrenza segnali (relatività)', 'Corretta', 10),
+(109, 2, 2, 'Sistema di comunicazione radio a corto raggio (Bluetooth)', 'Sbagliata', 0),
+(109, 2, 3, 'Tecnologia per reti locali wireless (Wi-Fi)', 'Sbagliata', 0),
+(109, 2, 4, 'Tecnologia di imaging medico (Risonanza Magnetica)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(109, 3, 1, 'Gas ionizzato ad alta temperatura; fusione nucleare controllata, propulsione spaziale, trattamenti materiali', 'Corretta', 10),
+(109, 3, 2, 'Materiali che conducono elettricità senza resistenza a basse temperature (superconduttori)', 'Sbagliata', 0),
+(109, 3, 3, 'Particelle subatomiche accelerate ad alte energie', 'Sbagliata', 0),
+(109, 3, 4, 'Onde sonore ad altissima frequenza (ultrasuoni)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(109, 4, 1, 'Fotovoltaico, solare termico, eolico, idroelettrico, geotermico', 'Corretta', 10),
+(109, 4, 2, 'Centrali a carbone o a gas naturale', 'Sbagliata', 0), -- Energie fossili
+(109, 4, 3, 'Centrali nucleari a fissione', 'Sbagliata', 0), -- Energia nucleare
+(109, 4, 4, 'Batterie e sistemi di accumulo', 'Sbagliata', 0); -- Accumulo, non produzione primaria
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(109, 5, 1, 'Studio della propagazione del suono negli edifici per ottimizzare l''ascolto', 'Corretta', 10),
+(109, 5, 2, 'Studio della resistenza dei materiali da costruzione', 'Sbagliata', 0),
+(109, 5, 3, 'Progettazione di sistemi di illuminazione efficienti', 'Sbagliata', 0),
+(109, 5, 4, 'Analisi del microclima urbano', 'Sbagliata', 0);
+
+-- Quiz 110: Chimica fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(110, 1, 1, 'Studio delle relazioni tra fenomeni chimici ed elettrici; batterie, celle a combustibile, elettrolisi, corrosione', 'Corretta', 10),
+(110, 1, 2, 'Studio delle reazioni indotte dalla luce (Fotochimica)', 'Sbagliata', 0),
+(110, 1, 3, 'Studio della velocità delle reazioni (Cinetica chimica)', 'Sbagliata', 0),
+(110, 1, 4, 'Studio degli scambi di calore nelle reazioni (Termochimica)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(110, 2, 1, 'Descrive come la velocità di reazione aumenta con la temperatura', 'Corretta', 10),
+(110, 2, 2, 'Relaziona pressione parziale e frazione molare in soluzione (Legge di Henry)', 'Sbagliata', 0),
+(110, 2, 3, 'Definisce l''equilibrio chimico (Legge di azione di massa)', 'Sbagliata', 0),
+(110, 2, 4, 'Descrive il comportamento dei gas ideali (Legge dei gas perfetti)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(110, 3, 1, 'Miscele eterogenee con particelle disperse di dimensioni intermedie (es. latte, nebbia)', 'Corretta', 10),
+(110, 3, 2, 'Soluzioni omogenee di soluto in solvente', 'Sbagliata', 0),
+(110, 3, 3, 'Sospensioni con particelle grandi che sedimentano', 'Sbagliata', 0),
+(110, 3, 4, 'Leghe metalliche solide', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(110, 4, 1, 'Energia libera di Gibbs per mole di sostanza; indica tendenza a reagire o cambiare fase', 'Corretta', 10),
+(110, 4, 2, 'Misura dell''acidità o basicità di una soluzione (pH)', 'Sbagliata', 0),
+(110, 4, 3, 'Capacità di un atomo di attrarre elettroni (Elettronegatività)', 'Sbagliata', 0),
+(110, 4, 4, 'Energia necessaria per rimuovere un elettrone (Energia di ionizzazione)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(110, 5, 1, 'Aperto: scambia materia/energia; Chiuso: scambia energia; Isolato: non scambia nulla', 'Corretta', 10),
+(110, 5, 2, 'Aperto: reversibile; Chiuso: irreversibile; Isolato: adiabatico', 'Sbagliata', 0),
+(110, 5, 3, 'Aperto: gassoso; Chiuso: liquido; Isolato: solido', 'Sbagliata', 0),
+(110, 5, 4, 'Non ci sono differenze rilevanti', 'Sbagliata', 0);
+
+-- Quiz 111: Geografia fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(111, 1, 1, 'Grandi ecosistemi terrestri caratterizzati da clima e vegetazione dominanti (foresta, deserto, tundra)', 'Corretta', 10),
+(111, 1, 2, 'Le fasce climatiche della Terra', 'Sbagliata', 0),
+(111, 1, 3, 'Le province biogeografiche marine', 'Sbagliata', 0),
+(111, 1, 4, 'Le unità amministrative di uno Stato', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(111, 2, 1, 'Alterazione roccia madre, apporto materia organica, azione clima e organismi', 'Corretta', 10),
+(111, 2, 2, 'Accumulo di sabbia trasportata dal vento (dune)', 'Sbagliata', 0),
+(111, 2, 3, 'Solidificazione del magma (rocce ignee)', 'Sbagliata', 0),
+(111, 2, 4, 'Erosione delle coste da parte del mare', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(111, 3, 1, 'Deserti caldi (Sahara), deserti freddi (Gobi), deserti costieri (Atacama)', 'Corretta', 10),
+(111, 3, 2, 'Oasi (aree fertili nel deserto)', 'Sbagliata', 0),
+(111, 3, 3, 'Steppe e praterie (zone semiaride)', 'Sbagliata', 0),
+(111, 3, 4, 'Savane (clima tropicale con stagione secca)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(111, 4, 1, 'Innalzamento e abbassamento periodico del livello del mare dovuto all''attrazione gravitazionale Luna/Sole', 'Corretta', 10),
+(111, 4, 2, 'Onde generate dal vento sulla superficie del mare', 'Sbagliata', 0),
+(111, 4, 3, 'Grandi correnti oceaniche superficiali o profonde', 'Sbagliata', 0),
+(111, 4, 4, 'Onde anomale generate da terremoti sottomarini (tsunami)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(111, 5, 1, 'Rischio di frane, alluvioni, valanghe legato a fattori geologici, morfologici e idrologici', 'Corretta', 10),
+(111, 5, 2, 'Rischio di terremoti (rischio sismico)', 'Sbagliata', 0),
+(111, 5, 3, 'Rischio di eruzioni vulcaniche (rischio vulcanico)', 'Sbagliata', 0),
+(111, 5, 4, 'Rischio di inquinamento delle acque sotterranee', 'Sbagliata', 0);
+
+-- Quiz 112: Storia dell Europa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(112, 1, 1, 'Assemblea che ridisegnò l''Europa dopo Napoleone, basata su principi di legittimità ed equilibrio', 'Corretta', 10),
+(112, 1, 2, 'Trattato che pose fine alla Prima Guerra Mondiale (Trattato di Versailles)', 'Sbagliata', 0),
+(112, 1, 3, 'Alleanza militare tra Russia, Prussia e Austria (Santa Alleanza)', 'Sbagliata', 0), -- Post Congresso Vienna
+(112, 1, 4, 'Conferenza che sancì la spartizione dell''Africa (Conferenza di Berlino)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(112, 2, 1, 'Italia: guerre d''indipendenza, spedizione Mille (Cavour, Garibaldi); Germania: guerre Prussia (Bismarck)', 'Corretta', 10),
+(112, 2, 2, 'Processo di formazione degli Stati Uniti d''America', 'Sbagliata', 0),
+(112, 2, 3, 'Creazione dell''Impero Austro-Ungarico', 'Sbagliata', 0),
+(112, 2, 4, 'Lotte per l''indipendenza in America Latina', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(112, 3, 1, 'Cause: guerra, crisi sociale; Conseguenze: caduta zarismo, nascita URSS, guerra civile', 'Corretta', 10),
+(112, 3, 2, 'Cause: assassinio arciduca; Conseguenze: Prima Guerra Mondiale', 'Sbagliata', 0),
+(112, 3, 3, 'Cause: crisi economica; Conseguenze: ascesa nazismo (parziale)', 'Sbagliata', 0),
+(112, 3, 4, 'Cause: malcontento popolare; Conseguenze: caduta Muro Berlino', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(112, 4, 1, 'Sistema di protezione sociale (sanità, istruzione, pensioni) sviluppato in Europa dopo WWII', 'Corretta', 10),
+(112, 4, 2, 'Ideologia politica comunista', 'Sbagliata', 0),
+(112, 4, 3, 'Modello economico basato sul libero mercato (neoliberismo)', 'Sbagliata', 0),
+(112, 4, 4, 'Regime politico autoritario', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(112, 5, 1, 'Trattati di Roma (1957, CEE), Atto Unico Europeo (1986), Trattato di Maastricht (1992, UE)', 'Corretta', 10),
+(112, 5, 2, 'Patto Atlantico (1949, NATO)', 'Sbagliata', 0),
+(112, 5, 3, 'Trattato di Versailles (1919)', 'Sbagliata', 0),
+(112, 5, 4, 'Accordi di Schengen (libera circolazione)', 'Sbagliata', 0); -- Importante, ma non fondativo dell'UE
+
+-- Quiz 113: Matematica finanziaria
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(113, 1, 1, 'Processo di rimborso graduale di un debito tramite rate periodiche', 'Corretta', 10),
+(113, 1, 2, 'Calcolo dell''interesse composto', 'Sbagliata', 0),
+(113, 1, 3, 'Valutazione del rischio di un investimento', 'Sbagliata', 0),
+(113, 1, 4, 'Perdita di valore di un bene nel tempo (ammortamento contabile)', 'Sbagliata', 0); -- Significato diverso
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(113, 2, 1, 'Rischio: incertezza sul risultato; Rendimento: guadagno/perdita atteso', 'Corretta', 10),
+(113, 2, 2, 'Rischio: probabilità di fallimento; Rendimento: profitto netto', 'Sbagliata', 0),
+(113, 2, 3, 'Rischio: misurato dalla volatilità; Rendimento: tasso d''interesse', 'Sbagliata', 0), -- Volatilità misura rischio, ma non è la definizione
+(113, 2, 4, 'Sono inversamente proporzionali', 'Sbagliata', 0); -- Generalmente sono direttamente proporzionali
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(113, 3, 1, 'Strumento finanziario il cui valore deriva da un''attività sottostante (azione, indice, materia prima)', 'Corretta', 10),
+(113, 3, 2, 'Un tipo di obbligazione a tasso variabile', 'Sbagliata', 0),
+(113, 3, 3, 'Un fondo comune di investimento', 'Sbagliata', 0),
+(113, 3, 4, 'Un certificato di deposito bancario', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(113, 4, 1, 'Sequenza di pagamenti (rate) effettuati a intervalli regolari', 'Corretta', 10),
+(113, 4, 2, 'Il capitale iniziale di un investimento', 'Sbagliata', 0),
+(113, 4, 3, 'L''interesse maturato su un deposito', 'Sbagliata', 0),
+(113, 4, 4, 'Il rimborso totale di un mutuo', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(113, 5, 1, 'Suddividere gli investimenti su diverse attività per ridurre il rischio complessivo', 'Corretta', 10),
+(113, 5, 2, 'Concentrare tutti gli investimenti su un unico titolo molto promettente', 'Sbagliata', 0),
+(113, 5, 3, 'Investire solo in titoli di stato considerati sicuri', 'Sbagliata', 0), -- Strategia conservativa, non diversificazione
+(113, 5, 4, 'Comprare e vendere titoli frequentemente (trading)', 'Sbagliata', 0);
+
+-- Quiz 114: Fisica teorica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(114, 1, 1, 'Problema fondamentale: conciliare la descrizione quantistica (piccole scale) con la gravità (grandi scale)', 'Corretta', 10),
+(114, 1, 2, 'Sono due teorie completamente indipendenti e non correlate', 'Sbagliata', 0),
+(114, 1, 3, 'La meccanica quantistica deriva dalla relatività generale', 'Sbagliata', 0),
+(114, 1, 4, 'La relatività generale è un caso limite della meccanica quantistica', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(114, 2, 1, 'Invarianza delle leggi fisiche sotto certe trasformazioni; implica leggi di conservazione', 'Corretta', 10),
+(114, 2, 2, 'La rottura spontanea della simmetria nel Modello Standard', 'Sbagliata', 0),
+(114, 2, 3, 'La simmetria tra materia e antimateria', 'Sbagliata', 0), -- Violata in alcuni processi
+(114, 2, 4, 'La forma geometrica degli oggetti fisici', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(114, 3, 1, 'Dimensioni spaziali aggiuntive oltre le 3 conosciute, postulate da teorie come stringhe', 'Corretta', 10),
+(114, 3, 2, 'Dimensioni temporali multiple', 'Sbagliata', 0),
+(114, 3, 3, 'Universi paralleli (multiverso)', 'Sbagliata', 0), -- Possibile conseguenza, non le dimensioni stesse
+(114, 3, 4, 'Livelli energetici quantizzati degli atomi', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(114, 4, 1, 'Apparente perdita di informazione quando la materia cade in un buco nero (contrasto con meccanica quantistica)', 'Corretta', 10),
+(114, 4, 2, 'Il paradosso dei gemelli nella relatività ristretta', 'Sbagliata', 0),
+(114, 4, 3, 'Il paradosso del gatto di Schrödinger', 'Sbagliata', 0),
+(114, 4, 4, 'L''impossibilità di superare la velocità della luce', 'Sbagliata', 0); -- Conseguenza della relatività, non paradosso con informazione
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(114, 5, 1, 'Gravità quantistica, Teoria delle stringhe/M-teoria, Natura materia/energia oscura, Fisica oltre Modello Standard', 'Corretta', 10),
+(114, 5, 2, 'Spiegazione dell''effetto fotoelettrico', 'Sbagliata', 0), -- Risolto
+(114, 5, 3, 'Calcolo preciso dell''orbita di Mercurio', 'Sbagliata', 0), -- Spiegato da Relatività Generale
+(114, 5, 4, 'Sviluppo di laser più potenti', 'Sbagliata', 0); -- Fisica applicata
+
+-- Quiz 115: Letteratura americana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(115, 1, 1, 'F. Scott Fitzgerald', 'Corretta', 10),
+(115, 1, 2, 'Ernest Hemingway', 'Sbagliata', 0),
+(115, 1, 3, 'William Faulkner', 'Sbagliata', 0),
+(115, 1, 4, 'John Steinbeck', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(115, 2, 1, 'Ambientazione Sud USA, temi: storia, razza, famiglia, decadenza, gotico (Faulkner, O''Connor, Welty)', 'Corretta', 10),
+(115, 2, 2, 'Focalizzazione sulla vita urbana della East Coast', 'Sbagliata', 0),
+(115, 2, 3, 'Storie sulla frontiera e il West', 'Sbagliata', 0),
+(115, 2, 4, 'Narrativa sperimentale postmoderna', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(115, 3, 1, 'Amatissima (Morrison) / Pastorale americana (Roth)', 'Corretta', 10),
+(115, 3, 2, 'Sulla strada (Kerouac)', 'Sbagliata', 0), -- Beat Generation
+(115, 3, 3, 'Il giovane Holden (Salinger)', 'Sbagliata', 0),
+(115, 3, 4, 'Rumore bianco (DeLillo)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(115, 4, 1, 'Movimento letterario e artistico anni ''50-'', anticonformista, rifiuto materialismo (Kerouac, Ginsberg, Burroughs)', 'Corretta', 10),
+(115, 4, 2, 'Gruppo scrittori americani espatriati dopo WWI (Lost Generation)', 'Sbagliata', 0),
+(115, 4, 3, 'Movimento culturale afroamericano anni ''20 (Rinascimento di Harlem)', 'Sbagliata', 0),
+(115, 4, 4, 'Scuola poetica focalizzata sull''immagine (Imagismo)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(115, 5, 1, 'Identità, Razza, Memoria, Violenza, Sogno americano, Postmodernità', 'Corretta', 10),
+(115, 5, 2, 'Amore cortese, avventure cavalleresche', 'Sbagliata', 0),
+(115, 5, 3, 'Vita dei santi, miracoli', 'Sbagliata', 0),
+(115, 5, 4, 'Critica alla monarchia assoluta', 'Sbagliata', 0);
+
+-- Quiz 116: Geografia culturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(116, 1, 1, 'Trasmissione di tratti culturali da un gruppo a un altro; espansione, rilocalizzazione, gerarchica, contagiosa', 'Corretta', 10),
+(116, 1, 2, 'Il processo di invenzione indipendente di tratti culturali simili', 'Sbagliata', 0),
+(116, 1, 3, 'La resistenza al cambiamento culturale', 'Sbagliata', 0),
+(116, 1, 4, 'L''adattamento di una cultura all''ambiente fisico', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(116, 2, 1, 'Spazio geografico investito di significato e identità dalle persone', 'Corretta', 10),
+(116, 2, 2, 'La localizzazione assoluta di un punto sulla mappa (coordinate)', 'Sbagliata', 0),
+(116, 2, 3, 'Un''area con caratteristiche fisiche uniformi (regione)', 'Sbagliata', 0),
+(116, 2, 4, 'Un paesaggio naturale non modificato dall''uomo', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(116, 3, 1, 'Lingua plasma visione mondo; Religione influenza architettura, nomi luoghi, pratiche', 'Corretta', 10),
+(116, 3, 2, 'Non hanno alcun impatto sui paesaggi', 'Sbagliata', 0),
+(116, 3, 3, 'Solo la lingua è importante, la religione è irrilevante', 'Sbagliata', 0),
+(116, 3, 4, 'Solo la religione influenza, la lingua è secondaria', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(116, 4, 1, 'Mercificazione cultura, perdita autenticità, conflitti, ma anche sviluppo economico e scambi culturali', 'Corretta', 10),
+(116, 4, 2, 'Nessun impatto significativo sulla cultura locale', 'Sbagliata', 0),
+(116, 4, 3, 'Solo effetti positivi di conservazione culturale', 'Sbagliata', 0),
+(116, 4, 4, 'Porta sempre alla scomparsa delle culture locali', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(116, 5, 1, 'Guerra civile legata a differenze etniche o religiose (es. Jugoslavia, Ruanda)', 'Corretta', 10),
+(116, 5, 2, 'Competizione economica tra regioni', 'Sbagliata', 0),
+(116, 5, 3, 'Disaccordo sulla gestione di un parco nazionale', 'Sbagliata', 0),
+(116, 5, 4, 'Rivalità sportiva tra città vicine', 'Sbagliata', 0);
+
+-- Quiz 117: Chimica industriale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(117, 1, 1, 'Processo di separazione idrocarburi in base a T ebollizione; benzina, gasolio, cherosene', 'Corretta', 10),
+(117, 1, 2, 'Processo Haber-Bosch per produrre ammoniaca', 'Sbagliata', 0),
+(117, 1, 3, 'Processo Solvay per produrre carbonato di sodio', 'Sbagliata', 0),
+(117, 1, 4, 'Polimerizzazione per produrre materie plastiche', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(117, 2, 1, 'Petrolio, Gas naturale, Minerali, Aria, Acqua, Biomasse', 'Corretta', 10),
+(117, 2, 2, 'Prodotti finiti (farmaci, plastiche)', 'Sbagliata', 0), -- Prodotti, non materie prime
+(117, 2, 3, 'Catalizzatori, Solventi', 'Sbagliata', 0), -- Usati nel processo, ma non sempre materie prime principali
+(117, 2, 4, 'Energia elettrica, Calore', 'Sbagliata', 0); -- Fonti energetiche
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(117, 3, 1, 'Approccio alla chimica che mira a ridurre o eliminare sostanze pericolose e impatti ambientali', 'Corretta', 10),
+(117, 3, 2, 'Chimica che utilizza esclusivamente reagenti di colore verde', 'Sbagliata', 0),
+(117, 3, 3, 'Chimica finalizzata alla produzione di coloranti verdi', 'Sbagliata', 0),
+(117, 3, 4, 'Lo studio della chimica delle piante', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(117, 4, 1, 'Apparecchiature dove avvengono le reazioni chimiche su scala industriale', 'Corretta', 10),
+(117, 4, 2, 'Strumenti per l''analisi chimica dei prodotti', 'Sbagliata', 0),
+(117, 4, 3, 'Sistemi per il trattamento delle acque reflue', 'Sbagliata', 0),
+(117, 4, 4, 'Impianti per la generazione di energia', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(117, 5, 1, 'Polietilene (imballaggi), PVC (tubi, finestre), Poliestere (fibre tessili)', 'Corretta', 10),
+(117, 5, 2, 'Ammoniaca (fertilizzanti)', 'Sbagliata', 0), -- Composto semplice, non polimero
+(117, 5, 3, 'Acido solforico (industria chimica)', 'Sbagliata', 0), -- Composto semplice
+(117, 5, 4, 'Etanolo (carburante, solvente)', 'Sbagliata', 0); -- Composto semplice
+
+-- Quiz 118: Biologia evolutiva
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(118, 1, 1, 'Selezione basata sul successo riproduttivo legato all''accoppiamento (es. scelta partner, competizione)', 'Corretta', 10),
+(118, 1, 2, 'Selezione basata sulla sopravvivenza all''ambiente (selezione naturale)', 'Sbagliata', 0),
+(118, 1, 3, 'Selezione artificiale operata dall''uomo (es. allevamento)', 'Sbagliata', 0),
+(118, 1, 4, 'Cambiamenti casuali nelle frequenze geniche (deriva genetica)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(118, 2, 1, 'Schema ramificato che rappresenta le relazioni evolutive tra specie o gruppi', 'Corretta', 10),
+(118, 2, 2, 'Classificazione gerarchica degli organismi (tassonomia Linneana)', 'Sbagliata', 0),
+(118, 2, 3, 'Mappa della distribuzione geografica delle specie', 'Sbagliata', 0),
+(118, 2, 4, 'Diagramma del flusso energetico in un ecosistema', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(118, 3, 1, 'Convergente: strutture simili in specie non imparentate; Divergente: strutture diverse da antenato comune', 'Corretta', 10),
+(118, 3, 2, 'Convergente: specie si uniscono; Divergente: specie si separano', 'Sbagliata', 0),
+(118, 3, 3, 'Convergente: veloce; Divergente: lento', 'Sbagliata', 0),
+(118, 3, 4, 'Sono sinonimi', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(118, 4, 1, 'Le mutazioni introducono nuova variabilità su cui agisce la selezione', 'Corretta', 10),
+(118, 4, 2, 'Le mutazioni eliminano sempre gli individui meno adatti', 'Sbagliata', 0), -- Ruolo della selezione
+(118, 4, 3, 'Le mutazioni sono sempre dannose per l''organismo', 'Sbagliata', 0), -- Possono essere neutre o vantaggiose
+(118, 4, 4, 'Le mutazioni sono guidate dall''ambiente per produrre adattamenti', 'Sbagliata', 0); -- Sono casuali
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(118, 5, 1, 'Reperti fossili, Anatomia comparata (strutture omologhe/analoghe), Embriologia comparata, Biogeografia, Biologia molecolare (DNA)', 'Corretta', 10),
+(118, 5, 2, 'Testi religiosi sulla creazione', 'Sbagliata', 0),
+(118, 5, 3, 'Osservazione diretta della nascita di nuove specie', 'Sbagliata', 0), -- Evento raro su scala umana
+(118, 5, 4, 'Opinioni di scienziati famosi', 'Sbagliata', 0);
+
+-- Quiz 119: Storia dell Africa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(119, 1, 1, 'Impero del Mali (XIII-XV sec.), Impero Songhai (XV-XVI sec.)', 'Corretta', 10),
+(119, 1, 2, 'Impero Romano', 'Sbagliata', 0), -- Parte Nord Africa, ma non esempio tipico
+(119, 1, 3, 'Impero Ottomano', 'Sbagliata', 0), -- Nord Africa
+(119, 1, 4, 'Regno di Francia', 'Sbagliata', 0); -- Europa
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(119, 2, 1, 'Imposizione confini artificiali, sfruttamento risorse, instabilità politica post-indipendenza', 'Corretta', 10),
+(119, 2, 2, 'Sviluppo economico armonioso e industrializzazione diffusa', 'Sbagliata', 0),
+(119, 2, 3, 'Promozione dell''unità e della cooperazione tra popoli africani', 'Sbagliata', 0), -- Spesso il contrario
+(119, 2, 4, 'Conservazione delle strutture politiche tradizionali', 'Sbagliata', 0); -- Spesso alterate o distrutte
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(119, 3, 1, 'Kwame Nkrumah (Ghana), Patrice Lumumba (Congo), Jomo Kenyatta (Kenya)', 'Corretta', 10),
+(119, 3, 2, 'Nelson Mandela (leader lotta anti-apartheid)', 'Sbagliata', 0), -- Lotta interna, non anti-coloniale classica
+(119, 3, 3, 'Haile Selassie (Etiopia)', 'Sbagliata', 0), -- Imperatore, resistenza a invasione italiana
+(119, 3, 4, 'Leopold Senghor (Senegal)', 'Sbagliata', 0); -- Leader importante, ma più culturale/politico post-ind.
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(119, 4, 1, 'Forma di controllo economico e politico esercitata da ex potenze coloniali o altre potenze su paesi formalmente indipendenti', 'Corretta', 10),
+(119, 4, 2, 'Il ritorno di coloni europei in Africa', 'Sbagliata', 0),
+(119, 4, 3, 'La creazione di nuove colonie nel XXI secolo', 'Sbagliata', 0),
+(119, 4, 4, 'La cooperazione economica tra paesi africani', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(119, 5, 1, 'Povertà, instabilità politica, conflitti, debito estero, dipendenza economica, cambiamenti climatici', 'Corretta', 10),
+(119, 5, 2, 'Eccessiva ricchezza e benessere diffuso', 'Sbagliata', 0),
+(119, 5, 3, 'Mancanza di risorse naturali', 'Sbagliata', 0), -- Spesso ricca di risorse, ma mal gestite/sfruttate
+(119, 5, 4, 'Completa stabilità politica e assenza di conflitti', 'Sbagliata', 0);
+
+-- Quiz 120: Letteratura giapponese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(120, 1, 1, 'Haruki Murakami, Banana Yoshimoto, Kazuo Ishiguro (britannico di origini giapponesi)', 'Corretta', 10),
+(120, 1, 2, 'Yasunari Kawabata, Yukio Mishima', 'Sbagliata', 0), -- Moderni, ma non contemporanei (deceduti)
+(120, 1, 3, 'Murasaki Shikibu, Sei Shōnagon', 'Sbagliata', 0), -- Periodo Heian
+(120, 1, 4, 'Bashō, Issa', 'Sbagliata', 0); -- Poeti Haiku periodo Edo
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(120, 2, 1, 'Fumetto giapponese con stili e generi molto diversificati; enorme influenza culturale globale', 'Corretta', 10),
+(120, 2, 2, 'Poesia breve tradizionale giapponese', 'Sbagliata', 0), -- Haiku/Tanka
+(120, 2, 3, 'Forma di teatro tradizionale giapponese', 'Sbagliata', 0), -- Nō/Kabuki
+(120, 2, 4, 'Romanzo storico ambientato nel Giappone feudale', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(120, 3, 1, 'Il paese delle nevi / Mille gru / Bellezza e tristezza', 'Corretta', 10),
+(120, 3, 2, 'Confessioni di una maschera (Mishima)', 'Sbagliata', 0),
+(120, 3, 3, 'Norwegian Wood (Murakami)', 'Sbagliata', 0),
+(120, 3, 4, 'Storia di Genji (Murasaki Shikibu)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(120, 4, 1, 'Centrale; influenza su temi (impermanenza, stagioni), stile (semplicità, suggestione)', 'Corretta', 10),
+(120, 4, 2, 'Marginale, la letteratura si concentra sulla vita urbana', 'Sbagliata', 0),
+(120, 4, 3, 'Vista come ostacolo al progresso e alla modernità', 'Sbagliata', 0),
+(120, 4, 4, 'Presente solo nella poesia Haiku', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(120, 5, 1, 'Solitudine, alienazione, memoria, identità, tecnologia, rapporto tradizione/modernità', 'Corretta', 10),
+(120, 5, 2, 'Eroismo samurai, onore feudale', 'Sbagliata', 0), -- Temi più storici
+(120, 5, 3, 'Critica diretta al governo imperiale', 'Sbagliata', 0), -- Raro
+(120, 5, 4, 'Vita quotidiana dei contadini nel periodo Edo', 'Sbagliata', 0);
+
+-- Quiz 121: Filosofia orientale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(121, 1, 1, 'Legge cosmica, dovere, ordine sociale (Induismo); insegnamento del Buddha (Buddhismo)', 'Corretta', 10),
+(121, 1, 2, 'Il ciclo di nascita, morte e rinascita (Samsara)', 'Sbagliata', 0),
+(121, 1, 3, 'L''azione e le sue conseguenze (Karma)', 'Sbagliata', 0),
+(121, 1, 4, 'La liberazione finale (Moksha/Nirvana)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(121, 2, 1, 'Verità della sofferenza, dell''origine della sofferenza (desiderio), della cessazione della sofferenza, del sentiero per la cessazione', 'Corretta', 10),
+(121, 2, 2, 'I quattro Veda fondamentali dell''Induismo', 'Sbagliata', 0),
+(121, 2, 3, 'Le quattro caste principali della società indiana', 'Sbagliata', 0),
+(121, 2, 4, 'I quattro stadi della vita (ashrama) nell''Induismo', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(121, 3, 1, 'Regole etiche fondamentali per i laici buddhisti (non uccidere, non rubare, non mentire...)', 'Corretta', 10),
+(121, 3, 2, 'I cinque elementi costitutivi della realtà (terra, acqua, fuoco, aria, etere)', 'Sbagliata', 0),
+(121, 3, 3, 'Le cinque relazioni fondamentali nel Confucianesimo', 'Sbagliata', 0),
+(121, 3, 4, 'I cinque pilastri dell''Islam', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(121, 4, 1, 'Agire senza sforzo, in armonia con il flusso naturale delle cose (Tao)', 'Corretta', 10),
+(121, 4, 2, 'Pratica della meditazione seduta (Zazen)', 'Sbagliata', 0), -- Zen Buddhismo
+(121, 4, 3, 'Principio di non-violenza (Ahimsa)', 'Sbagliata', 0), -- Induismo/Giainismo/Buddhismo
+(121, 4, 4, 'Concetto di vuoto o vacuità (Sunyata)', 'Sbagliata', 0); -- Buddhismo Mahayana
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(121, 5, 1, 'Confucianesimo: etica sociale, gerarchia; Taoismo: natura, spontaneità, individualità', 'Corretta', 10),
+(121, 5, 2, 'Confucianesimo: ateo; Taoismo: politeista', 'Sbagliata', 0), -- Entrambi non teistici in senso stretto
+(121, 5, 3, 'Confucianesimo: focus su aldilà; Taoismo: focus su vita terrena', 'Sbagliata', 0), -- Entrambi focus su vita terrena
+(121, 5, 4, 'Sono due nomi per la stessa filosofia', 'Sbagliata', 0);
+
+-- Quiz 122: Psicologia clinica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(122, 1, 1, 'Depressione Maggiore, Disturbo Bipolare', 'Corretta', 10),
+(122, 1, 2, 'Disturbo d''Ansia Generalizzata, Fobie', 'Sbagliata', 0), -- Disturbi d'ansia
+(122, 1, 3, 'Disturbo Ossessivo-Compulsivo (DOC)', 'Sbagliata', 0),
+(122, 1, 4, 'Disturbi di Personalità (es. Borderline, Narcisistico)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(122, 2, 1, 'Psicoanalisi (Freud), Terapia Psicodinamica, Terapia Sistemico-Relazionale, Terapia Umanistica', 'Corretta', 10),
+(122, 2, 2, 'Terapia farmacologica', 'Sbagliata', 0),
+(122, 2, 3, 'Terapia elettroconvulsivante (TEC)', 'Sbagliata', 0),
+(122, 2, 4, 'Training autogeno', 'Sbagliata', 0); -- Tecnica di rilassamento
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(122, 3, 1, 'Risposta psicofisiologica a eventi percepiti come minacciosi; strategie: problem-focused, emotion-focused', 'Corretta', 10),
+(122, 3, 2, 'Un disturbo d''ansia specifico', 'Sbagliata', 0),
+(122, 3, 3, 'Una reazione allergica', 'Sbagliata', 0),
+(122, 3, 4, 'Un meccanismo di difesa inconscio', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(122, 4, 1, 'Alleanza basata su fiducia, empatia e collaborazione tra paziente e terapeuta', 'Corretta', 10),
+(122, 4, 2, 'La somministrazione di farmaci da parte del terapeuta', 'Sbagliata', 0), -- Solo psichiatri
+(122, 4, 3, 'La diagnosi precisa del disturbo', 'Sbagliata', 0), -- Importante, ma non è la relazione
+(122, 4, 4, 'La durata del trattamento terapeutico', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(122, 5, 1, 'Distinguere un disturbo da altri con sintomi simili per arrivare alla diagnosi corretta', 'Corretta', 10),
+(122, 5, 2, 'La classificazione dei diversi tipi di terapia', 'Sbagliata', 0),
+(122, 5, 3, 'La valutazione dell''efficacia di un trattamento', 'Sbagliata', 0),
+(122, 5, 4, 'L''analisi dei fattori di rischio per un disturbo', 'Sbagliata', 0);
+
+-- Quiz 123: Economia politica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(123, 1, 1, 'Espansiva: aumenta offerta moneta/riduce tassi; Restrittiva: riduce offerta moneta/aumenta tassi', 'Corretta', 10),
+(123, 1, 2, 'Espansiva: aumenta tasse; Restrittiva: riduce tasse', 'Sbagliata', 0), -- Politica fiscale
+(123, 1, 3, 'Espansiva: liberalizza commercio; Restrittiva: impone dazi', 'Sbagliata', 0), -- Politica commerciale
+(123, 1, 4, 'Non c''è differenza tra le due', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(123, 2, 1, 'Situazione in cui il mercato non alloca le risorse in modo efficiente; cause: esternalità, beni pubblici, asimmetrie informative', 'Corretta', 10),
+(123, 2, 2, 'Una crisi economica generale (recessione)', 'Sbagliata', 0),
+(123, 2, 3, 'Il fallimento di una singola impresa', 'Sbagliata', 0),
+(123, 2, 4, 'Mancanza di concorrenza perfetta', 'Sbagliata', 0); -- Una possibile causa, non la definizione
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(123, 3, 1, 'Beni non rivali (consumo di uno non impedisce ad altri) e non escludibili (difficile impedire fruizione); es. difesa, illuminazione stradale', 'Corretta', 10),
+(123, 3, 2, 'Beni prodotti dal settore pubblico', 'Sbagliata', 0), -- Non necessariamente
+(123, 3, 3, 'Beni accessibili gratuitamente', 'Sbagliata', 0), -- Possibile conseguenza, non definizione
+(123, 3, 4, 'Beni essenziali per la sopravvivenza', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(123, 4, 1, 'Keynesiana: intervento attivo per stabilizzare; Neoliberista: minimo intervento, libero mercato', 'Corretta', 10),
+(123, 4, 2, 'Marxista: abolizione proprietà privata, pianificazione centrale', 'Sbagliata', 0),
+(123, 4, 3, 'Mercantilista: promozione esportazioni, accumulo ricchezza', 'Sbagliata', 0), -- Storica
+(123, 4, 4, 'Fisiocratica: agricoltura come unica fonte di ricchezza', 'Sbagliata', 0); -- Storica
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(123, 5, 1, 'Processo di crescita economica e miglioramento qualità vita; misurato da PIL pro capite, Indice Sviluppo Umano (ISU)', 'Corretta', 10),
+(123, 5, 2, 'Solo l''aumento del PIL totale', 'Sbagliata', 0), -- Crescita economica
+(123, 5, 3, 'La riduzione del debito pubblico', 'Sbagliata', 0),
+(123, 5, 4, 'L''aumento delle esportazioni', 'Sbagliata', 0);
+
+-- Quiz 124: Sociologia rurale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(124, 1, 1, 'Rurali: relazioni più comunitarie, controllo sociale forte; Urbane: relazioni più anonime, individualismo', 'Corretta', 10),
+(124, 1, 2, 'Rurali: più ricche; Urbane: più povere', 'Sbagliata', 0), -- Generalmente inverso o complesso
+(124, 1, 3, 'Rurali: focus su industria; Urbane: focus su agricoltura', 'Sbagliata', 0), -- Inverso
+(124, 1, 4, 'Non ci sono differenze significative', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(124, 2, 1, 'Sussidi, quote produzione, regolamentazioni ambientali; impatto su redditi, strutture aziendali, paesaggio', 'Corretta', 10),
+(124, 2, 2, 'Politiche fiscali generali (tasse sul reddito)', 'Sbagliata', 0),
+(124, 2, 3, 'Politiche monetarie (tassi interesse)', 'Sbagliata', 0),
+(124, 2, 4, 'Politiche per l''istruzione pubblica', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(124, 3, 1, 'Turismo in aree rurali (agriturismo); effetti: diversificazione reddito, ma anche impatto ambientale/culturale', 'Corretta', 10),
+(124, 3, 2, 'Grandi resort turistici sulle coste', 'Sbagliata', 0), -- Turismo balneare
+(124, 3, 3, 'Viaggi d''affari nelle grandi città', 'Sbagliata', 0), -- Turismo d'affari
+(124, 3, 4, 'Pellegrinaggi religiosi', 'Sbagliata', 0); -- Turismo religioso
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(124, 4, 1, 'Migrazione da aree rurali a urbane; cause: mancanza lavoro, servizi, attrazione città', 'Corretta', 10),
+(124, 4, 2, 'Movimento da città a campagna (contro-urbanizzazione)', 'Sbagliata', 0),
+(124, 4, 3, 'Aumento della popolazione nelle aree rurali', 'Sbagliata', 0),
+(124, 4, 4, 'Migrazione internazionale verso aree rurali', 'Sbagliata', 0); -- Possibile, ma non è la definizione di spopolamento
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(124, 5, 1, 'Residenziale, turistica, ricreativa, conservazione ambientale, produzione energia rinnovabile', 'Corretta', 10),
+(124, 5, 2, 'Esclusivamente produzione agricola', 'Sbagliata', 0), -- Visione tradizionale
+(124, 5, 3, 'Centri finanziari internazionali', 'Sbagliata', 0), -- Tipico delle metropoli
+(124, 5, 4, 'Poli industriali pesanti', 'Sbagliata', 0); -- Tipico aree industriali/urbane
+
+-- Quiz 125: Antropologia fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(125, 1, 1, 'Australopithecus -> Homo habilis -> Homo erectus -> Homo neanderthalensis/sapiens', 'Corretta', 10),
+(125, 1, 2, 'Pesci -> Anfibi -> Rettili -> Mammiferi', 'Sbagliata', 0), -- Evoluzione vertebrati
+(125, 1, 3, 'Scimmie -> Proscimmie -> Ominidi', 'Sbagliata', 0), -- Evoluzione primati (semplificata)
+(125, 1, 4, 'Cellula procariote -> Cellula eucariote -> Organismi pluricellulari', 'Sbagliata', 0); -- Origine vita/cellule
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(125, 2, 1, 'Cervello grande, linguaggio complesso, cultura elaborata, bipedismo efficiente', 'Corretta', 10),
+(125, 2, 2, 'Pollice opponibile', 'Sbagliata', 0), -- Presente in molti primati
+(125, 2, 3, 'Capacità di usare strumenti', 'Sbagliata', 0), -- Presente anche in altri Homo e scimpanzé
+(125, 2, 4, 'Pelliccia folta per isolamento termico', 'Sbagliata', 0); -- Persa in H. sapiens
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(125, 3, 1, 'Uso del DNA per studiare relazioni evolutive, migrazioni, demografia passata', 'Corretta', 10),
+(125, 3, 2, 'Studio della cultura materiale (archeologia)', 'Sbagliata', 0),
+(125, 3, 3, 'Analisi della struttura sociale (antropologia sociale)', 'Sbagliata', 0),
+(125, 3, 4, 'Studio comparativo delle lingue (antropologia linguistica)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(125, 4, 1, 'Concetto socialmente costruito, non biologicamente valido; variabilità umana è clinale', 'Corretta', 10),
+(125, 4, 2, 'Suddivisione biologica fondamentale della specie umana', 'Sbagliata', 0), -- Visione superata e errata
+(125, 4, 3, 'Corrisponde alle diverse nazionalità', 'Sbagliata', 0),
+(125, 4, 4, 'Determina le capacità intellettuali', 'Sbagliata', 0); -- Razzismo scientifico (errato)
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(125, 5, 1, 'Colore pelle (raggi UV), adattamenti a climi freddi/caldi, tolleranza lattosio', 'Corretta', 10),
+(125, 5, 2, 'Preferenze alimentari culturali', 'Sbagliata', 0), -- Adattamento culturale
+(125, 5, 3, 'Scelta del partner matrimoniale', 'Sbagliata', 0), -- Fattore culturale/sociale
+(125, 5, 4, 'Apprendimento di lingue diverse', 'Sbagliata', 0); -- Capacità biologica, ma realizzazione culturale
+
+-- Quiz 126: Storia dell Oceania
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(126, 1, 1, 'Espansione in canoa attraverso il Pacifico (Polinesia), colonizzando isole remote', 'Corretta', 10),
+(126, 1, 2, 'Migrazioni terrestri dall''Asia all''America (via Beringia)', 'Sbagliata', 0),
+(126, 1, 3, 'Spostamenti stagionali di popolazioni nomadi', 'Sbagliata', 0),
+(126, 1, 4, 'Invasioni militari da parte di imperi asiatici', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(126, 2, 1, 'Introduzione malattie, alterazione culture/economie, rivendicazione terre', 'Corretta', 10),
+(126, 2, 2, 'Nessun impatto significativo fino al XIX secolo', 'Sbagliata', 0),
+(126, 2, 3, 'Alleanza pacifica e scambi culturali paritari', 'Sbagliata', 0),
+(126, 2, 4, 'Aiuto allo sviluppo tecnologico locale', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(126, 3, 1, 'Colonizzazione francese della Nuova Caledonia / tedesca della Nuova Guinea', 'Corretta', 10),
+(126, 3, 2, 'Dominio spagnolo delle Filippine', 'Sbagliata', 0), -- Sud-Est Asiatico
+(126, 3, 3, 'Controllo olandese dell''Indonesia', 'Sbagliata', 0), -- Sud-Est Asiatico
+(126, 3, 4, 'Presenza portoghese a Timor Est', 'Sbagliata', 0); -- Sud-Est Asiatico
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(126, 4, 1, 'Movimenti politici per l''autonomia e l''indipendenza dal dominio coloniale', 'Corretta', 10),
+(126, 4, 2, 'Movimenti religiosi millenaristi (culti del cargo)', 'Sbagliata', 0), -- Fenomeno correlato ma distinto
+(126, 4, 3, 'Guerre tribali interne', 'Sbagliata', 0),
+(126, 4, 4, 'Programmi di sviluppo economico finanziati dall''ONU', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(126, 5, 1, 'Cambiamenti climatici (innalzamento mare), vulnerabilità economica, gestione risorse, influenza potenze esterne', 'Corretta', 10),
+(126, 5, 2, 'Eccessiva industrializzazione', 'Sbagliata', 0), -- Generalmente poco industrializzati
+(126, 5, 3, 'Sovrappopolazione estrema', 'Sbagliata', 0), -- Problema per alcune isole piccole, non generale
+(126, 5, 4, 'Conflitti militari su larga scala', 'Sbagliata', 0); -- Generalmente pacifici
+
+-- Quiz 127: Letteratura africana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(127, 1, 1, 'Mariama Bâ, Tsitsi Dangarembga, Chimamanda Ngozi Adichie', 'Corretta', 10),
+(127, 1, 2, 'Chinua Achebe, Wole Soyinka, Ngugi wa Thiong''o', 'Sbagliata', 0), -- Autori maschili importanti
+(127, 1, 3, 'Nadine Gordimer, Doris Lessing', 'Sbagliata', 0), -- Scrittrici bianche sudafricane/rhodesiane
+(127, 1, 4, 'Toni Morrison, Alice Walker', 'Sbagliata', 0); -- Scrittrici afroamericane
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(127, 2, 1, 'Movimento culturale e letterario (anni ''30-'') che rivendicava l''identità e i valori culturali neri (Senghor, Césaire)', 'Corretta', 10),
+(127, 2, 2, 'Stile letterario realista del dopoguerra', 'Sbagliata', 0),
+(127, 2, 3, 'Genere teatrale tradizionale africano', 'Sbagliata', 0),
+(127, 2, 4, 'Movimento politico panafricanista', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(127, 3, 1, 'Petali di sangue (Ngugi) / Cambiamenti: una storia d''amore (Aidoo)', 'Corretta', 10),
+(127, 3, 2, 'Le cose crollano (Achebe)', 'Sbagliata', 0),
+(127, 3, 3, 'La morte e il cavaliere del re (Soyinka)', 'Sbagliata', 0),
+(127, 3, 4, 'La figlia di Burger (Gordimer)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(127, 4, 1, 'Integrazione di elementi mitici, leggendari e cosmologici nelle trame e nello stile narrativo', 'Corretta', 10),
+(127, 4, 2, 'Abbandono completo di qualsiasi riferimento al mito', 'Sbagliata', 0),
+(127, 4, 3, 'Uso del mito solo come allegoria politica', 'Sbagliata', 0),
+(127, 4, 4, 'Trascrizione fedele dei miti senza rielaborazione letteraria', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(127, 5, 1, 'Temi: identità postcoloniale, critica sociale, rapporto tradizione/modernità, diaspora', 'Corretta', 10),
+(127, 5, 2, 'Celebrazione acritica del passato precoloniale', 'Sbagliata', 0),
+(127, 5, 3, 'Adozione totale dei modelli letterari europei', 'Sbagliata', 0),
+(127, 5, 4, 'Focus esclusivo sulla vita rurale tradizionale', 'Sbagliata', 0);
+
+-- Quiz 128: Fisica nucleare
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(128, 1, 1, 'Atomi dello stesso elemento (stesso Z) con diverso numero di neutroni (diverso A)', 'Corretta', 10),
+(128, 1, 2, 'Atomi con stesso numero di massa (A) ma diverso numero atomico (Z) (Isobari)', 'Sbagliata', 0),
+(128, 1, 3, 'Atomi con stesso numero di neutroni ma diverso numero atomico (Isotoni)', 'Sbagliata', 0),
+(128, 1, 4, 'Atomi con diversa carica elettrica (Ioni)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(128, 2, 1, 'Fissione U-235 indotta da neutroni, reazione a catena controllata, calore genera vapore, turbina produce elettricità', 'Corretta', 10),
+(128, 2, 2, 'Fusione di nuclei leggeri (deuterio, trizio) ad altissime temperature', 'Sbagliata', 0), -- Reattore a fusione (sperimentale)
+(128, 2, 3, 'Combustione di carbone o gas per produrre vapore', 'Sbagliata', 0), -- Centrale termoelettrica
+(128, 2, 4, 'Sfruttamento dell''energia solare con pannelli fotovoltaici', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(128, 3, 1, 'Smaltimento sicuro a lungo termine dei materiali radioattivi prodotti dalla fissione', 'Corretta', 10),
+(128, 3, 2, 'Rischio di esaurimento del combustibile nucleare (Uranio)', 'Sbagliata', 0), -- Uranio è abbondante
+(128, 3, 3, 'Eccessiva produzione di gas serra', 'Sbagliata', 0), -- Energia nucleare non produce CO2 direttamente
+(128, 3, 4, 'Inquinamento acustico generato dalle centrali', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(128, 4, 1, 'Tempo necessario perché metà dei nuclei radioattivi di un campione decadano', 'Corretta', 10),
+(128, 4, 2, 'Tempo necessario per il completo decadimento del campione', 'Sbagliata', 0), -- Infinito teoricamente
+(128, 4, 3, 'L''età del materiale radioattivo', 'Sbagliata', 0),
+(128, 4, 4, 'L''energia rilasciata durante il decadimento', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(128, 5, 1, 'Forza forte: tiene uniti protoni/neutroni; Forza debole: responsabile decadimento beta', 'Corretta', 10),
+(128, 5, 2, 'Forza forte: agisce sugli elettroni; Forza debole: sulla gravità', 'Sbagliata', 0),
+(128, 5, 3, 'Sono due nomi per la stessa interazione', 'Sbagliata', 0),
+(128, 5, 4, 'Forza forte: repulsiva; Forza debole: attrattiva', 'Sbagliata', 0); -- Entrambe complesse, forte è attrattiva a corto raggio
+
+-- Quiz 129: Chimica ambientale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(129, 1, 1, 'Metalli pesanti, Pesticidi, Scarichi industriali/agricoli, Rifiuti plastici', 'Corretta', 10),
+(129, 1, 2, 'Anidride carbonica (CO2), Metano (CH4)', 'Sbagliata', 0), -- Inquinanti atmosferici / gas serra
+(129, 1, 3, 'Ossidi di azoto (NOx), Ossidi di zolfo (SOx)', 'Sbagliata', 0), -- Inquinanti atmosferici / piogge acide
+(129, 1, 4, 'Sali minerali naturali (calcio, magnesio)', 'Sbagliata', 0); -- Componenti naturali
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(129, 2, 1, 'Movimento di un elemento attraverso biosfera, atmosfera, idrosfera, litosfera', 'Corretta', 10),
+(129, 2, 2, 'Il ciclo vitale di un organismo', 'Sbagliata', 0),
+(129, 2, 3, 'Il ciclo delle stagioni', 'Sbagliata', 0),
+(129, 2, 4, 'Il ciclo economico', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(129, 3, 1, 'Eccessivo arricchimento di nutrienti (azoto, fosforo) che causa crescita algale e carenza ossigeno', 'Corretta', 10),
+(129, 3, 2, 'Aumento della temperatura dell''acqua', 'Sbagliata', 0), -- Inquinamento termico
+(129, 3, 3, 'Diminuzione del pH dell''acqua (acidificazione)', 'Sbagliata', 0),
+(129, 3, 4, 'Contaminazione da metalli pesanti', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(129, 4, 1, 'Progettazione prodotti/processi chimici che riducono/eliminano sostanze pericolose', 'Corretta', 10),
+(129, 4, 2, 'Uso esclusivo di reagenti di origine vegetale', 'Sbagliata', 0),
+(129, 4, 3, 'Produzione di energia da fonti rinnovabili', 'Sbagliata', 0), -- Legata, ma non è la chimica verde in sé
+(129, 4, 4, 'Riciclaggio della plastica', 'Sbagliata', 0); -- Un obiettivo della chimica verde
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(129, 5, 1, 'Riduzione, Riuso, Riciclo, Recupero energetico, Smaltimento controllato (discarica)', 'Corretta', 10),
+(129, 5, 2, 'Bruciarli all''aperto', 'Sbagliata', 0), -- Inquinante
+(129, 5, 3, 'Gettarli in mare', 'Sbagliata', 0), -- Inquinante
+(129, 5, 4, 'Seppellirli senza precauzioni', 'Sbagliata', 0); -- Inquinante
+
+-- Quiz 130: Geografia economica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(130, 1, 1, 'Trasferimento di attività produttive in paesi con costi inferiori; cause: costo lavoro; effetti: perdita lavoro (origine), sviluppo (dest.)', 'Corretta', 10),
+(130, 1, 2, 'Concentrazione di imprese simili nella stessa area (distretto industriale)', 'Sbagliata', 0),
+(130, 1, 3, 'Acquisto di beni e servizi dall''estero (importazione)', 'Sbagliata', 0),
+(130, 1, 4, 'Investimenti diretti esteri (IDE)', 'Sbagliata', 0); -- Può essere legato, ma non è la stessa cosa
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(130, 2, 1, 'Facilitano flussi di merci, persone, informazioni; fondamentali per competitività regionale', 'Corretta', 10),
+(130, 2, 2, 'Hanno un ruolo marginale rispetto al capitale umano', 'Sbagliata', 0),
+(130, 2, 3, 'Sono importanti solo per il turismo', 'Sbagliata', 0),
+(130, 2, 4, 'Causano principalmente inquinamento e congestione', 'Sbagliata', 0); -- Effetti negativi, ma ruolo positivo è primario
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(130, 3, 1, 'Weber (localizzazione industriale, costo trasporto), Christaller (località centrali, servizi)', 'Corretta', 10),
+(130, 3, 2, 'Ricardo (vantaggi comparati)', 'Sbagliata', 0), -- Commercio internazionale
+(130, 3, 3, 'Malthus (crescita popolazione)', 'Sbagliata', 0), -- Demografia
+(130, 3, 4, 'Keynes (domanda aggregata)', 'Sbagliata', 0); -- Macroeconomia
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(130, 4, 1, 'Specializzazione produttiva dei diversi paesi/regioni nel contesto globale', 'Corretta', 10),
+(130, 4, 2, 'La divisione del lavoro all''interno di una singola impresa', 'Sbagliata', 0),
+(130, 4, 3, 'La suddivisione dell''economia nei settori primario, secondario, terziario', 'Sbagliata', 0),
+(130, 4, 4, 'La separazione tra lavoro manuale e intellettuale', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(130, 5, 1, 'Studiando la distribuzione spaziale della ricchezza, accesso a risorse/opportunità, effetti globalizzazione', 'Corretta', 10),
+(130, 5, 2, 'Ignorando le differenze tra paesi ricchi e poveri', 'Sbagliata', 0),
+(130, 5, 3, 'Focalizzandosi solo sulla crescita del PIL aggregato', 'Sbagliata', 0),
+(130, 5, 4, 'Attribuendo le disuguaglianze solo a fattori culturali', 'Sbagliata', 0);
+
+-- Quiz 131: Storia dell America
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(131, 1, 1, 'Spagna (Sud/Centro America), Portogallo (Brasile), Inghilterra/Francia (Nord America)', 'Corretta', 10),
+(131, 1, 2, 'Olanda (Indonesia), Belgio (Congo)', 'Sbagliata', 0), -- Altre aree coloniali
+(131, 1, 3, 'Germania (Africa Sud-Ovest), Italia (Libia, Eritrea)', 'Sbagliata', 0), -- Colonialismo più tardivo
+(131, 1, 4, 'Russia (Siberia, Alaska)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(131, 2, 1, 'Conflitto (1861-65) tra Unione (Nord) e Confederazione (Sud); cause: schiavitù, diritti stati', 'Corretta', 10),
+(131, 2, 2, 'Guerra d''Indipendenza Americana (1775-83)', 'Sbagliata', 0),
+(131, 2, 3, 'Guerra Messico-Stati Uniti (1846-48)', 'Sbagliata', 0),
+(131, 2, 4, 'Prima Guerra Mondiale (intervento USA 1917)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(131, 3, 1, 'Principio politica estera USA (1823) contro interferenze europee nelle Americhe', 'Corretta', 10),
+(131, 3, 2, 'Dottrina Truman (contenimento comunismo)', 'Sbagliata', 0), -- Guerra Fredda
+(131, 3, 3, 'Teoria del destino manifesto (espansione USA)', 'Sbagliata', 0),
+(131, 3, 4, 'Politica del "Big Stick" di Theodore Roosevelt', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(131, 4, 1, 'Rivoluzione Messicana (1910-20) / Rivoluzione Cubana (1953-59)', 'Corretta', 10),
+(131, 4, 2, 'Guerra d''indipendenza USA', 'Sbagliata', 0),
+(131, 4, 3, 'Guerra civile spagnola', 'Sbagliata', 0), -- Europa
+(131, 4, 4, 'Rivoluzione Russa', 'Sbagliata', 0); -- Europa/Asia
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(131, 5, 1, 'Creazione società multiculturali, crescita economica, tensioni sociali e politiche', 'Corretta', 10),
+(131, 5, 2, 'Mantenimento di società culturalmente omogenee', 'Sbagliata', 0),
+(131, 5, 3, 'Declino economico e spopolamento', 'Sbagliata', 0),
+(131, 5, 4, 'Nessun impatto significativo', 'Sbagliata', 0);
+
+-- Quiz 132: Matematica discreta
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(132, 1, 1, 'Modelli matematici di macchine con memoria finita; analisi lessicale, controllo sistemi', 'Corretta', 10),
+(132, 1, 2, 'Algoritmi per l''ordinamento di dati', 'Sbagliata', 0),
+(132, 1, 3, 'Strutture dati come alberi o grafi', 'Sbagliata', 0),
+(132, 1, 4, 'Tecniche crittografiche', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(132, 2, 1, 'Sistema algebrico per logica proposizionale (AND, OR, NOT); progettazione circuiti digitali', 'Corretta', 10),
+(132, 2, 2, 'Algebra lineare (spazi vettoriali, matrici)', 'Sbagliata', 0),
+(132, 2, 3, 'Analisi matematica (derivate, integrali)', 'Sbagliata', 0),
+(132, 2, 4, 'Teoria dei numeri (numeri primi, congruenze)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(132, 3, 1, 'Studio dei limiti teorici della computazione; Macchina di Turing: modello teorico di computer', 'Corretta', 10),
+(132, 3, 2, 'Teoria dell''informazione (entropia, codifica)', 'Sbagliata', 0),
+(132, 3, 3, 'Teoria della probabilità', 'Sbagliata', 0),
+(132, 3, 4, 'Teoria dei grafi', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(132, 4, 1, 'Trovare il percorso più breve che visita un insieme di città una sola volta; problema NP-difficile', 'Corretta', 10),
+(132, 4, 2, 'Trovare il flusso massimo in una rete', 'Sbagliata', 0), -- Problema flusso massimo
+(132, 4, 3, 'Trovare il cammino minimo tra due nodi in un grafo (Dijkstra)', 'Sbagliata', 0),
+(132, 4, 4, 'Colorare una mappa con il minor numero di colori', 'Sbagliata', 0); -- Problema colorazione grafi
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(132, 5, 1, 'Dijkstra (cammini minimi), Kruskal/Prim (minimum spanning tree), Ford-Fulkerson (flusso massimo)', 'Corretta', 10),
+(132, 5, 2, 'Algoritmo di Euclide (MCD)', 'Sbagliata', 0), -- Teoria dei numeri
+(132, 5, 3, 'Merge Sort / Quick Sort (ordinamento)', 'Sbagliata', 0), -- Algoritmi generali
+(132, 5, 4, 'Metodo di Newton-Raphson (radici di funzioni)', 'Sbagliata', 0); -- Analisi numerica
+
+-- Quiz 133: Fisica dei materiali
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(133, 1, 1, 'Materiali con proprietà elettriche intermedie tra conduttori e isolanti; base elettronica (transistor, diodi)', 'Corretta', 10),
+(133, 1, 2, 'Materiali che conducono elettricità senza resistenza (superconduttori)', 'Sbagliata', 0),
+(133, 1, 3, 'Materiali che non conducono elettricità (isolanti)', 'Sbagliata', 0),
+(133, 1, 4, 'Materiali che emettono luce quando colpiti da radiazione (scintillatori)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(133, 2, 1, 'Materiali formati da due o più componenti con proprietà superiori; aeronautica, sport, edilizia', 'Corretta', 10),
+(133, 2, 2, 'Leghe metalliche (es. acciaio, bronzo)', 'Sbagliata', 0), -- Tipi specifici di materiali
+(133, 2, 3, 'Polimeri termoplastici', 'Sbagliata', 0),
+(133, 2, 4, 'Ceramici avanzati', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(133, 3, 1, 'Fenomeno di resistenza elettrica nulla sotto una temperatura critica; treni levitazione magnetica, RMN', 'Corretta', 10),
+(133, 3, 2, 'Proprietà di alcuni materiali di emettere luce (luminescenza)', 'Sbagliata', 0),
+(133, 3, 3, 'Capacità di un materiale di deformarsi plasticamente (duttilità)', 'Sbagliata', 0),
+(133, 3, 4, 'Resistenza di un materiale alla frattura (tenacità)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(133, 4, 1, 'Deviazioni dalla struttura cristallina perfetta (vacanze, dislocazioni, bordi grano); influenzano proprietà meccaniche/elettriche', 'Corretta', 10),
+(133, 4, 2, 'La presenza di impurità chimiche nel materiale', 'Sbagliata', 0), -- Un tipo di difetto
+(133, 4, 3, 'La dimensione dei grani cristallini', 'Sbagliata', 0), -- Microstruttura, influenzata dai difetti
+(133, 4, 4, 'Lo stato amorfo (non cristallino) del materiale', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(133, 5, 1, 'Rottura progressiva sotto carichi ciclici; prevenzione: progettazione adeguata, scelta materiali, trattamenti superficiali', 'Corretta', 10),
+(133, 5, 2, 'Deformazione permanente sotto carico costante a T elevata (creep)', 'Sbagliata', 0),
+(133, 5, 3, 'Degradazione chimica dovuta all''ambiente (corrosione)', 'Sbagliata', 0),
+(133, 5, 4, 'Usura superficiale dovuta a sfregamento', 'Sbagliata', 0);
+
+-- Quiz 134: Letteratura cinese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(134, 1, 1, 'Autore de "La Casa da Tè" e "Ragazzi e Ragazze della Città Proibita"', 'Corretta', 10),
+(134, 1, 2, 'Padre della letteratura cinese moderna (Lu Xun)', 'Sbagliata', 0),
+(134, 1, 3, 'Premio Nobel per la letteratura 2012 (Mo Yan)', 'Sbagliata', 0),
+(134, 1, 4, 'Poeta della dinastia Tang (Li Bai / Du Fu)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(134, 2, 1, 'Considerata arte essa stessa, influenza su struttura caratteri e percezione estetica testo', 'Corretta', 10),
+(134, 2, 2, 'Rilevante solo per la decorazione dei manoscritti', 'Sbagliata', 0),
+(134, 2, 3, 'Non ha alcuna relazione con la letteratura', 'Sbagliata', 0),
+(134, 2, 4, 'È stata sostituita dalla stampa', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(134, 3, 1, 'Opere di Yu Hua ("Vivere!"), Gao Xingjian (Nobel 2000)', 'Corretta', 10),
+(134, 3, 2, 'Poesia classica della dinastia Song', 'Sbagliata', 0),
+(134, 3, 3, 'Romanzi del periodo Ming o Qing', 'Sbagliata', 0),
+(134, 3, 4, 'Testi filosofici confuciani o taoisti', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(134, 4, 1, '"fu": prosa ritmica descrittiva; "ci": poesia lirica su melodie preesistenti', 'Corretta', 10),
+(134, 4, 2, '"shi": poesia lirica regolare (es. Tang)', 'Sbagliata', 0),
+(134, 4, 3, 'Romanzo storico, Romanzo d''avventura', 'Sbagliata', 0), -- Generi più tardi
+(134, 4, 4, 'Trattato filosofico, Testo sacro', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(134, 5, 1, 'Traduzioni, influenze reciproche con altre letterature mondiali, diaspora autori', 'Corretta', 10),
+(134, 5, 2, 'È rimasta completamente isolata dal resto del mondo', 'Sbagliata', 0),
+(134, 5, 3, 'Ha influenzato solo le letterature dell''Asia orientale', 'Sbagliata', 0),
+(134, 5, 4, 'Ha perso completamente la sua identità originaria', 'Sbagliata', 0);
+
+-- Quiz 135: Geografia culturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(135, 1, 1, 'Paesaggio carico di significati simbolici e culturali per un gruppo; es. luoghi sacri, monumenti nazionali', 'Corretta', 10),
+(135, 1, 2, 'Un paesaggio rappresentato in un dipinto simbolista', 'Sbagliata', 0),
+(135, 1, 3, 'Un paesaggio naturale incontaminato', 'Sbagliata', 0),
+(135, 1, 4, 'Una mappa tematica che usa simboli', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(135, 2, 1, 'Analizzando percorsi migratori, formazione comunità diasporiche, mantenimento legami culturali transnazionali', 'Corretta', 10),
+(135, 2, 2, 'Studiando le politiche di immigrazione degli stati', 'Sbagliata', 0), -- Geografia politica
+(135, 2, 3, 'Analizzando l''impatto economico dei migranti', 'Sbagliata', 0), -- Geografia economica
+(135, 2, 4, 'Concentrandosi solo sui flussi turistici', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(135, 3, 1, 'Eventi storici, miti, narrazioni condivise legate a un luogo ne plasmano l''identità', 'Corretta', 10),
+(135, 3, 2, 'La memoria individuale non ha alcun ruolo', 'Sbagliata', 0),
+(135, 3, 3, 'L''identità di un luogo dipende solo dalle sue caratteristiche fisiche', 'Sbagliata', 0),
+(135, 3, 4, 'La memoria collettiva è irrilevante per la geografia', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(135, 4, 1, 'Omogeneizzazione (diffusione cultura globale) ma anche rivitalizzazione/ibridazione culture locali', 'Corretta', 10),
+(135, 4, 2, 'Solo all''omogeneizzazione culturale (McDonaldizzazione)', 'Sbagliata', 0),
+(135, 4, 3, 'Solo alla frammentazione e al conflitto culturale', 'Sbagliata', 0),
+(135, 4, 4, 'Non ha alcun effetto sulle culture', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(135, 5, 1, 'Romanzi ambientati in luoghi specifici, film che creano immaginari territoriali, canzoni legate a città/regioni', 'Corretta', 10),
+(135, 5, 2, 'Manuali di geografia fisica', 'Sbagliata', 0),
+(135, 5, 3, 'Relazioni tecniche di ingegneria civile', 'Sbagliata', 0),
+(135, 5, 4, 'Pubblicità turistiche', 'Sbagliata', 0); -- Rappresentano, ma spesso in modo stereotipato
+
+-- Quiz 136: Chimica biologica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(136, 1, 1, 'Polimeri di amminoacidi; funzioni: enzimatica, strutturale, trasporto, difesa...', 'Corretta', 10),
+(136, 1, 2, 'Polimeri di nucleotidi (DNA, RNA)', 'Sbagliata', 0), -- Acidi nucleici
+(136, 1, 3, 'Polimeri di monosaccaridi (Amido, Cellulosa)', 'Sbagliata', 0), -- Carboidrati
+(136, 1, 4, 'Grassi e oli', 'Sbagliata', 0); -- Lipidi
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(136, 2, 1, 'Molecole organiche insolubili in acqua; funzioni: riserva energia, membrane, ormoni', 'Corretta', 10),
+(136, 2, 2, 'Zuccheri e amidi', 'Sbagliata', 0), -- Carboidrati
+(136, 2, 3, 'Enzimi e anticorpi', 'Sbagliata', 0), -- Proteine
+(136, 2, 4, 'DNA e RNA', 'Sbagliata', 0); -- Acidi nucleici
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(136, 3, 1, 'Proteine che accelerano reazioni legandosi a substrati specifici nel sito attivo', 'Corretta', 10),
+(136, 3, 2, 'Molecole che trasportano informazioni genetiche', 'Sbagliata', 0), -- Acidi nucleici
+(136, 3, 3, 'Ormoni che regolano funzioni corporee', 'Sbagliata', 0), -- Proteine/Lipidi/Altro
+(136, 3, 4, 'Carboidrati complessi con funzione strutturale', 'Sbagliata', 0); -- Polisaccaridi
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(136, 4, 1, 'Via metabolica centrale per ossidare acetil-CoA e produrre energia (ATP) e precursori', 'Corretta', 10),
+(136, 4, 2, 'Processo di sintesi del glucosio (Gluconeogenesi)', 'Sbagliata', 0),
+(136, 4, 3, 'Demolizione del glucosio a piruvato (Glicolisi)', 'Sbagliata', 0),
+(136, 4, 4, 'Sintesi degli acidi grassi', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(136, 5, 1, 'DNA: doppia elica, zucchero desossiribosio, basi ATCG; RNA: singolo filamento, ribosio, AUCG', 'Corretta', 10),
+(136, 5, 2, 'DNA: proteine; RNA: carboidrati', 'Sbagliata', 0),
+(136, 5, 3, 'DNA: solo nel nucleo; RNA: solo nel citoplasma', 'Sbagliata', 0), -- DNA anche mitocondri; RNA anche nucleo
+(136, 5, 4, 'Non ci sono differenze significative', 'Sbagliata', 0);
+
+-- Quiz 137: Biologia marina
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(137, 1, 1, 'Ecosistemi costruiti da polipi corallini in acque calde e basse; alta biodiversità ("foreste pluviali del mare")', 'Corretta', 10),
+(137, 1, 2, 'Grandi alghe brune che formano foreste sottomarine in acque fredde', 'Sbagliata', 0), -- Foreste di Kelp
+(137, 1, 3, 'Zone profonde dell''oceano prive di luce', 'Sbagliata', 0), -- Piane abissali
+(137, 1, 4, 'Ecosistemi costieri con alberi tolleranti al sale (mangrovie)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(137, 2, 1, 'Pesce pagliaccio e anemone; Gamberetto pulitore e murena; Coralli e alghe zooxantelle', 'Corretta', 10),
+(137, 2, 2, 'Squalo e remora (commensalismo/parassitismo?)', 'Sbagliata', 0), -- Relazione dibattuta
+(137, 2, 3, 'Balena e plancton (predazione)', 'Sbagliata', 0),
+(137, 2, 4, 'Leone e zebra (predazione terrestre)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(137, 3, 1, 'Intrappolamento animali, ingestione microplastiche, rilascio tossine', 'Corretta', 10),
+(137, 3, 2, 'Fertilizzazione delle acque e crescita algale', 'Sbagliata', 0), -- Effetto nutrienti (eutrofizzazione)
+(137, 3, 3, 'Aumento della temperatura dell''acqua', 'Sbagliata', 0),
+(137, 3, 4, 'Nessun effetto rilevante', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(137, 4, 1, 'Produzione ed emissione di luce da parte di organismi viventi; comunicazione, mimetismo, predazione', 'Corretta', 10),
+(137, 4, 2, 'Riflessione della luce solare sulla superficie dell''acqua', 'Sbagliata', 0),
+(137, 4, 3, 'Fluorescenza di minerali sottomarini', 'Sbagliata', 0),
+(137, 4, 4, 'Assorbimento della luce da parte del fitoplancton', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(137, 5, 1, 'Alterazione metabolismi, migrazioni verso poli, difficoltà formazione gusci/scheletri (acidificazione)', 'Corretta', 10),
+(137, 5, 2, 'Aumento della biodiversità marina', 'Sbagliata', 0),
+(137, 5, 3, 'Maggiore disponibilità di cibo per tutti', 'Sbagliata', 0),
+(137, 5, 4, 'Nessun impatto significativo', 'Sbagliata', 0);
+
+-- Quiz 138: Storia dell Asia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(138, 1, 1, 'Modernizzazione accelerata (Restaurazione Meiji), espansionismo militare (guerre con Cina/Russia, WWII)', 'Corretta', 10),
+(138, 1, 2, 'Periodo di isolamento e chiusura (Shogunato Tokugawa)', 'Sbagliata', 0),
+(138, 1, 3, 'Dominazione coloniale da parte di potenze europee', 'Sbagliata', 0),
+(138, 1, 4, 'Sviluppo di una democrazia pacifista', 'Sbagliata', 0); -- Dopoguerra
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(138, 2, 1, 'Movimento politico radicale (1966-76) guidato da Mao Zedong; epurazioni, distruzione culturale', 'Corretta', 10),
+(138, 2, 2, 'Periodo di riforme economiche e apertura (Deng Xiaoping)', 'Sbagliata', 0),
+(138, 2, 3, 'Guerra civile tra Nazionalisti e Comunisti', 'Sbagliata', 0),
+(138, 2, 4, 'Movimento studentesco per la democrazia (Piazza Tiananmen)', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(138, 3, 1, 'Disputa territoriale sul Kashmir, guerre, tensioni religiose e politiche', 'Corretta', 10),
+(138, 3, 2, 'Alleanza strategica contro la Cina', 'Sbagliata', 0),
+(138, 3, 3, 'Cooperazione economica pacifica', 'Sbagliata', 0),
+(138, 3, 4, 'Confine non definito ma senza conflitti', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(138, 4, 1, 'Corea Sud, Taiwan, Hong Kong, Singapore: rapida crescita economica dagli anni ''60', 'Corretta', 10),
+(138, 4, 2, 'Giappone, Cina, India', 'Sbagliata', 0), -- Potenze maggiori
+(138, 4, 3, 'Vietnam, Thailandia, Malesia', 'Sbagliata', 0), -- "Tigri" successive
+(138, 4, 4, 'Paesi produttori di petrolio del Golfo Persico', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(138, 5, 1, 'Ascesa Cina, tensioni Mar Cinese Meridionale, questione nucleare coreana, rivalità India-Cina/Pakistan', 'Corretta', 10),
+(138, 5, 2, 'Completa pace e cooperazione regionale', 'Sbagliata', 0),
+(138, 5, 3, 'Dominio incontrastato degli Stati Uniti', 'Sbagliata', 0), -- In declino relativo
+(138, 5, 4, 'Isolamento politico ed economico della regione', 'Sbagliata', 0);
+
+-- Quiz 139: Letteratura africana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(139, 1, 1, 'Assia Djebar (Algeria), Tahar Ben Jelloun (Marocco), Albert Memmi (Tunisia)', 'Corretta', 10),
+(139, 1, 2, 'Chinua Achebe, Wole Soyinka (Nigeria)', 'Sbagliata', 0), -- Anglófoni
+(139, 1, 3, 'Nadine Gordimer, J.M. Coetzee (Sudafrica)', 'Sbagliata', 0), -- Anglófoni
+(139, 1, 4, 'Leopold Senghor (Senegal)', 'Sbagliata', 0); -- Francofono, ma Africa subsahariana
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(139, 2, 1, 'Lingue miste nate dal contatto tra lingue europee e africane; usato per realismo o per marcare identità', 'Corretta', 10),
+(139, 2, 2, 'Uso esclusivo delle lingue africane pure', 'Sbagliata', 0),
+(139, 2, 3, 'Traduzione letterale di proverbi africani', 'Sbagliata', 0),
+(139, 2, 4, 'Stile linguistico arcaico e formale', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(139, 3, 1, 'Wole Soyinka (1986), Nadine Gordimer (1991), J.M. Coetzee (2003), Abdulrazak Gurnah (2021)', 'Corretta', 10),
+(139, 3, 2, 'Chinua Achebe', 'Sbagliata', 0), -- Non ha vinto il Nobel
+(139, 3, 3, 'Ngugi wa Thiong''o', 'Sbagliata', 0), -- Non ha vinto il Nobel (spesso nominato)
+(139, 3, 4, 'Leopold Senghor', 'Sbagliata', 0); -- Non ha vinto il Nobel
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(139, 4, 1, 'Dialogo complesso: integrazione tradizione orale, ma anche conflitto/superamento in contesto moderno', 'Corretta', 10),
+(139, 4, 2, 'Completo rifiuto della tradizione orale', 'Sbagliata', 0),
+(139, 4, 3, 'Ripetizione passiva di racconti tradizionali', 'Sbagliata', 0),
+(139, 4, 4, 'Ignoranza totale della modernità', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(139, 5, 1, 'Ruolo centrale nell''esplorare esperienze femminili, critica patriarcato, ridefinizione identità', 'Corretta', 10),
+(139, 5, 2, 'Ruolo marginale e subordinato agli autori maschili', 'Sbagliata', 0),
+(139, 5, 3, 'Conferma degli stereotipi tradizionali sui ruoli di genere', 'Sbagliata', 0),
+(139, 5, 4, 'Focus esclusivo su temi politici generali, ignorando questioni di genere', 'Sbagliata', 0);
+
+-- Quiz 140: Filosofia orientale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(140, 1, 1, 'Legge cosmica, dovere, ordine sociale (Induismo); insegnamento del Buddha (Buddhismo)', 'Corretta', 10),
+(140, 1, 2, 'Il ciclo di nascita, morte e rinascita (Samsara)', 'Sbagliata', 0),
+(140, 1, 3, 'L''azione e le sue conseguenze (Karma)', 'Sbagliata', 0),
+(140, 1, 4, 'La liberazione finale (Moksha/Nirvana)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(140, 2, 1, 'Verità della sofferenza, dell''origine della sofferenza (desiderio), della cessazione della sofferenza, del sentiero per la cessazione', 'Corretta', 10),
+(140, 2, 2, 'I quattro Veda fondamentali dell''Induismo', 'Sbagliata', 0),
+(140, 2, 3, 'Le quattro caste principali della società indiana', 'Sbagliata', 0),
+(140, 2, 4, 'I quattro stadi della vita (ashrama) nell''Induismo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(140, 3, 1, 'Regole etiche fondamentali per i laici buddhisti (non uccidere, non rubare, non mentire...)', 'Corretta', 10),
+(140, 3, 2, 'I cinque elementi costitutivi della realtà (terra, acqua, fuoco, aria, etere)', 'Sbagliata', 0),
+(140, 3, 3, 'Le cinque relazioni fondamentali nel Confucianesimo', 'Sbagliata', 0),
+(140, 3, 4, 'I cinque pilastri dell''Islam', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(140, 4, 1, 'Agire senza sforzo, in armonia con il flusso naturale delle cose (Tao)', 'Corretta', 10),
+(140, 4, 2, 'Pratica della meditazione seduta (Zazen)', 'Sbagliata', 0),
+(140, 4, 3, 'Principio di non-violenza (Ahimsa)', 'Sbagliata', 0),
+(140, 4, 4, 'Concetto di vuoto o vacuità (Sunyata)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(140, 5, 1, 'Meditazione Vipassanā (Buddhismo), Zazen (Zen), Yoga (Induismo)', 'Corretta', 10),
+(140, 5, 2, 'Preghiera cristiana', 'Sbagliata', 0),
+(140, 5, 3, 'Lettura della Torah ebraica', 'Sbagliata', 0),
+(140, 5, 4, 'Danza Sufi (Islam)', 'Sbagliata', 0);
+
+-- Quiz 141: Psicologia dello sviluppo
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(141, 1, 1, 'Innatista (Chomsky), Comportamentista (Skinner), Interazionista (Piaget, Vygotsky)', 'Corretta', 10),
+(141, 1, 2, 'Solo teorie basate sull''imitazione', 'Sbagliata', 0),
+(141, 1, 3, 'Solo teorie basate sulla genetica', 'Sbagliata', 0),
+(141, 1, 4, 'Non esistono teorie specifiche sull''acquisizione del linguaggio', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(141, 2, 1, 'Otto stadi caratterizzati da crisi psicosociali (es. fiducia/sfiducia, identità/confusione)', 'Corretta', 10),
+(141, 2, 2, 'Stadi dello sviluppo cognitivo (Piaget)', 'Sbagliata', 0),
+(141, 2, 3, 'Fasi dello sviluppo psicosessuale (Freud)', 'Sbagliata', 0),
+(141, 2, 4, 'Livelli dello sviluppo morale (Kohlberg)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(141, 3, 1, 'Capacità di attribuire stati mentali (credenze, desideri) a sé e agli altri; si sviluppa intorno ai 4 anni', 'Corretta', 10),
+(141, 3, 2, 'Sviluppo del pensiero astratto nell''adolescenza', 'Sbagliata', 0), -- Pensiero formale (Piaget)
+(141, 3, 3, 'Comprensione della permanenza dell''oggetto (infanzia)', 'Sbagliata', 0), -- Stadio sensomotorio (Piaget)
+(141, 3, 4, 'Sviluppo dell''identità di genere', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(141, 4, 1, 'Fondamentale per apprendimento, socializzazione, regolazione emotiva, esplorazione', 'Corretta', 10),
+(141, 4, 2, 'Attività superflua che distrae dall''apprendimento formale', 'Sbagliata', 0),
+(141, 4, 3, 'Utile solo per lo sviluppo motorio', 'Sbagliata', 0),
+(141, 4, 4, 'Importante solo nei primi mesi di vita', 'Sbagliata', 0);
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(141, 5, 1, 'Declino fluidità cognitiva vs stabilità/aumento intelligenza cristallizzata; cambiamenti sociali (pensionamento, relazioni)', 'Corretta', 10),
+(141, 5, 2, 'Declino globale e irreversibile di tutte le funzioni', 'Sbagliata', 0), -- Visione superata
+(141, 5, 3, 'Nessun cambiamento significativo dopo i 40 anni', 'Sbagliata', 0),
+(141, 5, 4, 'Aumento esponenziale delle capacità cognitive', 'Sbagliata', 0);
+
+-- Quiz 142: Economia internazionale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(142, 1, 1, 'Tariffe: tasse su importazioni; Barriere non tariffarie: quote, standard tecnici, normative', 'Corretta', 10),
+(142, 1, 2, 'Tariffe: per esportazioni; Barriere: per importazioni', 'Sbagliata', 0),
+(142, 1, 3, 'Sono sinonimi', 'Sbagliata', 0),
+(142, 1, 4, 'Tariffe: imposte dal WTO; Barriere: imposte dai singoli stati', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(142, 2, 1, 'Un paese dovrebbe specializzarsi nella produzione del bene in cui ha un costo opportunità inferiore', 'Corretta', 10),
+(142, 2, 2, 'Un paese dovrebbe produrre solo beni in cui è più efficiente in assoluto (vantaggio assoluto - Smith)', 'Sbagliata', 0),
+(142, 2, 3, 'Il commercio internazionale è sempre svantaggioso', 'Sbagliata', 0), -- Protezionismo
+(142, 2, 4, 'La ricchezza di una nazione dipende dall''accumulo di oro (mercantilismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(142, 3, 1, 'Aumento efficienza, maggiore scelta consumatori, ma anche possibile perdita posti lavoro e aumento disuguaglianze', 'Corretta', 10),
+(142, 3, 2, 'Solo effetti negativi per tutti i paesi', 'Sbagliata', 0),
+(142, 3, 3, 'Solo effetti positivi per tutti i paesi', 'Sbagliata', 0),
+(142, 3, 4, 'Nessun effetto significativo sull''economia', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(142, 4, 1, 'Accordi tra paesi per eliminare dazi e barriere commerciali interne (es. UE, USMCA)', 'Corretta', 10),
+(142, 4, 2, 'Alleanze militari (es. NATO)', 'Sbagliata', 0),
+(142, 4, 3, 'Organizzazioni per la cooperazione culturale (es. UNESCO)', 'Sbagliata', 0),
+(142, 4, 4, 'Federazioni sportive internazionali (es. FIFA)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(142, 5, 1, 'Crisi finanziaria che si propaga rapidamente a livello globale; cause: bolle speculative, eccessivo indebitamento, deregulation', 'Corretta', 10),
+(142, 5, 2, 'Una recessione economica limitata a un singolo paese', 'Sbagliata', 0),
+(142, 5, 3, 'Un periodo di alta inflazione generalizzata', 'Sbagliata', 0),
+(142, 5, 4, 'Il fallimento di una grande banca nazionale', 'Sbagliata', 0); -- Può innescare, ma non è la crisi globale
+
+-- Quiz 143: Sociologia della famiglia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(143, 1, 1, 'Maggiore condivisione compiti domestici/cura figli, ridefinizione ruoli maschili/femminili, tensioni', 'Corretta', 10),
+(143, 1, 2, 'Ritorno alla rigida divisione tradizionale dei ruoli', 'Sbagliata', 0),
+(143, 1, 3, 'Completa eliminazione dei ruoli genitoriali', 'Sbagliata', 0),
+(143, 1, 4, 'Nessun cambiamento significativo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(143, 2, 1, 'Funzionalismo (famiglia come istituzione che svolge funzioni), Conflittualismo (famiglia come luogo di potere/disuguaglianza)', 'Corretta', 10),
+(143, 2, 2, 'Teorie psicologiche sull''attaccamento (Bowlby)', 'Sbagliata', 0),
+(143, 2, 3, 'Teorie economiche sulla scelta razionale', 'Sbagliata', 0),
+(143, 2, 4, 'Teorie biologiche sull''istinto materno', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(143, 3, 1, 'Possibili effetti negativi (stress, problemi economici/adattamento), ma anche opportunità di crescita e nuove relazioni', 'Corretta', 10),
+(143, 3, 2, 'Sempre e solo conseguenze traumatiche e devastanti', 'Sbagliata', 0),
+(143, 3, 3, 'Nessun impatto significativo sui figli o sui partner', 'Sbagliata', 0),
+(143, 3, 4, 'Effetti sempre positivi di liberazione e miglioramento', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(143, 4, 1, 'Forniscono sostegno economico, tempo per la cura, servizi; influenzano decisioni su lavoro/fertilità', 'Corretta', 10),
+(143, 4, 2, 'Non hanno alcun impatto sulla vita familiare', 'Sbagliata', 0),
+(143, 4, 3, 'Intervengono solo in caso di violenza domestica', 'Sbagliata', 0),
+(143, 4, 4, 'Riguardano esclusivamente la regolamentazione dei matrimoni', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(143, 5, 1, 'Abuso fisico, psicologico, economico o sessuale all''interno della famiglia; problema sociale diffuso con gravi conseguenze', 'Corretta', 10),
+(143, 5, 2, 'Normali litigi tra coniugi', 'Sbagliata', 0),
+(143, 5, 3, 'Questione privata che non riguarda la società', 'Sbagliata', 0), -- Errato
+(143, 5, 4, 'Fenomeno raro limitato a specifiche classi sociali', 'Sbagliata', 0); -- Trattasversale
+
+-- Quiz 144: Antropologia linguistica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(144, 1, 1, 'Analizzando come l''uso del linguaggio (scelta codice, registro, stile) riflette e costruisce gerarchie sociali', 'Corretta', 10),
+(144, 1, 2, 'Studiando solo la grammatica delle lingue ufficiali', 'Sbagliata', 0),
+(144, 1, 3, 'Contando il numero di parole diverse usate dai parlanti', 'Sbagliata', 0),
+(144, 1, 4, 'Ignorando il contesto sociale e culturale', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(144, 2, 1, 'Alternanza tra due o più lingue o varietà linguistiche nello stesso discorso', 'Corretta', 10),
+(144, 2, 2, 'L''uso di un linguaggio molto formale', 'Sbagliata', 0),
+(144, 2, 3, 'Parlare una sola lingua (monolinguismo)', 'Sbagliata', 0),
+(144, 2, 4, 'L''errore grammaticale nel passaggio da una lingua all''altra', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(144, 3, 1, 'Lingua con pochi parlanti a rischio di estinzione; sforzi: documentazione, insegnamento, promozione uso', 'Corretta', 10),
+(144, 3, 2, 'Una lingua appena inventata (lingua artificiale)', 'Sbagliata', 0),
+(144, 3, 3, 'Una lingua parlata da moltissime persone', 'Sbagliata', 0), -- Lingua maggioritaria
+(144, 3, 4, 'Un dialetto regionale', 'Sbagliata', 0); -- Può essere in pericolo, ma non è la definizione
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(144, 4, 1, 'Attraverso scelte lessicali, pronominali, registri associati a maschile/femminile, performance genere', 'Corretta', 10),
+(144, 4, 2, 'La lingua non ha alcuna relazione con il genere', 'Sbagliata', 0),
+(144, 4, 3, 'Solo attraverso l''uso di termini offensivi', 'Sbagliata', 0),
+(144, 4, 4, 'Il genere è determinato solo biologicamente, non dalla lingua', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(144, 5, 1, 'Oralità: trasmissione faccia a faccia, memoria, performance; Scrittura: conservazione, diffusione, astrazione', 'Corretta', 10),
+(144, 5, 2, 'L''oralità è primitiva, la scrittura è avanzata', 'Sbagliata', 0), -- Visione etnocentrica
+(144, 5, 3, 'La scrittura è solo per la letteratura, l''oralità per la comunicazione quotidiana', 'Sbagliata', 0),
+(144, 5, 4, 'Non ci sono differenze significative tra le due modalità', 'Sbagliata', 0);
+
+-- Quiz 145: Storia dell antico Egitto
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(145, 1, 1, 'Fonte di vita (acqua, limo fertile), via di comunicazione, elemento centrale cosmologia', 'Corretta', 10),
+(145, 1, 2, 'Causa di continue guerre e invasioni', 'Sbagliata', 0),
+(145, 1, 3, 'Ostacolo insormontabile agli spostamenti', 'Sbagliata', 0),
+(145, 1, 4, 'Fiume sacro adorato come unica divinità', 'Sbagliata', 0); -- Importante, ma non unica divinità
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(145, 2, 1, 'Conservazione corpo per vita ultraterrena; credenze: giudizio Osiride, viaggio anima (Ka, Ba)', 'Corretta', 10),
+(145, 2, 2, 'Pratica igienica per prevenire malattie', 'Sbagliata', 0),
+(145, 2, 3, 'Forma di punizione per i criminali', 'Sbagliata', 0),
+(145, 2, 4, 'Tecnica per creare statue realistiche', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(145, 3, 1, 'Cheope (piramide Giza), Tutankhamon (tomba intatta), Ramses II (grandi costruzioni, guerra)', 'Corretta', 10),
+(145, 3, 2, 'Alessandro Magno (conquistatore macedone)', 'Sbagliata', 0),
+(145, 3, 3, 'Cleopatra (ultima regina tolemaica)', 'Sbagliata', 0),
+(145, 3, 4, 'Akhenaton (riforma religiosa monoteista)', 'Sbagliata', 0); -- Importante, ma non tra i "più famosi" classici
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(145, 4, 1, 'Sistema di scrittura pittografica/ideografica/fonetica; decifrati grazie a Stele di Rosetta (Champollion)', 'Corretta', 10),
+(145, 4, 2, 'Scrittura alfabetica usata dal popolo', 'Sbagliata', 0), -- Scrittura ieratica/demotica più corsive
+(145, 4, 3, 'Sistema di calcolo matematico', 'Sbagliata', 0),
+(145, 4, 4, 'Codice segreto usato solo dai sacerdoti', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(145, 5, 1, 'Società gerarchica: Faraone (dio), sacerdoti/nobili, scribi/funzionari, soldati, artigiani/contadini, schiavi', 'Corretta', 10),
+(145, 5, 2, 'Società egualitaria senza classi', 'Sbagliata', 0),
+(145, 5, 3, 'Sistema di caste rigide come in India', 'Sbagliata', 0),
+(145, 5, 4, 'Democrazia diretta simile ad Atene', 'Sbagliata', 0);
+
+-- Quiz 146: Matematica applicata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(146, 1, 1, 'Rappresentazione semplificata di un sistema reale usando linguaggio matematico; formulazione, analisi, interpretazione', 'Corretta', 10),
+(146, 1, 2, 'Un teorema matematico particolarmente complesso', 'Sbagliata', 0),
+(146, 1, 3, 'Un software per eseguire calcoli numerici', 'Sbagliata', 0),
+(146, 1, 4, 'Una dimostrazione matematica rigorosa', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(146, 2, 1, 'Risoluzione numerica di equazioni differenziali, ottimizzazione, interpolazione dati', 'Corretta', 10),
+(146, 2, 2, 'Dimostrazione di teoremi astratti', 'Sbagliata', 0), -- Matematica pura
+(146, 2, 3, 'Studio dei fondamenti logici della matematica', 'Sbagliata', 0),
+(146, 2, 4, 'Creazione di opere d''arte basate su frattali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(146, 3, 1, 'Disciplina matematica che usa modelli per ottimizzare decisioni in problemi complessi (logistica, produzione)', 'Corretta', 10),
+(146, 3, 2, 'Lo studio della storia delle operazioni militari', 'Sbagliata', 0),
+(146, 3, 3, 'La branca della medicina che si occupa di interventi chirurgici', 'Sbagliata', 0),
+(146, 3, 4, 'La teoria dei giochi applicata alla politica', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(146, 4, 1, 'Statistica: analisi dati; Probabilità: studio eventi casuali; essenziali per modellare incertezza e validare modelli', 'Corretta', 10),
+(146, 4, 2, 'Sono utili solo per la matematica pura', 'Sbagliata', 0),
+(146, 4, 3, 'Servono solo a calcolare medie e percentuali semplici', 'Sbagliata', 0),
+(146, 4, 4, 'Sono state superate da intelligenza artificiale', 'Sbagliata', 0); -- AI usa statistica/probabilità
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(146, 5, 1, 'Ingegneria: eq. differenziali (strutture); Economia: ottimizzazione (risorse); Biologia: modelli crescita popolazioni', 'Corretta', 10),
+(146, 5, 2, 'Nella critica letteraria', 'Sbagliata', 0),
+(146, 5, 3, 'Nell''interpretazione dei sogni', 'Sbagliata', 0),
+(146, 5, 4, 'Nella composizione musicale', 'Sbagliata', 0); -- Può esserci, ma non è un'applicazione scientifica/tecnica
+
+-- Quiz 147: Fisica sperimentale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(147, 1, 1, 'Fondamentale per ottenere risultati affidabili e quantificare l''incertezza delle misure', 'Corretta', 10),
+(147, 1, 2, 'Secondaria rispetto alla formulazione teorica', 'Sbagliata', 0),
+(147, 1, 3, 'Importante solo per esperimenti molto complessi', 'Sbagliata', 0),
+(147, 1, 4, 'Serve solo a complicare inutilmente il lavoro', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(147, 2, 1, 'Michelson-Morley (etere), Rutherford (nucleo), Millikan (carica elettrone), Young (natura ondulatoria luce)', 'Corretta', 10),
+(147, 2, 2, 'Esperimento di Pavlov sul condizionamento classico', 'Sbagliata', 0), -- Psicologia
+(147, 2, 3, 'Esperimento di Mendel sull''ereditarietà', 'Sbagliata', 0), -- Biologia
+(147, 2, 4, 'Esperimento di Milgram sull''obbedienza', 'Sbagliata', 0); -- Psicologia sociale
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(147, 3, 1, 'Formulare ipotesi, identificare variabili, scegliere strumenti/metodo, raccogliere/analizzare dati, trarre conclusioni', 'Corretta', 10),
+(147, 3, 2, 'Partire dai dati e cercare una teoria che li spieghi', 'Sbagliata', 0), -- Approccio induttivo, ma non progettazione esperimento
+(147, 3, 3, 'Ripetere esperimenti già fatti da altri', 'Sbagliata', 0), -- Utile per verifica, ma non progettazione ex novo
+(147, 3, 4, 'Consultare un oracolo', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(147, 4, 1, 'Metro, Bilancia, Cronometro, Termometro, Voltmetro, Amperometro, Oscilloscopio', 'Corretta', 10),
+(147, 4, 2, 'Microscopio, Telescopio', 'Sbagliata', 0), -- Strumenti di osservazione specifici
+(147, 4, 3, 'Computer, Calcolatrice', 'Sbagliata', 0), -- Strumenti di calcolo/analisi dati
+(147, 4, 4, 'Pipetta, Buretta, Becher', 'Sbagliata', 0); -- Vetreria da chimica
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(147, 5, 1, 'Possibilità per altri scienziati di ottenere gli stessi risultati ripetendo l''esperimento', 'Corretta', 10),
+(147, 5, 2, 'La pubblicazione dei risultati su una rivista famosa', 'Sbagliata', 0),
+(147, 5, 3, 'La complessità dell''apparato sperimentale utilizzato', 'Sbagliata', 0),
+(147, 5, 4, 'L''accordo dei risultati con le proprie aspettative', 'Sbagliata', 0);
+
+-- Quiz 148: Letteratura medievale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(148, 1, 1, 'Poema epico medievale francese che celebra gesta eroiche; Chanson de Roland', 'Corretta', 10),
+(148, 1, 2, 'Romanzo cortese in versi (Chrétien de Troyes)', 'Sbagliata', 0),
+(148, 1, 3, 'Lirica d''amore dei trovatori provenzali', 'Sbagliata', 0),
+(148, 1, 4, 'Raccolta di novelle come il Decameron', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(148, 2, 1, 'Concezione idealizzata dell''amore, servizio devoto alla dama, cortesia, prodezza cavalleresca', 'Corretta', 10),
+(148, 2, 2, 'Amore passionale e tragico come in Romeo e Giulietta', 'Sbagliata', 0), -- Più tardo
+(148, 2, 3, 'Amore coniugale e vita familiare', 'Sbagliata', 0),
+(148, 2, 4, 'Amore mistico e devozione religiosa', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(148, 3, 1, 'Dante Alighieri; poema allegorico in terzine diviso in Inferno, Purgatorio, Paradiso', 'Corretta', 10),
+(148, 3, 2, 'Giovanni Boccaccio; Decameron', 'Sbagliata', 0),
+(148, 3, 3, 'Francesco Petrarca; Canzoniere', 'Sbagliata', 0),
+(148, 3, 4, 'Marco Polo; Il Milione', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(148, 4, 1, 'Raccolta di racconti in versi, cornice narrativa: pellegrinaggio a Canterbury', 'Corretta', 10),
+(148, 4, 2, 'Poema epico anglosassone (Beowulf)', 'Sbagliata', 0),
+(148, 4, 3, 'Romanzo allegorico francese (Roman de la Rose)', 'Sbagliata', 0),
+(148, 4, 4, 'Testo teatrale religioso (Mistero d''Adamo)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(148, 5, 1, 'Agiografia (vite santi), Letteratura didattica/allegorica, Teatro religioso, Cronache storiche', 'Corretta', 10),
+(148, 5, 2, 'Romanzo psicologico, racconto breve moderno', 'Sbagliata', 0), -- Generi successivi
+(148, 5, 3, 'Trattato scientifico sperimentale', 'Sbagliata', 0),
+(148, 5, 4, 'Saggio filosofico illuminista', 'Sbagliata', 0);
+
+-- Quiz 149: Geografia fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(149, 1, 1, 'Masse di ghiaccio in movimento; erodono valli (a U), trasportano/depositano detriti (morene)', 'Corretta', 10),
+(149, 1, 2, 'Fiumi di lava solidificata', 'Sbagliata', 0),
+(149, 1, 3, 'Grandi dune di sabbia formate dal vento', 'Sbagliata', 0),
+(149, 1, 4, 'Barriere coralline sommerse', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(149, 2, 1, 'Erosione: rimozione materiale; Trasporto: movimento materiale; Deposizione: accumulo materiale', 'Corretta', 10),
+(149, 2, 2, 'Evaporazione, Condensazione, Precipitazione', 'Sbagliata', 0), -- Ciclo acqua
+(149, 2, 3, 'Fotosintesi, Respirazione, Decomposizione', 'Sbagliata', 0), -- Processi biologici
+(149, 2, 4, 'Fissione, Fusione, Decadimento radioattivo', 'Sbagliata', 0); -- Processi nucleari
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(149, 3, 1, 'Latitudine, altitudine, distanza dal mare, correnti marine, esposizione versanti, copertura vegetale', 'Corretta', 10),
+(149, 3, 2, 'Tipo di roccia presente', 'Sbagliata', 0), -- Influenza suolo, non direttamente clima
+(149, 3, 3, 'Densità della popolazione', 'Sbagliata', 0), -- Fattore antropico
+(149, 3, 4, 'Attività vulcanica e sismica', 'Sbagliata', 0); -- Fattori geologici (possono influenzare localmente/temporaneamente)
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(149, 4, 1, 'Area di territorio le cui acque superficiali confluiscono verso un unico corso d''acqua principale', 'Corretta', 10),
+(149, 4, 2, 'Un grande lago artificiale creato da una diga', 'Sbagliata', 0),
+(149, 4, 3, 'La foce di un fiume a delta', 'Sbagliata', 0),
+(149, 4, 4, 'Una sorgente d''acqua sotterranea', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(149, 5, 1, 'Rappresentazioni cartografiche dettagliate del terreno con curve di livello per indicare l''altitudine', 'Corretta', 10),
+(149, 5, 2, 'Mappe politiche che mostrano confini e città', 'Sbagliata', 0),
+(149, 5, 3, 'Carte geologiche che mostrano i tipi di roccia', 'Sbagliata', 0),
+(149, 5, 4, 'Mappe climatiche che mostrano temperature e precipitazioni', 'Sbagliata', 0);
+
+-- Quiz 150: Chimica organica avanzata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(150, 1, 1, 'Diels-Alder: cicloaddizione [4+2]; Wittig: sintesi alcheni da aldeidi/chetoni e iluri fosforo', 'Corretta', 10),
+(150, 1, 2, 'Idrogenazione catalitica di alcheni', 'Sbagliata', 0), -- Reazione più semplice
+(150, 1, 3, 'Sostituzione nucleofila SN1/SN2', 'Sbagliata', 0), -- Meccanismi base
+(150, 1, 4, 'Esterificazione di Fischer', 'Sbagliata', 0); -- Reazione semplice
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(150, 2, 1, 'Strategia per pianificare una sintesi organica partendo dal prodotto desiderato e "smontandolo" in precursori più semplici', 'Corretta', 10),
+(150, 2, 2, 'Sintesi di polimeri partendo dai monomeri', 'Sbagliata', 0),
+(150, 2, 3, 'Analisi della struttura molecolare tramite spettroscopia', 'Sbagliata', 0),
+(150, 2, 4, 'Tecnica per purificare composti organici (es. cromatografia)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(150, 3, 1, 'NMR (Risonanza Magnetica Nucleare), IR (Infrarosso), MS (Spettrometria di Massa)', 'Corretta', 10),
+(150, 3, 2, 'Titolazione, Gravimetria', 'Sbagliata', 0), -- Tecniche analitiche quantitative classiche
+(150, 3, 3, 'HPLC, Gascromatografia (GC)', 'Sbagliata', 0), -- Tecniche separative
+(150, 3, 4, 'Microscopia ottica, Calorimetria', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(150, 4, 1, 'Uso di catalizzatori chirali per ottenere preferenzialmente un enantiomero di un prodotto', 'Corretta', 10),
+(150, 4, 2, 'Catalisi che avviene in fase gassosa', 'Sbagliata', 0),
+(150, 4, 3, 'Uso di enzimi come catalizzatori (biocatalisi)', 'Sbagliata', 0),
+(150, 4, 4, 'Catalisi promossa dalla luce (fotocatalisi)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(150, 5, 1, 'Composti contenenti un legame carbonio-metallo; reagenti importanti per creare nuovi legami C-C', 'Corretta', 10),
+(150, 5, 2, 'Composti contenenti solo carbonio e idrogeno', 'Sbagliata', 0), -- Idrocarburi
+(150, 5, 3, 'Composti contenenti anelli aromatici', 'Sbagliata', 0), -- Composti aromatici
+(150, 5, 4, 'Polimeri contenenti atomi metallici', 'Sbagliata', 0);
+
+-- Quiz 151: Biologia molecolare
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(151, 1, 1, 'Modifiche ereditabili dell''espressione genica che non alterano la sequenza DNA; metilazione DNA, modifiche istoni', 'Corretta', 10),
+(151, 1, 2, 'Mutazioni puntiformi nella sequenza del DNA', 'Sbagliata', 0),
+(151, 1, 3, 'Il processo di trascrizione e traduzione', 'Sbagliata', 0), -- Dogma centrale
+(151, 1, 4, 'La struttura tridimensionale delle proteine', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(151, 2, 1, 'Piccoli RNA non codificanti che regolano l''espressione genica a livello post-trascrizionale', 'Corretta', 10),
+(151, 2, 2, 'RNA messaggero che porta l''informazione per la sintesi proteica (mRNA)', 'Sbagliata', 0),
+(151, 2, 3, 'RNA transfer che trasporta gli amminoacidi (tRNA)', 'Sbagliata', 0),
+(151, 2, 4, 'RNA ribosomiale componente dei ribosomi (rRNA)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(151, 3, 1, 'Sistema di "editing" genomico per modificare il DNA con precisione; ricerca, terapia genica, agricoltura; etica: modifiche linea germinale', 'Corretta', 10),
+(151, 3, 2, 'Tecnica per amplificare il DNA (PCR)', 'Sbagliata', 0),
+(151, 3, 3, 'Tecnica per sequenziare il DNA', 'Sbagliata', 0),
+(151, 3, 4, 'Tecnologia per creare organismi transgenici (vecchi metodi)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(151, 4, 1, 'Tramite sequenze segnale e meccanismi di trasporto attraverso membrane (es. reticolo endoplasmatico, Golgi)', 'Corretta', 10),
+(151, 4, 2, 'Le proteine si muovono casualmente nella cellula', 'Sbagliata', 0),
+(151, 4, 3, 'Vengono espulse tutte all''esterno della cellula', 'Sbagliata', 0),
+(151, 4, 4, 'Rimangono sempre nel citoplasma dove vengono sintetizzate', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(151, 5, 1, 'Processo per cui un segnale esterno viene convertito in una risposta cellulare specifica (recettori, cascate di segnale)', 'Corretta', 10),
+(151, 5, 2, 'La sintesi di ATP nei mitocondri', 'Sbagliata', 0), -- Respirazione cellulare
+(151, 5, 3, 'Il movimento di sostanze attraverso la membrana cellulare', 'Sbagliata', 0), -- Trasporto di membrana
+(151, 5, 4, 'La divisione del nucleo durante la mitosi', 'Sbagliata', 0);
+
+-- Quiz 152: Storia della filosofia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(152, 1, 1, 'Razionalismo (ragione fonte conoscenza - Cartesio); Empirismo (esperienza fonte conoscenza - Locke)', 'Corretta', 10),
+(152, 1, 2, 'Entrambi si basano sull''autorità religiosa', 'Sbagliata', 0),
+(152, 1, 3, 'Razionalismo (scettico); Empirismo (dogmatico)', 'Sbagliata', 0), -- Spesso inverso o più complesso
+(152, 1, 4, 'Non ci sono differenze significative', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(152, 2, 1, 'Corrente post-kantiana che vede la realtà come prodotto dello Spirito o dell''Io', 'Corretta', 10),
+(152, 2, 2, 'Filosofia basata sull''osservazione scientifica e il rifiuto della metafisica (Positivismo)', 'Sbagliata', 0),
+(152, 2, 3, 'Critica alla società industriale e al capitalismo (Marxismo)', 'Sbagliata', 0),
+(152, 2, 4, 'Filosofia che enfatizza l''esistenza individuale (Esistenzialismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(152, 3, 1, 'Movimento filosofico che valorizza la conoscenza scientifica come unica valida (Comte)', 'Corretta', 10),
+(152, 3, 2, 'Filosofia idealista tedesca', 'Sbagliata', 0),
+(152, 3, 3, 'Corrente romantica che esalta il sentimento', 'Sbagliata', 0),
+(152, 3, 4, 'Scuola filosofica scettica ellenistica', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(152, 4, 1, 'Padre razionalismo, dualismo mente-corpo, "Cogito ergo sum"', 'Corretta', 10),
+(152, 4, 2, 'Fondatore empirismo, tabula rasa (Locke)', 'Sbagliata', 0),
+(152, 4, 3, 'Materialismo storico, critica capitalismo (Marx)', 'Sbagliata', 0),
+(152, 4, 4, 'Filosofia critica, limiti ragione (Kant)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(152, 5, 1, 'Da conoscenza come reminiscenza (Platone) a fondamento su ragione (Cartesio) o esperienza (Locke), fino alla sintesi critica (Kant)', 'Corretta', 10),
+(152, 5, 2, 'È rimasto immutato dall''antichità ad oggi', 'Sbagliata', 0),
+(152, 5, 3, 'Si è progressivamente basata solo sulla fede religiosa', 'Sbagliata', 0),
+(152, 5, 4, 'È passata da oggettiva a puramente soggettiva e relativa', 'Sbagliata', 0); -- Semplificazione eccessiva
+
+-- Quiz 153: Astronomia e cosmologia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(153, 1, 1, 'Universo nato da uno stato caldo e denso circa 13.8 miliardi di anni fa, in continua espansione', 'Corretta', 10),
+(153, 1, 2, 'Modello dello stato stazionario (universo eterno)', 'Sbagliata', 0), -- Superato
+(153, 1, 3, 'Modello geocentrico tolemaico', 'Sbagliata', 0), -- Riguarda Sistema Solare
+(153, 1, 4, 'Modello eliocentrico copernicano', 'Sbagliata', 0); -- Riguarda Sistema Solare
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(153, 2, 1, 'Componenti ipotetiche che spiegano effetti gravitazionali non visibili e espansione accelerata', 'Corretta', 10),
+(153, 2, 2, 'Antimateria', 'Sbagliata', 0), -- Ha interazioni note
+(153, 2, 3, 'Neutrini', 'Sbagliata', 0), -- Noti, massa piccola
+(153, 2, 4, 'Buchi neri', 'Sbagliata', 0); -- Oggetti compatti, non componenti diffusi come DM/DE
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(153, 3, 1, 'Usando candele standard (Cefeidi, Supernovae Ia) e la legge di Hubble (redshift)', 'Corretta', 10),
+(153, 3, 2, 'Misurando la loro temperatura superficiale', 'Sbagliata', 0),
+(153, 3, 3, 'Contando il numero di stelle che contengono', 'Sbagliata', 0),
+(153, 3, 4, 'Utilizzando il GPS', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(153, 4, 1, 'Radiazione fossile residua del Big Bang, permea l''universo come microonde', 'Corretta', 10),
+(153, 4, 2, 'La luce visibile proveniente dalle stelle più lontane', 'Sbagliata', 0),
+(153, 4, 3, 'Raggi cosmici ad alta energia', 'Sbagliata', 0),
+(153, 4, 4, 'Onde radio emesse da pulsar', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(153, 5, 1, 'Espansione eterna (Big Freeze), collasso (Big Crunch - improbabile), Big Rip', 'Corretta', 10),
+(153, 5, 2, 'Raggiungimento di uno stato stazionario', 'Sbagliata', 0),
+(153, 5, 3, 'Trasformazione in un unico buco nero gigante', 'Sbagliata', 0),
+(153, 5, 4, 'Scomparsa improvvisa dell''universo', 'Sbagliata', 0);
+
+-- Quiz 154: Informatica teorica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(154, 1, 1, 'Classificazione problemi base a risorse (tempo, spazio) necessarie per risolverli; P: risolvibili tempo polinomiale; NP: verificabili tempo polinomiale', 'Corretta', 10),
+(154, 1, 2, 'Velocità di esecuzione di un programma su un computer specifico', 'Sbagliata', 0),
+(154, 1, 3, 'Quantità di memoria RAM utilizzata da un algoritmo', 'Sbagliata', 0),
+(154, 1, 4, 'Numero di righe di codice di un programma', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(154, 2, 1, 'Gerarchia di 4 tipi di grammatiche (regolari, context-free, context-sensitive, illimitate) e linguaggi associati', 'Corretta', 10),
+(154, 2, 2, 'Classificazione dei linguaggi di programmazione (imperativi, funzionali...)', 'Sbagliata', 0),
+(154, 2, 3, 'Struttura organizzativa di un team di sviluppo software', 'Sbagliata', 0),
+(154, 2, 4, 'Livelli di astrazione nell''architettura di un computer', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(154, 3, 1, 'Studio modelli matematici di computazione (automi finiti, pushdown, Macchina Turing) e loro capacità', 'Corretta', 10),
+(154, 3, 2, 'Sviluppo di sistemi di intelligenza artificiale', 'Sbagliata', 0),
+(154, 3, 3, 'Progettazione di interfacce utente', 'Sbagliata', 0),
+(154, 3, 4, 'Gestione di database', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(154, 4, 1, 'Modello matematico astratto di computer, fondamentale per definire concetto di algoritmo e computabilità', 'Corretta', 10),
+(154, 4, 2, 'Un supercomputer ad alte prestazioni', 'Sbagliata', 0),
+(154, 4, 3, 'Un tipo di linguaggio di programmazione', 'Sbagliata', 0),
+(154, 4, 4, 'Un robot umanoide', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(154, 5, 1, 'Problema indecidibile: determinare se un dato programma terminerà o continuerà all''infinito', 'Corretta', 10),
+(154, 5, 2, 'Problema di trovare il percorso più breve in un grafo', 'Sbagliata', 0), -- Risolvibile (Dijkstra)
+(154, 5, 3, 'Problema di ordinare un elenco di numeri', 'Sbagliata', 0), -- Risolvibile
+(154, 5, 4, 'Problema P vs NP', 'Sbagliata', 0); -- Problema aperto, ma diverso
+
+-- Quiz 155: Filosofia politica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(155, 1, 1, 'Hobbes (assolutismo), Locke (liberalismo, diritti naturali), Rousseau (democrazia diretta, volontà generale)', 'Corretta', 10),
+(155, 1, 2, 'Platone (Stato ideale), Aristotele (politica come etica)', 'Sbagliata', 0), -- Filosofia antica
+(155, 1, 3, 'Machiavelli (realismo politico)', 'Sbagliata', 0), -- Non contrattualista
+(155, 1, 4, 'Marx (critica allo Stato borghese)', 'Sbagliata', 0); -- Non contrattualista
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(155, 2, 1, 'Utilitarismo (massima felicità per maggior numero), Liberalismo (libertà individuale, equità - Rawls), Comunitarismo (bene comune, tradizioni)', 'Corretta', 10),
+(155, 2, 2, 'Anarchismo (abolizione Stato)', 'Sbagliata', 0),
+(155, 2, 3, 'Totalitarismo (controllo totale Stato)', 'Sbagliata', 0),
+(155, 2, 4, 'Teocrazia (governo basato su religione)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(155, 3, 1, 'Governo del popolo; forme: diretta, rappresentativa, deliberativa; criticità: tirannia maggioranza, apatia, populismo', 'Corretta', 10),
+(155, 3, 2, 'Governo di uno solo (Monarchia/Tirannia)', 'Sbagliata', 0),
+(155, 3, 3, 'Governo di pochi (Aristocrazia/Oligarchia)', 'Sbagliata', 0),
+(155, 3, 4, 'Assenza di governo (Anarchia)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(155, 4, 1, 'Diritti fondamentali inerenti a ogni essere umano; evoluzione: diritti naturali, civili/politici, sociali/economici', 'Corretta', 10),
+(155, 4, 2, 'Privilegi concessi dallo Stato ai cittadini', 'Sbagliata', 0),
+(155, 4, 3, 'Norme consuetudinarie di una società', 'Sbagliata', 0),
+(155, 4, 4, 'Obblighi e doveri dei cittadini', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(155, 5, 1, 'Liberalismo (primato libertà), Comunitarismo (primato comunità), Anarchismo (rifiuto autorità)', 'Corretta', 10),
+(155, 5, 2, 'Assolutismo (potere illimitato sovrano)', 'Sbagliata', 0),
+(155, 5, 3, 'Socialismo (uguaglianza economica)', 'Sbagliata', 0), -- Focus diverso
+(155, 5, 4, 'Conservatorismo (mantenimento ordine tradizionale)', 'Sbagliata', 0);
+
+-- Quiz 156: Psicologia dello sviluppo
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(156, 1, 1, 'Innatista (Chomsky), Comportamentista (Skinner), Interazionista (Piaget, Vygotsky)', 'Corretta', 10),
+(156, 1, 2, 'Solo teorie basate sull''imitazione', 'Sbagliata', 0),
+(156, 1, 3, 'Solo teorie basate sulla genetica', 'Sbagliata', 0),
+(156, 1, 4, 'Non esistono teorie specifiche sull''acquisizione del linguaggio', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(156, 2, 1, 'Livelli pre-convenzionale, convenzionale, post-convenzionale, basati sul ragionamento morale', 'Corretta', 10),
+(156, 2, 2, 'Stadi dello sviluppo cognitivo (Piaget)', 'Sbagliata', 0),
+(156, 2, 3, 'Fasi dello sviluppo psicosessuale (Freud)', 'Sbagliata', 0),
+(156, 2, 4, 'Stadi dello sviluppo psicosociale (Erikson)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(156, 3, 1, 'Finestra temporale in cui l''organismo è particolarmente sensibile a certi stimoli per l''apprendimento', 'Corretta', 10),
+(156, 3, 2, 'L''età in cui si raggiunge la maturità sessuale', 'Sbagliata', 0),
+(156, 3, 3, 'Il periodo di massima crescita fisica', 'Sbagliata', 0),
+(156, 3, 4, 'Una fase di crisi emotiva durante l''adolescenza', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(156, 4, 1, 'Interazione complessa tra predisposizioni genetiche (nature) ed esperienze ambientali (nurture)', 'Corretta', 10),
+(156, 4, 2, 'Solo fattori genetici determinano lo sviluppo', 'Sbagliata', 0), -- Determinismo biologico
+(156, 4, 3, 'Solo fattori ambientali modellano l''individuo', 'Sbagliata', 0), -- Determinismo ambientale
+(156, 4, 4, 'Il libero arbitrio è l''unico fattore determinante', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(156, 5, 1, 'Declino intelligenza fluida, mantenimento/aumento cristallizzata; saggezza; possibili declini sensoriali/motori', 'Corretta', 10),
+(156, 5, 2, 'Ritorno a stadi infantili del pensiero', 'Sbagliata', 0),
+(156, 5, 3, 'Nessun cambiamento cognitivo dopo la mezza età', 'Sbagliata', 0),
+(156, 5, 4, 'Sviluppo di nuove capacità sensoriali', 'Sbagliata', 0);
+
+-- Quiz 157: Economia internazionale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(157, 1, 1, 'Investimenti di imprese in attività produttive all''estero (controllo diretto)', 'Corretta', 10),
+(157, 1, 2, 'Acquisto di azioni/obbligazioni estere (investimenti di portafoglio)', 'Sbagliata', 0),
+(157, 1, 3, 'Prestiti internazionali tra banche o governi', 'Sbagliata', 0),
+(157, 1, 4, 'Esportazioni di beni e servizi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(157, 2, 1, 'Fisso (ancorato a valuta/oro), Flessibile/fluttuante (determinato dal mercato), Controllato/gestito', 'Corretta', 10),
+(157, 2, 2, 'Forte, Debole, Stabile', 'Sbagliata', 0), -- Valutazioni qualitative
+(157, 2, 3, 'Convertibile, Non convertibile', 'Sbagliata', 0),
+(157, 2, 4, 'Digitale (criptovaluta), Fiat (corso legale)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(157, 3, 1, 'Maggiore efficienza allocazione capitali, ma anche maggiore instabilità e rischio crisi', 'Corretta', 10),
+(157, 3, 2, 'Solo riduzione dei tassi di interesse globali', 'Sbagliata', 0),
+(157, 3, 3, 'Solo aumento degli scambi commerciali', 'Sbagliata', 0), -- Legato, ma diverso
+(157, 3, 4, 'Nessun effetto significativo sull''economia reale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(157, 4, 1, 'Vendita di beni all''estero a prezzi inferiori a quelli interni o ai costi di produzione', 'Corretta', 10),
+(157, 4, 2, 'Applicazione di dazi elevati sulle importazioni', 'Sbagliata', 0), -- Protezionismo
+(157, 4, 3, 'Svalutazione competitiva della propria valuta', 'Sbagliata', 0),
+(157, 4, 4, 'Cartello tra imprese per fissare i prezzi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(157, 5, 1, 'Promuovono integrazione economica, libero scambio, coordinamento politiche (con limiti/sfide)', 'Corretta', 10),
+(157, 5, 2, 'Aumentano le barriere commerciali tra i membri', 'Sbagliata', 0), -- Contrario
+(157, 5, 3, 'Non hanno alcun impatto sul commercio globale', 'Sbagliata', 0),
+(157, 5, 4, 'Si occupano esclusivamente di questioni militari', 'Sbagliata', 0);
+
+-- Quiz 158: Sociologia contemporanea
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(158, 1, 1, 'Teoria sistema-mondo (Wallerstein), Globalizzazione culturale (Robertson), Società in rete (Castells)', 'Corretta', 10),
+(158, 1, 2, 'Teorie classiche di Marx, Weber, Durkheim', 'Sbagliata', 0), -- Applicabili, ma non specifiche sulla globalizzazione
+(158, 1, 3, 'Teorie psicologiche sull''identità', 'Sbagliata', 0),
+(158, 1, 4, 'Teorie economiche sul commercio internazionale', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(158, 2, 1, 'Società caratterizzata da rischi globali (ecologici, finanziari, tecnologici) prodotti dalla modernizzazione stessa', 'Corretta', 10),
+(158, 2, 2, 'Società basata sulla produzione industriale (società industriale)', 'Sbagliata', 0),
+(158, 2, 3, 'Società dominata dai mass media (società dello spettacolo)', 'Sbagliata', 0),
+(158, 2, 4, 'Società focalizzata sul consumo di beni (società dei consumi)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(158, 3, 1, 'Fase storica (o condizione culturale) successiva alla modernità; caratterizzata da frammentazione, relativismo, fine grandi narrazioni', 'Corretta', 10),
+(158, 3, 2, 'Periodo dell''Illuminismo settecentesco', 'Sbagliata', 0),
+(158, 3, 3, 'L''era della rivoluzione industriale', 'Sbagliata', 0),
+(158, 3, 4, 'Un movimento artistico d''avanguardia', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(158, 4, 1, 'Trasformazione lavoro, relazioni sociali, identità, politica, diffusione informazioni', 'Corretta', 10),
+(158, 4, 2, 'Nessun impatto significativo sulla struttura sociale', 'Sbagliata', 0),
+(158, 4, 3, 'Ritorno a forme di comunicazione tradizionali', 'Sbagliata', 0),
+(158, 4, 4, 'Solo effetti negativi sulla privacy', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(158, 5, 1, 'Cambiamenti climatici, Disuguaglianze globali, Migrazioni, Crisi demografica, Trasformazioni lavoro', 'Corretta', 10),
+(158, 5, 2, 'Esplorazione dello spazio', 'Sbagliata', 0),
+(158, 5, 3, 'Conservazione delle lingue morte', 'Sbagliata', 0),
+(158, 5, 4, 'Sviluppo di nuovi generi musicali', 'Sbagliata', 0);
+
+-- Quiz 159: Antropologia culturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(159, 1, 1, 'Mescolanza e fusione di elementi culturali provenienti da tradizioni diverse; es. religioni afroamericane', 'Corretta', 10),
+(159, 1, 2, 'Imposizione di una cultura dominante su una subordinata (acculturazione forzata)', 'Sbagliata', 0),
+(159, 1, 3, 'Conservazione pura e isolata di una tradizione culturale', 'Sbagliata', 0),
+(159, 1, 4, 'Giudizio negativo sulle altre culture (etnocentrismo)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(159, 2, 1, 'Analizzando forme di leadership, sistemi discendenza, risoluzione conflitti, organizzazione lignaggi/clan', 'Corretta', 10),
+(159, 2, 2, 'Assumendo che non abbiano alcuna forma di organizzazione politica', 'Sbagliata', 0),
+(159, 2, 3, 'Applicando i modelli degli stati-nazione moderni', 'Sbagliata', 0),
+(159, 2, 4, 'Studiando solo i loro sistemi economici', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(159, 3, 1, 'Analizza concezioni culturali malattia/salute, pratiche terapeutiche tradizionali, interazione biomedicina/culture locali', 'Corretta', 10),
+(159, 3, 2, 'Promuove esclusivamente la biomedicina occidentale', 'Sbagliata', 0),
+(159, 3, 3, 'Studia solo le malattie infettive', 'Sbagliata', 0),
+(159, 3, 4, 'Si occupa della storia della medicina', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(159, 4, 1, 'Appartenenza a un gruppo che condivide lingua, cultura, storia, origini; processi dinamici e relazionali', 'Corretta', 10),
+(159, 4, 2, 'Appartenenza basata su caratteristiche biologiche fisse (razza)', 'Sbagliata', 0), -- Visione superata
+(159, 4, 3, 'La nazionalità legale di un individuo', 'Sbagliata', 0),
+(159, 4, 4, 'L''appartenenza a una classe sociale', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(159, 5, 1, 'Uso di foto, film, video per documentare, analizzare e rappresentare la vita culturale', 'Corretta', 10),
+(159, 5, 2, 'Studio delle opere d''arte visiva di una cultura', 'Sbagliata', 0),
+(159, 5, 3, 'Analisi dei testi scritti prodotti da una cultura', 'Sbagliata', 0),
+(159, 5, 4, 'Ricostruzione di ambienti culturali passati (archeologia)', 'Sbagliata', 0);
+
+-- Quiz 160: Storia dell arte moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(160, 1, 1, 'Pittura "en plein air", catturare luce/impressione istantanea, pennellate veloci; Monet, Renoir, Degas', 'Corretta', 10),
+(160, 1, 2, 'Forme geometriche, prospettiva multipla (Cubismo)', 'Sbagliata', 0),
+(160, 1, 3, 'Colori accesi e antinaturalistici, espressione emozioni (Fauvismo/Espressionismo)', 'Sbagliata', 0),
+(160, 1, 4, 'Rappresentazione sogno, inconscio (Surrealismo)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(160, 2, 1, 'Scomposizione oggetti in forme geometriche, visione simultanea da più punti di vista', 'Corretta', 10),
+(160, 2, 2, 'Esaltazione velocità, macchina, dinamismo (Futurismo)', 'Sbagliata', 0),
+(160, 2, 3, 'Rifiuto forme tradizionali, uso oggetti trovati (Dadaismo)', 'Sbagliata', 0),
+(160, 2, 4, 'Ritorno all''ordine e alle forme classiche (Neoclassicismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(160, 3, 1, 'Movimento d''avanguardia che esplora inconscio, sogno, irrazionale; automatismo psichico, accostamenti incongrui (Dalí, Magritte, Ernst)', 'Corretta', 10),
+(160, 3, 2, 'Movimento che celebra la vita quotidiana e i prodotti di massa (Pop Art)', 'Sbagliata', 0),
+(160, 3, 3, 'Stile pittorico basato su punti di colore (Puntinismo/Divisionismo)', 'Sbagliata', 0),
+(160, 3, 4, 'Arte focalizzata sull''idea o concetto piuttosto che sull''oggetto (Arte Concettuale)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(160, 4, 1, 'Scuola tedesca (1919-33) che integrava arte, artigianato, architettura; design funzionale, razionalismo', 'Corretta', 10),
+(160, 4, 2, 'Accademia d''arte tradizionale francese', 'Sbagliata', 0),
+(160, 4, 3, 'Movimento artistico russo d''avanguardia (Costruttivismo)', 'Sbagliata', 0),
+(160, 4, 4, 'Gilda di artisti e artigiani medievale', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(160, 5, 1, 'Arte non figurativa che non rappresenta oggetti riconoscibili; focus su forma, colore, linea (Kandinskij, Mondrian)', 'Corretta', 10),
+(160, 5, 2, 'Arte che rappresenta la realtà in modo iperrealistico (Iperrealismo)', 'Sbagliata', 0),
+(160, 5, 3, 'Arte che utilizza oggetti trovati (Ready-made)', 'Sbagliata', 0),
+(160, 5, 4, 'Arte creata con mezzi digitali', 'Sbagliata', 0);
+
+-- Quiz 161: Letteratura americana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(161, 1, 1, 'Walt Whitman; opera fondamentale poesia americana, verso libero, celebrazione democrazia/individuo/corpo', 'Corretta', 10),
+(161, 1, 2, 'Emily Dickinson; poesia introspettiva, forma breve, non convenzionale', 'Sbagliata', 0),
+(161, 1, 3, 'Edgar Allan Poe; racconti gotici, poesia oscura', 'Sbagliata', 0),
+(161, 1, 4, 'Henry Wadsworth Longfellow; poesia popolare narrativa', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(161, 2, 1, 'Fioritura culturale afroamericana anni ''20 (NY); temi: identità nera, razzismo, jazz, blues (Hughes, Hurston, McKay)', 'Corretta', 10),
+(161, 2, 2, 'Movimento letterario Sud USA (Faulkner, Welty)', 'Sbagliata', 0),
+(161, 2, 3, 'Gruppo scrittori anticonformisti anni ''50 (Beat Generation)', 'Sbagliata', 0),
+(161, 2, 4, 'Scuola filosofica/letteraria New England XIX sec. (Trascendentalismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(161, 3, 1, 'Il grande Gatsby (Fitzgerald) / Furore (Steinbeck)', 'Corretta', 10),
+(161, 3, 2, 'Addio alle armi (Hemingway)', 'Sbagliata', 0),
+(161, 3, 3, 'L''urlo e il furore (Faulkner)', 'Sbagliata', 0),
+(161, 3, 4, 'Moby Dick (Melville)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(161, 4, 1, 'Corrente letteraria (metà XX sec. in poi) caratterizzata da ironia, frammentazione, metanarrativa, gioco intertestuale', 'Corretta', 10),
+(161, 4, 2, 'Stile realista che descrive oggettivamente la società', 'Sbagliata', 0),
+(161, 4, 3, 'Letteratura che esprime angoscia e alienazione moderna (Modernismo)', 'Sbagliata', 0),
+(161, 4, 4, 'Narrativa focalizzata su suspense e mistero (Thriller)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(161, 5, 1, 'Mito fondativo USA: spazio selvaggio da conquistare, individualismo, libertà, conflitto civiltà/natura', 'Corretta', 10),
+(161, 5, 2, 'Tema della vita urbana e industriale', 'Sbagliata', 0),
+(161, 5, 3, 'Esperienza della schiavitù e della lotta per diritti civili', 'Sbagliata', 0),
+(161, 5, 4, 'Rapporto con la cultura europea', 'Sbagliata', 0);
+
+-- Quiz 162: Fisica quantistica avanzata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(162, 1, 1, 'Teoria che descrive le particelle elementari come eccitazioni di campi quantistici', 'Corretta', 10),
+(162, 1, 2, 'Teoria della relatività generale di Einstein', 'Sbagliata', 0),
+(162, 1, 3, 'Meccanica statistica per sistemi a molti corpi', 'Sbagliata', 0),
+(162, 1, 4, 'Teoria delle stringhe', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(162, 2, 1, 'Tecnica matematica per gestire gli infiniti che appaiono nei calcoli perturbativi in QFT', 'Corretta', 10),
+(162, 2, 2, 'Processo di misura quantistica che collassa la funzione d''onda', 'Sbagliata', 0),
+(162, 2, 3, 'Creazione di particelle dal vuoto quantistico', 'Sbagliata', 0),
+(162, 2, 4, 'Metodo per risolvere numericamente l''equazione di Schrödinger', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(162, 3, 1, 'Elettromagnetica (fotone), Debole (bosoni W/Z), Forte (gluoni), Gravitazionale (gravitone? Non nel Modello Standard)', 'Corretta', 10),
+(162, 3, 2, 'Forza di attrito, Forza elastica, Tensione superficiale', 'Sbagliata', 0),
+(162, 3, 3, 'Forza centrifuga, Forza di Coriolis', 'Sbagliata', 0),
+(162, 3, 4, 'Interazione gene-ambiente', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(162, 4, 1, 'Correlazione quantistica non locale tra particelle; testato da disuguaglianze di Bell, violazione dimostra MQ', 'Corretta', 10),
+(162, 4, 2, 'Paradosso del gatto di Schrödinger (sovrapposizione macroscopica)', 'Sbagliata', 0),
+(162, 4, 3, 'Effetto tunnel quantistico', 'Sbagliata', 0),
+(162, 4, 4, 'Quantizzazione dello spin (esperimento Stern-Gerlach)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(162, 5, 1, 'Uso di fenomeni quantistici (qubit, sovrapposizione, entanglement) per eseguire calcoli', 'Corretta', 10),
+(162, 5, 2, 'Informatica basata su DNA', 'Sbagliata', 0),
+(162, 5, 3, 'Sviluppo di algoritmi di intelligenza artificiale', 'Sbagliata', 0),
+(162, 5, 4, 'Crittografia basata su chiavi pubbliche/private', 'Sbagliata', 0);
+
+-- Quiz 163: Chimica analitica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(163, 1, 1, 'Tecnica che misura rapporto massa/carica ioni; identificazione molecole, analisi isotopica', 'Corretta', 10),
+(163, 1, 2, 'Tecnica che misura assorbimento radiazione IR (Spettroscopia IR)', 'Sbagliata', 0),
+(163, 1, 3, 'Tecnica che misura interazione nuclei atomici con campo magnetico (NMR)', 'Sbagliata', 0),
+(163, 1, 4, 'Tecnica per separare composti volatili (Gascromatografia)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(163, 2, 1, 'Estrazione (liquido-liquido, fase solida), Digestione (acida), Filtrazione, Centrifugazione', 'Corretta', 10),
+(163, 2, 2, 'Titolazione, Gravimetria', 'Sbagliata', 0),
+(163, 2, 3, 'Calibrazione dello strumento', 'Sbagliata', 0),
+(163, 2, 4, 'Analisi statistica dei dati', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(163, 3, 1, 'Processo per dimostrare che un metodo analitico è adatto allo scopo previsto (accuratezza, precisione, linearità...)', 'Corretta', 10),
+(163, 3, 2, 'La calibrazione giornaliera dello strumento', 'Sbagliata', 0),
+(163, 3, 3, 'La pubblicazione del metodo su una rivista scientifica', 'Sbagliata', 0),
+(163, 3, 4, 'La stesura del manuale d''uso dello strumento', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(163, 4, 1, 'Interno: aggiunto al campione; Esterno: soluzioni a concentrazione nota preparate a parte', 'Corretta', 10),
+(163, 4, 2, 'Interno: per analisi qualitative; Esterno: per quantitative', 'Sbagliata', 0),
+(163, 4, 3, 'Interno: economico; Esterno: costoso', 'Sbagliata', 0),
+(163, 4, 4, 'Standard interno è sempre più accurato', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(163, 5, 1, 'Ambientale (inquinanti), Alimentare (additivi, contaminanti), Forense (droghe, DNA)', 'Corretta', 10),
+(163, 5, 2, 'Sintesi di nuovi materiali', 'Sbagliata', 0),
+(163, 5, 3, 'Studio di reazioni nucleari', 'Sbagliata', 0),
+(163, 5, 4, 'Progettazione di ponti', 'Sbagliata', 0);
+
+-- Quiz 164: Geologia strutturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(164, 1, 1, 'La deformazione delle rocce e le strutture risultanti (faglie, pieghe)', 'Corretta', 10),
+(164, 1, 2, 'La composizione chimica delle rocce (Petrologia/Geochimica)', 'Sbagliata', 0),
+(164, 1, 3, 'La storia della Terra attraverso le rocce (Stratigrafia)', 'Sbagliata', 0),
+(164, 1, 4, 'I processi di formazione dei suoli (Pedologia)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(164, 2, 1, 'Fratture con movimento relativo tra i blocchi; Diretta (estensione), Inversa (compressione), Trascorrente (movimento orizzontale)', 'Corretta', 10),
+(164, 2, 2, 'Pieghe ondulate delle rocce', 'Sbagliata', 0),
+(164, 2, 3, 'Intrusioni di magma solidificato (dicchi, sill)', 'Sbagliata', 0),
+(164, 2, 4, 'Strati rocciosi depositati orizzontalmente', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(164, 3, 1, 'Ondulazioni degli strati rocciosi dovute a compressione; Cerniera, Fianchi, Piano assiale', 'Corretta', 10),
+(164, 3, 2, 'Fratture lungo cui avviene movimento (faglie)', 'Sbagliata', 0),
+(164, 3, 3, 'Strutture circolari dovute a impatti meteoritici', 'Sbagliata', 0),
+(164, 3, 4, 'Depositi sedimentari a forma di lente', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(164, 4, 1, 'Stress: forza per unità di area applicata; Strain: cambiamento forma/volume roccia', 'Corretta', 10),
+(164, 4, 2, 'Stress: causa; Strain: effetto', 'Sbagliata', 0),
+(164, 4, 3, 'Stress: misurato in Pascal; Strain: adimensionale', 'Sbagliata', 0),
+(164, 4, 4, 'Sono sinonimi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(164, 5, 1, 'Rappresentare graficamente l''orientamento di piani e linee geologiche', 'Corretta', 10),
+(164, 5, 2, 'Creare mappe topografiche', 'Sbagliata', 0),
+(164, 5, 3, 'Analizzare la composizione chimica delle rocce', 'Sbagliata', 0),
+(164, 5, 4, 'Datare l''età delle rocce', 'Sbagliata', 0);
+
+-- Quiz 165: Storia della musica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(165, 1, 1, 'Basso continuo, stile concertante, contrappunto elaborato, espressività (affetti); Bach, Händel, Vivaldi', 'Corretta', 10),
+(165, 1, 2, 'Chiarezza formale, equilibrio, melodia cantabile (Classicismo: Mozart, Haydn)', 'Sbagliata', 0),
+(165, 1, 3, 'Espressione sentimenti, libertà formale, virtuosismo (Romanticismo: Beethoven, Chopin)', 'Sbagliata', 0),
+(165, 1, 4, 'Polifonia vocale a cappella, modalità (Rinascimento: Palestrina, Monteverdi inizio)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(165, 2, 1, 'Equilibrio forma/espressione, chiarezza struttura (forma sonata), sviluppo orchestra; Haydn, Mozart, Beethoven (primo)', 'Corretta', 10),
+(165, 2, 2, 'Stile ornato, contrasti dinamici, basso continuo (Barocco)', 'Sbagliata', 0),
+(165, 2, 3, 'Intensità emotiva, grandi orchestre, forme libere (Romanticismo)', 'Sbagliata', 0),
+(165, 2, 4, 'Dissonanze, atonalità, sperimentalismo (XX secolo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(165, 3, 1, 'Enfasi su emozione/individualità, libertà formale, virtuosismo, legame con letteratura/arte (Beethoven, Schubert, Chopin, Liszt, Wagner)', 'Corretta', 10),
+(165, 3, 2, 'Ricerca ordine razionale, regole contrappunto (Barocco)', 'Sbagliata', 0),
+(165, 3, 3, 'Sobrietà espressiva, eleganza formale (Classicismo)', 'Sbagliata', 0),
+(165, 3, 4, 'Rifiuto tonalità tradizionale, uso serie dodecafonica (Musica seriale)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(165, 4, 1, 'Rottura con tonalità tradizionale; Dodecafonia (Schönberg), Musica concreta/elettronica (Stockhausen), Aleatoria (Cage)', 'Corretta', 10),
+(165, 4, 2, 'Sviluppo dell''opera lirica italiana (Verdi, Puccini)', 'Sbagliata', 0),
+(165, 4, 3, 'Impressionismo musicale (Debussy, Ravel)', 'Sbagliata', 0),
+(165, 4, 4, 'Neoclassicismo (Stravinskij parte opera)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(165, 5, 1, 'Jazz, Rock, Pop, Hip Hop, Elettronica', 'Corretta', 10),
+(165, 5, 2, 'Musica classica, Musica barocca', 'Sbagliata', 0),
+(165, 5, 3, 'Musica folk tradizionale', 'Sbagliata', 0),
+(165, 5, 4, 'Canto gregoriano', 'Sbagliata', 0);
+
+-- Quiz 166: Matematica discreta
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(166, 1, 1, 'Branca matematica che studia proprietà interi (primi, divisibilità, congruenze); Crittografia (RSA)', 'Corretta', 10),
+(166, 1, 2, 'Studio dei grafi e delle loro proprietà', 'Sbagliata', 0),
+(166, 1, 3, 'Studio del calcolo combinatorio (permutazioni, combinazioni)', 'Sbagliata', 0),
+(166, 1, 4, 'Studio della logica matematica', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(166, 2, 1, 'Algoritmo efficiente per trovare il Massimo Comun Divisore (MCD) tra due interi', 'Corretta', 10),
+(166, 2, 2, 'Algoritmo per trovare numeri primi (Crivello di Eratostene)', 'Sbagliata', 0),
+(166, 2, 3, 'Algoritmo per ordinare un array (es. Merge Sort)', 'Sbagliata', 0),
+(166, 2, 4, 'Algoritmo per trovare il cammino minimo in un grafo (Dijkstra)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(166, 3, 1, 'Equazioni del tipo ax ≡ b (mod m); risolvibili se MCD(a, m) divide b', 'Corretta', 10),
+(166, 3, 2, 'Equazioni che coinvolgono derivate (Equazioni differenziali)', 'Sbagliata', 0),
+(166, 3, 3, 'Sistemi di equazioni lineari', 'Sbagliata', 0),
+(166, 3, 4, 'Equazioni polinomiali di grado superiore al primo', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(166, 4, 1, 'Teorema che permette di risolvere sistemi di congruenze lineari simultanee', 'Corretta', 10),
+(166, 4, 2, 'Teorema fondamentale dell''algebra (radici polinomi)', 'Sbagliata', 0),
+(166, 4, 3, 'Teorema di Pitagora (triangoli rettangoli)', 'Sbagliata', 0),
+(166, 4, 4, 'Ultimo Teorema di Fermat', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(166, 5, 1, 'Crittografia a chiave pubblica (RSA), Codici correttori d''errore, Algoritmi hashing', 'Corretta', 10),
+(166, 5, 2, 'Simulazione di sistemi fisici complessi', 'Sbagliata', 0),
+(166, 5, 3, 'Analisi di immagini mediche', 'Sbagliata', 0),
+(166, 5, 4, 'Previsioni meteorologiche', 'Sbagliata', 0);
+
+-- Quiz 167: Fisica dei materiali
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(167, 1, 1, 'Materiali progettati per interagire con sistemi biologici; protesi, drug delivery', 'Corretta', 10),
+(167, 1, 2, 'Materiali derivati da organismi viventi (es. legno, osso)', 'Sbagliata', 0),
+(167, 1, 3, 'Materiali utilizzati in agricoltura biologica', 'Sbagliata', 0),
+(167, 1, 4, 'Materiali biodegradabili', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(167, 2, 1, 'Materiali le cui proprietà cambiano in risposta a stimoli esterni (T, luce, pH); es. leghe memoria forma, materiali piezoelettrici', 'Corretta', 10),
+(167, 2, 2, 'Materiali con elevata resistenza meccanica', 'Sbagliata', 0),
+(167, 2, 3, 'Materiali superconduttori', 'Sbagliata', 0),
+(167, 2, 4, 'Materiali trasparenti alla luce visibile', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(167, 3, 1, 'Microscopia a scansione di sonda (SPM) come AFM/STM per visualizzare superfici a livello atomico', 'Corretta', 10),
+(167, 3, 2, 'Microscopia ottica tradizionale', 'Sbagliata', 0),
+(167, 3, 3, 'Diffrazione dei raggi X (XRD)', 'Sbagliata', 0),
+(167, 3, 4, 'Spettroscopia infrarossa (IR)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(167, 4, 1, 'Processo di compattazione e coalescenza di polveri ad alta temperatura per formare un solido denso', 'Corretta', 10),
+(167, 4, 2, 'Processo di fusione e solidificazione di un metallo', 'Sbagliata', 0),
+(167, 4, 3, 'Deposizione di un film sottile su un substrato', 'Sbagliata', 0),
+(167, 4, 4, 'Reazione chimica in fase gassosa', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(167, 5, 1, 'Consumo risorse naturali, emissioni inquinanti, gestione rifiuti a fine vita', 'Corretta', 10),
+(167, 5, 2, 'Impatto nullo sull''ambiente', 'Sbagliata', 0),
+(167, 5, 3, 'Solo consumo di energia elettrica', 'Sbagliata', 0),
+(167, 5, 4, 'Solo produzione di CO2', 'Sbagliata', 0);
+
+-- Quiz 168: Letteratura francese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(168, 1, 1, 'Marcel Proust; capolavoro modernista, esplora memoria, tempo, arte, società', 'Corretta', 10),
+(168, 1, 2, 'André Gide; I falsari', 'Sbagliata', 0),
+(168, 1, 3, 'Louis-Ferdinand Céline; Viaggio al termine della notte', 'Sbagliata', 0),
+(168, 1, 4, 'Jean-Paul Sartre; La Nausea', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(168, 2, 1, 'Approccio scientifico alla letteratura, determinismo ambientale/ereditario, descrizione ambienti degradati', 'Corretta', 10),
+(168, 2, 2, 'Rappresentazione oggettiva della borghesia (Realismo - Flaubert)', 'Sbagliata', 0),
+(168, 2, 3, 'Esplorazione del simbolo e della suggestione (Simbolismo)', 'Sbagliata', 0),
+(168, 2, 4, 'Primato del sentimento e dell''immaginazione (Romanticismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(168, 3, 1, 'Notre-Dame de Paris / I Miserabili', 'Corretta', 10),
+(168, 3, 2, 'Il rosso e il nero (Stendhal)', 'Sbagliata', 0),
+(168, 3, 3, 'Papà Goriot (Balzac)', 'Sbagliata', 0),
+(168, 3, 4, 'I tre moschettieri (Dumas)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(168, 4, 1, 'Teatro che rappresenta l''assurdità dell''esistenza umana, incomunicabilità, mancanza di senso', 'Corretta', 10),
+(168, 4, 2, 'Teatro classico con regole di unità (tempo, luogo, azione)', 'Sbagliata', 0),
+(168, 4, 3, 'Teatro romantico con grandi passioni e ambientazioni storiche', 'Sbagliata', 0),
+(168, 4, 4, 'Teatro impegnato politicamente (Brecht)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(168, 5, 1, 'Annie Ernaux (autofiction, memoria), Michel Houellebecq (critica società contemporanea)', 'Corretta', 10),
+(168, 5, 2, 'Simone de Beauvoir (esistenzialismo, femminismo)', 'Sbagliata', 0),
+(168, 5, 3, 'Marguerite Duras (Nouveau Roman/Autofiction)', 'Sbagliata', 0),
+(168, 5, 4, 'Albert Camus (esistenzialismo)', 'Sbagliata', 0);
+
+-- Quiz 169: Geografia economica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(169, 1, 1, 'Attività economiche non registrate ufficialmente (lavoro nero, commercio informale)', 'Corretta', 10),
+(169, 1, 2, 'Economia basata sull''agricoltura', 'Sbagliata', 0),
+(169, 1, 3, 'Economia pianificata dallo Stato', 'Sbagliata', 0),
+(169, 1, 4, 'Economia basata sulla conoscenza e l''innovazione', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(169, 2, 1, 'Petrolio, minerali, foreste, acqua; possono favorire sviluppo ma anche "maledizione risorse"', 'Corretta', 10),
+(169, 2, 2, 'Capitale umano (istruzione, competenze)', 'Sbagliata', 0),
+(169, 2, 3, 'Tecnologia e innovazione', 'Sbagliata', 0),
+(169, 2, 4, 'Stabilità politica e istituzioni', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(169, 3, 1, 'Movimento merci, gestione magazzini, ottimizzazione catena approvvigionamento (supply chain)', 'Corretta', 10),
+(169, 3, 2, 'Le politiche fiscali e monetarie', 'Sbagliata', 0),
+(169, 3, 3, 'La distribuzione dei diversi tipi di clima', 'Sbagliata', 0),
+(169, 3, 4, 'L''analisi dei flussi migratori', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(169, 4, 1, 'Concentrazione geografica di imprese interconnesse e istituzioni in un settore specifico', 'Corretta', 10),
+(169, 4, 2, 'Una grande area industriale generica', 'Sbagliata', 0),
+(169, 4, 3, 'Un centro commerciale', 'Sbagliata', 0),
+(169, 4, 4, 'Una zona economica speciale per attrarre investimenti esteri', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(169, 5, 1, 'Decarbonizzazione, energie rinnovabili, economia circolare, impatto su localizzazione industrie/lavoro', 'Corretta', 10),
+(169, 5, 2, 'Aumento esponenziale consumo combustibili fossili', 'Sbagliata', 0),
+(169, 5, 3, 'Nessuna implicazione geografica rilevante', 'Sbagliata', 0),
+(169, 5, 4, 'Ritorno all''agricoltura di sussistenza', 'Sbagliata', 0);
+
+-- Quiz 170: Chimica fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(170, 1, 1, 'Studio dell''interazione tra radiazione elettromagnetica e materia; fornisce info su struttura/composizione', 'Corretta', 10),
+(170, 1, 2, 'Studio delle proprietà magnetiche dei materiali', 'Sbagliata', 0),
+(170, 1, 3, 'Tecnica per separare miscele (Cromatografia)', 'Sbagliata', 0),
+(170, 1, 4, 'Studio delle reazioni nucleari', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(170, 2, 1, 'Misura del disordine/casualità di un sistema; aumenta nei processi spontanei in sistemi isolati (2° Principio)', 'Corretta', 10),
+(170, 2, 2, 'Misura del calore scambiato a pressione costante (Entalpia)', 'Sbagliata', 0),
+(170, 2, 3, 'Energia libera utilizzabile per compiere lavoro (Energia libera Gibbs)', 'Sbagliata', 0),
+(170, 2, 4, 'Misura della velocità di una reazione chimica', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(170, 3, 1, 'Diagrammi P-T o P-V che mostrano stati (solido, liquido, gas) di una sostanza in funzione di P e T', 'Corretta', 10),
+(170, 3, 2, 'Diagrammi che mostrano livelli energetici atomici/molecolari', 'Sbagliata', 0),
+(170, 3, 3, 'Grafici concentrazione vs tempo in cinetica chimica', 'Sbagliata', 0),
+(170, 3, 4, 'Curve di titolazione acido-base', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(170, 4, 1, 'Modello che descrive gas come particelle puntiformi in moto casuale; spiega leggi gas ideali', 'Corretta', 10),
+(170, 4, 2, 'Teoria sul legame chimico covalente (Teoria del legame di valenza/Orbitale molecolare)', 'Sbagliata', 0),
+(170, 4, 3, 'Teoria sulla struttura atomica (Modello quantistico)', 'Sbagliata', 0),
+(170, 4, 4, 'Teoria sulla conduzione elettrica nei solidi (Teoria delle bande)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(170, 5, 1, 'Forze attrattive/repulsive tra molecole (dipolo-dipolo, legame H, London); influenzano proprietà fisiche (T ebollizione)', 'Corretta', 10),
+(170, 5, 2, 'Legami chimici forti all''interno delle molecole (covalente, ionico)', 'Sbagliata', 0),
+(170, 5, 3, 'Forze nucleari che tengono unito il nucleo', 'Sbagliata', 0),
+(170, 5, 4, 'Forza di gravità tra le molecole', 'Sbagliata', 0);
+
+-- Quiz 171: Biologia evolutiva
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(171, 1, 1, 'Evoluzione reciproca di due o più specie che interagiscono strettamente; es. fiore-impollinatore', 'Corretta', 10),
+(171, 1, 2, 'Evoluzione di strutture simili in specie non imparentate (Evoluzione convergente)', 'Sbagliata', 0),
+(171, 1, 3, 'Rapida diversificazione di un gruppo in nuove forme (Radiazione adattativa)', 'Sbagliata', 0),
+(171, 1, 4, 'Evoluzione all''interno di una singola linea evolutiva (Anagenesi)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(171, 2, 1, 'Successo riproduttivo relativo di un individuo/genotipo in un dato ambiente', 'Corretta', 10),
+(171, 2, 2, 'Stato di salute fisica e benessere generale', 'Sbagliata', 0),
+(171, 2, 3, 'La dimensione corporea di un organismo', 'Sbagliata', 0),
+(171, 2, 4, 'La capacità di apprendere nuovi comportamenti', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(171, 3, 1, 'Uso di sequenze DNA/proteine per ricostruire filogenesi e stimare tempi divergenza', 'Corretta', 10),
+(171, 3, 2, 'Studio dei fossili (Paleontologia)', 'Sbagliata', 0),
+(171, 3, 3, 'Analisi comparativa dell''anatomia e dell''embriologia', 'Sbagliata', 0),
+(171, 3, 4, 'Osservazione diretta del comportamento animale (Etologia)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(171, 4, 1, 'Origine spontanea della vita da materia non vivente', 'Corretta', 10),
+(171, 4, 2, 'Teoria della panspermia (vita arrivata dallo spazio)', 'Sbagliata', 0),
+(171, 4, 3, 'Creazione divina della vita', 'Sbagliata', 0),
+(171, 4, 4, 'Evoluzione delle prime cellule procariote', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(171, 5, 1, 'Selezione artificiale (allevamento/agricoltura), resistenza antibiotici/pesticidi, introduzione specie aliene', 'Corretta', 10),
+(171, 5, 2, 'Nessun impatto significativo', 'Sbagliata', 0),
+(171, 5, 3, 'Ha fermato completamente l''evoluzione naturale', 'Sbagliata', 0),
+(171, 5, 4, 'Ha causato solo estinzioni di massa', 'Sbagliata', 0);
+
+-- Quiz 172: Storia dell Asia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(172, 1, 1, 'Civiltà urbana età bronzo (ca. 2500-1900 a.C.); scrittura indecifrata, pianificazione urbana', 'Corretta', 10),
+(172, 1, 2, 'Civiltà mesopotamica (Sumeri, Babilonesi)', 'Sbagliata', 0),
+(172, 1, 3, 'Civiltà egizia antica', 'Sbagliata', 0),
+(172, 1, 4, 'Civiltà cinese della dinastia Shang', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(172, 2, 1, 'Vasto impero Sud-Est Asiatico (IX-XV sec.); capitale Angkor, templi grandiosi (Angkor Wat)', 'Corretta', 10),
+(172, 2, 2, 'Impero Moghul in India', 'Sbagliata', 0),
+(172, 2, 3, 'Impero Ottomano', 'Sbagliata', 0),
+(172, 2, 4, 'Regno di Siam (Thailandia)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(172, 3, 1, 'Divisione India britannica in India (indù) e Pakistan (musulmano); violenze, migrazioni di massa', 'Corretta', 10),
+(172, 3, 2, 'Guerra civile cinese', 'Sbagliata', 0),
+(172, 3, 3, 'Guerra di Corea', 'Sbagliata', 0),
+(172, 3, 4, 'Indipendenza dell''Indonesia', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(172, 4, 1, 'Rapida crescita economica Giappone post-WWII; industria, esportazioni, tecnologia', 'Corretta', 10),
+(172, 4, 2, 'Boom economico cinese recente', 'Sbagliata', 0),
+(172, 4, 3, 'Crescita delle "Tigri Asiatiche"', 'Sbagliata', 0),
+(172, 4, 4, 'Sviluppo economico dell''India', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(172, 5, 1, 'Dispute territoriali tra Cina e vicini, controllo rotte marittime, risorse naturali', 'Corretta', 10),
+(172, 5, 2, 'Conflitto israelo-palestinese', 'Sbagliata', 0),
+(172, 5, 3, 'Tensioni tra Russia e NATO', 'Sbagliata', 0),
+(172, 5, 4, 'Guerra civile in Siria', 'Sbagliata', 0);
+
+-- Quiz 173: Letteratura spagnola
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(173, 1, 1, 'Gruppo scrittori/intellettuali (fine XIX sec.) che riflettono su crisi Spagna dopo perdita colonie (Unamuno, Machado, Baroja)', 'Corretta', 10),
+(173, 1, 2, 'Gruppo poeti avanguardisti anni ''20 (Generazione del ''27)', 'Sbagliata', 0),
+(173, 1, 3, 'Autori del Siglo de Oro (Cervantes, Lope...)', 'Sbagliata', 0),
+(173, 1, 4, 'Narratori del "Boom" latinoamericano', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(173, 2, 1, 'Teatro ricco di azione, onore, amore, religione; Lope: prolifico, rompe unità classiche; Calderón: più filosofico/allegorico', 'Corretta', 10),
+(173, 2, 2, 'Teatro neoclassico con regole rigide', 'Sbagliata', 0),
+(173, 2, 3, 'Teatro dell''assurdo del XX secolo', 'Sbagliata', 0),
+(173, 2, 4, 'Teatro realista con critica sociale', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(173, 3, 1, 'Nebbia / San Manuel Bueno, mártir (Unamuno); La famiglia di Pascual Duarte / L''alveare (Cela)', 'Corretta', 10),
+(173, 3, 2, 'La casa degli spiriti (Allende)', 'Sbagliata', 0),
+(173, 3, 3, 'Il nome della rosa (Eco)', 'Sbagliata', 0),
+(173, 3, 4, 'Finzioni (Borges)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(173, 4, 1, 'Trauma, memoria divisa, esilio, repressione, ricerca identità', 'Corretta', 10),
+(173, 4, 2, 'Celebrazione della vittoria franchista', 'Sbagliata', 0),
+(173, 4, 3, 'Nessun impatto, la letteratura continuò come prima', 'Sbagliata', 0),
+(173, 4, 4, 'Focus esclusivo su temi religiosi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(173, 5, 1, 'Almudena Grandes / Rosa Montero / Arturo Pérez-Reverte', 'Corretta', 10),
+(173, 5, 2, 'Carmen Laforet', 'Sbagliata', 0),
+(173, 5, 3, 'Ana María Matute', 'Sbagliata', 0),
+(173, 5, 4, 'Rosalía de Castro', 'Sbagliata', 0);
+
+-- Quiz 174: Filosofia moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(174, 1, 1, 'Analitici (predicato nel soggetto, a priori), Sintetici (predicato aggiunge info); Sintetici a posteriori (esperienza), Sintetici a priori (matematica/fisica - novità Kant)', 'Corretta', 10),
+(174, 1, 2, 'Analitici (veri), Sintetici (falsi)', 'Sbagliata', 0),
+(174, 1, 3, 'A priori (innati), A posteriori (appresi)', 'Sbagliata', 0),
+(174, 1, 4, 'Non esiste tale distinzione in Kant', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(174, 2, 1, 'Diritti naturali (vita, libertà, proprietà), governo limitato basato su consenso, diritto resistenza', 'Corretta', 10),
+(174, 2, 2, 'Sovranità assoluta per evitare guerra tutti contro tutti (Hobbes)', 'Sbagliata', 0),
+(174, 2, 3, 'Democrazia diretta basata su volontà generale (Rousseau)', 'Sbagliata', 0),
+(174, 2, 4, 'Separazione dei poteri (Montesquieu)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(174, 3, 1, 'Etica consequenzialista: azione giusta massimizza felicità/utilità generale', 'Corretta', 10),
+(174, 3, 2, 'Etica deontologica: azione giusta segue dovere/imperativo categorico (Kant)', 'Sbagliata', 0),
+(174, 3, 3, 'Etica delle virtù: focus su carattere morale agente (Aristotele)', 'Sbagliata', 0),
+(174, 3, 4, 'Egoismo etico: azione giusta massimizza interesse personale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(174, 4, 1, 'Spinoza: Deus sive Natura (Dio o Natura) unica sostanza; Leibniz: infinite sostanze individuali (monadi)', 'Corretta', 10),
+(174, 4, 2, 'Cartesio: dualismo res cogitans (pensiero) e res extensa (materia)', 'Sbagliata', 0),
+(174, 4, 3, 'Locke: critica alle idee innate, focus su sostanza come substrato inconoscibile', 'Sbagliata', 0),
+(174, 4, 4, 'Berkeley: "Esse est percipi" (esistere è essere percepito), idealismo immaterialista', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(174, 5, 1, 'Empirismo radicale, scetticismo su causalità (mera abitudine), critica all''io sostanziale', 'Corretta', 10),
+(174, 5, 2, 'Difesa delle idee innate (Cartesio)', 'Sbagliata', 0),
+(174, 5, 3, 'Teoria della tabula rasa (Locke)', 'Sbagliata', 0),
+(174, 5, 4, 'Sintesi tra razionalismo ed empirismo (Kant)', 'Sbagliata', 0);
+
+-- Quiz 175: Psicologia sociale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(175, 1, 1, 'Comportamento volto ad aiutare altri; altruismo: motivato da empatia senza aspettative ricompensa', 'Corretta', 10),
+(175, 1, 2, 'Comportamento aggressivo volto a danneggiare altri', 'Sbagliata', 0),
+(175, 1, 3, 'Comportamento conformista per adeguarsi al gruppo', 'Sbagliata', 0),
+(175, 1, 4, 'Comportamento competitivo per superare gli altri', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(175, 2, 1, 'Teoria su come identità derivi da appartenenza a gruppi (ingroup/outgroup); favoritismo ingroup', 'Corretta', 10),
+(175, 2, 2, 'Teoria della dissonanza cognitiva (Festinger)', 'Sbagliata', 0),
+(175, 2, 3, 'Teoria dell''apprendimento sociale (Bandura)', 'Sbagliata', 0),
+(175, 2, 4, 'Teoria dell''attribuzione causale (Heider)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(175, 3, 1, 'Valutazioni (positive/negative) verso persone, oggetti, idee; si formano/modificano tramite esperienza, comunicazione, condizionamento', 'Corretta', 10),
+(175, 3, 2, 'Credenze generalizzate su gruppi (stereotipi)', 'Sbagliata', 0),
+(175, 3, 3, 'Tratti stabili della personalità individuale', 'Sbagliata', 0),
+(175, 3, 4, 'Norme sociali che guidano il comportamento', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(175, 4, 1, 'Minore probabilità di intervenire in emergenza se presenti altri spettatori', 'Corretta', 10),
+(175, 4, 2, 'Tendenza a lavorare meno in gruppo (inerzia sociale)', 'Sbagliata', 0),
+(175, 4, 3, 'Assunzione di rischi maggiori in gruppo (polarizzazione)', 'Sbagliata', 0),
+(175, 4, 4, 'Obbedienza acritica all''autorità (Milgram)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(175, 5, 1, 'Influenza su formazione identità, relazioni, comunicazione, percezione realtà online', 'Corretta', 10),
+(175, 5, 2, 'Nessun impatto psicologico rilevante', 'Sbagliata', 0),
+(175, 5, 3, 'Solo miglioramento delle capacità cognitive', 'Sbagliata', 0),
+(175, 5, 4, 'Solo aumento dell''isolamento sociale', 'Sbagliata', 0);
+
+-- Quiz 176: Economia aziendale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(176, 1, 1, 'Modo in cui impresa compete sul mercato; leadership costo, differenziazione, focalizzazione', 'Corretta', 10),
+(176, 1, 2, 'La struttura organizzativa dell''impresa', 'Sbagliata', 0),
+(176, 1, 3, 'La forma giuridica dell''impresa', 'Sbagliata', 0),
+(176, 1, 4, 'Le politiche di marketing operativo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(176, 2, 1, 'Definizione mission/vision, analisi ambiente (SWOT), formulazione obiettivi/strategie, implementazione, controllo', 'Corretta', 10),
+(176, 2, 2, 'Solo la stesura del budget annuale', 'Sbagliata', 0),
+(176, 2, 3, 'Solo l''analisi dei concorrenti', 'Sbagliata', 0),
+(176, 2, 4, 'Il processo di reclutamento del personale', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(176, 3, 1, 'Gestione risorse finanziarie; decisioni investimento (dove allocare), finanziamento (come raccogliere fondi), dividendi (distribuzione utili)', 'Corretta', 10),
+(176, 3, 2, 'Solo la tenuta della contabilità', 'Sbagliata', 0),
+(176, 3, 3, 'Solo la gestione dei rapporti con le banche', 'Sbagliata', 0),
+(176, 3, 4, 'La definizione dei prezzi di vendita', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(176, 4, 1, 'Cruciale per creare vantaggio competitivo, nuovi prodotti/processi, adattamento al mercato', 'Corretta', 10),
+(176, 4, 2, 'Importante solo per le startup tecnologiche', 'Sbagliata', 0),
+(176, 4, 3, 'Fattore secondario rispetto alla riduzione dei costi', 'Sbagliata', 0),
+(176, 4, 4, 'Rischiosa e da evitare per le imprese consolidate', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(176, 5, 1, 'Sistema di regole e processi per dirigere e controllare l''impresa; ruolo CdA, management, azionisti', 'Corretta', 10),
+(176, 5, 2, 'La struttura gerarchica dell''organigramma', 'Sbagliata', 0),
+(176, 5, 3, 'Le politiche di marketing dell''impresa', 'Sbagliata', 0),
+(176, 5, 4, 'La responsabilità sociale d''impresa (CSR)', 'Sbagliata', 0);
+
+-- Quiz 177: Sociologia urbana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(177, 1, 1, 'Scuola Chicago (ecologia umana, anomia), Marxista (conflitto classe), Weberiana (razionalizzazione), Interazionista (vita quotidiana)', 'Corretta', 10),
+(177, 1, 2, 'Solo teorie sulla pianificazione urbanistica', 'Sbagliata', 0),
+(177, 1, 3, 'Solo teorie economiche sulla localizzazione', 'Sbagliata', 0),
+(177, 1, 4, 'Teorie psicologiche sull''affollamento', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(177, 2, 1, 'Città che utilizza tecnologie ICT per migliorare efficienza servizi, qualità vita, sostenibilità; implicazioni: controllo, privacy, disuguaglianze', 'Corretta', 10),
+(177, 2, 2, 'Città con molti parchi e aree verdi', 'Sbagliata', 0),
+(177, 2, 3, 'Città storica con patrimonio artistico', 'Sbagliata', 0),
+(177, 2, 4, 'Città industriale del XIX secolo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(177, 3, 1, 'Carenza reddito, accesso limitato a servizi (casa, salute, istruzione), esclusione sociale in contesti urbani', 'Corretta', 10),
+(177, 3, 2, 'La presenza di quartieri degradati (slums)', 'Sbagliata', 0),
+(177, 3, 3, 'La mancanza di lavoro (disoccupazione)', 'Sbagliata', 0),
+(177, 3, 4, 'Il crimine e la devianza nelle città', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(177, 4, 1, 'Regolamentazione uso suolo, progettazione spazi pubblici, infrastrutture, politiche abitative', 'Corretta', 10),
+(177, 4, 2, 'Lasciano che la città si sviluppi spontaneamente', 'Sbagliata', 0),
+(177, 4, 3, 'Si occupano solo della gestione del traffico', 'Sbagliata', 0),
+(177, 4, 4, 'Organizzano eventi culturali e turistici', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(177, 5, 1, 'Analizzando cause, forme di mobilitazione, rivendicazioni (casa, servizi, ambiente), impatto su politiche urbane', 'Corretta', 10),
+(177, 5, 2, 'Considerandoli solo come problemi di ordine pubblico', 'Sbagliata', 0),
+(177, 5, 3, 'Ignorandoli come fenomeni marginali', 'Sbagliata', 0),
+(177, 5, 4, 'Attribuendoli esclusivamente a manipolazioni politiche esterne', 'Sbagliata', 0);
+
+-- Quiz 178: Antropologia fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(178, 1, 1, 'Capacità di un genotipo di produrre fenotipi diversi in risposta a diversi ambienti', 'Corretta', 10),
+(178, 1, 2, 'La variabilità genetica all''interno di una popolazione', 'Sbagliata', 0),
+(178, 1, 3, 'L''adattamento culturale a un nuovo ambiente', 'Sbagliata', 0),
+(178, 1, 4, 'La capacità di apprendere nuove lingue', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(178, 2, 1, 'Analisi ossa/denti per stimare sesso, età, statura, ascendenza, traumi, malattie', 'Corretta', 10),
+(178, 2, 2, 'Analisi del DNA estratto dai resti', 'Sbagliata', 0),
+(178, 2, 3, 'Ricostruzione facciale basata sul cranio', 'Sbagliata', 0),
+(178, 2, 4, 'Analisi degli oggetti trovati associati ai resti', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(178, 3, 1, 'Studio quantitativo crescita fisica e sviluppo umano in diverse popolazioni', 'Corretta', 10),
+(178, 3, 2, 'Studio dello sviluppo psicologico infantile (Piaget)', 'Sbagliata', 0),
+(178, 3, 3, 'Studio delle malattie nelle popolazioni antiche (Paleopatologia)', 'Sbagliata', 0),
+(178, 3, 4, 'Studio dell''evoluzione umana (Paleoantropologia)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(178, 4, 1, 'Forniscono modelli comparativi per comportamento sociale, locomozione, cognizione', 'Corretta', 10),
+(178, 4, 2, 'Non sono rilevanti perché troppo diversi dall''uomo', 'Sbagliata', 0),
+(178, 4, 3, 'Servono solo a studiare malattie trasmissibili all''uomo', 'Sbagliata', 0),
+(178, 4, 4, 'Sono utili solo per ricostruire l''albero filogenetico', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(178, 5, 1, 'Consenso informato, privacy, proprietà dati, restituzione risultati, impatto su comunità', 'Corretta', 10),
+(178, 5, 2, 'Nessuna implicazione etica particolare', 'Sbagliata', 0),
+(178, 5, 3, 'Solo questioni legate alla sicurezza dei laboratori', 'Sbagliata', 0),
+(178, 5, 4, 'Solo problemi di finanziamento della ricerca', 'Sbagliata', 0);
+
+-- Quiz 179: Storia moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(179, 1, 1, 'Conflitto europeo (1618-48) iniziato come guerra religiosa, poi egemonica; Pace Westfalia, declino Impero', 'Corretta', 10),
+(179, 1, 2, 'Guerra tra Francia e Inghilterra (Guerra Cent''anni)', 'Sbagliata', 0),
+(179, 1, 3, 'Guerre napoleoniche', 'Sbagliata', 0),
+(179, 1, 4, 'Guerre d''Italia del XVI secolo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(179, 2, 1, 'Stato militare ed efficiente, riforme amministrative, espansione territoriale (Federico II)', 'Corretta', 10),
+(179, 2, 2, 'Grande potenza marittima e coloniale (Inghilterra)', 'Sbagliata', 0),
+(179, 2, 3, 'Centro culturale e artistico del Rinascimento (Firenze)', 'Sbagliata', 0),
+(179, 2, 4, 'Impero multinazionale in declino (Impero Ottomano)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(179, 3, 1, 'Nascita fabbriche, urbanizzazione, nuove classi sociali (borghesia/proletariato), cambiamenti tecnologici', 'Corretta', 10),
+(179, 3, 2, 'Ritorno all''economia agricola e spopolamento città', 'Sbagliata', 0),
+(179, 3, 3, 'Rafforzamento del sistema feudale', 'Sbagliata', 0),
+(179, 3, 4, 'Nessun cambiamento sociale significativo', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(179, 4, 1, 'Forma di governo assolutista influenzata da idee illuministe (riforme amministrative, economiche, ma non politiche)', 'Corretta', 10),
+(179, 4, 2, 'Democrazia diretta come in Rousseau', 'Sbagliata', 0),
+(179, 4, 3, 'Monarchia costituzionale basata su separazione poteri', 'Sbagliata', 0),
+(179, 4, 4, 'Regime totalitario del XX secolo', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(179, 5, 1, 'Viaggi Colombo/Vasco da Gama/Magellano; scoperta nuove rotte/continenti', 'Corretta', 10),
+(179, 5, 2, 'Esplorazione poli (Amundsen/Scott)', 'Sbagliata', 0),
+(179, 5, 3, 'Viaggi spaziali (Gagarin/Armstrong)', 'Sbagliata', 0),
+(179, 5, 4, 'Scavi archeologici in Egitto', 'Sbagliata', 0);
+
+-- Quiz 180: Letteratura tedesca
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(180, 1, 1, 'Günter Grass; romanzo picaresco ambientato a Danzica, affronta storia tedesca XX sec.', 'Corretta', 10),
+(180, 1, 2, 'Heinrich Böll; Opinioni di un clown', 'Sbagliata', 0),
+(180, 1, 3, 'Thomas Mann; La montagna incantata', 'Sbagliata', 0),
+(180, 1, 4, 'Bertolt Brecht; L''opera da tre soldi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(180, 2, 1, 'Corrente artistica/letteraria anni ''20; stile sobrio, oggettivo, focus su realtà sociale post-WWI', 'Corretta', 10),
+(180, 2, 2, 'Movimento espressionista (inizio XX sec.)', 'Sbagliata', 0),
+(180, 2, 3, 'Romanticismo tedesco (fine XVIII - inizio XIX sec.)', 'Sbagliata', 0),
+(180, 2, 4, 'Classicismo di Weimar (Goethe, Schiller)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(180, 3, 1, 'Siddhartha / Il lupo della steppa (Hesse); Buddenbrook / La montagna incantata / Morte a Venezia (Mann)', 'Corretta', 10),
+(180, 3, 2, 'Il processo / La metamorfosi (Kafka)', 'Sbagliata', 0),
+(180, 3, 3, 'Il tamburo di latta (Grass)', 'Sbagliata', 0),
+(180, 3, 4, 'Niente di nuovo sul fronte occidentale (Remarque)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(180, 4, 1, 'Affrontare passato nazista, Shoah, colpa collettiva, divisione Germania, riunificazione', 'Corretta', 10),
+(180, 4, 2, 'Celebrazione della natura e del sentimento romantico', 'Sbagliata', 0),
+(180, 4, 3, 'Descrizione della vita idilliaca della borghesia', 'Sbagliata', 0),
+(180, 4, 4, 'Avventure cavalleresche medievali', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(180, 5, 1, 'Christa Wolf / Ingeborg Bachmann / Elfriede Jelinek (austriaca, Nobel)', 'Corretta', 10),
+(180, 5, 2, 'Annette von Droste-Hülshoff', 'Sbagliata', 0),
+(180, 5, 3, 'Sophie von La Roche', 'Sbagliata', 0),
+(180, 5, 4, 'Hildegard von Bingen', 'Sbagliata', 0);
+
+-- Quiz 181: Fisica applicata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(181, 1, 1, 'Amplificazione luce tramite emissione stimolata; telecomunicazioni, medicina, industria, lettori CD/DVD', 'Corretta', 10),
+(181, 1, 2, 'Dispositivo che converte luce in elettricità (cella fotovoltaica)', 'Sbagliata', 0),
+(181, 1, 3, 'Dispositivo che emette luce per incandescenza (lampadina tradizionale)', 'Sbagliata', 0),
+(181, 1, 4, 'Sistema per focalizzare la luce (lente)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(181, 2, 1, 'TAC (raggi X), PET (positroni), SPECT (raggi gamma), Ecografia (ultrasuoni), RMN (campi magnetici)', 'Corretta', 10),
+(181, 2, 2, 'Microscopia ottica', 'Sbagliata', 0),
+(181, 2, 3, 'Elettrocardiogramma (ECG)', 'Sbagliata', 0),
+(181, 2, 4, 'Analisi del sangue', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(181, 3, 1, 'Biomeccanica (analisi movimento), Scienza materiali (attrezzature), Aerodinamica/Fluidodinamica (nuoto, ciclismo)', 'Corretta', 10),
+(181, 3, 2, 'Psicologia dello sport (motivazione, stress)', 'Sbagliata', 0),
+(181, 3, 3, 'Medicina dello sport (traumi, doping)', 'Sbagliata', 0),
+(181, 3, 4, 'Sociologia dello sport (tifo, fair play)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(181, 4, 1, 'Diagnostica non distruttiva (raggi X, termografia), Datazione (Carbonio-14), Analisi materiali (spettroscopia)', 'Corretta', 10),
+(181, 4, 2, 'Restauro pittorico manuale', 'Sbagliata', 0),
+(181, 4, 3, 'Ricostruzione storica basata su documenti', 'Sbagliata', 0),
+(181, 4, 4, 'Valutazione artistica ed estetica', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(181, 5, 1, 'Branca che studia/applica dispositivi che interagiscono con luce ed elettroni; LED, laser, fibre ottiche, celle solari', 'Corretta', 10),
+(181, 5, 2, 'Elettronica basata su valvole termoioniche', 'Sbagliata', 0),
+(181, 5, 3, 'Tecnologia dei superconduttori', 'Sbagliata', 0),
+(181, 5, 4, 'Ingegneria acustica', 'Sbagliata', 0);
+
+-- Quiz 182: Chimica industriale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(182, 1, 1, 'Acciaio: riduzione minerale ferro in altoforno; Alluminio: elettrolisi allumina (processo Hall-Héroult)', 'Corretta', 10),
+(182, 1, 2, 'Rame: estrazione da solfuri e raffinazione elettrolitica', 'Sbagliata', 0),
+(182, 1, 3, 'Titanio: processo Kroll', 'Sbagliata', 0),
+(182, 1, 4, 'Oro: cianurazione o estrazione da depositi alluvionali', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(182, 2, 1, 'Produzione ammoniaca (Haber-Bosch) per fertilizzanti azotati; estrazione fosfati/potassio', 'Corretta', 10),
+(182, 2, 2, 'Uso di compost e letame (fertilizzanti organici)', 'Sbagliata', 0),
+(182, 2, 3, 'Sviluppo di pesticidi e erbicidi', 'Sbagliata', 0),
+(182, 2, 4, 'Selezione genetica di piante più produttive', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(182, 3, 1, 'Disciplina che applica chimica/fisica/matematica a progettazione/gestione impianti chimici', 'Corretta', 10),
+(182, 3, 2, 'Lo studio della chimica organica sintetica', 'Sbagliata', 0),
+(182, 3, 3, 'L''analisi chimica dei prodotti industriali', 'Sbagliata', 0),
+(182, 3, 4, 'La ricerca di base in chimica teorica', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(182, 4, 1, 'Monitorare e regolare parametri (T, P, flusso) per garantire efficienza, sicurezza, qualità prodotto', 'Corretta', 10),
+(182, 4, 2, 'La manutenzione ordinaria degli impianti', 'Sbagliata', 0),
+(182, 4, 3, 'La gestione delle risorse umane nello stabilimento', 'Sbagliata', 0),
+(182, 4, 4, 'Il marketing e la vendita dei prodotti chimici', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(182, 5, 1, 'Uso materie prime rinnovabili, processi efficienti/meno tossici, biodegradabilità, riciclo', 'Corretta', 10),
+(182, 5, 2, 'Aumento esponenziale della produzione senza limiti', 'Sbagliata', 0),
+(182, 5, 3, 'Delocalizzazione produzione in paesi meno regolamentati', 'Sbagliata', 0),
+(182, 5, 4, 'Ritorno a metodi produttivi pre-industriali', 'Sbagliata', 0);
+
+-- Quiz 183: Geografia politica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(183, 1, 1, 'Studio relazioni tra geografia, potere e politica internazionale; approcci: classico, critico', 'Corretta', 10),
+(183, 1, 2, 'La storia della diplomazia internazionale', 'Sbagliata', 0),
+(183, 1, 3, 'L''analisi economica dei flussi commerciali globali', 'Sbagliata', 0),
+(183, 1, 4, 'Lo studio della distribuzione dei partiti politici sul territorio', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(183, 2, 1, 'Stato che non riesce a garantire funzioni essenziali (sicurezza, servizi) sul proprio territorio', 'Corretta', 10),
+(183, 2, 2, 'Stato non riconosciuto dalla comunità internazionale', 'Sbagliata', 0),
+(183, 2, 3, 'Stato con regime dittatoriale', 'Sbagliata', 0),
+(183, 2, 4, 'Stato molto piccolo o isola', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(183, 3, 1, 'Studiando controllo/accesso a risorse (acqua, energia, minerali) come fonte di potere e conflitto', 'Corretta', 10),
+(183, 3, 2, 'Promuovendo lo sfruttamento illimitato delle risorse', 'Sbagliata', 0),
+(183, 3, 3, 'Ignorando il ruolo delle risorse nei conflitti', 'Sbagliata', 0),
+(183, 3, 4, 'Analizzando solo gli aspetti geologici delle risorse', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(183, 4, 1, 'Promuovono cooperazione, integrazione economica/politica, gestione conflitti a livello regionale', 'Corretta', 10),
+(183, 4, 2, 'Sono alleanze militari offensive', 'Sbagliata', 0),
+(183, 4, 3, 'Non hanno alcun potere reale', 'Sbagliata', 0),
+(183, 4, 4, 'Si occupano solo di questioni culturali', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(183, 5, 1, 'Delimitano acque territoriali, diritti sfruttamento risorse; spesso fonte di dispute', 'Corretta', 10),
+(183, 5, 2, 'Non hanno alcuna rilevanza legale internazionale', 'Sbagliata', 0),
+(183, 5, 3, 'Servono solo per la navigazione da diporto', 'Sbagliata', 0),
+(183, 5, 4, 'Sono gestiti esclusivamente da organizzazioni ambientaliste', 'Sbagliata', 0);
+
+-- Quiz 184: Storia dell Europa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(184, 1, 1, 'Periodo fine XIX sec. - 1914; ottimismo, progresso tecnologico, ma anche tensioni nazionalistiche/sociali', 'Corretta', 10),
+(184, 1, 2, 'Periodo tra le due guerre mondiali', 'Sbagliata', 0),
+(184, 1, 3, 'Il Rinascimento italiano', 'Sbagliata', 0),
+(184, 1, 4, 'L''epoca delle Crociate medievali', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(184, 2, 1, 'Regimi autoritari/dittatoriali caratterizzati da partito unico, controllo totale società, ideologia forte', 'Corretta', 10),
+(184, 2, 2, 'Monarchie costituzionali liberali', 'Sbagliata', 0),
+(184, 2, 3, 'Democrazie parlamentari', 'Sbagliata', 0),
+(184, 2, 4, 'Imperi coloniali tradizionali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(184, 3, 1, 'Milioni morti, distruzione, divisione Europa (Guerra Fredda), declino potenze europee, inizio decolonizzazione', 'Corretta', 10),
+(184, 3, 2, 'Periodo di pace e prosperità duratura', 'Sbagliata', 0),
+(184, 3, 3, 'Rafforzamento degli imperi coloniali europei', 'Sbagliata', 0),
+(184, 3, 4, 'Unificazione politica dell''intera Europa', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(184, 4, 1, 'Processo indipendenza colonie afro-asiatiche, influenzato da guerre mondiali, nazionalismo, Guerra Fredda', 'Corretta', 10),
+(184, 4, 2, 'Nuova fase di espansione coloniale', 'Sbagliata', 0),
+(184, 4, 3, 'Creazione di un Commonwealth globale sotto guida europea', 'Sbagliata', 0),
+(184, 4, 4, 'Mantenimento dello status quo coloniale', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(184, 5, 1, 'Brexit, crisi migratoria, ascesa populismi/nazionalismi, sfide economiche (euro), ruolo UE nel mondo', 'Corretta', 10),
+(184, 5, 2, 'Eccessiva stabilità politica ed economica', 'Sbagliata', 0),
+(184, 5, 3, 'Problema della denatalità completamente risolto', 'Sbagliata', 0),
+(184, 5, 4, 'Mancanza di diversità culturale', 'Sbagliata', 0);
+
+-- Quiz 185: Matematica finanziaria
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(185, 1, 1, 'Opzione call: diritto di comprare; Opzione put: diritto di vendere (a prezzo/scadenza prefissati)', 'Corretta', 10),
+(185, 1, 2, 'Call: obbligo di comprare; Put: obbligo di vendere', 'Sbagliata', 0),
+(185, 1, 3, 'Sono tipi di azioni privilegiate', 'Sbagliata', 0),
+(185, 1, 4, 'Sono titoli di stato a breve termine', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(185, 2, 1, 'Modello matematico per prezzare opzioni europee basato su prezzo sottostante, strike, tempo, volatilità, tasso risk-free', 'Corretta', 10),
+(185, 2, 2, 'Modello per calcolare il VAN di un progetto', 'Sbagliata', 0),
+(185, 2, 3, 'Modello di regressione lineare per prevedere prezzi azioni', 'Sbagliata', 0),
+(185, 2, 4, 'Formula per calcolare l''interesse composto', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(185, 3, 1, 'Processo di identificazione, valutazione e mitigazione dei rischi finanziari (mercato, credito, liquidità...)', 'Corretta', 10),
+(185, 3, 2, 'La ricerca di investimenti ad altissimo rendimento', 'Sbagliata', 0),
+(185, 3, 3, 'La previsione dell''andamento futuro dei mercati', 'Sbagliata', 0),
+(185, 3, 4, 'La gestione della contabilità aziendale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(185, 4, 1, 'Relazione tra tassi di interesse (rendimenti) e scadenze dei titoli di debito', 'Corretta', 10),
+(185, 4, 2, 'La curva dei prezzi delle azioni nel tempo', 'Sbagliata', 0),
+(185, 4, 3, 'La curva di domanda e offerta di un bene', 'Sbagliata', 0),
+(185, 4, 4, 'La curva di Lorenz per misurare la disuguaglianza', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(185, 5, 1, 'Calcolo premi assicurativi, valutazione riserve tecniche, gestione rischi attuariali', 'Corretta', 10),
+(185, 5, 2, 'Progettazione di campagne pubblicitarie', 'Sbagliata', 0),
+(185, 5, 3, 'Ottimizzazione della logistica aziendale', 'Sbagliata', 0),
+(185, 5, 4, 'Analisi della qualità dell''aria', 'Sbagliata', 0);
+
+-- Quiz 186: Fisica teorica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(186, 1, 1, 'Ricerca di una teoria che unifichi meccanica quantistica e relatività generale', 'Corretta', 10),
+(186, 1, 2, 'Teoria che descrive solo la gravità a livello classico', 'Sbagliata', 0),
+(186, 1, 3, 'Teoria che descrive solo fenomeni quantistici senza gravità', 'Sbagliata', 0),
+(186, 1, 4, 'Teoria unificata delle forze elettromagnetica e debole', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(186, 2, 1, 'Simmetria ipotetica che collega bosoni (mediatori forza) e fermioni (costituenti materia)', 'Corretta', 10),
+(186, 2, 2, 'Simmetria tra materia e antimateria', 'Sbagliata', 0),
+(186, 2, 3, 'Simmetria di gauge del Modello Standard', 'Sbagliata', 0),
+(186, 2, 4, 'Simmetria rotazionale dello spazio', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(186, 3, 1, 'Termine introdotto da Einstein, rappresenta densità energia del vuoto, causa espansione accelerata', 'Corretta', 10),
+(186, 3, 2, 'Costante di Planck (meccanica quantistica)', 'Sbagliata', 0),
+(186, 3, 3, 'Costante di gravitazione universale (Newton/Einstein)', 'Sbagliata', 0),
+(186, 3, 4, 'Costante di Boltzmann (termodinamica statistica)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(186, 4, 1, 'Idea che l''informazione di una regione di spazio sia codificata sulla sua superficie di bordo', 'Corretta', 10),
+(186, 4, 2, 'Principio di indeterminazione di Heisenberg', 'Sbagliata', 0),
+(186, 4, 3, 'Principio di equivalenza di Einstein', 'Sbagliata', 0),
+(186, 4, 4, 'Principio di sovrapposizione quantistica', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(186, 5, 1, 'Periodo rapidissima espansione universo primordiale; spiega omogeneità, piattezza, assenza monopoli', 'Corretta', 10),
+(186, 5, 2, 'Formazione dei primi atomi (ricombinazione)', 'Sbagliata', 0),
+(186, 5, 3, 'Sintesi dei primi nuclei leggeri (nucleosintesi primordiale)', 'Sbagliata', 0),
+(186, 5, 4, 'Nascita delle prime stelle e galassie', 'Sbagliata', 0);
+
+-- Quiz 187: Letteratura russa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(187, 1, 1, 'Lev Tolstoj; amore adultero, crisi spirituale, critica società aristocratica', 'Corretta', 10),
+(187, 1, 2, 'Fëdor Dostoevskij; Delitto e Castigo', 'Sbagliata', 0),
+(187, 1, 3, 'Ivan Turgenev; Padri e figli', 'Sbagliata', 0),
+(187, 1, 4, 'Anton Čechov; Il giardino dei ciliegi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(187, 2, 1, 'Periodo (prima metà XIX sec.) considerato culmine poesia russa; perfezione formale, temi vari', 'Corretta', 10),
+(187, 2, 2, 'Periodo del romanzo realista russo (seconda metà XIX sec.)', 'Sbagliata', 0),
+(187, 2, 3, 'Periodo delle avanguardie poetiche (inizio XX sec.)', 'Sbagliata', 0),
+(187, 2, 4, 'Periodo della letteratura sovietica', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(187, 3, 1, 'Il Maestro e Margherita (Bulgakov) / Il dottor Živago (Pasternak)', 'Corretta', 10),
+(187, 3, 2, 'Arcipelago Gulag (Solženicyn)', 'Sbagliata', 0),
+(187, 3, 3, 'Lolita (Nabokov)', 'Sbagliata', 0),
+(187, 3, 4, 'Noi (Zamjatin)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(187, 4, 1, 'Pubblicazione clandestina di opere censurate in URSS', 'Corretta', 10),
+(187, 4, 2, 'Pubblicazione di opere all''estero (tamizdat)', 'Sbagliata', 0),
+(187, 4, 3, 'Genere letterario ufficiale del Realismo Socialista', 'Sbagliata', 0),
+(187, 4, 4, 'Rivista letteraria dissidente', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(187, 5, 1, 'Ljudmila Ulickaja / Tat''jana Tolstaja / Viktor Pelevin', 'Corretta', 10),
+(187, 5, 2, 'Anna Achmatova', 'Sbagliata', 0),
+(187, 5, 3, 'Marina Cvetaeva', 'Sbagliata', 0),
+(187, 5, 4, 'Nadežda Mandel''štam', 'Sbagliata', 0);
+
+-- Quiz 188: Geografia culturale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(188, 1, 1, 'Studio distribuzione geografica religioni, impatto su paesaggio/società, luoghi sacri', 'Corretta', 10),
+(188, 1, 2, 'Storia delle religioni', 'Sbagliata', 0),
+(188, 1, 3, 'Sociologia delle religioni', 'Sbagliata', 0),
+(188, 1, 4, 'Teologia', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(188, 2, 1, 'Analizzando pratiche alimentari, prodotti tipici, paesaggi agricoli legati a culture specifiche', 'Corretta', 10),
+(188, 2, 2, 'Studiando la chimica degli alimenti', 'Sbagliata', 0),
+(188, 2, 3, 'Analizzando le politiche agricole', 'Sbagliata', 0),
+(188, 2, 4, 'Valutando l''impatto nutrizionale delle diete', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(188, 3, 1, 'Contribuiscono a definire identità locali, creare senso appartenenza, attrarre turismo culturale', 'Corretta', 10),
+(188, 3, 2, 'Non hanno alcuna influenza sull''identità culturale', 'Sbagliata', 0),
+(188, 3, 3, 'Sono importanti solo per l''economia locale', 'Sbagliata', 0),
+(188, 3, 4, 'Servono solo come intrattenimento superficiale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(188, 4, 1, 'Beni culturali (materiali/immateriali) ereditati dal passato, riconoscimento valore, politiche conservazione/valorizzazione', 'Corretta', 10),
+(188, 4, 2, 'Solo i monumenti antichi', 'Sbagliata', 0),
+(188, 4, 3, 'Solo le tradizioni orali', 'Sbagliata', 0),
+(188, 4, 4, 'L''insieme dei beni posseduti da una nazione', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(188, 5, 1, 'Studio impatti turismo su autenticità culturale, economie locali, ambiente; gestione flussi turistici', 'Corretta', 10),
+(188, 5, 2, 'Promozione del turismo di massa senza limiti', 'Sbagliata', 0),
+(188, 5, 3, 'Analisi delle infrastrutture alberghiere', 'Sbagliata', 0),
+(188, 5, 4, 'Studio delle motivazioni psicologiche dei turisti', 'Sbagliata', 0);
+
+-- Quiz 189: Chimica ambientale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(189, 1, 1, 'Composti organici tossici, persistenti, bioaccumulabili (es. DDT, PCB, diossine)', 'Corretta', 10),
+(189, 1, 2, 'Gas serra (CO2, metano)', 'Sbagliata', 0),
+(189, 1, 3, 'Metalli pesanti (piombo, mercurio)', 'Sbagliata', 0),
+(189, 1, 4, 'Nutrienti (azoto, fosforo) che causano eutrofizzazione', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(189, 2, 1, 'Campionamento aria/acqua/suolo, analisi chimiche (cromatografia, spettrometria), sensori remoti', 'Corretta', 10),
+(189, 2, 2, 'Sondaggi d''opinione sulla percezione dell''inquinamento', 'Sbagliata', 0),
+(189, 2, 3, 'Modelli matematici di dispersione degli inquinanti', 'Sbagliata', 0),
+(189, 2, 4, 'Osservazione visiva del colore dell''acqua o del fumo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(189, 3, 1, 'Sintesi catalizzatori efficienti, sviluppo processi meno inquinanti, gestione rifiuti, riciclo', 'Corretta', 10),
+(189, 3, 2, 'Promozione dell''uso di combustibili fossili', 'Sbagliata', 0),
+(189, 3, 3, 'Aumento della produzione di plastica monouso', 'Sbagliata', 0),
+(189, 3, 4, 'Nessun ruolo significativo', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(189, 4, 1, 'Contaminazione acque/suolo, danni a ecosistemi, rischi per salute umana', 'Corretta', 10),
+(189, 4, 2, 'Aumento della fertilità del suolo a lungo termine', 'Sbagliata', 0),
+(189, 4, 3, 'Miglioramento della qualità dell''aria', 'Sbagliata', 0),
+(189, 4, 4, 'Nessun impatto ambientale rilevante', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(189, 5, 1, 'Uso di microrganismi (batteri, funghi) per degradare inquinanti ambientali', 'Corretta', 10),
+(189, 5, 2, 'Uso di piante per assorbire/degradare inquinanti (fitorisanamento)', 'Sbagliata', 0),
+(189, 5, 3, 'Trattamento chimico degli inquinanti', 'Sbagliata', 0),
+(189, 5, 4, 'Rimozione fisica del terreno contaminato', 'Sbagliata', 0);
+
+-- Quiz 190: Biologia marina
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(190, 1, 1, 'Mangrovie: foreste costiere tropicali tolleranti sale; Fanerogame: piante acquatiche fiorite; alta produttività, habitat, protezione costa', 'Corretta', 10),
+(190, 1, 2, 'Barriere coralline', 'Sbagliata', 0),
+(190, 1, 3, 'Foreste di kelp', 'Sbagliata', 0),
+(190, 1, 4, 'Piane abissali', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(190, 2, 1, 'Spostamenti stagionali su lunghe distanze per riproduzione, alimentazione; Balene, tartarughe, tonni', 'Corretta', 10),
+(190, 2, 2, 'Movimenti casuali all''interno di un''area limitata', 'Sbagliata', 0),
+(190, 2, 3, 'Spostamenti verticali giornalieri del plancton', 'Sbagliata', 0),
+(190, 2, 4, 'Deriva passiva trasportati dalle correnti', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(190, 3, 1, 'Riduzione stock ittici, alterazione catene alimentari, danni a ecosistemi (pesca a strascico)', 'Corretta', 10),
+(190, 3, 2, 'Aumento della biodiversità marina', 'Sbagliata', 0),
+(190, 3, 3, 'Miglioramento della salute degli oceani', 'Sbagliata', 0),
+(190, 3, 4, 'Nessun effetto significativo', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(190, 4, 1, 'Espulsione delle alghe simbionti (zooxantelle) dai coralli a causa stress (es. T acqua elevata)', 'Corretta', 10),
+(190, 4, 2, 'Colorazione artificiale dei coralli per turismo', 'Sbagliata', 0),
+(190, 4, 3, 'Malattia batterica che colpisce i coralli', 'Sbagliata', 0),
+(190, 4, 4, 'Processo naturale di crescita dei coralli', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(190, 5, 1, 'Ricerca e scoperta di nuove sostanze utili (farmaci, cosmetici) da organismi marini', 'Corretta', 10),
+(190, 5, 2, 'Allevamento di pesci in acquacoltura', 'Sbagliata', 0),
+(190, 5, 3, 'Monitoraggio dell''inquinamento marino', 'Sbagliata', 0),
+(190, 5, 4, 'Turismo subacqueo', 'Sbagliata', 0);
+
+-- Quiz 191: Storia dell Oceania
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(191, 1, 1, 'Grande diversità linguistica e culturale, società basate su clan/lignaggi, agricoltura/orticoltura', 'Corretta', 10),
+(191, 1, 2, 'Società nomadi di cacciatori-raccoglitori del deserto', 'Sbagliata', 0),
+(191, 1, 3, 'Civiltà urbane con scrittura e monumenti in pietra', 'Sbagliata', 0),
+(191, 1, 4, 'Regni centralizzati con re e nobiltà', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(191, 2, 1, 'Teatro di guerra tra Alleati (USA, Australia) e Giappone; battaglie importanti (Guadalcanal, Nuova Guinea)', 'Corretta', 10),
+(191, 2, 2, 'Rimase completamente neutrale ed estranea al conflitto', 'Sbagliata', 0),
+(191, 2, 3, 'Fu alleata della Germania nazista', 'Sbagliata', 0),
+(191, 2, 4, 'Fu invasa dall''Unione Sovietica', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(191, 3, 1, 'Contaminazione radioattiva, problemi salute, sfollamento popolazioni, danni ambientali', 'Corretta', 10),
+(191, 3, 2, 'Sviluppo economico e tecnologico delle isole', 'Sbagliata', 0),
+(191, 3, 3, 'Aumento del turismo internazionale', 'Sbagliata', 0),
+(191, 3, 4, 'Nessuna conseguenza rilevante', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(191, 4, 1, 'Movimento (anni ''70 in poi) di riscoperta e valorizzazione delle culture e arti indigene del Pacifico', 'Corretta', 10),
+(191, 4, 2, 'Il Rinascimento artistico europeo', 'Sbagliata', 0),
+(191, 4, 3, 'La diffusione della cultura pop americana nella regione', 'Sbagliata', 0),
+(191, 4, 4, 'Un programma di sviluppo economico della Banca Mondiale', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(191, 5, 1, 'Aiuti allo sviluppo, cooperazione regionale, gestione migrazioni, questioni sicurezza/geopolitiche', 'Corretta', 10),
+(191, 5, 2, 'Conflitto militare permanente', 'Sbagliata', 0),
+(191, 5, 3, 'Completo disinteresse reciproco', 'Sbagliata', 0),
+(191, 5, 4, 'Tentativi di annessione coloniale da parte di Aus/NZ', 'Sbagliata', 0);
+
+-- Quiz 192: Letteratura africana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(192, 1, 1, 'Mia Couto (Mozambico), José Eduardo Agualusa (Angola), Pepetela (Angola)', 'Corretta', 10),
+(192, 1, 2, 'Assia Djebar, Tahar Ben Jelloun (Maghreb, francofoni)', 'Sbagliata', 0),
+(192, 1, 3, 'Wole Soyinka, Chinua Achebe (Nigeria, anglofoni)', 'Sbagliata', 0),
+(192, 1, 4, 'Jorge Amado, José Saramago (Brasile/Portogallo)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(192, 2, 1, 'Forma artistica importante, spesso con funzioni sociali, politiche, rituali; influenza su narrativa/poesia', 'Corretta', 10),
+(192, 2, 2, 'Genere letterario minore e poco diffuso', 'Sbagliata', 0),
+(192, 2, 3, 'Importato esclusivamente dall''Europa coloniale', 'Sbagliata', 0),
+(192, 2, 4, 'Presente solo in Nord Africa', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(192, 3, 1, 'La figlia di Burger (Gordimer), Morte e il cavaliere del Re (Soyinka), Terra desolata (Coetzee)', 'Corretta', 10),
+(192, 3, 2, 'Le cose crollano (Achebe)', 'Sbagliata', 0),
+(192, 3, 3, 'Petali di sangue (Ngugi)', 'Sbagliata', 0),
+(192, 3, 4, 'Une si longue lettre (Mariama Bâ)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(192, 4, 1, 'Contribuire a educare, trasmettere valori culturali, lingua e storia alle nuove generazioni', 'Corretta', 10),
+(192, 4, 2, 'È un genere quasi inesistente in Africa', 'Sbagliata', 0),
+(192, 4, 3, 'Serve solo a intrattenere i bambini con fiabe europee', 'Sbagliata', 0),
+(192, 4, 4, 'È destinata esclusivamente ai bambini delle élite urbane', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(192, 5, 1, 'Fondamentale per pubblicare autori locali, promuovere lingue africane, creare circuiti alternativi', 'Corretta', 10),
+(192, 5, 2, 'Inesistenti, tutta la letteratura è pubblicata in Europa/USA', 'Sbagliata', 0),
+(192, 5, 3, 'Pubblicano solo traduzioni di bestseller occidentali', 'Sbagliata', 0),
+(192, 5, 4, 'Sono controllate direttamente dai governi', 'Sbagliata', 0);
+
+-- Quiz 193: Filosofia orientale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(193, 1, 1, 'Principio di non nuocere agli esseri viventi', 'Corretta', 10),
+(193, 1, 2, 'Il concetto di azione e conseguenza (Karma)', 'Sbagliata', 0),
+(193, 1, 3, 'La ricerca della conoscenza attraverso la meditazione', 'Sbagliata', 0),
+(193, 1, 4, 'Il dovere sociale basato sulla casta (Dharma Induista)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(193, 2, 1, 'Professione fede, Preghiera, Elemosina, Digiuno (Ramadan), Pellegrinaggio (Mecca)', 'Corretta', 10),
+(193, 2, 2, 'Le Quattro Nobili Verità del Buddhismo', 'Sbagliata', 0),
+(193, 2, 3, 'I Cinque Precetti buddhisti', 'Sbagliata', 0),
+(193, 2, 4, 'I Dieci Comandamenti ebraico-cristiani', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(193, 3, 1, 'Diagramma simbolico complesso usato per meditazione e rituali', 'Corretta', 10),
+(193, 3, 2, 'Un tipo di preghiera cantata', 'Sbagliata', 0),
+(193, 3, 3, 'Un testo sacro fondamentale', 'Sbagliata', 0),
+(193, 3, 4, 'Una posizione yoga', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(193, 4, 1, 'Sunyata: assenza di esistenza intrinseca; vs Essere (Parmenide) o Sostanza (Aristotele)', 'Corretta', 10),
+(193, 4, 2, 'Sunyata vs Atarassia epicurea', 'Sbagliata', 0),
+(193, 4, 3, 'Sunyata vs Cogito cartesiano', 'Sbagliata', 0),
+(193, 4, 4, 'Sunyata vs Monade leibniziana', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(193, 5, 1, 'Yeshe Tsogyal (Buddhismo Tibetano), Rabia al-Adawiyya (Sufismo), Anandamayi Ma (Induismo)', 'Corretta', 10),
+(193, 5, 2, 'Ipazia di Alessandria', 'Sbagliata', 0),
+(193, 5, 3, 'Simone de Beauvoir', 'Sbagliata', 0),
+(193, 5, 4, 'Hildegard von Bingen', 'Sbagliata', 0);
+
+-- Quiz 194: Psicologia clinica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(194, 1, 1, 'Disturbi gravi e persistenti (es. Borderline, Narcisistico, Antisociale); diagnosi basata su pattern comportamento/relazioni (DSM)', 'Corretta', 10),
+(194, 1, 2, 'Disturbi dell''umore (Depressione, Bipolare)', 'Sbagliata', 0),
+(194, 1, 3, 'Disturbi d''ansia (Panico, Fobie)', 'Sbagliata', 0),
+(194, 1, 4, 'Disturbi psicotici (Schizofrenia)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(194, 2, 1, 'Tecniche meditative per coltivare consapevolezza non giudicante del momento presente; riduzione stress, gestione emozioni', 'Corretta', 10),
+(194, 2, 2, 'Approccio basato sull''analisi dei sogni e libere associazioni (Psicoanalisi)', 'Sbagliata', 0),
+(194, 2, 3, 'Uso di farmaci per trattare i sintomi (Psicofarmacologia)', 'Sbagliata', 0),
+(194, 2, 4, 'Tecniche di rilassamento muscolare progressivo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(194, 3, 1, 'Esperienza soggettiva estremamente stressante che minaccia integrità fisica/psichica; effetti: PTSD, ansia, depressione', 'Corretta', 10),
+(194, 3, 2, 'Un normale evento stressante della vita quotidiana', 'Sbagliata', 0),
+(194, 3, 3, 'Un disturbo genetico raro', 'Sbagliata', 0),
+(194, 3, 4, 'Un effetto collaterale di farmaci psicotropi', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(194, 4, 1, 'Cruciale per comprendere complessità individuo, integrare diverse fonti info, evitare errori diagnosi', 'Corretta', 10),
+(194, 4, 2, 'Non necessaria, basta il colloquio clinico', 'Sbagliata', 0),
+(194, 4, 3, 'Utile solo per la ricerca scientifica', 'Sbagliata', 0),
+(194, 4, 4, 'Riservata solo ai casi più gravi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(194, 5, 1, 'Confidenzialità, consenso informato, competenza terapeuta, relazioni multiple, valori culturali', 'Corretta', 10),
+(194, 5, 2, 'Scelta dell''arredamento dello studio', 'Sbagliata', 0),
+(194, 5, 3, 'Durata delle sedute terapeutiche', 'Sbagliata', 0),
+(194, 5, 4, 'Modalità di pagamento della terapia', 'Sbagliata', 0);
+
+-- Quiz 195: Economia politica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(195, 1, 1, 'Uso di modelli matematici per analizzare comportamenti strategici di agenti razionali', 'Corretta', 10),
+(195, 1, 2, 'Teoria sulla massimizzazione dell''utilità del consumatore', 'Sbagliata', 0),
+(195, 1, 3, 'Modello di equilibrio economico generale', 'Sbagliata', 0),
+(195, 1, 4, 'Analisi econometrica di serie storiche', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(195, 2, 1, 'Differenza nella distribuzione di reddito/ricchezza; misurata da coeff. Gini, curva Lorenz', 'Corretta', 10),
+(195, 2, 2, 'Livello di povertà assoluta in un paese', 'Sbagliata', 0),
+(195, 2, 3, 'Tasso di disoccupazione', 'Sbagliata', 0),
+(195, 2, 4, 'Livello del debito pubblico', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(195, 3, 1, 'Favore: efficienza, innovazione, libertà scelta; Contro: disuguaglianze, instabilità, fallimenti mercato', 'Corretta', 10),
+(195, 3, 2, 'Favore: solo crescita economica; Contro: nessun argomento valido', 'Sbagliata', 0),
+(195, 3, 3, 'Favore: controllo statale; Contro: iniziativa privata', 'Sbagliata', 0),
+(195, 3, 4, 'Non ci sono argomenti né a favore né contro', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(195, 4, 1, 'Costi/benefici che ricadono su terzi non coinvolti in transazione; politiche: tasse/sussidi pigouviani, regolamentazione', 'Corretta', 10),
+(195, 4, 2, 'Impatto delle tasse sul benessere economico', 'Sbagliata', 0),
+(195, 4, 3, 'Conseguenze della disoccupazione sulla società', 'Sbagliata', 0),
+(195, 4, 4, 'Effetti dell''inflazione sul potere d''acquisto', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(195, 5, 1, 'Studio processi decisionali individuali incorporando fattori psicologici; implicazioni: nudge, architettura scelte', 'Corretta', 10),
+(195, 5, 2, 'Economia basata su modelli matematici astratti', 'Sbagliata', 0),
+(195, 5, 3, 'Studio della storia del pensiero economico', 'Sbagliata', 0),
+(195, 5, 4, 'Analisi macroeconomica aggregata', 'Sbagliata', 0);
+
+-- Quiz 196: Sociologia rurale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(196, 1, 1, 'Contrasti tra agricoltura, urbanizzazione, conservazione ambientale, turismo, infrastrutture', 'Corretta', 10),
+(196, 1, 2, 'Conflitti tra diverse generazioni all''interno delle famiglie contadine', 'Sbagliata', 0),
+(196, 1, 3, 'Dispute sui confini tra stati nazionali', 'Sbagliata', 0),
+(196, 1, 4, 'Competizione tra diverse aziende agricole per i sussidi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(196, 2, 1, 'Organizzazioni volontarie di agricoltori per mutua assistenza, acquisto/vendita collettiva, rappresentanza politica', 'Corretta', 10),
+(196, 2, 2, 'Grandi imprese agroindustriali multinazionali', 'Sbagliata', 0),
+(196, 2, 3, 'Enti pubblici per la gestione delle foreste', 'Sbagliata', 0),
+(196, 2, 4, 'Associazioni ambientaliste urbane', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(196, 3, 1, 'Impatti su rese agricole, disponibilità acqua, eventi estremi, migrazioni, sicurezza alimentare', 'Corretta', 10),
+(196, 3, 2, 'Aumento generale della fertilità dei suoli', 'Sbagliata', 0),
+(196, 3, 3, 'Maggiore stabilità dei prezzi agricoli', 'Sbagliata', 0),
+(196, 3, 4, 'Nessun impatto significativo sulle aree rurali', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(196, 4, 1, 'Idea che agricoltura svolga funzioni oltre produzione cibo (ambientale, paesaggistica, sociale)', 'Corretta', 10),
+(196, 4, 2, 'Agricoltura specializzata in una sola coltura (monocoltura)', 'Sbagliata', 0),
+(196, 4, 3, 'Uso intensivo di macchinari e tecnologie in agricoltura', 'Sbagliata', 0),
+(196, 4, 4, 'Agricoltura biologica e biodinamica', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(196, 5, 1, 'Agricoltura precisione, automazione, ICT per gestione aziende/mercati, e-commerce prodotti locali', 'Corretta', 10),
+(196, 5, 2, 'Ritorno a tecniche agricole manuali tradizionali', 'Sbagliata', 0),
+(196, 5, 3, 'Abbandono completo dell''agricoltura', 'Sbagliata', 0),
+(196, 5, 4, 'Uso esclusivo di fertilizzanti chimici e pesticidi', 'Sbagliata', 0);
+
+-- Quiz 197: Antropologia linguistica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(197, 1, 1, 'Analizzando come diverse varietà linguistiche (dialetti, registri) sono associate a status, potere, identità', 'Corretta', 10),
+(197, 1, 2, 'Studiando solo la grammatica standard', 'Sbagliata', 0),
+(197, 1, 3, 'Contando il numero di errori grammaticali', 'Sbagliata', 0),
+(197, 1, 4, 'Trascrivendo solo discorsi formali', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(197, 2, 1, 'Studio del linguaggio nel suo contesto d''uso; atti linguistici, implicature conversazionali', 'Corretta', 10),
+(197, 2, 2, 'Studio del significato letterale delle parole (semantica)', 'Sbagliata', 0),
+(197, 2, 3, 'Studio della struttura delle frasi (sintassi)', 'Sbagliata', 0),
+(197, 2, 4, 'Studio dei suoni del linguaggio (fonetica)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(197, 3, 1, 'Approccio che studia la comunicazione come pratica sociale e culturale situata', 'Corretta', 10),
+(197, 3, 2, 'La descrizione grammaticale di una lingua', 'Sbagliata', 0),
+(197, 3, 3, 'La traduzione di testi da una lingua all''altra', 'Sbagliata', 0),
+(197, 3, 4, 'L''insegnamento di una lingua straniera', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(197, 4, 1, 'Attraverso accesso a registri prestigiosi, controllo discorso pubblico, imposizione norme linguistiche', 'Corretta', 10),
+(197, 4, 2, 'Il linguaggio è neutro e non ha relazione con il potere', 'Sbagliata', 0),
+(197, 4, 3, 'Solo tramite la violenza fisica', 'Sbagliata', 0),
+(197, 4, 4, 'Il potere dipende solo dalla ricchezza economica', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(197, 5, 1, 'Fondamentale: lingua veicola storia, valori, conoscenze, visione del mondo', 'Corretta', 10),
+(197, 5, 2, 'Marginale, la cultura si trasmette solo tramite oggetti materiali', 'Sbagliata', 0),
+(197, 5, 3, 'Irrilevante, la cultura è innata', 'Sbagliata', 0),
+(197, 5, 4, 'Negativo, la lingua ostacola la trasmissione culturale', 'Sbagliata', 0);
+
+-- Quiz 198: Storia dell Africa
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(198, 1, 1, 'Controllo rotte carovaniere, commercio oro/sale/schiavi, centri culturali islamici (Timbuktu)', 'Corretta', 10),
+(198, 1, 2, 'Commercio marittimo con l''Europa via Atlantico', 'Sbagliata', 0),
+(198, 1, 3, 'Costruzione di grandi piramidi', 'Sbagliata', 0),
+(198, 1, 4, 'Sviluppo di un''industria pesante', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(198, 2, 1, 'Divisione arbitraria Africa tra potenze europee senza considerare popoli/confini preesistenti', 'Corretta', 10),
+(198, 2, 2, 'Conferenza per l''abolizione della schiavitù', 'Sbagliata', 0),
+(198, 2, 3, 'Accordo per la libera navigazione del fiume Congo', 'Sbagliata', 0),
+(198, 2, 4, 'Trattato di pace dopo una guerra europea', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(198, 3, 1, 'Ribellione Maji Maji (Tanzania), Guerre Herero (Namibia), Lotta Mau Mau (Kenya)', 'Corretta', 10),
+(198, 3, 2, 'Campagne di disobbedienza civile di Gandhi in India', 'Sbagliata', 0),
+(198, 3, 3, 'Rivoluzione Americana', 'Sbagliata', 0),
+(198, 3, 4, 'Guerra dei Boxer in Cina', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(198, 4, 1, 'Movimento politico/culturale che promuove unità e solidarietà tra popoli africani; Nkrumah, Du Bois', 'Corretta', 10),
+(198, 4, 2, 'Ideologia nazionalista specifica di un singolo paese africano', 'Sbagliata', 0),
+(198, 4, 3, 'Movimento religioso sincretico', 'Sbagliata', 0),
+(198, 4, 4, 'Teoria economica sullo sviluppo africano', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(198, 5, 1, 'Debolezza istituzioni, corruzione, conflitti etnici/civili, governance autoritaria, sfide sviluppo', 'Corretta', 10),
+(198, 5, 2, 'Eccessiva stabilità politica che impedisce il cambiamento', 'Sbagliata', 0),
+(198, 5, 3, 'Democrazie consolidate e funzionanti ovunque', 'Sbagliata', 0),
+(198, 5, 4, 'Mancanza totale di governi centrali', 'Sbagliata', 0);
+
+-- Quiz 199: Letteratura giapponese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(199, 1, 1, 'Premio Nobel 1994, opere esplorano marginalità, responsabilità, rapporto individuo/società', 'Corretta', 10),
+(199, 1, 2, 'Autore di "Storia di Genji" (periodo Heian)', 'Sbagliata', 0),
+(199, 1, 3, 'Maestro della poesia Haiku (periodo Edo)', 'Sbagliata', 0),
+(199, 1, 4, 'Regista cinematografico famoso', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(199, 2, 1, 'Nō (stilizzato, maschere), Kabuki (popolare, trucco), Bunraku (marionette); influenza su temi/estetica', 'Corretta', 10),
+(199, 2, 2, 'Non ha avuto alcuna influenza sulla letteratura', 'Sbagliata', 0),
+(199, 2, 3, 'Solo il teatro Nō ha influenzato la poesia', 'Sbagliata', 0),
+(199, 2, 4, 'Il teatro giapponese è stato influenzato dalla letteratura, non viceversa', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(199, 3, 1, 'Genere autobiografico introspettivo, focus su vita interiore autore (es. Shiga Naoya)', 'Corretta', 10),
+(199, 3, 2, 'Romanzo storico ambientato nel passato', 'Sbagliata', 0),
+(199, 3, 3, 'Romanzo poliziesco o giallo', 'Sbagliata', 0),
+(199, 3, 4, 'Racconto fantastico o soprannaturale', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(199, 4, 1, 'Importante; comunicazione non verbale, suggestione, importanza del non detto (ma)', 'Corretta', 10),
+(199, 4, 2, 'Irrilevante, la letteratura giapponese è molto esplicita', 'Sbagliata', 0),
+(199, 4, 3, 'Presente solo nella poesia, non nella prosa', 'Sbagliata', 0),
+(199, 4, 4, 'Considerato un difetto stilistico', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(199, 5, 1, 'Identità in società globalizzata, memoria storica (WWII), tecnologia, alienazione urbana, ricerca senso', 'Corretta', 10),
+(199, 5, 2, 'Solo temi legati alla natura e alle stagioni', 'Sbagliata', 0),
+(199, 5, 3, 'Solo storie d''amore tradizionali', 'Sbagliata', 0),
+(199, 5, 4, 'Celebrazione acritica del consumismo', 'Sbagliata', 0);
+
+-- Quiz 200: Fisica nucleare
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(200, 1, 1, 'Particelle alta energia (protoni, nuclei) dallo spazio; producono sciami particelle secondarie in atmosfera', 'Corretta', 10),
+(200, 1, 2, 'Radiazione elettromagnetica emessa dal Sole (luce, UV)', 'Sbagliata', 0),
+(200, 1, 3, 'Particelle emesse durante decadimento radioattivo (alfa, beta)', 'Sbagliata', 0),
+(200, 1, 4, 'Onde gravitazionali da eventi cosmici', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(200, 2, 1, 'Contatori Geiger (ionizzazione), Scintillatori (luce), Camere a nebbia/bolle (tracce), Rivelatori a semiconduttore', 'Corretta', 10),
+(200, 2, 2, 'Telescopi ottici', 'Sbagliata', 0),
+(200, 2, 3, 'Microscopi elettronici', 'Sbagliata', 0),
+(200, 2, 4, 'Spettrometri di massa', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(200, 3, 1, 'Metodo per datare materiali organici/geologici misurando decadimento isotopi radioattivi', 'Corretta', 10),
+(200, 3, 2, 'Tecnica per misurare la distanza delle stelle', 'Sbagliata', 0),
+(200, 3, 3, 'Metodo per analizzare la composizione chimica rocce', 'Sbagliata', 0),
+(200, 3, 4, 'Processo per creare nuovi isotopi in laboratorio', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(200, 4, 1, 'Misura probabilità che avvenga una reazione nucleare tra particella incidente e nucleo bersaglio', 'Corretta', 10),
+(200, 4, 2, 'L''energia rilasciata nella reazione nucleare', 'Sbagliata', 0),
+(200, 4, 3, 'La distanza massima percorsa dalla particella incidente', 'Sbagliata', 0),
+(200, 4, 4, 'Il numero di particelle prodotte nella reazione', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(200, 5, 1, 'Stato materia ad altissima T/densità in cui quark/gluoni sono liberi; creato in collisioni ioni pesanti', 'Corretta', 10),
+(200, 5, 2, 'Gas ionizzato a T relativamente bassa (plasma "freddo")', 'Sbagliata', 0),
+(200, 5, 3, 'Materia superconduttrice a basse temperature', 'Sbagliata', 0),
+(200, 5, 4, 'Materia oscura ipotetica nell''universo', 'Sbagliata', 0);
+
+-- Quiz 201: Chimica biologica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(201, 1, 1, 'Polimeri di monosaccaridi; Amido (riserva energia piante), Cellulosa (struttura piante)', 'Corretta', 10),
+(201, 1, 2, 'Polimeri di amminoacidi (Proteine)', 'Sbagliata', 0),
+(201, 1, 3, 'Grassi e oli (Lipidi)', 'Sbagliata', 0),
+(201, 1, 4, 'DNA e RNA (Acidi nucleici)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(201, 2, 1, 'Vitamine: composti organici essenziali; Coenzimi: molecole non proteiche che aiutano enzimi', 'Corretta', 10),
+(201, 2, 2, 'Ormoni che regolano funzioni corporee', 'Sbagliata', 0),
+(201, 2, 3, 'Neurotrasmettitori che trasmettono segnali nervosi', 'Sbagliata', 0),
+(201, 2, 4, 'Sali minerali inorganici essenziali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(201, 3, 1, 'Regolazione allosterica, modificazione covalente, feedback negativo, controllo genetico', 'Corretta', 10),
+(201, 3, 2, 'Aumento della temperatura o del pH', 'Sbagliata', 0),
+(201, 3, 3, 'Diluizione della concentrazione dell''enzima', 'Sbagliata', 0),
+(201, 3, 4, 'Aggiunta di acqua alla reazione', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(201, 4, 1, 'Glicolisi (glucosio->piruvato), Gluconeogenesi (piruvato->glucosio), Via pentoso fosfati (produce NADPH/ribosio)', 'Corretta', 10),
+(201, 4, 2, 'Ciclo dell''urea (eliminazione azoto)', 'Sbagliata', 0),
+(201, 4, 3, 'Sintesi degli acidi grassi', 'Sbagliata', 0),
+(201, 4, 4, 'Fotosintesi (produzione zuccheri)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(201, 5, 1, 'DNA: conserva info genetica; RNA (mRNA, tRNA, rRNA): partecipa a sintesi proteica', 'Corretta', 10),
+(201, 5, 2, 'DNA: catalizza reazioni; RNA: fornisce energia', 'Sbagliata', 0),
+(201, 5, 3, 'Entrambi servono solo come struttura cellulare', 'Sbagliata', 0),
+(201, 5, 4, 'DNA: solo negli animali; RNA: solo nelle piante', 'Sbagliata', 0);
+
+-- Quiz 202: Geografia fisica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(202, 1, 1, 'Paesaggi modellati da dissoluzione rocce carbonatiche (calcari); doline, grotte, fiumi sotterranei', 'Corretta', 10),
+(202, 1, 2, 'Paesaggi modellati da azione ghiacciai (morene, valli a U)', 'Sbagliata', 0),
+(202, 1, 3, 'Paesaggi modellati da azione vento (dune)', 'Sbagliata', 0),
+(202, 1, 4, 'Paesaggi vulcanici (coni, colate laviche)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(202, 2, 1, 'Fisica: disgregazione meccanica (gelo/disgelo, vento); Chimica: alterazione chimica (dissoluzione, ossidazione)', 'Corretta', 10),
+(202, 2, 2, 'Erosione (rimozione) e Deposizione (accumulo)', 'Sbagliata', 0),
+(202, 2, 3, 'Metamorfismo (cambiamento roccia per P/T)', 'Sbagliata', 0),
+(202, 2, 4, 'Sedimentazione (accumulo sedimenti)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(202, 3, 1, 'Classificate per altitudine (alte, medie, basse) e aspetto (cirri, cumuli, strati, nembi)', 'Corretta', 10),
+(202, 3, 2, 'Solo in base alla quantità di pioggia che portano', 'Sbagliata', 0),
+(202, 3, 3, 'Solo in base alla loro forma (a pecora, a striscia...)', 'Sbagliata', 0),
+(202, 3, 4, 'Solo in base al colore (bianche, grigie)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(202, 4, 1, 'Oscillazione climatica periodica nel Pacifico tropicale; influenza T e precipitazioni globali', 'Corretta', 10),
+(202, 4, 2, 'Uragano atlantico molto intenso', 'Sbagliata', 0),
+(202, 4, 3, 'Corrente marina calda nel Nord Atlantico (Corrente del Golfo)', 'Sbagliata', 0),
+(202, 4, 4, 'Buco nello strato di ozono antartico', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(202, 5, 1, 'Differenza tra energia solare assorbita dalla Terra e energia infrarossa riemessa nello spazio', 'Corretta', 10),
+(202, 5, 2, 'La quantità totale di energia prodotta dalle centrali elettriche', 'Sbagliata', 0),
+(202, 5, 3, 'Il contenuto energetico degli alimenti (calorie)', 'Sbagliata', 0),
+(202, 5, 4, 'L''energia cinetica della rotazione terrestre', 'Sbagliata', 0);
+
+-- Quiz 203: Storia dell America
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(203, 1, 1, 'Drastico calo demografico (malattie, violenza), perdita terre/culture, sistemi lavoro forzato', 'Corretta', 10),
+(203, 1, 2, 'Miglioramento condizioni vita e prosperità economica', 'Sbagliata', 0),
+(203, 1, 3, 'Alleanza paritaria e integrazione pacifica', 'Sbagliata', 0),
+(203, 1, 4, 'Nessun contatto significativo tra i due gruppi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(203, 2, 1, 'Lunga guerra civile (ca. 1910-20) contro dittatura Diaz; riforma agraria, costituzione 1917', 'Corretta', 10),
+(203, 2, 2, 'Rivoluzione socialista guidata da Fidel Castro (Cuba, 1959)', 'Sbagliata', 0),
+(203, 2, 3, 'Guerra d''indipendenza dalla Spagna', 'Sbagliata', 0),
+(203, 2, 4, 'Guerra tra Messico e Stati Uniti (1846-48)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(203, 3, 1, 'Grave crisi economica globale (1929-anni ''30); New Deal: programma riforme Roosevelt (interventismo)', 'Corretta', 10),
+(203, 3, 2, 'Periodo di grande prosperità economica ("Roaring Twenties")', 'Sbagliata', 0),
+(203, 3, 3, 'Seconda Guerra Mondiale', 'Sbagliata', 0),
+(203, 3, 4, 'Guerra Fredda contro l''Unione Sovietica', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(203, 4, 1, 'Lotta non violenta contro segregazione razziale e per uguaglianza diritti afroamericani (Martin Luther King)', 'Corretta', 10),
+(203, 4, 2, 'Movimento per il suffragio femminile', 'Sbagliata', 0),
+(203, 4, 3, 'Movimento pacifista contro la guerra del Vietnam', 'Sbagliata', 0),
+(203, 4, 4, 'Movimento operaio per i diritti dei lavoratori', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(203, 5, 1, 'Consolidamento democrazie, crescita economica (con disuguaglianze), integrazione regionale, influenza potenze esterne (USA/Cina)', 'Corretta', 10),
+(203, 5, 2, 'Dominio generalizzato di dittature militari', 'Sbagliata', 0),
+(203, 5, 3, 'Isolamento economico e politico dal resto del mondo', 'Sbagliata', 0),
+(203, 5, 4, 'Ritorno a economie agricole di sussistenza', 'Sbagliata', 0);
+
+-- Quiz 204: Matematica avanzata
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(204, 1, 1, 'Equazioni che coinvolgono una funzione incognita e le sue derivate; lineari/non lineari, ordine', 'Corretta', 10),
+(204, 1, 2, 'Equazioni algebriche polinomiali', 'Sbagliata', 0),
+(204, 1, 3, 'Sistemi di equazioni lineari', 'Sbagliata', 0),
+(204, 1, 4, 'Equazioni che coinvolgono integrali (Equazioni integrali)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(204, 2, 1, 'Struttura algebrica con vettori e scalari, con operazioni addizione/moltiplicazione per scalare', 'Corretta', 10),
+(204, 2, 2, 'Insieme di punti nello spazio euclideo', 'Sbagliata', 0),
+(204, 2, 3, 'Un gruppo di matrici invertibili', 'Sbagliata', 0),
+(204, 2, 4, 'Una sequenza infinita di numeri', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(204, 3, 1, 'Trasformazione matematica che scompone funzione in somma/integrale funzioni sinusoidali; analisi segnali, PDE', 'Corretta', 10),
+(204, 3, 2, 'Trasformazione che semplifica soluzione equazioni differenziali lineari (Trasformata Laplace)', 'Sbagliata', 0),
+(204, 3, 3, 'Sviluppo di una funzione in serie di potenze (Serie Taylor)', 'Sbagliata', 0),
+(204, 3, 4, 'Operazione di derivazione o integrazione', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(204, 4, 1, 'Teoremi che collegano integrali di linea/superficie/volume con derivate (calcolo vettoriale)', 'Corretta', 10),
+(204, 4, 2, 'Teorema fondamentale del calcolo integrale', 'Sbagliata', 0),
+(204, 4, 3, 'Teorema di Pitagora', 'Sbagliata', 0),
+(204, 4, 4, 'Teorema Cinese del Resto', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(204, 5, 1, 'Topologia algebrica, Geometria differenziale, Teoria dei numeri, Algebra astratta', 'Corretta', 10),
+(204, 5, 2, 'Calcolo infinitesimale di base', 'Sbagliata', 0),
+(204, 5, 3, 'Geometria euclidea piana', 'Sbagliata', 0),
+(204, 5, 4, 'Statistica descrittiva', 'Sbagliata', 0);
+
+-- Quiz 205: Fisica moderna
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(205, 1, 1, 'Oggetto ideale che assorbe/emette tutta radiazione; problema: discrepanza teoria classica/esperimenti (catastrofe UV)', 'Corretta', 10),
+(205, 1, 2, 'Oggetto completamente trasparente', 'Sbagliata', 0),
+(205, 1, 3, 'Un buco nero astrofisico', 'Sbagliata', 0),
+(205, 1, 4, 'Un materiale superconduttore', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(205, 2, 1, 'Emissione elettroni da metallo colpito da luce; spiegato da Einstein ipotizzando luce come quanti (fotoni)', 'Corretta', 10),
+(205, 2, 2, 'Diffrazione della luce attraverso una fenditura', 'Sbagliata', 0),
+(205, 2, 3, 'Effetto Compton (scattering fotone-elettrone)', 'Sbagliata', 0),
+(205, 2, 4, 'Produzione di raggi X frenando elettroni', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(205, 3, 1, 'Elettroni orbitano in livelli energetici quantizzati; emissione/assorbimento luce per salti tra livelli', 'Corretta', 10),
+(205, 3, 2, 'Modello planetario di Rutherford (nucleo + elettroni orbitanti)', 'Sbagliata', 0),
+(205, 3, 3, 'Modello a panettone di Thomson', 'Sbagliata', 0),
+(205, 3, 4, 'Modello quantistico ondulatorio (Schrödinger)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(205, 4, 1, 'Proprietà intrinseca quantistica delle particelle (momento angolare intrinseco)', 'Corretta', 10),
+(205, 4, 2, 'La carica elettrica della particella', 'Sbagliata', 0),
+(205, 4, 3, 'La massa della particella', 'Sbagliata', 0),
+(205, 4, 4, 'La velocità di rotazione della particella attorno al proprio asse', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(205, 5, 1, 'Dispositivi che emettono luce coerente amplificata tramite emissione stimolata (Light Amplification by Stimulated Emission of Radiation)', 'Corretta', 10),
+(205, 5, 2, 'Lampadine a incandescenza', 'Sbagliata', 0),
+(205, 5, 3, 'Dispositivi a semiconduttore che emettono luce (LED)', 'Sbagliata', 0),
+(205, 5, 4, 'Fibre ottiche per trasmettere luce', 'Sbagliata', 0);
+
+-- Quiz 206: Letteratura italiana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(206, 1, 1, 'Ludovico Ariosto; poema cavalleresco', 'Corretta', 10),
+(206, 1, 2, 'Torquato Tasso; Gerusalemme Liberata (poema epico)', 'Sbagliata', 0),
+(206, 1, 3, 'Matteo Maria Boiardo; Orlando Innamorato (precursore)', 'Sbagliata', 0),
+(206, 1, 4, 'Dante Alighieri; Divina Commedia (poema allegorico)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(206, 2, 1, 'Critica sociale, riforme, ragione, cosmopolitismo; Beccaria (Dei delitti e delle pene), Verri (Il Caffè)', 'Corretta', 10),
+(206, 2, 2, 'Rinascimento (Umanesimo, classicismo)', 'Sbagliata', 0),
+(206, 2, 3, 'Romanticismo (sentimento, nazione)', 'Sbagliata', 0),
+(206, 2, 4, 'Barocco (meraviglia, concettismo)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(206, 3, 1, 'La coscienza di Zeno (Svevo) / Ossi di seppia (Montale)', 'Corretta', 10),
+(206, 3, 2, 'I Promessi Sposi (Manzoni)', 'Sbagliata', 0),
+(206, 3, 3, 'Il fu Mattia Pascal (Pirandello)', 'Sbagliata', 0),
+(206, 3, 4, 'Canti (Leopardi)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(206, 4, 1, 'Poesia primo Novecento; linguaggio difficile, analogico, ricerca parola essenziale (Ungaretti, Montale, Quasimodo)', 'Corretta', 10),
+(206, 4, 2, 'Poesia futurista (Marinetti)', 'Sbagliata', 0),
+(206, 4, 3, 'Poesia crepuscolare (Gozzano, Moretti)', 'Sbagliata', 0),
+(206, 4, 4, 'Poesia dialettale (Trilussa, Di Giacomo)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(206, 5, 1, 'Italo Calvino / Umberto Eco / Elena Ferrante / Niccolò Ammaniti', 'Corretta', 10),
+(206, 5, 2, 'Cesare Pavese', 'Sbagliata', 0),
+(206, 5, 3, 'Elsa Morante', 'Sbagliata', 0),
+(206, 5, 4, 'Giuseppe Tomasi di Lampedusa', 'Sbagliata', 0);
+
+-- Quiz 207: Geografia mondiale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(207, 1, 1, 'Sahara (Africa), Gobi (Asia), Deserto Arabico, Kalahari (Africa), Atacama (Sud America)', 'Corretta', 10),
+(207, 1, 2, 'Amazzonia, Foresta Congo', 'Sbagliata', 0),
+(207, 1, 3, 'Siberia, Antartide', 'Sbagliata', 0),
+(207, 1, 4, 'Alpi, Ande, Himalaya', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(207, 2, 1, 'Equatoriale (caldo-umido), Tropicale (stagione secca/umida), Temperata (4 stagioni), Fredda/Polare', 'Corretta', 10),
+(207, 2, 2, 'Arida, Semiarida, Subumida, Umida', 'Sbagliata', 0),
+(207, 2, 3, 'Oceanica, Continentale, Mediterranea', 'Sbagliata', 0),
+(207, 2, 4, 'Pianura, Collina, Montagna', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(207, 3, 1, 'Litosfera divisa in placche rigide che si muovono; interazioni ai margini causano terremoti, vulcani, montagne', 'Corretta', 10),
+(207, 3, 2, 'Teoria della deriva dei continenti (Wegener)', 'Sbagliata', 0),
+(207, 3, 3, 'Il ciclo delle rocce', 'Sbagliata', 0),
+(207, 3, 4, 'La formazione del campo magnetico terrestre', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(207, 4, 1, 'Crescente interconnessione economica, politica, culturale a scala mondiale', 'Corretta', 10),
+(207, 4, 2, 'Il riscaldamento globale del pianeta', 'Sbagliata', 0),
+(207, 4, 3, 'La formazione di alleanze militari regionali', 'Sbagliata', 0),
+(207, 4, 4, 'La diffusione di Internet e delle ICT', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(207, 5, 1, 'Cambiamenti climatici, perdita biodiversità, deforestazione, inquinamento oceani; soluzioni: accordi internazionali, energie rinnovabili, sostenibilità', 'Corretta', 10),
+(207, 5, 2, 'Sovrappopolazione in alcune aree', 'Sbagliata', 0),
+(207, 5, 3, 'Disuguaglianze economiche', 'Sbagliata', 0),
+(207, 5, 4, 'Conflitti geopolitici', 'Sbagliata', 0);
+
+-- Quiz 208: Chimica organica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(208, 1, 1, 'Composti con formula R-O-R''; nominati specificando i gruppi R/R''; es. dietil etere', 'Corretta', 10),
+(208, 1, 2, 'Composti con gruppo -OH (Alcoli)', 'Sbagliata', 0),
+(208, 1, 3, 'Composti con gruppo C=O (Aldeidi/Chetoni)', 'Sbagliata', 0),
+(208, 1, 4, 'Composti con gruppo -COOH (Acidi carbossilici)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(208, 2, 1, 'Reazione in cui un nucleofilo sostituisce un gruppo uscente su un carbonio saturo', 'Corretta', 10),
+(208, 2, 2, 'Addizione di un elettrofilo a un doppio legame (Addizione elettrofila)', 'Sbagliata', 0),
+(208, 2, 3, 'Eliminazione di atomi per formare un doppio/triplo legame (Eliminazione)', 'Sbagliata', 0),
+(208, 2, 4, 'Sostituzione su un anello aromatico (Sostituzione elettrofila aromatica)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(208, 3, 1, 'Molecole con gruppo amminico (-NH2) e carbossilico (-COOH); si legano con legame peptidico', 'Corretta', 10),
+(208, 3, 2, 'Zuccheri semplici (Monosaccaridi)', 'Sbagliata', 0),
+(208, 3, 3, 'Basi azotate che formano DNA/RNA (Purine/Pirimidine)', 'Sbagliata', 0),
+(208, 3, 4, 'Acidi grassi che formano i lipidi', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(208, 4, 1, 'Saturo: solo legami C-C singoli; Insaturo: almeno un legame C=C doppio o triplo', 'Corretta', 10),
+(208, 4, 2, 'Saturo: solido a T ambiente; Insaturo: liquido', 'Sbagliata', 0), -- Generalmente vero, ma non definizione
+(208, 4, 3, 'Saturo: origine animale; Insaturo: origine vegetale', 'Sbagliata', 0), -- Generalizzazione non sempre vera
+(208, 4, 4, 'Saturo: salutare; Insaturo: non salutare', 'Sbagliata', 0); -- Dipende dal tipo e quantità
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(208, 5, 1, 'Mascherare temporaneamente un gruppo funzionale reattivo per farlo reagire selettivamente altrove', 'Corretta', 10),
+(208, 5, 2, 'Aggiungere un catalizzatore per accelerare la reazione', 'Sbagliata', 0),
+(208, 5, 3, 'Utilizzare un solvente appropriato per la reazione', 'Sbagliata', 0),
+(208, 5, 4, 'Separare e purificare il prodotto finale', 'Sbagliata', 0);
+
+-- Quiz 209: Biologia cellulare
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(209, 1, 1, 'Ruvido (con ribosomi): sintesi/modifica proteine; Liscio: sintesi lipidi, detox', 'Corretta', 10),
+(209, 1, 2, 'Produzione di ATP (Mitocondri)', 'Sbagliata', 0),
+(209, 1, 3, 'Digestione cellulare (Lisosomi)', 'Sbagliata', 0),
+(209, 1, 4, 'Fotosintesi (Cloroplasti)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(209, 2, 1, 'Modifica, smistamento e impacchettamento di proteine e lipidi provenienti dal RE', 'Corretta', 10),
+(209, 2, 2, 'Sintesi delle proteine (Ribosomi)', 'Sbagliata', 0),
+(209, 2, 3, 'Contenimento del DNA (Nucleo)', 'Sbagliata', 0),
+(209, 2, 4, 'Demolizione di perossido di idrogeno (Perossisomi)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(209, 3, 1, 'Lisosomi: contengono enzimi digestivi; Perossisomi: coinvolti in reazioni metaboliche (detox)', 'Corretta', 10),
+(209, 3, 2, 'Lisosomi: sintesi proteine; Perossisomi: sintesi lipidi', 'Sbagliata', 0),
+(209, 3, 3, 'Entrambi producono energia (ATP)', 'Sbagliata', 0),
+(209, 3, 4, 'Entrambi contengono il materiale genetico', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(209, 4, 1, 'Rete di filamenti proteici che dà forma/sostegno alla cellula e permette movimento', 'Corretta', 10),
+(209, 4, 2, 'La membrana esterna della cellula', 'Sbagliata', 0), -- Membrana plasmatica
+(209, 4, 3, 'Il materiale gelatinoso interno (Citoplasma/Citosol)', 'Sbagliata', 0),
+(209, 4, 4, 'L''insieme degli organelli cellulari', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(209, 5, 1, 'Tramite giunzioni (aderenti, comunicanti, occludenti) e segnali chimici (ormoni, neurotrasmettitori)', 'Corretta', 10),
+(209, 5, 2, 'Solo tramite contatto fisico diretto', 'Sbagliata', 0),
+(209, 5, 3, 'Solo tramite segnali elettrici', 'Sbagliata', 0), -- Cellule nervose/muscolari
+(209, 5, 4, 'Le cellule non comunicano tra loro', 'Sbagliata', 0);
+
+-- Quiz 210: Storia contemporanea
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(210, 1, 1, 'Imperialismo, nazionalismo, militarismo, sistema alleanze, assassinio Sarajevo', 'Corretta', 10),
+(210, 1, 2, 'Invasione Polonia (causa WWII)', 'Sbagliata', 0),
+(210, 1, 3, 'Crisi economica 1929', 'Sbagliata', 0),
+(210, 1, 4, 'Rivoluzione Russa (conseguenza/concomitante)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(210, 2, 1, 'Regimi totalitari guidati da Mussolini e Hitler; nazionalismo, militarismo, autoritarismo', 'Corretta', 10),
+(210, 2, 2, 'Movimenti comunisti rivoluzionari', 'Sbagliata', 0),
+(210, 2, 3, 'Democrazie liberali', 'Sbagliata', 0),
+(210, 2, 4, 'Monarchie costituzionali', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(210, 3, 1, 'Tensione ideologica/militare USA-URSS (1947-91); divisione mondo, corsa armamenti, conflitti indiretti', 'Corretta', 10),
+(210, 3, 2, 'Periodo tra le due guerre mondiali', 'Sbagliata', 0),
+(210, 3, 3, 'Seconda Guerra Mondiale', 'Sbagliata', 0),
+(210, 3, 4, 'Processo di integrazione europea', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(210, 4, 1, 'Processo indipendenza colonie afro-asiatiche dopo WWII; ruolo nazionalismi, guerre mondiali, Guerra Fredda', 'Corretta', 10),
+(210, 4, 2, 'Espansione coloniale europea XIX sec.', 'Sbagliata', 0),
+(210, 4, 3, 'Formazione imperi antichi', 'Sbagliata', 0),
+(210, 4, 4, 'Creazione Società Nazioni / ONU', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(210, 5, 1, 'Fine URSS, fine Guerra Fredda, globalizzazione, ascesa USA (unipolarismo temporaneo), nuovi conflitti', 'Corretta', 10),
+(210, 5, 2, 'Inizio della Guerra Fredda', 'Sbagliata', 0),
+(210, 5, 3, 'Creazione dell''Unione Europea', 'Sbagliata', 0), -- Processo più lungo
+(210, 5, 4, 'Stabilizzazione politica globale duratura', 'Sbagliata', 0);
+
+-- Quiz 211: Astronomia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(211, 1, 1, 'Collasso gravitazionale nubi gas/polveri; formazione protostella, disco protoplanetario, pianeti', 'Corretta', 10),
+(211, 1, 2, 'Esplosione di supernove', 'Sbagliata', 0), -- Fine vita stelle massicce
+(211, 1, 3, 'Collisione tra galassie', 'Sbagliata', 0),
+(211, 1, 4, 'Accrescimento materia su buchi neri', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(211, 2, 1, 'Spirali (bracci, bulge centrale), Ellittiche (forma ovale, stelle vecchie), Irregolari (senza forma definita)', 'Corretta', 10),
+(211, 2, 2, 'Piccole, Medie, Grandi', 'Sbagliata', 0), -- Classificazione dimensionale
+(211, 2, 3, 'Giovani, Vecchie, Morenti', 'Sbagliata', 0), -- Classificazione per età (imprecisa)
+(211, 2, 4, 'Vicine, Lontane, Remotissime', 'Sbagliata', 0); -- Classificazione per distanza
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(211, 3, 1, 'Esplosione finale stelle massicce; disperdono elementi pesanti, possono formare stelle neutroni/buchi neri', 'Corretta', 10),
+(211, 3, 2, 'Fase finale evoluzione stelle piccole/medie (nana bianca)', 'Sbagliata', 0),
+(211, 3, 3, 'Collisioni tra asteroidi', 'Sbagliata', 0),
+(211, 3, 4, 'Eruzioni solari intense', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(211, 4, 1, 'Ottici: raccolgono luce visibile; Radiotelescopi: raccolgono onde radio', 'Corretta', 10),
+(211, 4, 2, 'Ottici: solo per stelle; Radiotelescopi: solo per galassie', 'Sbagliata', 0),
+(211, 4, 3, 'Ottici: sulla Terra; Radiotelescopi: nello spazio', 'Sbagliata', 0), -- Esistono entrambi i tipi in entrambi gli ambienti
+(211, 4, 4, 'Ottici: usano lenti; Radiotelescopi: usano specchi', 'Sbagliata', 0); -- Ottici usano specchi (riflettori) o lenti (rifrattori)
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(211, 5, 1, 'James Webb Space Telescope (JWST), Euclid, Roman Space Telescope, LISA (onde gravitazionali)', 'Corretta', 10),
+(211, 5, 2, 'Hubble Space Telescope (ancora operativo ma vecchio)', 'Sbagliata', 0),
+(211, 5, 3, 'Voyager (missioni esplorazione Sistema Solare esterno)', 'Sbagliata', 0),
+(211, 5, 4, 'Stazione Spaziale Internazionale (ISS)', 'Sbagliata', 0);
+
+-- Quiz 212: Informatica di base
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(212, 1, 1, 'Input: immettono dati (tastiera, mouse); Output: mostrano risultati (monitor, stampante)', 'Corretta', 10),
+(212, 1, 2, 'Input: memoria RAM; Output: disco rigido', 'Sbagliata', 0),
+(212, 1, 3, 'Input: CPU; Output: GPU', 'Sbagliata', 0),
+(212, 1, 4, 'Sono la stessa cosa', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(212, 2, 1, 'RAM (veloce, volatile, lavoro); ROM (non volatile, avvio); Disco rigido/SSD (massa, persistente)', 'Corretta', 10),
+(212, 2, 2, 'Cache L1, L2, L3 (memorie veloci CPU)', 'Sbagliata', 0),
+(212, 2, 3, 'Memoria virtuale (swap su disco)', 'Sbagliata', 0),
+(212, 2, 4, 'Chiavetta USB, CD/DVD (memorie esterne/rimovibili)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(212, 3, 1, 'Insieme computer/dispositivi collegati per condividere risorse; Componenti: PC, server, router, switch, cavi/Wi-Fi', 'Corretta', 10),
+(212, 3, 2, 'Il singolo computer desktop', 'Sbagliata', 0),
+(212, 3, 3, 'Il sistema operativo installato', 'Sbagliata', 0),
+(212, 3, 4, 'Un programma per navigare in Internet (browser)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(212, 4, 1, 'Sistema: gestisce hardware (OS, driver); Applicativo: svolge compiti utente (Word, browser)', 'Corretta', 10),
+(212, 4, 2, 'Sistema: gratuito; Applicativo: a pagamento', 'Sbagliata', 0),
+(212, 4, 3, 'Sistema: preinstallato; Applicativo: da installare', 'Sbagliata', 0), -- Non sempre vero
+(212, 4, 4, 'Non c''è differenza', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(212, 5, 1, 'Protezione sistemi/dati da accessi/usi non autorizzati; pratiche: password robuste, aggiornamenti, antivirus, backup', 'Corretta', 10),
+(212, 5, 2, 'Velocizzare le prestazioni del computer', 'Sbagliata', 0),
+(212, 5, 3, 'Installare nuovi programmi software', 'Sbagliata', 0),
+(212, 5, 4, 'Creare copie di backup dei propri file', 'Sbagliata', 0); -- Una pratica, non la definizione
+
+-- Quiz 213: Filosofia antica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(213, 1, 1, 'Primi filosofi greci (VI-V sec a.C.); ricerca archè (principio), natura (physis)', 'Corretta', 10),
+(213, 1, 2, 'Filosofi del periodo ellenistico (Stoici, Epicurei)', 'Sbagliata', 0),
+(213, 1, 3, 'Sofisti (maestri retorica V sec a.C.)', 'Sbagliata', 0),
+(213, 1, 4, 'Filosofi romani (Seneca, Cicerone)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(213, 2, 1, 'Dialogo ironico/maieutico per far emergere verità; virtù è conoscenza, male è ignoranza', 'Corretta', 10),
+(213, 2, 2, 'Ricerca piacere moderato come fine vita (Epicuro)', 'Sbagliata', 0),
+(213, 2, 3, 'Accettazione razionale destino, vivere secondo natura (Stoici)', 'Sbagliata', 0),
+(213, 2, 4, 'Virtù come giusto mezzo tra estremi (Aristotele)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(213, 3, 1, 'Anamnesi: ricordo Idee innate; Idee: forme perfette intelligibili, mondo sensibile è copia', 'Corretta', 10),
+(213, 3, 2, 'Conoscenza deriva da esperienza sensibile (Empirismo)', 'Sbagliata', 0),
+(213, 3, 3, 'Conoscenza si basa su dubbio metodico (Cartesio)', 'Sbagliata', 0),
+(213, 3, 4, 'Conoscenza come percezione chiara e distinta (Cartesio)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(213, 4, 1, 'Materiale (di cosa è fatto), Formale (essenza), Efficiente (chi lo ha fatto), Finale (scopo)', 'Corretta', 10),
+(213, 4, 2, 'Le quattro virtù cardinali (prudenza, giustizia, fortezza, temperanza)', 'Sbagliata', 0),
+(213, 4, 3, 'I quattro elementi (acqua, aria, terra, fuoco)', 'Sbagliata', 0),
+(213, 4, 4, 'Le quattro stagioni dell''anno', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(213, 5, 1, 'Stoicismo: felicità è virtù e ragione, accettazione destino; Epicureismo: felicità è piacere (assenza dolore/turbamento)', 'Corretta', 10),
+(213, 5, 2, 'Entrambi cercano piacere sfrenato', 'Sbagliata', 0),
+(213, 5, 3, 'Stoicismo: focus su emozioni; Epicureismo: focus su ragione', 'Sbagliata', 0), -- Inverso
+(213, 5, 4, 'Non hanno differenze significative riguardo alla felicità', 'Sbagliata', 0);
+
+-- Quiz 214: Psicologia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(214, 1, 1, 'Comportamentismo, Psicoanalisi, Cognitivismo, Umanistica, Gestalt, Sistemica...', 'Corretta', 10),
+(214, 1, 2, 'Medicina, Chirurgia, Farmacologia', 'Sbagliata', 0), -- Discipline mediche
+(214, 1, 3, 'Sociologia, Antropologia, Economia', 'Sbagliata', 0), -- Scienze sociali
+(214, 1, 4, 'Fisica, Chimica, Biologia', 'Sbagliata', 0); -- Scienze naturali
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(214, 2, 1, 'Metodo sperimentale, Osservazione naturalistica/clinica, Metodo correlazionale, Inchiesta (questionari/interviste)', 'Corretta', 10),
+(214, 2, 2, 'Solo introspezione soggettiva', 'Sbagliata', 0), -- Metodo storico, limitato
+(214, 2, 3, 'Solo analisi di casi singoli', 'Sbagliata', 0), -- Studio di caso (qualitativo)
+(214, 2, 4, 'Solo test psicometrici standardizzati', 'Sbagliata', 0); -- Uno strumento, non l'unico metodo
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(214, 3, 1, 'Modificazione comportamento/conoscenza dovuta all''esperienza; Condizionamento classico (Pavlov), operante (Skinner), osservativo (Bandura)', 'Corretta', 10),
+(214, 3, 2, 'Il processo di memorizzazione di informazioni', 'Sbagliata', 0), -- Memoria (legata, ma diversa)
+(214, 3, 3, 'Lo sviluppo cognitivo del bambino (Piaget)', 'Sbagliata', 0),
+(214, 3, 4, 'La motivazione che spinge ad agire', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(214, 4, 1, 'Insieme caratteristiche psicologiche stabili che influenzano pensiero/sentimenti/comportamento; Teorie tratti, psicodinamiche, umanistiche...', 'Corretta', 10),
+(214, 4, 2, 'L''intelligenza misurata dal QI', 'Sbagliata', 0), -- Un aspetto, non tutta la personalità
+(214, 4, 3, 'Il temperamento innato del bambino', 'Sbagliata', 0), -- Base biologica della personalità
+(214, 4, 4, 'L''immagine che si ha di sé (concetto di sé)', 'Sbagliata', 0); -- Parte della personalità
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(214, 5, 1, 'Mente come prodotto attività cerebrale; approcci: neuroscienze cognitive, psicobiologia', 'Corretta', 10),
+(214, 5, 2, 'Dualismo cartesiano: mente e corpo come sostanze separate', 'Sbagliata', 0), -- Posizione storica superata
+(214, 5, 3, 'La mente controlla il cervello', 'Sbagliata', 0), -- Visione non scientifica
+(214, 5, 4, 'Il cervello non ha alcun ruolo nei processi mentali', 'Sbagliata', 0);
+
+-- Quiz 215: Economia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(215, 1, 1, 'Scarsità: risorse limitate vs bisogni illimitati; Scelta: necessità di decidere come allocare risorse scarse', 'Corretta', 10),
+(215, 1, 2, 'Scarsità: mancanza di denaro; Scelta: decisione di investimento', 'Sbagliata', 0),
+(215, 1, 3, 'Scarsità: povertà; Scelta: voto politico', 'Sbagliata', 0),
+(215, 1, 4, 'Scarsità: solo nei paesi poveri; Scelta: solo per i consumatori', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(215, 2, 1, 'Terra (risorse naturali), Lavoro (sforzo umano), Capitale (beni prodotti per produrre altro), Imprenditorialità (organizzazione)', 'Corretta', 10),
+(215, 2, 2, 'Denaro, Azioni, Obbligazioni', 'Sbagliata', 0), -- Forme di capitale finanziario
+(215, 2, 3, 'Materie prime, Macchinari, Dipendenti', 'Sbagliata', 0), -- Esempi concreti
+(215, 2, 4, 'Agricoltura, Industria, Servizi', 'Sbagliata', 0); -- Settori economici
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(215, 3, 1, 'Luogo (fisico/virtuale) incontro domanda/offerta; prezzi si formano da interazione, segnalano scarsità', 'Corretta', 10),
+(215, 3, 2, 'Il negozio dove si comprano beni', 'Sbagliata', 0), -- Un tipo di mercato
+(215, 3, 3, 'Il sistema bancario e finanziario', 'Sbagliata', 0), -- Mercato finanziario (un tipo)
+(215, 3, 4, 'L''insieme delle imprese di un settore', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(215, 4, 1, 'Efficienza: uso ottimale risorse (no sprechi); Equità: distribuzione giusta benessere/opportunità', 'Corretta', 10),
+(215, 4, 2, 'Efficienza: profitto massimo; Equità: prezzi bassi', 'Sbagliata', 0),
+(215, 4, 3, 'Efficienza: produzione veloce; Equità: salari uguali per tutti', 'Sbagliata', 0),
+(215, 4, 4, 'Sono sinonimi', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(215, 5, 1, 'Disuguaglianza reddito (soluzioni: tassazione progressiva, welfare); Cambiamenti climatici (carbon tax, incentivi rinnovabili)', 'Corretta', 10),
+(215, 5, 2, 'Mancanza di nuovi modelli di smartphone', 'Sbagliata', 0),
+(215, 5, 3, 'Traffico congestionato nelle città', 'Sbagliata', 0), -- Problema trasporti/urbanistico
+(215, 5, 4, 'Scarsità di biglietti per concerti', 'Sbagliata', 0);
+
+-- Quiz 216: Sociologia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(216, 1, 1, 'Cultura: insieme valori, credenze, pratiche; Norme: regole (implicite/esplicite) che guidano comportamento', 'Corretta', 10),
+(216, 1, 2, 'Cultura: arte/letteratura; Norme: leggi scritte', 'Sbagliata', 0),
+(216, 1, 3, 'Cultura: ciò che è appreso; Norme: ciò che è innato', 'Sbagliata', 0),
+(216, 1, 4, 'Sono sinonimi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(216, 2, 1, 'Comportamento che viola norme sociali; teorie: anomia (Durkheim), tensione (Merton), etichettamento, conflitto', 'Corretta', 10),
+(216, 2, 2, 'Comportamento criminale punito dalla legge', 'Sbagliata', 0), -- Criminalità (sottoinsieme devianza)
+(216, 2, 3, 'Disturbo mentale diagnosticato clinicamente', 'Sbagliata', 0),
+(216, 2, 4, 'Comportamento originale e creativo', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(216, 3, 1, 'Disposizione gerarchica individui/gruppi in società; sistemi: schiavitù, caste, ceti, classi', 'Corretta', 10),
+(216, 3, 2, 'L''organizzazione politica di uno Stato', 'Sbagliata', 0),
+(216, 3, 3, 'La divisione del lavoro nella società', 'Sbagliata', 0),
+(216, 3, 4, 'La struttura per età di una popolazione', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(216, 4, 1, 'Strutture sociali organizzate che soddisfano bisogni fondamentali (famiglia, educazione, stato, economia, religione)', 'Corretta', 10),
+(216, 4, 2, 'Grandi organizzazioni burocratiche', 'Sbagliata', 0),
+(216, 4, 3, 'Edifici pubblici importanti', 'Sbagliata', 0),
+(216, 4, 4, 'Gruppi sociali primari (famiglia, amici)', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(216, 5, 1, 'Quantitativi (statistiche, questionari survey); Qualitativi (interviste, osservazione partecipante, analisi documenti)', 'Corretta', 10),
+(216, 5, 2, 'Solo esperimenti controllati in laboratorio', 'Sbagliata', 0),
+(216, 5, 3, 'Solo analisi di testi letterari', 'Sbagliata', 0),
+(216, 5, 4, 'Solo sondaggi d''opinione telefonici', 'Sbagliata', 0);
+
+-- Quiz 217: Antropologia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(217, 1, 1, 'Considerare tutti gli aspetti (sociali, culturali, biologici, storici) interconnessi nello studio dell''uomo', 'Corretta', 10),
+(217, 1, 2, 'Focalizzarsi solo sugli aspetti economici', 'Sbagliata', 0),
+(217, 1, 3, 'Studiare solo le culture "primitive"', 'Sbagliata', 0), -- Visione superata
+(217, 1, 4, 'Basarsi esclusivamente su dati quantitativi', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(217, 2, 1, 'Etnocentrismo: giudicare altri con propri standard; Relativismo: comprendere altri nel loro contesto', 'Corretta', 10),
+(217, 2, 2, 'Etnocentrismo: positivo; Relativismo: negativo', 'Sbagliata', 0),
+(217, 2, 3, 'Etnocentrismo: studio etnie; Relativismo: studio religioni', 'Sbagliata', 0),
+(217, 2, 4, 'Sono la stessa cosa', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(217, 3, 1, 'Metodo ricerca qualitativa: vivere con comunità studiata partecipando a vita quotidiana', 'Corretta', 10),
+(217, 3, 2, 'Osservare da lontano senza interagire', 'Sbagliata', 0),
+(217, 3, 3, 'Somministrare questionari standardizzati', 'Sbagliata', 0),
+(217, 3, 4, 'Condurre esperimenti in laboratorio', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(217, 4, 1, 'Regole discendenza (patrilin./matrilin.), matrimonio (monog./polig.), residenza; strutturano relazioni sociali', 'Corretta', 10),
+(217, 4, 2, 'L''organizzazione politica dello Stato', 'Sbagliata', 0),
+(217, 4, 3, 'I sistemi economici di scambio (dono, mercato)', 'Sbagliata', 0),
+(217, 4, 4, 'Le credenze religiose e i rituali', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(217, 5, 1, 'Mostrando che comportamenti/credenze variano culturalmente; decostruendo categorie etnocentriche', 'Corretta', 10),
+(217, 5, 2, 'Confermando la superiorità della cultura occidentale', 'Sbagliata', 0),
+(217, 5, 3, 'Dimostrando che tutte le culture sono uguali', 'Sbagliata', 0), -- Non uguaglianza, ma pari dignità/validità contestuale
+(217, 5, 4, 'Fornendo ricette per risolvere problemi sociali', 'Sbagliata', 0);
+
+-- Quiz 218: Storia medievale
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(218, 1, 1, 'Impero Romano d''Oriente (cap. Costantinopoli); conservò cultura greco-romana, influenzò Europa orientale', 'Corretta', 10),
+(218, 1, 2, 'Sacro Romano Impero Germanico (fondato da Ottone I)', 'Sbagliata', 0),
+(218, 1, 3, 'Impero Carolingio (Carlo Magno)', 'Sbagliata', 0),
+(218, 1, 4, 'Califfato Arabo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(218, 2, 1, 'Rapida espansione araba (VII-VIII sec.) da Arabia a Spagna e Asia Centrale; diffusione Islam', 'Corretta', 10),
+(218, 2, 2, 'Le invasioni vichinghe', 'Sbagliata', 0),
+(218, 2, 3, 'Le invasioni mongole', 'Sbagliata', 0),
+(218, 2, 4, 'L''espansione dell''Impero Ottomano', 'Sbagliata', 0); -- Più tardi
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(218, 3, 1, 'Centri economici (fiere, commerci), sviluppo borghesia, autonomie comunali, corporazioni arti/mestieri', 'Corretta', 10),
+(218, 3, 2, 'Declino totale e abbandono delle città', 'Sbagliata', 0), -- Vero Alto Medioevo, ma ripresa Basso
+(218, 3, 3, 'Dominio incontrastato dei signori feudali sulle città', 'Sbagliata', 0), -- Spesso conflitto per autonomia
+(218, 3, 4, 'Scomparsa delle attività artigianali e commerciali', 'Sbagliata', 0); -- Contrario
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(218, 4, 1, 'Periodo crisi generale: Peste Nera, Guerra Cent''anni, carestie, rivolte sociali', 'Corretta', 10),
+(218, 4, 2, 'Periodo di massima fioritura economica e culturale (Rinascimento)', 'Sbagliata', 0), -- Secolo successivo
+(218, 4, 3, 'Epoca delle grandi scoperte geografiche', 'Sbagliata', 0), -- XV-XVI secolo
+(218, 4, 4, 'Il secolo dell''Illuminismo', 'Sbagliata', 0); -- XVIII secolo
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(218, 5, 1, 'Cattedrale Gotica (Notre Dame), Affreschi Giotto, Miniatura manoscritta', 'Corretta', 10),
+(218, 5, 2, 'Colosseo romano', 'Sbagliata', 0), -- Antichità
+(218, 5, 3, 'Cupola Brunelleschi (Firenze)', 'Sbagliata', 0), -- Primo Rinascimento
+(218, 5, 4, 'Reggia di Versailles', 'Sbagliata', 0); -- Barocco
+
+-- Quiz 219: Letteratura inglese
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(219, 1, 1, 'Jane Austen; periodo Regency/Tardo Illuminismo', 'Corretta', 10),
+(219, 1, 2, 'Charlotte Brontë; periodo Vittoriano', 'Sbagliata', 0),
+(219, 1, 3, 'Mary Shelley; periodo Romantico', 'Sbagliata', 0),
+(219, 1, 4, 'Virginia Woolf; periodo Modernista', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(219, 2, 1, 'Lungo regno Regina Vittoria; realismo, romanzo forma dominante, critica sociale, morale puritana, industrializzazione', 'Corretta', 10),
+(219, 2, 2, 'Periodo teatro elisabettiano (Shakespeare)', 'Sbagliata', 0),
+(219, 2, 3, 'Romanticismo (Wordsworth, Keats, Shelley)', 'Sbagliata', 0),
+(219, 2, 4, 'Modernismo (Joyce, Woolf, Eliot)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(219, 3, 1, 'Oliver Twist / David Copperfield / Grandi Speranze (Dickens); Jane Eyre (C. Brontë); Cime Tempestose (E. Brontë)', 'Corretta', 10),
+(219, 3, 2, 'Orgoglio e Pregiudizio (Austen)', 'Sbagliata', 0),
+(219, 3, 3, 'Ulisse (Joyce)', 'Sbagliata', 0),
+(219, 3, 4, 'Amleto (Shakespeare)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(219, 4, 1, 'Inizio XX sec.; rottura con tradizione, sperimentalismo (flusso coscienza), frammentazione, soggettività', 'Corretta', 10),
+(219, 4, 2, 'Movimento realista XIX sec.', 'Sbagliata', 0),
+(219, 4, 3, 'Corrente romantica inizio XIX sec.', 'Sbagliata', 0),
+(219, 4, 4, 'Teatro elisabettiano XVI-XVII sec.', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(219, 5, 1, 'William Wordsworth / Samuel Taylor Coleridge / Lord Byron / Percy Bysshe Shelley / John Keats', 'Corretta', 10),
+(219, 5, 2, 'Alfred Tennyson / Robert Browning (Vittoriani)', 'Sbagliata', 0),
+(219, 5, 3, 'T.S. Eliot / W.B. Yeats (Modernisti)', 'Sbagliata', 0),
+(219, 5, 4, 'John Donne / George Herbert (Metafisici)', 'Sbagliata', 0);
+
+-- Quiz 220: Fisica quantistica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(220, 1, 1, 'Energia/momento angolare possono assumere solo valori discreti, non continui', 'Corretta', 10),
+(220, 1, 2, 'Conservazione dell''energia e del momento angolare', 'Sbagliata', 0), -- Leggi classiche/quantistiche
+(220, 1, 3, 'Natura duale onda-particella della materia', 'Sbagliata', 0),
+(220, 1, 4, 'Principio di indeterminazione di Heisenberg', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(220, 2, 1, 'Dimostrò quantizzazione momento angolare intrinseco (spin) elettrone', 'Corretta', 10),
+(220, 2, 2, 'Misurò la carica dell''elettrone (Millikan)', 'Sbagliata', 0),
+(220, 2, 3, 'Dimostrò esistenza nucleo atomico (Rutherford)', 'Sbagliata', 0),
+(220, 2, 4, 'Verificò natura ondulatoria luce (Young)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(220, 3, 1, 'Interpretazione standard: focus su risultati misura, ruolo osservatore, collasso funzione d''onda', 'Corretta', 10),
+(220, 3, 2, 'Interpretazione a mondi multipli (Everett)', 'Sbagliata', 0),
+(220, 3, 3, 'Interpretazione a variabili nascoste (Bohm)', 'Sbagliata', 0),
+(220, 3, 4, 'Interpretazione realista dell''ontologia quantistica', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(220, 4, 1, 'Funzione matematica che descrive stato quantistico sistema; quadrato modulo è densità probabilità', 'Corretta', 10),
+(220, 4, 2, 'Onda elettromagnetica associata a una particella', 'Sbagliata', 0), -- Visione de Broglie
+(220, 4, 3, 'Soluzione dell''equazione di Newton', 'Sbagliata', 0),
+(220, 4, 4, 'Funzione che descrive la densità di energia', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(220, 5, 1, 'Gatto di Schrödinger (sovrapposizione macroscopica), Entanglement (non località), Effetto tunnel', 'Corretta', 10),
+(220, 5, 2, 'Paradosso dei gemelli (relatività)', 'Sbagliata', 0),
+(220, 5, 3, 'Moto perpetuo (violazione termodinamica)', 'Sbagliata', 0),
+(220, 5, 4, 'Conservazione della massa-energia', 'Sbagliata', 0);
+
+-- Quiz 221: Chimica inorganica
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(221, 1, 1, 'Composti formati da ione metallico centrale legato a molecole/ioni (leganti)', 'Corretta', 10),
+(221, 1, 2, 'Sali semplici formati da catione e anione', 'Sbagliata', 0),
+(221, 1, 3, 'Composti organici contenenti metalli (organometallici)', 'Sbagliata', 0),
+(221, 1, 4, 'Ossidi metallici basici', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(221, 2, 1, 'Elementi Gruppo 18; molto inerti, bassi punti ebollizione; illuminazione, gas inerti', 'Corretta', 10),
+(221, 2, 2, 'Elementi Gruppo 17 (Alogeni); molto reattivi, formano sali', 'Sbagliata', 0),
+(221, 2, 3, 'Elementi Gruppo 1 (Metalli alcalini); molto reattivi, formano ioni +1', 'Sbagliata', 0),
+(221, 2, 4, 'Metalli di transizione; formano composti colorati, catalizzatori', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(221, 3, 1, 'Arrhenius (H+/OH- in acqua), Brønsted-Lowry (donatore/accettore protoni), Lewis (accettore/donatore elettroni)', 'Corretta', 10),
+(221, 3, 2, 'Acido: pH < 7; Base: pH > 7', 'Sbagliata', 0), -- Conseguenza, non definizione
+(221, 3, 3, 'Acido: sapore aspro; Base: sapore amaro/scivolosa', 'Sbagliata', 0), -- Proprietà organolettiche
+(221, 3, 4, 'Acido: reagisce con metalli; Base: reagisce con grassi', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(221, 4, 1, 'Misura tendenza atomo ad attrarre elettroni in legame; influenza polarità e tipo legame (ionico/covalente)', 'Corretta', 10),
+(221, 4, 2, 'Energia necessaria per rimuovere elettrone (Energia ionizzazione)', 'Sbagliata', 0),
+(221, 4, 3, 'Raggio dell''atomo (Raggio atomico)', 'Sbagliata', 0),
+(221, 4, 4, 'Numero ossidazione di un atomo in composto', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(221, 5, 1, 'Produzione acido solforico (processo contatto), ammoniaca (Haber-Bosch)', 'Corretta', 10),
+(221, 5, 2, 'Produzione etilene o polietilene', 'Sbagliata', 0), -- Chimica organica/polimeri
+(221, 5, 3, 'Sintesi di un farmaco complesso', 'Sbagliata', 0), -- Chimica organica/farmaceutica
+(221, 5, 4, 'Raffinazione del petrolio', 'Sbagliata', 0); -- Processo fisico/chimico (prevalentemente organica)
+
+-- Quiz 222: Geologia
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(222, 1, 1, 'Suddivisione storia Terra in Ere, Periodi, Epoche; basata su eventi geologici/biologici', 'Corretta', 10),
+(222, 1, 2, 'Scala per misurare durezza minerali (Scala Mohs)', 'Sbagliata', 0),
+(222, 1, 3, 'Scala per misurare magnitudo terremoti (Scala Richter)', 'Sbagliata', 0),
+(222, 1, 4, 'Classificazione dei tipi di suolo', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(222, 2, 1, 'Ciclo trasformazione rocce: Ignee -> Sedimenti -> Sedimentarie -> Metamorfiche -> Magma', 'Corretta', 10),
+(222, 2, 2, 'Ciclo dell''acqua (idrologico)', 'Sbagliata', 0),
+(222, 2, 3, 'Ciclo del carbonio (biogeochimico)', 'Sbagliata', 0),
+(222, 2, 4, 'Ciclo vitale di una stella', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(222, 3, 1, 'Processo sollevamento crosta terrestre per collisione placche tettoniche', 'Corretta', 10),
+(222, 3, 2, 'Formazione vulcani per risalita magma', 'Sbagliata', 0), -- Vulcanismo (può contribuire)
+(222, 3, 3, 'Accumulo di sedimenti sul fondo marino', 'Sbagliata', 0),
+(222, 3, 4, 'Erosione da parte di fiumi o ghiacciai', 'Sbagliata', 0); -- Processi che distruggono montagne
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(222, 4, 1, 'Resti organismi conservati nelle rocce; permettono datazione relativa e correlazione strati', 'Corretta', 10),
+(222, 4, 2, 'Minerali preziosi (gemme)', 'Sbagliata', 0),
+(222, 4, 3, 'Campioni di roccia lunare', 'Sbagliata', 0),
+(222, 4, 4, 'Strumenti litici preistorici', 'Sbagliata', 0); -- Reperti archeologici
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(222, 5, 1, 'Minerali: metalli, gemme; Energetiche: carbone, petrolio, gas naturale, uranio', 'Corretta', 10),
+(222, 5, 2, 'Acqua potabile, suolo fertile', 'Sbagliata', 0), -- Risorse naturali, ma non strettamente geologiche in questo senso
+(222, 5, 3, 'Legname, prodotti agricoli', 'Sbagliata', 0), -- Risorse biologiche/agricole
+(222, 5, 4, 'Energia solare, eolica', 'Sbagliata', 0); -- Fonti energetiche rinnovabili (non geologiche)
+
+-- Quiz 223: Storia romana
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(223, 1, 1, 'Senato, Consoli, Pretori, Assemblee popolari (Comizi)', 'Corretta', 10),
+(223, 1, 2, 'Imperatore, Guardia Pretoriana, Burocrazia imperiale', 'Sbagliata', 0), -- Impero
+(223, 1, 3, 'Re, Consiglio degli Anziani', 'Sbagliata', 0), -- Monarchia arcaica
+(223, 1, 4, 'Dittatore, Magister Equitum', 'Sbagliata', 0); -- Magistrature straordinarie
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(223, 2, 1, 'Mario vs Silla, Cesare vs Pompeo, Ottaviano vs Antonio', 'Corretta', 10),
+(223, 2, 2, 'Guerre Puniche (Roma vs Cartagine)', 'Sbagliata', 0),
+(223, 2, 3, 'Guerre Sannitiche', 'Sbagliata', 0),
+(223, 2, 4, 'Rivolte degli schiavi (es. Spartaco)', 'Sbagliata', 0);
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(223, 3, 1, 'Generale e politico, conquistò Gallia, divenne dittatore perpetuo, assassinato 44 a.C.', 'Corretta', 10),
+(223, 3, 2, 'Primo imperatore romano (Augusto)', 'Sbagliata', 0),
+(223, 3, 3, 'Filosofo e oratore romano (Cicerone)', 'Sbagliata', 0),
+(223, 3, 4, 'Imperatore che perseguitò i cristiani (Nerone)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(223, 4, 1, 'Vita urbana (terme, giochi), famiglia patriarcale, religione politeista poi cristianesimo', 'Corretta', 10),
+(223, 4, 2, 'Vita nomade basata su pastorizia', 'Sbagliata', 0),
+(223, 4, 3, 'Società isolata dedicata alla meditazione', 'Sbagliata', 0),
+(223, 4, 4, 'Cultura basata esclusivamente sulla guerra', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(223, 5, 1, 'Acquedotti, Strade (vie consolari), Ponti, Anfiteatri (Colosseo), Terme, Templi (Pantheon)', 'Corretta', 10),
+(223, 5, 2, 'Piramidi, Templi ipogei', 'Sbagliata', 0), -- Egizi
+(223, 5, 3, 'Cattedrali gotiche', 'Sbagliata', 0), -- Medievali
+(223, 5, 4, 'Ziggurat mesopotamiche', 'Sbagliata', 0);
+
+-- Quiz 224: Matematica di base
+-- Domanda 1
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(224, 1, 1, 'Numeri positivi, negativi e zero; si opera con regole segni', 'Corretta', 10),
+(224, 1, 2, 'Solo numeri positivi (Numeri naturali > 0)', 'Sbagliata', 0),
+(224, 1, 3, 'Numeri esprimibili come frazioni (Numeri razionali)', 'Sbagliata', 0),
+(224, 1, 4, 'Numeri con parte decimale non periodica (Numeri irrazionali)', 'Sbagliata', 0);
+-- Domanda 2
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(224, 2, 1, 'Cubo: Area=6*l², Vol=l³; Parall: Area=2(ab+bc+ac), Vol=abc; Cil: Area=2πr(h+r), Vol=πr²h', 'Corretta', 10),
+(224, 2, 2, 'Solo sommando le lunghezze dei lati', 'Sbagliata', 0), -- Perimetro
+(224, 2, 3, 'Usando il teorema di Pitagora', 'Sbagliata', 0),
+(224, 2, 4, 'Moltiplicando tutte le dimensioni tra loro', 'Sbagliata', 0); -- Volume, ma formula specifica varia
+-- Domanda 3
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(224, 3, 1, 'Sistema misura basato su metro/litro/grammo con multipli/sottomultipli decimali (kilo, etto, deca, deci, centi, milli)', 'Corretta', 10),
+(224, 3, 2, 'Sistema misura anglosassone (pollici, piedi, miglia, libbre)', 'Sbagliata', 0),
+(224, 3, 3, 'Sistema di numerazione binario (0, 1)', 'Sbagliata', 0),
+(224, 3, 4, 'Sistema per misurare il tempo (secondi, minuti, ore)', 'Sbagliata', 0);
+-- Domanda 4
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(224, 4, 1, 'Uguaglianza tra due rapporti (a:b = c:d); x = (b*c)/a se x è termine incognito', 'Corretta', 10),
+(224, 4, 2, 'Una frazione con denominatore 100 (Percentuale)', 'Sbagliata', 0),
+(224, 4, 3, 'Il calcolo dell''interesse semplice', 'Sbagliata', 0),
+(224, 4, 4, 'La media aritmetica di tre numeri', 'Sbagliata', 0);
+-- Domanda 5
+INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
+(224, 5, 1, 'Somma dei valori divisa per il numero dei valori', 'Corretta', 10),
+(224, 5, 2, 'Il valore centrale in una serie ordinata (Mediana)', 'Sbagliata', 0),
+(224, 5, 3, 'Il valore più frequente in una serie (Moda)', 'Sbagliata', 0),
+(224, 5, 4, 'La differenza tra valore massimo e minimo (Campo di variazione)', 'Sbagliata', 0);
+
+
+
+-- Quiz 482: Programmazione Python
 -- Domanda 1
 INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 (482, 1, 1, 'Interi (int), float, stringhe (str), booleani (bool), liste (list), tuple (tuple), dizionari (dict)', 'Corretta', 10),
