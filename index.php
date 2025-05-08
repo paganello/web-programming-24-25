@@ -2,7 +2,8 @@
 /**
  * Home page dell'applicazione Quiz Online.
  */
-include 'includes/header.php'; // Assicurati che questo includa Font Awesome e link al style.css corretto
+include 'includes/header.php'; 
+
 
 $today = date('Y-m-d');
 
@@ -88,7 +89,6 @@ try {
     $total_quizzes = (int)$count_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 } catch (PDOException $e) {
     error_log("Errore nella query di conteggio: " . $e->getMessage());
-    // Nessun alert per l'utente, l'errore è solo loggato. $total_quizzes rimarrà 0.
 }
 
 $total_pages = ($total_quizzes > 0) ? ceil($total_quizzes / $per_page) : 1;
@@ -116,7 +116,6 @@ try {
     $quizzes_to_display = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Errore nella query principale: " . $e->getMessage());
-    // Nessun alert per l'utente, l'errore è solo loggato. $quizzes_to_display rimarrà vuoto.
 }
 
 $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disponibili";
