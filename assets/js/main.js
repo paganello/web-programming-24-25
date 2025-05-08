@@ -612,3 +612,177 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Aggiunge effetti interattivi ai pulsanti di paginazione
+    const paginationLinks = document.querySelectorAll('.compact-pagination .page-item:not(.disabled)');
+    
+    paginationLinks.forEach(link => {
+        // Skip se è la pagina attiva
+        if (link.classList.contains('active')) return;
+        
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Effetto visivo per indicare il caricamento
+            const originalContent = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            this.style.pointerEvents = 'none';
+            
+            // Scorri dolcemente verso l'alto se necessario
+            if (window.scrollY > 100) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+                // Ritarda il cambio di pagina per permettere lo scroll
+                setTimeout(() => {
+                    window.location.href = this.getAttribute('href');
+                }, 300);
+            } else {
+                // Cambia pagina immediatamente se già in cima
+                setTimeout(() => {
+                    window.location.href = this.getAttribute('href');
+                }, 150);
+            }
+        });
+    });
+    
+    // Evidenzia la pagina corrente
+    function highlightCurrentPage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = urlParams.get('page') || '1';
+        
+        document.querySelectorAll('.compact-pagination .page-item').forEach(item => {
+            if (item.textContent.trim() === currentPage) {
+                item.classList.add('active');
+                item.setAttribute('aria-current', 'page');
+            }
+        });
+    }
+    
+    // Esegui al caricamento della pagina
+    highlightCurrentPage();
+    
+    // Migliora l'accessibilità
+    const paginationElement = document.querySelector('.compact-pagination');
+    if (paginationElement) {
+        paginationElement.setAttribute('role', 'navigation');
+        paginationElement.setAttribute('aria-label', 'Paginazione dei risultati');
+        
+        document.querySelectorAll('.compact-pagination .page-item').forEach(item => {
+            if (!item.hasAttribute('aria-current')) {
+                item.setAttribute('role', 'button');
+            }
+        });
+    }
+});
+
+    // Migliora l'esperienza utente con il selettore "elementi per pagina"
+    const perPageSelect = document.getElementById('per_page_select');
+    if (perPageSelect) {
+        perPageSelect.addEventListener('change', function() {
+            // Feedback visivo
+            this.style.opacity = '0.7';
+            
+            // Assicurati di tornare alla prima pagina quando cambi il numero di elementi per pagina
+            const form = document.getElementById('per-page-form');
+            const pageInput = document.createElement('input');
+            pageInput.type = 'hidden';
+            pageInput.name = 'page';
+            pageInput.value = '1';
+            form.appendChild(pageInput);
+            
+            // Submit del form dopo un breve ritardo per feedback visivo
+            setTimeout(() => {
+                form.submit();
+            }, 200);
+        });
+    }
+    
+    // Migliora l'esperienza utente con il selettore "ordina per"
+    const sortBySelect = document.getElementById('sort_by_inline');
+    if (sortBySelect) {
+        sortBySelect.addEventListener('change', function() {
+            // Feedback visivo
+            this.style.opacity = '0.7';
+            
+            // Submit del form dopo un breve ritardo per feedback visivo
+            setTimeout(() => {
+                document.getElementById('sort-form').submit();
+            }, 200);
+        });
+    }
+    
+    // Aggiungi tooltip sui pulsanti di paginazione per migliorare l'UX
+    const addPaginationTooltips = () => {
+        document.querySelectorAll('.pagination-btn, .pagination-number').forEach(link => {
+            if (link.classList.contains('disabled')) {
+                link.setAttribute('title', 'Pagina non disponibile');
+            } else if (link.classList.contains('active')) {
+                link.setAttribute('title', 'Pagina corrente');
+            } else if (link.textContent.includes('Precedente')) {
+                link.setAttribute('title', 'Vai alla pagina precedente');
+            } else if (link.textContent.includes('Successiva')) {
+                link.setAttribute('title', 'Vai alla pagina successiva');
+            } else {
+                link.setAttribute('title', 'Vai alla pagina ' + link.textContent);
+            }
+        });
+    };
+    
+    // Esegui l'aggiunta dei tooltip
+    addPaginationTooltips();
+    
+    // Aggiungi ARIA roles per migliorare l'accessibilità
+    const enhanceAccessibility = () => {
+        const paginationElement = document.querySelector('.pagination');
+        if (paginationElement) {
+            paginationElement.setAttribute('role', 'navigation');
+            paginationElement.setAttribute('aria-label', 'Paginazione dei risultati');
+        }
+    
+        document.querySelectorAll('.pagination-btn, .pagination-number').forEach(link => {
+            link.setAttribute('role', 'button');
+        });
+    };
+    
+    // Migliora l'accessibilità
+    enhanceAccessibility();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestione del cambio elementi per pagina
+        document.getElementById('per_page_select').addEventListener('change', function() {
+            document.getElementById('per-page-form').submit();
+        });
+    
+        // Gestione del cambio ordinamento
+        document.getElementById('sort_by_inline').addEventListener('change', function() {
+            document.getElementById('sort-form').submit();
+        });
+    
+        // Gestione del pulsante reset
+        document.getElementById('reset-form').addEventListener('click', function() {
+            window.location.href = 'index.php';
+        });
+    
+        // Gestione della checkbox "Solo quiz disponibili ora"
+        document.getElementById('search_disponibile_ora_sidebar').addEventListener('change', function() {
+            if (this.checked) {
+                // Disabilita i campi data se "Solo quiz disponibili ora" è selezionato
+                document.getElementById('search_data_inizio_da_sidebar').disabled = true;
+                document.getElementById('search_data_fine_a_sidebar').disabled = true;
+            } else {
+                // Riabilita i campi data
+                document.getElementById('search_data_inizio_da_sidebar').disabled = false;
+                document.getElementById('search_data_fine_a_sidebar').disabled = false;
+            }
+        });
+    
+        // Verifica lo stato iniziale della checkbox
+        if (document.getElementById('search_disponibile_ora_sidebar').checked) {
+            document.getElementById('search_data_inizio_da_sidebar').disabled = true;
+            document.getElementById('search_data_fine_a_sidebar').disabled = true;
+        }
+    });

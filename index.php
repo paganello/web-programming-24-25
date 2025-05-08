@@ -3,7 +3,7 @@
  * Home page dell'applicazione Quiz Online.
  *
  * Questa pagina rappresenta il punto di ingresso dell'applicazione e
- * include funzionalità di ricerca avanzata dei quiz.
+ * include funzionalità di ricerca avanzata dei quiz e paginazione dei risultati.
  */
 include 'includes/header.php';
 
@@ -18,10 +18,22 @@ $search_data_inizio_da = isset($_GET['search_data_inizio_da']) && !empty($_GET['
 $search_data_fine_a = isset($_GET['search_data_fine_a']) && !empty($_GET['search_data_fine_a']) ? trim($_GET['search_data_fine_a']) : '';
 $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'codice_desc'; // Default: più recente
 
+// --- PARAMETRI PAGINAZIONE ---
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 20; // Default: 20 quiz per pagina
+$valid_per_page_options = [10, 20, 50, 100];
+
+// Validazione dei parametri di paginazione
+if ($page < 1) $page = 1;
+if (!in_array($per_page, $valid_per_page_options)) $per_page = 20;
+
 // Determina se è stata effettuata una ricerca (se il form è stato inviato o ci sono parametri attivi)
 $is_search_active = isset($_GET['perform_search']) || !empty($search_titolo) || !empty($search_creatore) || $search_disponibile_ora || !empty($search_data_inizio_da) || !empty($search_data_fine_a);
 
-// --- COSTRUZIONE QUERY ---
+// --- COSTRUZIONE QUERY COUNT TOTALE ---
+$count_sql = "SELECT COUNT(*) as total FROM Quiz q JOIN Utente u ON q.creatore = u.nomeUtente";
+
+// --- COSTRUZIONE QUERY PRINCIPALE ---
 $sql = "SELECT q.*, u.nome, u.cognome
         FROM Quiz q
         JOIN Utente u ON q.creatore = u.nomeUtente";
@@ -35,7 +47,7 @@ if ($is_search_active) {
         $conditions[] = "q.titolo LIKE :search_titolo";
         $params[':search_titolo'] = '%' . $search_titolo . '%';
     }
-    // INIZIO DELLA MODIFICA APPLICATA (Soluzione 1)
+    
     if (!empty($search_creatore)) {
         $conditions[] = "(u.nomeUtente LIKE :search_creatore_un OR u.nome LIKE :search_creatore_n OR u.cognome LIKE :search_creatore_c)";
         $search_creatore_param = '%' . $search_creatore . '%';
@@ -43,7 +55,6 @@ if ($is_search_active) {
         $params[':search_creatore_n'] = $search_creatore_param;
         $params[':search_creatore_c'] = $search_creatore_param;
     }
-    // FINE DELLA MODIFICA APPLICATA
 
     if ($search_disponibile_ora) {
         $conditions[] = "q.dataInizio <= :today_available AND q.dataFine >= :today_available";
@@ -58,7 +69,8 @@ if ($is_search_active) {
             $params[':search_data_fine_a'] = $search_data_fine_a;
         }
     }
-    // ... (resto della logica dei filtri) ...
+    
+    // Se non ci sono filtri di data specifici, mostra solo quiz non scaduti di default
     if (!$search_disponibile_ora && empty($search_data_inizio_da) && empty($search_data_fine_a)) {
         $conditions[] = "q.dataFine >= :today_default_search_filter";
         $params[':today_default_search_filter'] = $today;
@@ -72,6 +84,7 @@ if ($is_search_active) {
 
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
+    $count_sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
 // Ordinamento
@@ -86,6 +99,28 @@ switch ($sort_by) {
 }
 $sql .= $orderByClause;
 
+// --- CONTEGGIO TOTALE QUIZ ---
+$total_quizzes = 0;
+try {
+    $count_stmt = $pdo->prepare($count_sql);
+    $count_stmt->execute($params);
+    $total_quizzes = (int)$count_stmt->fetch(PDO::FETCH_ASSOC)['total'];
+} catch (PDOException $e) {
+    // Log error and display user-friendly message
+    error_log("Errore nella query di conteggio: " . $e->getMessage());
+    $error_message = "Si è verificato un errore durante il recupero dei quiz. Riprova più tardi.";
+}
+
+// Calcolo delle pagine totali
+$total_pages = ceil($total_quizzes / $per_page);
+if ($page > $total_pages && $total_pages > 0) $page = $total_pages;
+
+// Aggiunta LIMIT alla query principale per la paginazione
+$offset = ($page - 1) * $per_page;
+$sql .= " LIMIT :offset, :per_page";
+$params[':offset'] = $offset;
+$params[':per_page'] = $per_page;
+
 // --- ESECUZIONE QUERY ---
 $quizzes_to_display = [];
 try {
@@ -93,7 +128,8 @@ try {
     $stmt->execute($params);
     $quizzes_to_display = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Errore nella query: " . $e->getMessage() . "<pre>$sql</pre>" . print_r($params, true));
+    error_log("Errore nella query principale: " . $e->getMessage());
+    $error_message = "Si è verificato un errore durante il recupero dei quiz. Riprova più tardi.";
 }
 
 $page_content_title = $is_search_active ? "Risultati della ricerca" : "Quiz disponibili";
@@ -131,6 +167,11 @@ echo '<script src="assets/js/search-filter.js" defer></script>';
                     <input type="date" id="search_data_fine_a_sidebar" name="search_data_fine_a" value="<?php echo htmlspecialchars($search_data_fine_a); ?>">
                 </div>
 
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="search_disponibile_ora_sidebar" name="search_disponibile_ora" <?php if ($search_disponibile_ora) echo 'checked'; ?>>
+                    <label for="search_disponibile_ora_sidebar">Solo quiz disponibili ora</label>
+                </div>
+
                 <div class="form-actions-sidebar">
                     <button type="submit" class="btn" style="margin-bottom: 10px;"><i class="fas fa-search"></i> Cerca</button>
                     <button type="button" id="reset-form" class="btn-secondary"><i class="fas fa-undo"></i> Resetta Filtri</button>
@@ -159,28 +200,62 @@ echo '<script src="assets/js/search-filter.js" defer></script>';
             </div>
         <?php endif; ?>
 
-        <div class="results-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 20px;">
-    <h2 style="margin: 0;"><?php echo htmlspecialchars($page_content_title); ?></h2>
+        <?php if (isset($error_message)): ?>
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> <?php echo $error_message; ?>
+            </div>
+        <?php endif; ?>
 
-    <form method="GET" id="sort-form" style="margin: 0;">
-        <?php
-        foreach ($_GET as $key => $value) {
-            if ($key !== 'sort_by') {
-                echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
-            }
-        }
-        ?>
-        <label for="sort_by_inline" style="margin-right: 8px;">Ordina per:</label>
-        <select id="sort_by_inline" name="sort_by" onchange="document.getElementById('sort-form').submit()" style="max-width: 220px;">
-            <option value="codice_desc" <?php if ($sort_by == 'codice_desc') echo 'selected'; ?>>Più Recenti (Default)</option>
-            <option value="codice_asc" <?php if ($sort_by == 'codice_asc') echo 'selected'; ?>>Meno Recenti</option>
-            <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc') echo 'selected'; ?>>Titolo (A-Z)</option>
-            <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
-            <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
-            <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
-        </select>
-    </form>
-</div>
+        <div class="results-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 20px;">
+            <h2 style="margin: 0;">
+                <i class="fas <?php echo $is_search_active ? 'fa-search' : 'fa-list-ul'; ?>"></i>
+                <?php echo htmlspecialchars($page_content_title); ?> 
+                <small>(<?php echo $total_quizzes; ?> quiz trovati)</small>
+            </h2>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <form method="GET" id="per-page-form" style="margin: 0;">
+                    <?php
+                    // Mantieni gli altri parametri di ricerca
+                    foreach ($_GET as $key => $value) {
+                        if ($key !== 'per_page' && $key !== 'page') {
+                            echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+                        }
+                    }
+                    ?>
+                    <label for="per_page_select" style="margin-right: 8px;">
+                        <i class="fas fa-th-list"></i> Elementi:
+                    </label>
+                    <select id="per_page_select" name="per_page" aria-label="Elementi per pagina" style="max-width: 80px;">
+                        <?php foreach ($valid_per_page_options as $option): ?>
+                            <option value="<?php echo $option; ?>" <?php if ($per_page == $option) echo 'selected'; ?>><?php echo $option; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
+
+                <form method="GET" id="sort-form" style="margin: 0;">
+                    <?php
+                    // Mantieni gli altri parametri di ricerca e paginazione
+                    foreach ($_GET as $key => $value) {
+                        if ($key !== 'sort_by') {
+                            echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+                        }
+                    }
+                    ?>
+                    <label for="sort_by_inline" style="margin-right: 8px;">
+                        <i class="fas fa-sort"></i> Ordina:
+                    </label>
+                    <select id="sort_by_inline" name="sort_by" aria-label="Criterio di ordinamento" style="max-width: 220px;">
+                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc') echo 'selected'; ?>>Più Recenti (Default)</option>
+                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc') echo 'selected'; ?>>Meno Recenti</option>
+                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc') echo 'selected'; ?>>Titolo (A-Z)</option>
+                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
+                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
+                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
+                    </select>
+                </form>
+            </div>
+        </div>
 
         <?php if (empty($quizzes_to_display)): ?>
             <?php if ($is_search_active): ?>
@@ -235,6 +310,92 @@ echo '<script src="assets/js/search-filter.js" defer></script>';
                     </div>
                 <?php endforeach; ?>
             </div>
+
+            <!-- Paginazione -->
+            <?php if ($total_pages > 1): ?>
+                <div class="pagination">
+                    <div class="pagination-wrapper">
+                        <div class="pagination-info">
+                            <i class="fas fa-info-circle"></i>
+                            Visualizzazione <?php echo ($offset + 1); ?>-<?php echo min($offset + $per_page, $total_quizzes); ?> di <?php echo $total_quizzes; ?> quiz
+                        </div>
+                        <div class="pagination-controls">
+                            <?php
+                            // Funzione helper per generare link di paginazione mantenendo i parametri di ricerca
+                            function getPaginationUrl($page_num) {
+                                $params = $_GET;
+                                $params['page'] = $page_num;
+                                return '?' . http_build_query($params);
+                            }
+                            ?>
+
+                            <div class="compact-pagination" role="navigation" aria-label="Paginazione">
+                                <!-- Pulsante Precedente -->
+                                <?php if ($page > 1): ?>
+                                    <a href="<?php echo getPaginationUrl($page - 1); ?>" class="page-item page-nav" title="Vai alla pagina precedente">
+                                        <i class="fas fa-chevron-left"></i> Prec
+                                    </a>
+                                <?php else: ?>
+                                    <span class="page-item page-nav disabled" title="Sei alla prima pagina">
+                                        <i class="fas fa-chevron-left"></i> Prec
+                                    </span>
+                                <?php endif; ?>
+
+                                <!-- Prima pagina (sempre visibile) -->
+                                <a href="<?php echo getPaginationUrl(1); ?>" class="page-item <?php echo ($page == 1) ? 'active' : ''; ?>" title="Vai alla prima pagina">1</a>
+
+                                <!-- Gestione dei puntini di sospensione iniziali -->
+                                <?php
+                                $start_ellipsis = false;
+                                $start = 2;
+                                
+                                if ($page > 4) {
+                                    $start_ellipsis = true;
+                                    $start = max(2, $page - 1);
+                                }
+                                
+                                if ($start_ellipsis): ?>
+                                    <span class="page-dots">...</span>
+                                <?php endif; ?>
+
+                                <!-- Pagine centrali -->
+                                <?php
+                                for ($i = $start; $i <= min($total_pages - 1, max($page + 1, 5)); $i++):
+                                    $is_nearby = abs($i - $page) <= 1;
+                                    $optional_class = $is_nearby ? '' : 'optional';
+                                ?>
+                                    <a href="<?php echo getPaginationUrl($i); ?>" class="page-item <?php echo ($page == $i) ? 'active' : ''; ?> <?php echo $optional_class; ?>" title="Vai alla pagina <?php echo $i; ?>">
+                                        <?php echo $i; ?>
+                                    </a>
+                                <?php endfor; ?>
+
+                                <!-- Gestione dei puntini di sospensione finali -->
+                                <?php if ($page < $total_pages - 3): ?>
+                                    <span class="page-dots">...</span>
+                                <?php endif; ?>
+
+                                <!-- Ultima pagina (sempre visibile se ci sono più di una pagina) -->
+                                <?php if ($total_pages > 1): ?>
+                                    <a href="<?php echo getPaginationUrl($total_pages); ?>" class="page-item <?php echo ($page == $total_pages) ? 'active' : ''; ?>" title="Vai all'ultima pagina">
+                                        <?php echo $total_pages; ?>
+                                    </a>
+                                <?php endif; ?>
+
+                                <!-- Pulsante Successiva -->
+                                <?php if ($page < $total_pages): ?>
+                                    <a href="<?php echo getPaginationUrl($page + 1); ?>" class="page-item page-nav" title="Vai alla pagina successiva">
+                                        Succ <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="page-item page-nav disabled" title="Sei all'ultima pagina">
+                                        Succ <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </div>
