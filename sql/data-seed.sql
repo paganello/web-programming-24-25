@@ -1,3 +1,11 @@
+/**
+500 utenti con nomi, cognomi e email italianizzati
+500 quiz su vari argomenti (Storia Italiana, Matematica, Cultura Generale, ecc.)
+5 domande per ogni quiz
+4 possibili risposte per ogni domanda, con indicazione della risposta corretta e dei punteggi
+200 partecipazioni degli utenti ai quiz
+*/
+
 -- Popolamento tabella Utente con 500 record
 INSERT INTO Utente (nomeUtente, nome, cognome, eMail) VALUES
 ('beatrice_barberini', 'Beatrice', 'Barberini', 'beatrice.barberini@example.com'),
@@ -622,6 +630,22 @@ INSERT INTO Quiz (titolo, dataInizio, dataFine, creatore) VALUES
 ('Chimica industriale', '2025-08-05', '2025-08-15', 'nedda_moschino'),
 ('Biologia evolutiva', '2025-08-10', '2025-08-20', 'giovanni_zaccagnini'),
 ('Storia dell Africa', '2025-08-15', '2025-08-25', 'edoardo_amato'),
+('Letteratura giapponese', '2025-08-20', '2025-08-30', 'calogero_ritacca'),
+('Filosofia orientale', '2025-08-25', '2025-09-05', 'tonino_nitti'),
+('Psicologia clinica', '2025-09-01', '2025-09-10', 'franco_faranda'),
+('Economia politica', '2025-09-05', '2025-09-15', 'flora_ceci'),
+('Sociologia rurale', '2025-09-10', '2025-09-20', 'tonino_stradivari'),
+('Antropologia fisica', '2025-09-15', '2025-09-25', 'giulietta_lombardi'),
+('Storia dell Oceania', '2025-09-20', '2025-09-30', 'carolina_tomasini'),
+('Letteratura africana', '2025-09-25', '2025-10-05', 'licia_greggio'),
+('Fisica nucleare', '2025-10-01', '2025-10-10', 'tiziano_antonacci'),
+('Chimica ambientale', '2025-10-05', '2025-10-15', 'dina_argenti'),
+('Geografia economica', '2025-10-10', '2025-10-20', 'durante_palombi'),
+('Storia dell America', '2025-10-15', '2025-10-25', 'uberto_gravina'),
+('Matematica discreta', '2025-10-20', '2025-10-30', 'rembrandt_bergoglio'),
+('Fisica dei materiali', '2025-10-25', '2025-11-05', 'franco_garozzo'),
+('Letteratura cinese', '2025-11-01', '2025-11-10', 'goffredo_angeli'),
+('Geografia culturale', '2025-11-05', '2025-11-15', 'edoardo_amato'),
 ('Letteratura giapponese', '2025-08-20', '2025-08-30', 'calogero_ritacca'),
 ('Filosofia orientale', '2025-08-25', '2025-09-05', 'tonino_nitti'),
 ('Psicologia clinica', '2025-09-01', '2025-09-10', 'franco_faranda'),
@@ -14333,7 +14357,7 @@ INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 -- Domanda 3
 INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 (298, 3, 1, 'Samizdat: pubblicazione clandestina in URSS; Tamizdat: pubblicazione all''estero opere censurate.', 'Corretta', 10),
-(289, 3, 2, 'Riviste letterarie ufficiali approvate dal regime.', 'Sbagliata', 0),
+(298, 3, 2, 'Riviste letterarie ufficiali approvate dal regime.', 'Sbagliata', 0),
 (298, 3, 3, 'Case editrici statali.', 'Sbagliata', 0),
 (298, 3, 4, 'Archivi letterari segreti del KGB.', 'Sbagliata', 0);
 -- Domanda 4
@@ -17510,7 +17534,7 @@ INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 (397, 3, 1, 'Regime militare feudale (XVII-XIX sec.); politica isolazionista (sakoku) per limitare influenze straniere, stabilità interna, sviluppo cultura urbana.', 'Corretta', 10),
 (397, 3, 2, 'Periodo Nara (adozione modello cinese).', 'Sbagliata', 0),
-(379, 3, 3, 'Periodo Heian (corte imperiale raffinata).', 'Sbagliata', 0),
+(397, 3, 3, 'Periodo Heian (corte imperiale raffinata).', 'Sbagliata', 0),
 (397, 3, 4, 'Restaurazione Meiji (modernizzazione, apertura).', 'Sbagliata', 0);
 -- Domanda 4
 INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
@@ -19991,9 +20015,9 @@ INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 -- Domanda 5
 INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES
 (474, 5, 1, 'Costruzione statale, autoritarismo, gestione risorse (petrolio, gas), influenza potenze esterne (Russia, Cina, USA), questioni identitarie/religiose.', 'Corretta', 10),
-(475, 5, 2, 'Immediata transizione a democrazie liberali stabili.', 'Sbagliata', 0),
-(475, 5, 3, 'Isolamento economico e politico totale.', 'Sbagliata', 0),
-(475, 5, 4, 'Unificazione in un unico stato centroasiatico.', 'Sbagliata', 0);
+(474, 5, 2, 'Immediata transizione a democrazie liberali stabili.', 'Sbagliata', 0),
+(474, 5, 3, 'Isolamento economico e politico totale.', 'Sbagliata', 0),
+(474, 5, 4, 'Unificazione in un unico stato centroasiatico.', 'Sbagliata', 0);
 
 -- Quiz 475: Letteratura americana e poesia
 -- Domanda 1
@@ -20953,10 +20977,20 @@ INSERT INTO Partecipazione (utente, quiz, data) VALUES
 ('lando_galilei', 184, '2025-07-17'),
 ('rocco_baggio', 185, '2025-07-22'),
 ('severino_scarpa', 186, '2025-07-27'),
-('iolanda_casellati', 187, '2025-08-01');
-
--- Popolamento tabella RispostaUtenteQuiz (risposte degli utenti alle domande)
--- Popolamento tabella RispostaUtenteQuiz (risposte per 200 partecipazioni)
+('iolanda_casellati', 187, '2025-08-01'),
+('sante_baracca', 188, '2025-08-06'),
+('mattia_mazzacurati', 189, '2025-08-11'),
+('tonia_gucci', 190, '2025-08-16'),
+('flavio_cilea', 191, '2025-08-21'),
+('nino_versace', 192, '2025-08-26'),
+('barbara_babbo', 193, '2025-08-31'),
+('ignazio_stefanelli', 194, '2025-09-05'),
+('tonia_ferrata', 195, '2025-09-10'),
+('lucia_boaga', 196, '2025-09-15'),
+('rodolfo_filippini', 197, '2025-09-20'),
+('loretta_mercadante', 198, '2025-09-25'),
+('cecilia_tomei', 199, '2025-09-30'),
+('calogero_scarlatti', 200, '2025-10-05');
 
 -- Partecipazione 1: beatrice_barberini al Quiz 1
 INSERT INTO RispostaUtenteQuiz (partecipazione, quiz, domanda, risposta) VALUES
