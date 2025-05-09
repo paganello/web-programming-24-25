@@ -24,9 +24,9 @@ header('Content-Type: application/json');
 function isAuthenticated() {
     return isset($_SESSION['user']) && !empty($_SESSION['user']['nomeUtente']);
 }
-function isOwnerOfQuiz($pdo, $idQuiz, $nomeUtente) {
-    $stmt = $pdo->prepare("SELECT * FROM Quiz WHERE idQuiz = :idQuiz AND nomeUtente = :nomeUtente");
-    $stmt->bindParam(':idQuiz', $idQuiz);
+function isOwnerOfQuiz($pdo, $codice, $nomeUtente) {
+    $stmt = $pdo->prepare("SELECT * FROM Quiz WHERE codice = :codice AND nomeUtente = :nomeUtente");
+    $stmt->bindParam(':codice', $codice);
     $stmt->bindParam(':nomeUtente', $nomeUtente);
     $stmt->execute();
     return $stmt->rowCount() > 0;
