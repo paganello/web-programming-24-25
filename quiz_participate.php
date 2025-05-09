@@ -55,8 +55,11 @@ try {
         $stmt->bindParam(':domanda', $question['numero'], PDO::PARAM_INT);
         $stmt->execute();
         $question['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        shuffle($question['answers']);
     }
     unset($question);
+
+    shuffle($questions);
 
 } catch (PDOException $e) {
     die("Errore DB: " . $e->getMessage());
