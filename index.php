@@ -80,6 +80,8 @@ switch ($sort_by) {
     case 'titolo_desc': $orderByClause .= "q.titolo DESC, q.codice DESC"; break;
     case 'data_inizio_asc': $orderByClause .= "q.dataInizio ASC, q.codice DESC"; break;
     case 'data_inizio_desc': $orderByClause .= "q.dataInizio DESC, q.codice DESC"; break;
+    case 'partecipazioni_desc': $orderByClause .= "num_partecipazioni DESC, q.codice DESC"; break;
+    case 'partecipazioni_asc': $orderByClause .= "num_partecipazioni ASC, q.codice DESC"; break;
     case 'codice_desc': default: $orderByClause .= "q.codice DESC"; break;
 }
 $sql .= $orderByClause;
@@ -204,6 +206,8 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                         <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
                         <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
                         <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
+                        <option value="partecipazioni_desc" <?php if ($sort_by == 'partecipazioni_desc') echo 'selected'; ?>>Partecipazioni (Più alto)</option>
+                        <option value="partecipazioni_asc" <?php if ($sort_by == 'partecipazioni_asc') echo 'selected'; ?>>Partecipazioni (Più basso)</option>
                     </select>
                 </form>
             </div>
