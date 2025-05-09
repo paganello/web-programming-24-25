@@ -30,15 +30,19 @@ require_once 'config/database.php';
             <div class="logo">
                 <a href="index.php">QuizBG</a>
             </div>
+                  
             <div class="user-info">
                 <?php if(isset($_SESSION['user'])): ?>
-                    <span>Benvenuto, <?php echo $_SESSION['user']['nome']; ?></span>
-                    <a href="auth_logout.php">Logout</a>
+                    <span class="user-welcome-text">
+                        Benvenuto, <?php echo htmlspecialchars($_SESSION['user']['nome'], ENT_QUOTES, 'UTF-8'); ?>! &nbsp;
+                    </span>
+                    <a href="auth_logout.php" class="btn-header-auth btn-header-logout">Logout</a>
                 <?php else: ?>
-                    <a href="auth_login.php">Login</a>
-                    <a href="auth_register.php">Registrati</a>
+                    <a href="auth_login.php" class="btn-header-auth btn-header-login">Login</a> &nbsp;
+                    <a href="auth_register.php" class="btn-header-auth btn-header-register">Registrati</a>
                 <?php endif; ?>
             </div>
+
         </div>
     </header>
     
