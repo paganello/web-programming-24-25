@@ -55,12 +55,17 @@ try {
         $stmt->bindParam(':domanda', $question['numero'], PDO::PARAM_INT);
         $stmt->execute();
         $question['answers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        shuffle($question['answers']);
     }
     unset($question);
+
+    shuffle($questions);
 
 } catch (PDOException $e) {
     die("Errore DB: " . $e->getMessage());
 }
+
+$i = 0;
 ?>
 
 
@@ -78,7 +83,7 @@ try {
                 <?php foreach ($questions as $question): ?>
                     <div class="question-item">
                         <div class="question-text">
-                            Domanda <?php echo $question['numero']; ?>: <?php echo htmlspecialchars($question['testo']); ?>
+                            Domanda <?php $i++; $j = 0; echo $i; ?>: <?php echo htmlspecialchars($question['testo']); ?>
                         </div>
 
                         <div class="answer-options">
@@ -86,7 +91,7 @@ try {
                                 <div class="answer-option">
                                     <label>
                                         <input type="checkbox" name="answers[<?php echo $question['numero']; ?>][]"
-                                            value="<?php echo $answer['numero']; ?>">
+                                            value="<?php $j++; echo $i; ?>">
                                         <?php echo htmlspecialchars($answer['testo']); ?>
                                     </label>
                                 </div>
