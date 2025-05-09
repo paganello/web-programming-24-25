@@ -13,22 +13,41 @@ function checkDateRange(startDate, endDate) {
     return null;
 }
 
-function showAlert(message, type = 'info', containerSelector = '#alert-container') {
-    // Questa funzione showAlert è per gli alert generati da JavaScript.
-    // Il PHP non genererà più alert visivi all'utente in base alle modifiche recenti.
-    const alertHtml = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                            ${message}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                       </div>`;
+// assets/js/main.js
+
+function showAlert(message, type = 'info', containerSelector = '#alert-container-page') { // Default a #alert-container-page per quiz_create
+    // type può essere 'info', 'success', 'warning', 'danger'
+    const alertId = 'custom-alert-' + Date.now(); // ID unico per l'alert
+    const alertHtml = `
+        <div id="${alertId}" class="custom-alert custom-alert-${type}" role="alert">
+            <span class="custom-alert-message">${message}</span>
+            <button type="button" class="custom-alert-close" aria-label="Close">×</button>
+        </div>`;
+
     let $alertContainer = $(containerSelector);
     if (!$alertContainer.length) {
-        $('body').prepend('<div id="alert-container-fallback" style="position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; width:80%; max-width:600px;"></div>');
+        // Fallback se il contenitore specificato non esiste
+        $('body').prepend('<div id="alert-container-fallback" class="custom-alert-fallback-container"></div>');
         $alertContainer = $('#alert-container-fallback');
     }
-    $alertContainer.html(alertHtml);
-    if (type !== 'danger' && type !== 'error') { // Non far sparire automaticamente gli errori critici
+
+    // Rimuovi alert precedenti dallo stesso contenitore per evitare sovrapposizioni
+    // se non sono auto-dismissed o se l'utente clicca velocemente.
+    $alertContainer.find('.custom-alert').remove();
+    
+    $alertContainer.append(alertHtml); // Usa append invece di html per non sovrascrivere altri eventuali contenuti del container
+
+    const $currentAlert = $('#' + alertId);
+
+    // Gestione chiusura
+    $currentAlert.find('.custom-alert-close').on('click', function() {
+        $currentAlert.fadeOut(300, function() { $(this).remove(); });
+    });
+
+    // Auto-dismiss per tipi non critici
+    if (type !== 'danger' && type !== 'error' && type !== 'warning') { // Modificato per non far sparire warning
         setTimeout(function () {
-            $alertContainer.find('.alert').fadeOut(500, function() { $(this).remove(); });
+            $currentAlert.fadeOut(500, function() { $(this).remove(); });
         }, 5000);
     }
 }
@@ -37,25 +56,61 @@ function showEditAlerts(message, type) { // Specifica per form di modifica, usa 
     showAlert(message, type, '#form-messages');
 }
 
-function renumberQuestions() { /* ... codice per rinumerare domande in create quiz ... */
+function renumberQuestions() {
+    $('#no-questions-message').toggle($('#questions-container .question-block').length === 0);
+
     $('.question-block').each(function (index) {
-        const qNum = index + 1;
+        const qNum = index + 1; // 1-based index
         $(this).attr('data-question', qNum);
-        $(this).find('label[for^="question-"]').first().attr('for', `question-${qNum}`).text(`Testo della domanda ${qNum}`);
-        $(this).find('textarea[id^="question-"]').attr('id', `question-${qNum}`).attr('name', `questions[${qNum}][text]`);
+        $(this).find('.question-number').text(qNum); // Aggiorna il numero visualizzato
+        $(this).find('label[for^="question-"]').first().attr('for', `question-${qNum}`); // Etichetta testo domanda
+        $(this).find('textarea[id^="question-"]').attr({
+            'id': `question-${qNum}`,
+            'name': `questions[${qNum}][text]`
+        });
+        
         const answersContainer = $(this).find('.answers-container');
         answersContainer.attr('id', `answers-container-${qNum}`);
+        
         $(this).find('.add-answer').data('question', qNum);
-        $(this).find('.remove-question').data('question', qNum).text(`Rimuovi Domanda ${qNum}`); // Aggiorna testo bottone
+        $(this).find('.remove-question').data('question', qNum).attr('title', `Rimuovi Domanda ${qNum}`);
+        // Potresti anche aggiornare il testo del bottone se non usi solo title e icona
+        // $(this).find('.remove-question').html(`<i class="fas fa-trash"></i> Rimuovi Domanda ${qNum}`);
+
+
         answersContainer.find('.answer-block').each(function (aIndex) {
-            const aNum = aIndex + 1;
+            const aNum = aIndex + 1; // 1-based index
             $(this).attr('data-answer', aNum);
-            $(this).find('label[for^="question-"]').first().attr('for', `question-${qNum}-answer-${aNum}`).text(`Risposta ${aNum}`);
-            $(this).find('input[type="text"][id^="question-"]').attr({'id': `question-${qNum}-answer-${aNum}`, 'name': `questions[${qNum}][answers][${aNum}][text]`});
-            $(this).find('input[type="radio"][name$="[type]"]').attr('name', `questions[${qNum}][answers][${aNum}][type]`);
-            const pointsGroupInput = $(this).find('.points-group input[type="number"]');
-            pointsGroupInput.attr({'id': `question-${qNum}-answer-${aNum}-points`, 'name': `questions[${qNum}][answers][${aNum}][points]`});
-            $(this).find('.points-group label').attr('for', `question-${qNum}-answer-${aNum}-points`);
+            $(this).find('.answer-number').text(aNum); // Aggiorna numero visualizzato risposta
+
+            // Label per il testo della risposta
+            $(this).find('label[for^="question-"][for*="-answer-"]').attr('for', `question-${qNum}-answer-${aNum}`);
+            
+            // Input testo risposta
+            $(this).find('input[type="text"][id^="question-"]').attr({
+                'id': `question-${qNum}-answer-${aNum}`,
+                'name': `questions[${qNum}][answers][${aNum}][text]`
+            });
+
+            // Radio buttons tipo risposta
+            $(this).find('input[type="radio"][name$="[type]"]').each(function() {
+                const radioIdBase = `question-${qNum}-answer-${aNum}-type-`;
+                const radioValue = $(this).val().toLowerCase(); // es. corretta, sbagliata
+                $(this).attr({
+                    'name': `questions[${qNum}][answers][${aNum}][type]`,
+                    'id': radioIdBase + (radioValue === 'corretta' ? 'correct' : 'wrong')
+                });
+                // Aggiorna il 'for' della label associata al radio
+                $(this).next('label.form-check-label').attr('for', radioIdBase + (radioValue === 'corretta' ? 'correct' : 'wrong'));
+            });
+            
+            // Punti
+            const pointsGroup = $(this).find('.points-group');
+            pointsGroup.find('label').attr('for', `question-${qNum}-answer-${aNum}-points`);
+            pointsGroup.find('input[type="number"]').attr({
+                'id': `question-${qNum}-answer-${aNum}-points`,
+                'name': `questions[${qNum}][answers][${aNum}][points]`
+            });
         });
     });
 }
@@ -142,25 +197,27 @@ $(document).ready(function () {
             });
         });
 
-        $('#add-question').click(function () {
-            const questionCounter = $('#questions-container .question-block').length + 1;
-            const questionHtml = `
-            <div class="question-block" data-question="${questionCounter}">
-                <div class="form-group"> <label for="question-${questionCounter}">Testo della domanda ${questionCounter}</label> <textarea name="questions[${questionCounter}][text]" id="question-${questionCounter}" class="form-control" required></textarea> </div>
-                <div class="answers-container" id="answers-container-${questionCounter}">
-                    <div class="answer-block" data-answer="1">
-                        <div class="form-group"><label for="question-${questionCounter}-answer-1">Risposta 1</label><input type="text" name="questions[${questionCounter}][answers][1][text]" id="question-${questionCounter}-answer-1" class="form-control" required></div>
-                        <div class="form-group"><label>Tipo:</label><div class="radio-group"><label class="radio-inline"><input type="radio" name="questions[${questionCounter}][answers][1][type]" value="Corretta"> Corretta</label><label class="radio-inline"><input type="radio" name="questions[${questionCounter}][answers][1][type]" value="Sbagliata" checked> Sbagliata</label></div></div>
-                        <div class="form-group points-group" style="display:none;"><label for="question-${questionCounter}-answer-1-points">Punti:</label><input type="number" name="questions[${questionCounter}][answers][1][points]" id="question-${questionCounter}-answer-1-points" class="form-control" value="1" min="0"></div>
-                        <button type="button" class="btn btn-sm btn-danger remove-answer"><i class="fas fa-times"></i> Rimuovi Risp.</button>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-sm btn-info add-answer" data-question="${questionCounter}"><i class="fas fa-plus"></i> Aggiungi Risposta</button>
-                <hr style="margin: 15px 0;">
-                <button type="button" class="btn btn-danger remove-question" data-question="${questionCounter}"><i class="fas fa-trash"></i> Rimuovi Domanda ${questionCounter}</button>
-            </div>`;
-            $('#questions-container').append(questionHtml);
-        });
+$('#add-question').click(function () {
+    $('#no-questions-message').hide(); // Nascondi il messaggio se presente
+
+    const questionCounter = $('#questions-container .question-block').length + 1;
+    const questionTemplate = document.getElementById('question-template-create').innerHTML;
+    
+    // Sostituisci i placeholder. NOTA: __Q_NUM__ viene usato per gli indici degli array,
+    // mentre il testo visualizzato "Domanda X" userà questionCounter direttamente.
+    // Se vuoi che gli array siano 0-indexed, allora dovrai usare questionCounter - 1 per gli array.
+    // Per semplicità, qui usiamo 1-indexed come nel tuo codice originale.
+    const questionHtml = questionTemplate.replace(/__Q_NUM__/g, questionCounter);
+                                    // .replace(/__Q_DISPLAY_NUM__/g, questionCounter); // Se avessi un placeholder per il numero visualizzato
+
+    $('#questions-container').append(questionHtml);
+    
+    // Aggiungi automaticamente la prima risposta alla nuova domanda
+    const newQuestionBlock = $(`#questions-container .question-block[data-question="${questionCounter}"]`);
+    addAnswerToQuestion(newQuestionBlock, questionCounter, 1); // Aggiunge la prima risposta
+    
+    renumberQuestions(); // Assicurati che questa funzione aggiorni anche i testi "Domanda X" e "Risposta Y"
+});
 
         $(document).on('click', '#questions-container .add-answer', function () {
             const questionNum = $(this).data('question');
@@ -176,18 +233,24 @@ $(document).ready(function () {
             answersContainer.append(answerHtml);
         });
 
-        $(document).on('click', '#questions-container .remove-answer', function () {
-            const questionBlock = $(this).closest('.question-block');
-            if (questionBlock.find('.answer-block').length > 1) {
-                $(this).closest('.answer-block').remove();
-                renumberQuestions();
-            } else { showAlert('Ogni domanda deve avere almeno una risposta.', 'warning'); }
-        });
+$(document).on('click', '#questions-container .remove-question', function () {
+    $(this).closest('.question-block').remove();
+    renumberQuestions(); // Questo si occuperà anche di mostrare/nascondere no-questions-message
+});
 
-        $(document).on('click', '#questions-container .remove-question', function () {
-            $(this).closest('.question-block').remove();
-            renumberQuestions();
-        });
+$(document).on('click', '#questions-container .remove-answer', function () {
+    const questionBlock = $(this).closest('.question-block');
+    if (questionBlock.find('.answer-block').length > 1) {
+        $(this).closest('.answer-block').remove();
+        // Non è necessario rinumerare l'intera lista di domande qui,
+        // ma solo le risposte all'interno di questa domanda.
+        // La funzione renumberQuestions() completa lo farà comunque.
+        // Per ottimizzare, potresti creare renumberAnswersForQuestion(questionBlock)
+        renumberQuestions(); 
+    } else { 
+        showAlert('Ogni domanda deve avere almeno una risposta.', 'warning', '#alert-container-page'); 
+    }
+});
 
         $('#save-questions').click(function () {
             const quizId = $('#quiz-id').val();
@@ -437,4 +500,106 @@ $(document).ready(function () {
             toggleDateInputsState(); // Stato iniziale
         }
     } // Fine if (pagina index)
+});
+
+// Funzione per gestire l'apertura/chiusura delle domande
+function toggleQuestion(headerElement) {
+    const questionCard = headerElement.closest('.question-card');
+    if (questionCard) {
+        const contentWrapper = questionCard.querySelector('.question-content-wrapper');
+        // Toggla la classe 'open' sulla card, che controlla lo stile CSS
+        const isOpen = questionCard.classList.toggle('open'); 
+        
+        // Aggiorna l'attributo ARIA per l'accessibilità
+        headerElement.setAttribute('aria-expanded', isOpen.toString());
+        
+        if (isOpen) {
+            // Se la domanda si sta aprendo, imposta maxHeight per l'animazione
+            // basandosi sull'altezza effettiva del suo contenuto.
+            contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
+        } else {
+            // Se la domanda si sta chiudendo, resetta maxHeight a null.
+            // Il CSS (max-height: 0) si occuperà di collassarla con l'animazione.
+            contentWrapper.style.maxHeight = null; 
+        }
+    }
+}
+
+// Questo codice viene eseguito quando l'intera pagina HTML è stata caricata e analizzata
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Aggiungi event listener per il click e per la tastiera (accessibilità)
+    // a ogni header di domanda.
+    document.querySelectorAll('.question-header').forEach(header => {
+        header.addEventListener('click', function() {
+            toggleQuestion(this); // Chiama la funzione quando l'header viene cliccato
+        });
+
+        header.addEventListener('keydown', function(event) {
+            // Permetti di aprire/chiudere con i tasti Invio o Spazio
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault(); // Evita il comportamento di default (es. scroll)
+                toggleQuestion(this);
+            }
+        });
+    });
+
+    // Gestisci lo stato iniziale delle domande che sono già aperte
+    // (quelle a cui abbiamo aggiunto la classe 'open' nell'HTML via PHP).
+    document.querySelectorAll('.question-card.open').forEach(card => {
+        const contentWrapper = card.querySelector('.question-content-wrapper');
+        const header = card.querySelector('.question-header');
+
+        // L'attributo aria-expanded dovrebbe essere già 'true' dall'HTML,
+        // ma lo confermiamo qui per coerenza.
+        if (header) {
+            header.setAttribute('aria-expanded', 'true');
+        }
+
+        if (contentWrapper) {
+            // Per evitare l'animazione "scattosa" al caricamento iniziale
+            // per le domande che sono già aperte:
+            
+            // 1. Salva la transizione CSS originale del wrapper (se presente)
+            const originalTransition = contentWrapper.style.transition;
+            // 2. Rimuovi temporaneamente la transizione
+            contentWrapper.style.transition = 'none'; 
+            
+            // 3. Imposta il maxHeight all'altezza effettiva del contenuto
+            contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
+            
+            // 4. Forza il browser a "ricalcolare" il layout (reflow).
+            // Questo trucco assicura che il maxHeight sia applicato immediatamente
+            // senza che la transizione (che abbiamo appena rimosso) possa interferire.
+            void contentWrapper.offsetWidth; 
+            
+            // 5. Ripristina la transizione CSS originale.
+            // Ora, le future aperture/chiusure manuali avranno l'animazione.
+            contentWrapper.style.transition = originalTransition;
+        }
+        // L'icona a freccia (es. chevron) dovrebbe già essere ruotata correttamente
+        // grazie alla classe '.open' e agli stili CSS corrispondenti
+        // (.question-card.open .question-header .question-toggle i { transform: rotate(180deg); })
+    });
+});
+
+// Funzione helper per aggiungere una risposta, da chiamare sia da "add-question" che da "add-answer"
+function addAnswerToQuestion(questionBlockElement, questionNum, answerCount) {
+    const answerTemplate = document.getElementById('answer-template-create').innerHTML;
+    let answerHtml = answerTemplate.replace(/__Q_NUM__/g, questionNum)
+                                   .replace(/__A_NUM__/g, answerCount);
+    
+    // Se il template non ha già la prima risposta, questa logica è per aggiungerla.
+    // Altrimenti, se il template domanda include già una risposta, questa funzione è più per il bottone "Aggiungi Risposta"
+    $(questionBlockElement).find('.answers-container').append(answerHtml);
+}
+
+$(document).on('click', '#questions-container .add-answer', function () {
+    const questionNum = $(this).data('question');
+    const questionBlock = $(this).closest('.question-block');
+    const answersContainer = questionBlock.find('.answers-container');
+    const answerCount = answersContainer.find('.answer-block').length + 1;
+
+    addAnswerToQuestion(questionBlock, questionNum, answerCount);
+    renumberQuestions(); // Assicurati che questa funzione aggiorni anche i testi
 });

@@ -143,13 +143,8 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     <label for="search_data_fine_a_sidebar">Disponibile fino al:</label>
                     <input type="date" id="search_data_fine_a_sidebar" name="search_data_fine_a" value="<?php echo htmlspecialchars($search_data_fine_a); ?>" <?php if ($search_disponibile_ora) echo 'disabled'; ?>>
                 </div>
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="search_disponibile_ora_sidebar" name="search_disponibile_ora" <?php if ($search_disponibile_ora) echo 'checked'; ?>>
-                    <label for="search_disponibile_ora_sidebar">Solo quiz disponibili ora</label>
-                </div>
                 <div class="form-actions-sidebar">
                     <button type="submit" class="btn"><i class="fas fa-search"></i> Cerca</button>
-                    <br>
                     <button type="button" id="reset-form" class="btn btn-secondary"><i class="fas fa-undo"></i> Resetta Filtri</button>
                 </div>
             </form>
@@ -231,19 +226,19 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     <div class="quiz-item card">
                         <h3 class="quiz-title"><?php echo htmlspecialchars($quiz['titolo']); ?></h3>
                         <div class="quiz-meta">
-                            <p><i class="fas fa-user"></i> Creato da: <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong> (<?php echo htmlspecialchars($quiz['creatore']); ?>)</p>
-                            <p><i class="far fa-calendar-alt"></i> Dal <strong><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></strong> al <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong></p>
+                            <p><i class="fas fa-user"></i>Creato da: &nbsp; <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong></p>
+                            <p><i class="far fa-calendar-alt"></i> Dal &nbsp; <strong><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></strong> &nbsp; al &nbsp; <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong></p>
                             <?php
                                 $now_dt = new DateTime();
                                 $dataInizio_dt = new DateTime($quiz['dataInizio']);
                                 $dataFine_dt = (new DateTime($quiz['dataFine']))->setTime(23,59,59);
 
                                 if ($now_dt >= $dataInizio_dt && $now_dt <= $dataFine_dt) {
-                                    echo '<p><span class="status-badge available"><i class="fas fa-check-circle"></i> Disponibile</span></p>';
+                                    echo '<span class="status-badge available"><i class="fas fa-check-circle"></i> Disponibile</span>';
                                 } elseif ($now_dt < $dataInizio_dt) {
-                                    echo '<p><span class="status-badge pending"><i class="fas fa-clock"></i> Prossimamente</span></p>';
+                                    echo '<span class="status-badge pending"><i class="fas fa-clock"></i> Prossimamente</span>';
                                 } else {
-                                    echo '<p><span class="status-badge expired"><i class="fas fa-times-circle"></i> Scaduto</span></p>';
+                                    echo '<span class="status-badge expired"><i class="fas fa-times-circle"></i> Scaduto</span>';
                                 }
                             ?>
                         </div>

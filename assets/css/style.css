@@ -67,9 +67,61 @@ header {
 .logo { font-size: 24px; font-weight: bold; }
 .logo a { color: var(--text-light); text-decoration: none; }
 
-.user-info { display: flex; align-items: center; gap: 15px; }
-.user-info a { color: var(--text-light); text-decoration: none; }
-.user-info a:hover { text-decoration: underline; }
+/* Stili per migliorare i link di Login/Registrazione nell'Header */
+
+.user-info {
+    /* display: flex; align-items: center; sono già lì, va bene */
+    gap: 10px; /* Spazio tra il testo di benvenuto e i bottoni, o tra i bottoni stessi */
+}
+
+.user-info .user-welcome-text {
+    color: var(--text-light); /* Assicura che il testo di benvenuto sia bianco */
+    font-weight: 500; /* Un po' più di spessore */
+}
+
+/* Stile base per i bottoni di autenticazione nell'header */
+.user-info .btn-header-auth {
+    padding: 8px 16px; /* Spazio interno al bottone (sopra/sotto, destra/sinistra) */
+    color: var(--text-light); /* Colore del testo del bottone */
+    text-decoration: none; /* Rimuove la sottolineatura del link */
+    border-radius: 5px; /* Angoli del bottone leggermente arrotondati */
+    font-weight: 500; /* Testo del bottone un po' in grassetto */
+    border: 1px solid var(--text-light); /* Bordo bianco sottile */
+    background-color: transparent; /* Sfondo trasparente di base */
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease; /* Animazione fluida al passaggio del mouse */
+    display: inline-block; /* Comportamento corretto per padding e margini */
+}
+
+.user-info .btn-header-auth:hover {
+    background-color: var(--text-light); /* Sfondo diventa bianco quando ci passi sopra col mouse */
+    color: var(--main-color); /* Testo del bottone diventa del colore principale (es. verde scuro) */
+    transform: translateY(-1px); /* Leggero sollevamento del bottone */
+}
+
+/* Stile specifico per il bottone "Registrati" (per farlo risaltare un po' di più) */
+.user-info .btn-header-register {
+    background-color: var(--accent-color); /* Sfondo usa il colore d'accento (es. il tuo giallo/oro) */
+    border-color: var(--accent-color); /* Bordo dello stesso colore */
+    color: var(--text-dark); /* Testo scuro per una buona leggibilità su sfondo chiaro/accentato */
+}
+
+.user-info .btn-header-register:hover {
+    background-color: #c0a756; /* Un colore d'accento leggermente più scuro per l'hover */
+    border-color: #c0a756;
+    color: var(--text-dark); /* Mantiene il testo scuro */
+}
+
+/* Stile specifico per il bottone "Logout" (per dargli un tocco diverso, es. più tenue) */
+.user-info .btn-header-logout {
+    border-color: #ffa7a7; /* Un bordo rosso/rosa chiaro */
+    color: #ffd1d1;       /* Testo rosso/rosa chiaro */
+}
+
+.user-info .btn-header-logout:hover {
+    background-color: #e74c3c; /* Sfondo rosso più deciso all'hover */
+    border-color: #e74c3c;
+    color: var(--text-light); /* Testo bianco */
+}
 
 nav { /* Barra di navigazione principale sotto l'header */
     background-color: var(--dark-color);
@@ -278,6 +330,7 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
     font-size: 0.8rem;
     font-weight: 600;
     line-height: 1;
+    margin-left: 22px; 
 }
 .status-badge i { margin-right: 5px; font-size: 0.9em; }
 .status-badge.available { background-color: #e6f7ee; color: #27ae60; border: 1px solid #b7e4c7;}
@@ -599,4 +652,403 @@ footer {
     .pagination-info { font-size: 0.8rem; }
     .modal-content { width: 95%; padding: 20px; }
     .modal-content h2 { font-size: 1.2rem; }
+}
+/* --- Stili per Pagina Dettaglio Quiz (breadcrumb, info, etc.) --- */
+/* (Questi sono gli stili che avevi alla fine del file PHP, adattati) */
+
+.breadcrumb-nav {
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+.breadcrumb-link {
+    color: var(--primary-blue); /* O var(--main-color) */
+    text-decoration: none;
+}
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+.breadcrumb-separator {
+    margin: 0 8px;
+}
+.breadcrumb-current {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.quiz-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+.quiz-detail-header h1 {
+    font-size: 2rem; /* Più grande */
+    color: var(--dark-color);
+    margin: 0; /* Rimuovi margine di default */
+}
+/* .status-badge è già definito bene, assicurati che i colori di sfondo siano quelli che preferisci */
+.status-badge.available { background-color: #27ae60; color: white; border: none; }
+.status-badge.pending { background-color: #f39c12; color: white; border: none; }
+.status-badge.expired { background-color: #e74c3c; color: white; border: none; }
+
+
+.quiz-detail-card { /* Simile a .card ma forse con stile leggermente diverso */
+    background-color: var(--background-card);
+    border-radius: 8px;
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07); No shadow, è dentro .content */
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.quiz-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive */
+    gap: 20px 30px; /* row-gap column-gap */
+}
+
+.quiz-info-item {
+    display: flex;
+    align-items: flex-start; /* Allinea icona in alto se testo va a capo */
+    gap: 12px; /* Spazio tra icona e testo */
+}
+.quiz-info-item i {
+    font-size: 1.1rem;
+    color: var(--main-color); /* O var(--primary-blue) */
+    margin-top: 3px; /* Allineamento fine icona */
+    width: 20px; /* Larghezza fissa per allineamento */
+    text-align: center;
+}
+.quiz-info-item .info-label {
+    display: block;
+    font-weight: 600; /* Più bold */
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+    text-transform: uppercase; /* Opzionale: per un look più formale */
+}
+.quiz-info-item .info-value {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+.quiz-info-item.quiz-description { /* Per farla occupare tutta la larghezza se necessario */
+    grid-column: 1 / -1;
+}
+
+.quiz-action-container {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+.btn-participate { /* Eredita da .btn ma con personalizzazioni */
+    background-color: var(--primary-blue); /* Colore primario moderno */
+    color: var(--text-light);
+    padding: 12px 25px; /* Padding generoso */
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px; /* Pill shape */
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: inline-flex; /* Per allineare icona */
+    align-items: center;
+    gap: 8px;
+}
+.btn-participate:hover {
+    background-color: var(--primary-blue-dark);
+    transform: translateY(-2px);
+}
+
+.login-prompt p, .expired-notice p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+.login-prompt p i, .expired-notice p i {
+    color: var(--secondary-gray);
+    font-size: 1.1em;
+}
+
+/* --- Quiz Detail Page - Questions Preview (NUOVI STILI) --- */
+.questions-preview-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    /* border-top: 1px solid var(--border-color); Già in quiz-action-container, se presente */
+}
+
+.questions-preview-section h2 {
+    font-size: 1.6rem; /* Coerente con .content h1 */
+    color: var(--dark-color);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+.questions-preview-section h2 i {
+    margin-right: 12px;
+    color: var(--main-color);
+    font-size: 1.1em;
+}
+
+.no-questions-notice { /* Stile simile a .no-results ma specifico */
+    background-color: var(--background-card); /* O var(--light-gray-bg) per meno enfasi */
+    border-radius: 8px;
+    padding: 25px 20px;
+    margin: 20px 0;
+    text-align: center;
+    color: var(--text-muted);
+    border: 1px dashed var(--border-color);
+}
+.no-questions-notice i {
+    display: block; /* Icona su riga separata */
+    font-size: 1.8em; /* Icona più grande */
+    margin-bottom: 10px;
+    color: var(--secondary-gray);
+}
+.no-questions-notice p {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+.question-card {
+    background-color: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px; /* Angoli arrotondati consistenti */
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s ease;
+    overflow: hidden; /* Per contenere l'animazione del contenuto */
+}
+
+.question-card:last-child {
+    margin-bottom: 0;
+}
+
+.question-card:hover {
+     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    user-select: none; /* Evita selezione testo al doppio click */
+    background-color: transparent; /* Sfondo di default */
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid transparent; /* Spazio per bordo quando aperto */
+}
+.question-card.open .question-header {
+    background-color: var(--light-gray-bg); /* Sfondo leggermente diverso quando aperto */
+    border-bottom-color: var(--border-color);
+}
+
+.question-card:not(.open) .question-header:hover {
+    background-color: #f9f9f9; /* Leggero hover quando chiuso */
+}
+
+.question-header .question-number {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--dark-color);
+    margin-right: auto; /* IMPORTANTE: Spinge la freccia a destra */
+}
+
+.question-header .question-toggle {
+    margin-left: 15px; /* Spazio tra numero/testo e freccia, se necessario */
+}
+
+.question-card.open .question-header .question-toggle i {
+    transform: rotate(180deg);
+}
+
+.question-content-wrapper {
+    padding: 20px 20px; /* Padding completo di default */
+    max-height: 1000px; /* Valore alto di default per mostrarlo */
+    /* overflow: hidden; -- Lo teniamo per quando si chiude */
+    transition: max-height 0.35s ease-in-out, padding-top 0.35s ease-in-out, padding-bottom 0.35s ease-in-out;
+}
+
+/* Quando la card NON è aperta */
+.question-card:not(.open) .question-content-wrapper {
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 0;
+    overflow: hidden; /* ESSENZIALE per nascondere il contenuto quando è collassato */
+}
+
+/* Stili per l'header quando è aperto (la freccia ruota, lo sfondo cambia) */
+.question-card.open .question-header {
+    background-color: var(--light-gray-bg);
+    border-bottom-color: var(--border-color);
+}
+.question-card.open .question-header .question-toggle i {
+    transform: rotate(180deg);
+}
+
+.question-text {
+    font-size: 1rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 20px; /* Spazio tra testo domanda e opzioni */
+}
+
+.answer-options {
+    list-style: none; /* Rimuove i pallini di default */
+    padding-left: 0;  /* Rimuove il padding di default */
+    margin: 0;        /* Rimuove il margine di default */
+}
+
+.answer-option { /* Era div.answer-option */
+    display: flex;
+    align-items: flex-start; /* Per risposte su più righe */
+    padding: 10px 0; /* Spaziatura verticale tra opzioni */
+    font-size: 0.95rem;
+    border-bottom: 1px dotted #e9e9e9; /* Separatore leggero */
+}
+.answer-option:last-child {
+    border-bottom: none;
+}
+
+.answer-option .option-marker {
+    font-weight: 600;
+    color: var(--main-color); /* Colore principale del tema */
+    margin-right: 12px;
+    min-width: 20px; /* Assicura allineamento per A., B., C. etc. */
+    line-height: 1.5; /* Per allineamento verticale con testo risposta */
+}
+
+.answer-option .option-text {
+    flex: 1;
+    color: var(--text-dark); /* Testo risposta più scuro e leggibile */
+    line-height: 1.5;
+}
+
+/* Adattamenti per schermi piccoli se necessario */
+@media (max-width: 768px) {
+    .quiz-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .quiz-detail-header h1 {
+        font-size: 1.6rem;
+    }
+    .quiz-info-grid {
+        grid-template-columns: 1fr; /* Singola colonna su mobile */
+        gap: 15px;
+    }
+    .questions-preview-section h2 {
+        font-size: 1.3rem;
+    }
+    .question-header,
+    .question-card.open .question-content-wrapper {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .question-header .question-number {
+        font-size: 1rem;
+    }
+    .question-text, .answer-option {
+        font-size: 0.9rem;
+    }
+}
+
+/* Quando la card NON è aperta (cioè quando il JS rimuoverà la classe 'open') */
+.question-card:not(.open) .question-content-wrapper {
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 0;
+    overflow: hidden; /* ESSENZIALE per nascondere il contenuto quando è collassato */
+}
+
+/* assets/css/style.css */
+
+/* Stile per il contenitore fallback (se necessario) */
+.custom-alert-fallback-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: 80%;
+    max-width: 600px;
+}
+
+/* Stile base per gli alert personalizzati */
+.custom-alert {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    position: relative; /* Per posizionare il bottone di chiusura */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex; /* Per allineare messaggio e bottone */
+    justify-content: space-between; /* Spazio tra messaggio e bottone */
+    align-items: center; /* Allinea verticalmente */
+}
+
+.custom-alert-message {
+    flex-grow: 1; /* Il messaggio occupa lo spazio rimanente */
+    margin-right: 15px; /* Spazio dal bottone di chiusura */
+}
+
+.custom-alert-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+    color: inherit; /* Eredita il colore del testo dell'alert */
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 5px; /* Aggiungi un po' di padding per facilitare il click */
+}
+
+.custom-alert-close:hover {
+    opacity: 1;
+}
+
+/* Colori per i diversi tipi di alert */
+.custom-alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+.custom-alert-info .custom-alert-close {
+    color: #0c5460;
+}
+
+.custom-alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.custom-alert-success .custom-alert-close {
+    color: #155724;
+}
+
+.custom-alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+.custom-alert-warning .custom-alert-close {
+    color: #856404;
+}
+
+.custom-alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.custom-alert-danger .custom-alert-close {
+    color: #721c24;
 }

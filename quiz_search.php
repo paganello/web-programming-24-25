@@ -125,11 +125,6 @@ try {
                 <label for="search_data_fine_a">Disponibile fino al:</label>
                 <input type="date" id="search_data_fine_a" name="search_data_fine_a" value="<?php echo htmlspecialchars($search_data_fine_a); ?>">
             </div>
-            
-            <div class="form-group form-group-checkbox">
-                <input type="checkbox" id="search_disponibile_ora" name="search_disponibile_ora" value="1" <?php if ($search_disponibile_ora) echo 'checked'; ?>>
-                <label for="search_disponibile_ora">Solo quiz attualmente disponibili</label>
-            </div>
 
             <div class="form-group">
                 <label for="sort_by">Ordina per:</label>
