@@ -2,8 +2,7 @@
 /**
  * Home page dell'applicazione Quiz Online.
  */
-include 'includes/header.php'; 
-
+include 'includes/header.php';
 
 $today = date('Y-m-d');
 
@@ -69,7 +68,10 @@ if (!empty($conditions)) {
 }
 
 $count_sql = "SELECT COUNT(*) as total " . $query_base_from_join . $where_clause;
-$sql = "SELECT q.*, u.nome, u.cognome " . $query_base_from_join . $where_clause;
+
+$sql = "SELECT q.*, u.nome, u.cognome, 
+               (SELECT COUNT(*) FROM Partecipazione p_count WHERE p_count.quiz = q.codice) AS num_partecipazioni "
+       . $query_base_from_join . $where_clause;
 
 $orderByClause = " ORDER BY ";
 switch ($sort_by) {
@@ -78,6 +80,8 @@ switch ($sort_by) {
     case 'titolo_desc': $orderByClause .= "q.titolo DESC, q.codice DESC"; break;
     case 'data_inizio_asc': $orderByClause .= "q.dataInizio ASC, q.codice DESC"; break;
     case 'data_inizio_desc': $orderByClause .= "q.dataInizio DESC, q.codice DESC"; break;
+    case 'partecipazioni_desc': $orderByClause .= "num_partecipazioni DESC, q.codice DESC"; break;
+    case 'partecipazioni_asc': $orderByClause .= "num_partecipazioni ASC, q.codice DESC"; break;
     case 'codice_desc': default: $orderByClause .= "q.codice DESC"; break;
 }
 $sql .= $orderByClause;
@@ -202,6 +206,8 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                         <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
                         <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
                         <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
+                        <option value="partecipazioni_desc" <?php if ($sort_by == 'partecipazioni_desc') echo 'selected'; ?>>Partecipazioni (Più alto)</option>
+                        <option value="partecipazioni_asc" <?php if ($sort_by == 'partecipazioni_asc') echo 'selected'; ?>>Partecipazioni (Più basso)</option>
                     </select>
                 </form>
             </div>
@@ -226,8 +232,10 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     <div class="quiz-item card">
                         <h3 class="quiz-title"><?php echo htmlspecialchars($quiz['titolo']); ?></h3>
                         <div class="quiz-meta">
-                            <p><i class="fas fa-user"></i>Creato da: &nbsp; <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong></p>
-                            <p><i class="far fa-calendar-alt"></i> Dal &nbsp; <strong><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></strong> &nbsp; al &nbsp; <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong></p>
+                            <p><i class="fas fa-user"></i>Creato da:   <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong></p>
+                            <p><i class="far fa-calendar-alt"></i> Dal   <strong><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></strong>   al   <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong></p>
+                            <p><i class="fas fa-users"></i> Partecipazioni: <strong><?php echo $quiz['num_partecipazioni']; ?></strong></p>
+                            
                             <?php
                                 $now_dt = new DateTime();
                                 $dataInizio_dt = new DateTime($quiz['dataInizio']);
