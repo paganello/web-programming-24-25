@@ -103,15 +103,17 @@ if (!isset($_SESSION['user'])) {
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <h3 class="h6 mb-0">Domanda <span class="question-number">__Q_NUM__</span></h3>
-                <button type="button" class="btn btn-sm btn-outline-danger remove-question" data-question="__Q_NUM__" title="Rimuovi Domanda __Q_NUM__">
+                <button type="button" class="btn btn-sm btn-outline-danger remove-question" data-question="__Q_NUM__"
+                    title="Rimuovi Domanda __Q_NUM__">
                     <i class="fas fa-trash"></i> Rimuovi Domanda
                 </button>
             </div>
             <div class="form-group mb-3">
                 <label for="question-__Q_NUM__" class="form-label">Testo della domanda</label>
-                <textarea name="questions[__Q_NUM__][text]" id="question-__Q_NUM__" class="form-control" rows="2" required></textarea>
+                <textarea name="questions[__Q_NUM__][text]" id="question-__Q_NUM__" class="form-control" rows="2"
+                    required></textarea>
             </div>
-            
+
             <h4 class="h6 mt-3 mb-2">Risposte:</h4>
             <div class="answers-container ps-3" id="answers-container-__Q_NUM__">
                 <!-- Le risposte verranno aggiunte qui -->
@@ -127,29 +129,39 @@ if (!isset($_SESSION['user'])) {
 <template id="answer-template-create">
     <div class="answer-block border rounded p-2 mb-2 bg-light" data-answer="__A_NUM__">
         <div class="d-flex justify-content-between align-items-center mb-1">
-            <label for="question-__Q_NUM__-answer-__A_NUM__" class="form-label fw-bold">Risposta <span class="answer-number">__A_NUM__</span></label>
+            <label for="question-__Q_NUM__-answer-__A_NUM__" class="form-label fw-bold">Risposta <span
+                    class="answer-number">__A_NUM__</span></label>
             <button type="button" class="btn btn-xs btn-outline-danger remove-answer" title="Rimuovi Risposta">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="form-group mb-2">
-            <input type="text" name="questions[__Q_NUM__][answers][__A_NUM__][text]" id="question-__Q_NUM__-answer-__A_NUM__" class="form-control form-control-sm" required placeholder="Testo della risposta">
+            <input type="text" name="questions[__Q_NUM__][answers][__A_NUM__][text]"
+                id="question-__Q_NUM__-answer-__A_NUM__" class="form-control form-control-sm" required
+                placeholder="Testo della risposta">
         </div>
         <div class="form-group mb-2">
             <div class="radio-group">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]" id="question-__Q_NUM__-answer-__A_NUM__-type-correct" value="Corretta">
-                    <label class="form-check-label" for="question-__Q_NUM__-answer-__A_NUM__-type-correct">Corretta</label>
+                    <input class="form-check-input" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]"
+                        id="question-__Q_NUM__-answer-__A_NUM__-type-correct" value="Corretta">
+                    <label class="form-check-label"
+                        for="question-__Q_NUM__-answer-__A_NUM__-type-correct">Corretta</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]" id="question-__Q_NUM__-answer-__A_NUM__-type-wrong" value="Sbagliata" checked>
-                    <label class="form-check-label" for="question-__Q_NUM__-answer-__A_NUM__-type-wrong">Sbagliata</label>
+                    <input class="form-check-input" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]"
+                        id="question-__Q_NUM__-answer-__A_NUM__-type-wrong" value="Sbagliata" checked>
+                    <label class="form-check-label"
+                        for="question-__Q_NUM__-answer-__A_NUM__-type-wrong">Sbagliata</label>
                 </div>
             </div>
         </div>
         <div class="form-group points-group" style="display:none;">
-            <label for="question-__Q_NUM__-answer-__A_NUM__-points" class="form-label form-label-sm">Punti (se corretta):</label>
-            <input type="number" name="questions[__Q_NUM__][answers][__A_NUM__][points]" id="question-__Q_NUM__-answer-__A_NUM__-points" class="form-control form-control-sm" value="1" min="0" style="width: 80px;">
+            <label for="question-__Q_NUM__-answer-__A_NUM__-points" class="form-label form-label-sm">Punti (se
+                corretta):</label>
+            <input type="number" name="questions[__Q_NUM__][answers][__A_NUM__][points]"
+                id="question-__Q_NUM__-answer-__A_NUM__-points" class="form-control form-control-sm" value="1" min="0"
+                style="width: 80px;">
         </div>
     </div>
 </template>
