@@ -181,10 +181,12 @@ try {
             </div>
             <?php else: ?>
             <div class="questions-accordion">
-                <?php foreach ($questions as $index => $question): ?>
+                <?php
+                $numeroDomandaVisualizzato = 1;
+                 foreach ($questions as $index => $question): ?>
                 <div class="question-card open">
                     <div class="question-header" role="button" tabindex="0" aria-expanded="true" aria-controls="question-content-<?php echo $index; ?>">
-                        <span class="question-number">Domanda <?php echo htmlspecialchars($question['numero']); ?></span>
+                        <span class="question-number">Domanda <?php echo $numeroDomandaVisualizzato; ?></span>
                         <div class="question-toggle"><i class="fas fa-chevron-down"></i></div>
                     </div>
                     <div class="question-content-wrapper" id="question-content-<?php echo $index; ?>">
@@ -205,7 +207,9 @@ try {
                         <?php endif; ?>
                     </div>
                 </div>
-                <?php endforeach; ?>
+                <?php
+                $numeroDomandaVisualizzato++;
+                endforeach; ?>
             </div>
             <?php endif; ?>
         </div>

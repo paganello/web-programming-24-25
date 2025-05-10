@@ -320,3 +320,5 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
 </div>
 
 <?php include 'includes/footer.php'; ?>
+</body>
+</html>

@@ -59,7 +59,7 @@ CREATE TABLE Risposta (
     tipo ENUM('Corretta', 'Sbagliata') NOT NULL,
     punteggio INT DEFAULT 0,
     PRIMARY KEY (quiz, domanda, numero),
-    FOREIGN KEY (quiz, domanda) REFERENCES Domanda(quiz, numero) ON DELETE CASCADE
+    FOREIGN KEY (quiz, domanda) REFERENCES Domanda(quiz, numero) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Tabella Partecipazione

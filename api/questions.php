@@ -1,6 +1,14 @@
 <?php
 /**
- * API per la gestione delle domande dei quiz (solo salvataggio per ora).
+ * API per la gestione delle domande dei quiz.
+ * 
+ * Questo file gestisce tutte le operazioni CRUD relative alle domande dei quiz.
+ * Funzionalità implementate:
+ * - Creazione di nuove domande per un quiz;
+ * - Modifica di domande esistenti;
+ * - Eliminazione di domande;
+ * - Recupero di tutte le domande associate a un quiz specifico;
+ * - Recupero dei dettagli di una singola domanda;
  */
 
 if (session_status() === PHP_SESSION_NONE){

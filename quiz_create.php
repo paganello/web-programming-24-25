@@ -165,4 +165,6 @@ if (!isset($_SESSION['user'])) {
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>c
+<?php include 'includes/footer.php'; ?>
+</body>
+</html>
