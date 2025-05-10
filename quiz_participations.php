@@ -29,8 +29,6 @@ require_once 'includes/header.php';
 </head>
 
 <body>
-    <?php include 'includes/navbar.php'; ?>
-
     <div class="container">
         <h1>Le Mie Partecipazioni</h1>
         <div id="alert-container"></div>
