@@ -223,12 +223,20 @@ try {
 
     <!-- Template per Nuova Risposta (nascosto) - Stile come quiz_create.php -->
     <template id="answer-template">
+<<<<<<< HEAD
         <div class="answer-block-styled padding-medium margin-bottom-medium box-shadow-extra-light" data-answer-index="__A_INDEX__">
             <div class="answer-header-styled flex-container flex-justify-between flex-align-center margin-bottom-small">
                 <label class="form-label-styled label-bold-styled label-accent-color-styled answer-label-dynamic">Risposta <span class="answer-number">__A_DISPLAY_NUM__</span></label>
                 <button type="button" class="button-styled button-danger-styled button-extra-small-styled remove-answer-btn" title="Rimuovi Risposta">
                     <i class="fas fa-times"></i>
                 </button>
+=======
+        <div class="answer-block div" data-answer-index="__A_INDEX__">
+            <h3>Risposta __A_DISPLAY_NUM__</h3>
+            <div>
+                <textarea class="textarea" name="questions[__Q_INDEX__][answers][__A_INDEX__][testo]"
+                    required></textarea>
+>>>>>>> main
             </div>
             <div class="form-field-group margin-bottom-small">
                 <label for="answer_text___Q_INDEX_____A_INDEX__" class="form-label-styled label-small-styled">Testo della Risposta:</label>
@@ -256,4 +264,9 @@ try {
 
     <?php include 'includes/footer.php'; // Assicurati che footer.php includa jQuery e main.js ?>
 </body>
+<<<<<<< HEAD
+=======
+<?php include 'includes/footer.php'; ?>
+
+>>>>>>> main
 </html>

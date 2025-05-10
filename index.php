@@ -2,8 +2,7 @@
 /**
  * Home page dell'applicazione Quiz Online.
  */
-include 'includes/header.php'; 
-
+include 'includes/header.php';
 
 $today = date('Y-m-d');
 
@@ -16,12 +15,14 @@ $search_data_fine_a = isset($_GET['search_data_fine_a']) && !empty($_GET['search
 $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'codice_desc';
 
 // --- PARAMETRI PAGINAZIONE ---
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 20;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$per_page = isset($_GET['per_page']) ? (int) $_GET['per_page'] : 20;
 $valid_per_page_options = [10, 20, 50, 100];
 
-if ($page < 1) $page = 1;
-if (!in_array($per_page, $valid_per_page_options)) $per_page = 20;
+if ($page < 1)
+    $page = 1;
+if (!in_array($per_page, $valid_per_page_options))
+    $per_page = 20;
 
 $is_search_active = isset($_GET['perform_search']) || !empty($search_titolo) || !empty($search_creatore) || $search_disponibile_ora || !empty($search_data_inizio_da) || !empty($search_data_fine_a);
 
@@ -69,16 +70,38 @@ if (!empty($conditions)) {
 }
 
 $count_sql = "SELECT COUNT(*) as total " . $query_base_from_join . $where_clause;
-$sql = "SELECT q.*, u.nome, u.cognome " . $query_base_from_join . $where_clause;
+
+$sql = "SELECT q.*, u.nome, u.cognome, 
+               (SELECT COUNT(*) FROM Partecipazione p_count WHERE p_count.quiz = q.codice) AS num_partecipazioni "
+    . $query_base_from_join . $where_clause;
 
 $orderByClause = " ORDER BY ";
 switch ($sort_by) {
-    case 'codice_asc': $orderByClause .= "q.codice ASC"; break;
-    case 'titolo_asc': $orderByClause .= "q.titolo ASC, q.codice DESC"; break;
-    case 'titolo_desc': $orderByClause .= "q.titolo DESC, q.codice DESC"; break;
-    case 'data_inizio_asc': $orderByClause .= "q.dataInizio ASC, q.codice DESC"; break;
-    case 'data_inizio_desc': $orderByClause .= "q.dataInizio DESC, q.codice DESC"; break;
-    case 'codice_desc': default: $orderByClause .= "q.codice DESC"; break;
+    case 'codice_asc':
+        $orderByClause .= "q.codice ASC";
+        break;
+    case 'titolo_asc':
+        $orderByClause .= "q.titolo ASC, q.codice DESC";
+        break;
+    case 'titolo_desc':
+        $orderByClause .= "q.titolo DESC, q.codice DESC";
+        break;
+    case 'data_inizio_asc':
+        $orderByClause .= "q.dataInizio ASC, q.codice DESC";
+        break;
+    case 'data_inizio_desc':
+        $orderByClause .= "q.dataInizio DESC, q.codice DESC";
+        break;
+    case 'partecipazioni_desc':
+        $orderByClause .= "num_partecipazioni DESC, q.codice DESC";
+        break;
+    case 'partecipazioni_asc':
+        $orderByClause .= "num_partecipazioni ASC, q.codice DESC";
+        break;
+    case 'codice_desc':
+    default:
+        $orderByClause .= "q.codice DESC";
+        break;
 }
 $sql .= $orderByClause;
 
@@ -86,14 +109,16 @@ $total_quizzes = 0;
 try {
     $count_stmt = $pdo->prepare($count_sql);
     $count_stmt->execute($params);
-    $total_quizzes = (int)$count_stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    $total_quizzes = (int) $count_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 } catch (PDOException $e) {
     error_log("Errore nella query di conteggio: " . $e->getMessage());
 }
 
 $total_pages = ($total_quizzes > 0) ? ceil($total_quizzes / $per_page) : 1;
-if ($page > $total_pages) $page = $total_pages;
-if ($page < 1) $page = 1;
+if ($page > $total_pages)
+    $page = $total_pages;
+if ($page < 1)
+    $page = 1;
 
 $offset = ($page - 1) * $per_page;
 $sql .= " LIMIT :offset, :per_page";
@@ -107,7 +132,7 @@ try {
     $stmt = $pdo->prepare($sql);
     foreach ($params_for_selection as $key => $value) {
         if ($key === ':offset' || $key === ':per_page') {
-            $stmt->bindValue($key, (int)$value, PDO::PARAM_INT);
+            $stmt->bindValue($key, (int) $value, PDO::PARAM_INT);
         } else {
             $stmt->bindValue($key, $value);
         }
@@ -129,23 +154,31 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                 <input type="hidden" name="perform_search" value="1">
                 <div class="form-group">
                     <label for="search_titolo_sidebar">Titolo del Quiz:</label>
-                    <input type="text" id="search_titolo_sidebar" name="search_titolo" value="<?php echo htmlspecialchars($search_titolo); ?>" placeholder="Inserisci titolo...">
+                    <input type="text" id="search_titolo_sidebar" name="search_titolo"
+                        value="<?php echo htmlspecialchars($search_titolo); ?>" placeholder="Inserisci titolo...">
                 </div>
                 <div class="form-group">
                     <label for="search_creatore_sidebar">Creatore:</label>
-                    <input type="text" id="search_creatore_sidebar" name="search_creatore" value="<?php echo htmlspecialchars($search_creatore); ?>" placeholder="Nome, cognome o username...">
+                    <input type="text" id="search_creatore_sidebar" name="search_creatore"
+                        value="<?php echo htmlspecialchars($search_creatore); ?>"
+                        placeholder="Nome, cognome o username...">
                 </div>
                 <div class="form-group">
                     <label for="search_data_inizio_da_sidebar">Disponibile dal:</label>
-                    <input type="date" id="search_data_inizio_da_sidebar" name="search_data_inizio_da" value="<?php echo htmlspecialchars($search_data_inizio_da); ?>" <?php if ($search_disponibile_ora) echo 'disabled'; ?>>
+                    <input type="date" id="search_data_inizio_da_sidebar" name="search_data_inizio_da"
+                        value="<?php echo htmlspecialchars($search_data_inizio_da); ?>" <?php if ($search_disponibile_ora)
+                               echo 'disabled'; ?>>
                 </div>
                 <div class="form-group">
                     <label for="search_data_fine_a_sidebar">Disponibile fino al:</label>
-                    <input type="date" id="search_data_fine_a_sidebar" name="search_data_fine_a" value="<?php echo htmlspecialchars($search_data_fine_a); ?>" <?php if ($search_disponibile_ora) echo 'disabled'; ?>>
+                    <input type="date" id="search_data_fine_a_sidebar" name="search_data_fine_a"
+                        value="<?php echo htmlspecialchars($search_data_fine_a); ?>" <?php if ($search_disponibile_ora)
+                               echo 'disabled'; ?>>
                 </div>
                 <div class="form-actions-sidebar">
                     <button type="submit" class="btn"><i class="fas fa-search"></i> Cerca</button>
-                    <button type="button" id="reset-form" class="btn btn-secondary"><i class="fas fa-undo"></i> Resetta Filtri</button>
+                    <button type="button" id="reset-form" class="btn btn-secondary"><i class="fas fa-undo"></i> Resetta
+                        Filtri</button>
                 </div>
             </form>
         </div>
@@ -157,13 +190,17 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
         <?php if (!isset($_SESSION['user'])): ?>
             <div class="card welcome-card">
                 <div class="card-content">
-                    <p>Benvenuto nel sistema di Quiz Online. Per accedere a tutte le funzionalità, effettua il <a href="auth_login.php" class="text-link">login</a> o <a href="auth_register.php" class="text-link">registrati</a>.</p>
+                    <p>Benvenuto nel sistema di Quiz Online. Per accedere a tutte le funzionalità, effettua il <a
+                            href="auth_login.php" class="text-link">login</a> o <a href="auth_register.php"
+                            class="text-link">registrati</a>.</p>
                 </div>
             </div>
         <?php else: ?>
             <div class="card welcome-card">
                 <div class="card-content">
-                    <p>Benvenuto <strong><?php echo htmlspecialchars($_SESSION['user']['nome'] . ' ' . $_SESSION['user']['cognome']); ?></strong>!</p>
+                    <p>Benvenuto
+                        <strong><?php echo htmlspecialchars($_SESSION['user']['nome'] . ' ' . $_SESSION['user']['cognome']); ?></strong>!
+                    </p>
                 </div>
             </div>
         <?php endif; ?>
@@ -172,7 +209,8 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
             <h2>
                 <i class="fas <?php echo $is_search_active ? 'fa-search' : 'fa-list-ul'; ?>"></i>
                 <?php echo htmlspecialchars($page_content_title); ?>
-                <small>(<?php echo $total_quizzes; ?> quiz trovat<?php echo ($total_quizzes !== 1) ? 'i':'o'; ?>)</small>
+                <small>(<?php echo $total_quizzes; ?> quiz
+                    trovat<?php echo ($total_quizzes !== 1) ? 'i' : 'o'; ?>)</small>
             </h2>
             <div class="controls-container">
                 <form method="GET" id="per-page-form">
@@ -184,7 +222,9 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     <label for="per_page_select"><i class="fas fa-th-list"></i> Elementi:</label>
                     <select id="per_page_select" name="per_page" aria-label="Elementi per pagina">
                         <?php foreach ($valid_per_page_options as $option): ?>
-                            <option value="<?php echo $option; ?>" <?php if ($per_page == $option) echo 'selected'; ?>><?php echo $option; ?></option>
+                            <option value="<?php echo $option; ?>" <?php if ($per_page == $option)
+                                   echo 'selected'; ?>>
+                                <?php echo $option; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </form>
@@ -196,12 +236,28 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     } ?>
                     <label for="sort_by_inline"><i class="fas fa-sort"></i> Ordina:</label>
                     <select id="sort_by_inline" name="sort_by" aria-label="Criterio di ordinamento">
-                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc') echo 'selected'; ?>>Più Recenti (Default)</option>
-                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc') echo 'selected'; ?>>Meno Recenti</option>
-                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc') echo 'selected'; ?>>Titolo (A-Z)</option>
-                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
-                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
-                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
+                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc')
+                            echo 'selected'; ?>>Più Recenti
+                            (Default)</option>
+                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc')
+                            echo 'selected'; ?>>Meno Recenti
+                        </option>
+                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc')
+                            echo 'selected'; ?>>Titolo (A-Z)
+                        </option>
+                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc')
+                            echo 'selected'; ?>>Titolo (Z-A)
+                        </option>
+                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc')
+                            echo 'selected'; ?>>Data
+                            Inizio (Crescente)</option>
+                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc')
+                            echo 'selected'; ?>>
+                            Data Inizio (Decrescente)</option>
+                        <option value="partecipazioni_desc" <?php if ($sort_by == 'partecipazioni_desc')
+                            echo 'selected'; ?>>Partecipazioni (Più alto)</option>
+                        <option value="partecipazioni_asc" <?php if ($sort_by == 'partecipazioni_asc')
+                            echo 'selected'; ?>>Partecipazioni (Più basso)</option>
                     </select>
                 </form>
             </div>
@@ -210,11 +266,11 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
         <?php if (empty($quizzes_to_display) && $total_quizzes === 0): ?>
             <div class="no-results card">
                 <p><i class="fas fa-info-circle"></i>
-                <?php if ($is_search_active): ?>
-                    Nessun quiz trovato con i criteri specificati.
-                <?php else: ?>
-                    Nessun quiz disponibile al momento.
-                <?php endif; ?>
+                    <?php if ($is_search_active): ?>
+                        Nessun quiz trovato con i criteri specificati.
+                    <?php else: ?>
+                        Nessun quiz disponibile al momento.
+                    <?php endif; ?>
                 </p>
                 <?php if ($is_search_active): ?>
                     <p><a href="index.php" class="text-link">Azzera filtri e visualizza tutti i quiz</a></p>
@@ -226,26 +282,34 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     <div class="quiz-item card">
                         <h3 class="quiz-title"><?php echo htmlspecialchars($quiz['titolo']); ?></h3>
                         <div class="quiz-meta">
-                            <p><i class="fas fa-user"></i>Creato da: &nbsp; <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong></p>
-                            <p><i class="far fa-calendar-alt"></i> Dal &nbsp; <strong><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></strong> &nbsp; al &nbsp; <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong></p>
-                            <?php
-                                $now_dt = new DateTime();
-                                $dataInizio_dt = new DateTime($quiz['dataInizio']);
-                                $dataFine_dt = (new DateTime($quiz['dataFine']))->setTime(23,59,59);
+                            <p><i class="fas fa-user"></i>Creato da:  
+                                <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong></p>
+                            <p><i class="far fa-calendar-alt"></i> Dal  
+                                <strong><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></strong>   al  
+                                <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong></p>
+                            <p><i class="fas fa-users"></i> Partecipazioni:
+                                <strong><?php echo $quiz['num_partecipazioni']; ?></strong></p>
 
-                                if ($now_dt >= $dataInizio_dt && $now_dt <= $dataFine_dt) {
-                                    echo '<span class="status-badge available"><i class="fas fa-check-circle"></i> Disponibile</span>';
-                                } elseif ($now_dt < $dataInizio_dt) {
-                                    echo '<span class="status-badge pending"><i class="fas fa-clock"></i> Prossimamente</span>';
-                                } else {
-                                    echo '<span class="status-badge expired"><i class="fas fa-times-circle"></i> Scaduto</span>';
-                                }
+                            <?php
+                            $now_dt = new DateTime();
+                            $dataInizio_dt = new DateTime($quiz['dataInizio']);
+                            $dataFine_dt = (new DateTime($quiz['dataFine']))->setTime(23, 59, 59);
+
+                            if ($now_dt >= $dataInizio_dt && $now_dt <= $dataFine_dt) {
+                                echo '<span class="status-badge available"><i class="fas fa-check-circle"></i> Disponibile</span>';
+                            } elseif ($now_dt < $dataInizio_dt) {
+                                echo '<span class="status-badge pending"><i class="fas fa-clock"></i> Prossimamente</span>';
+                            } else {
+                                echo '<span class="status-badge expired"><i class="fas fa-times-circle"></i> Scaduto</span>';
+                            }
                             ?>
                         </div>
                         <div class="quiz-actions">
-                            <a href="quiz_view.php?id=<?php echo $quiz['codice']; ?>" class="btn"><i class="fas fa-eye"></i> Visualizza</a>
+                            <a href="quiz_view.php?id=<?php echo $quiz['codice']; ?>" class="btn"><i class="fas fa-eye"></i>
+                                Visualizza</a>
                             <?php if (isset($_SESSION['user']) && ($now_dt >= $dataInizio_dt && $now_dt <= $dataFine_dt)): ?>
-                                <a href="quiz_participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary"><i class="fas fa-play"></i> Partecipa</a>
+                                <a href="quiz_participate.php?id=<?php echo $quiz['codice']; ?>" class="btn btn-secondary"><i
+                                        class="fas fa-play"></i> Partecipa</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -254,17 +318,19 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
 
             <?php
             if ($total_pages > 1):
-            ?>
+                ?>
                 <nav class="pagination" aria-label="Paginazione risultati">
                     <div class="pagination-wrapper">
                         <div class="pagination-info">
                             <i class="fas fa-list-ol"></i>
-                            Visualizzazione <?php echo ($offset + 1); ?>-<?php echo min($offset + $per_page, $total_quizzes); ?> di <?php echo $total_quizzes; ?> quiz
+                            Visualizzazione <?php echo ($offset + 1); ?>-<?php echo min($offset + $per_page, $total_quizzes); ?>
+                            di <?php echo $total_quizzes; ?> quiz
                         </div>
                         <div class="pagination-controls">
                             <?php
                             if (!function_exists('getPaginationUrl')) {
-                                function getPaginationUrl($page_num_target) {
+                                function getPaginationUrl($page_num_target)
+                                {
                                     $current_params = $_GET;
                                     $current_params['page'] = $page_num_target;
                                     return 'index.php?' . http_build_query($current_params);
@@ -273,7 +339,8 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                             ?>
                             <div class="compact-pagination" role="navigation" aria-label="Navigazione pagine">
                                 <?php if ($page > 1): ?>
-                                    <a href="<?php echo getPaginationUrl($page - 1); ?>" class="page-item page-nav" title="Pagina precedente">
+                                    <a href="<?php echo getPaginationUrl($page - 1); ?>" class="page-item page-nav"
+                                        title="Pagina precedente">
                                         <i class="fas fa-chevron-left"></i> Prec
                                     </a>
                                 <?php else: ?>
@@ -293,16 +360,18 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                                         } else {
                                             echo '<a href="' . getPaginationUrl($i) . '" class="page-item" title="Vai a pagina ' . $i . '">' . $i . '</a>';
                                         }
-                                    }
-                                    elseif (($i == $page - $links_range - 1 && $page - $links_range > 2 && $show_first_last) ||
-                                            ($i == $page + $links_range + 1 && $page + $links_range < $total_pages - 1 && $show_first_last)) {
+                                    } elseif (
+                                        ($i == $page - $links_range - 1 && $page - $links_range > 2 && $show_first_last) ||
+                                        ($i == $page + $links_range + 1 && $page + $links_range < $total_pages - 1 && $show_first_last)
+                                    ) {
                                         echo '<span class="page-dots">...</span>';
                                     }
                                 }
                                 ?>
 
                                 <?php if ($page < $total_pages): ?>
-                                    <a href="<?php echo getPaginationUrl($page + 1); ?>" class="page-item page-nav" title="Pagina successiva">
+                                    <a href="<?php echo getPaginationUrl($page + 1); ?>" class="page-item page-nav"
+                                        title="Pagina successiva">
                                         Succ <i class="fas fa-chevron-right"></i>
                                     </a>
                                 <?php else: ?>
