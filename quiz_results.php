@@ -119,11 +119,11 @@ try {
                 <p><strong class="bold">Data partecipazione:</strong> <?php echo htmlspecialchars(date('d/m/Y H:i', strtotime($data_partecipazione))); ?></p>
                 <p><strong class="bold">Punteggio totale ottenuto:</strong> <span style="font-size: 1.2em; color: var(--primary-blue); font-weight: bold;"><?php echo $total_score; ?></span> punti</p>
                 <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 15px 0;">
-                <a href="quiz_view.php?id=<?php echo $quiz_id; ?>" class="btn btn-secondary" style="margin-right:10px;">
-                    <?php // <i class="fas fa-eye"></i> ?> Torna alla Scheda Quiz
+                <a href="quiz_modify.php?id=<?php echo $quiz_id; ?>" class="btn btn-secondary" style="margin-right:10px;">
+                    <?php // <i class="fas fa-eye"></i> ?> Modifica Quiz
                 </a>
-                <a href="index.php" class="btn">
-                    <?php // <i class="fas fa-list-alt"></i> ?> Vedi altri Quiz
+                <a href="quiz_participations.php" class="btn">
+                    <?php // <i class="fas fa-list-alt"></i> ?> Torna alle Partecipazioni
                 </a>
             </div>
         </div>

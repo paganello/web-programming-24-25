@@ -1,10 +1,10 @@
 // assets/js/main.js
 
 // Funzioni helper globali (definite prima di $(document).ready)
-function checkDateRange(startDate, endDate) {
+function checkDateRange(startDate, endDate, edit = false) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    if (startDate < today) {
+    if (startDate < today && !edit) {
         return 'La data di inizio non può essere precedente a oggi.';
     }
     if (endDate < startDate) {
@@ -376,7 +376,7 @@ $(document).on('click', '#questions-container .remove-answer', function () {
             e.preventDefault();
             const startDate = new Date($(this).find('#dataInizio').val());
             const endDate = new Date($(this).find('#dataFine').val());
-            const errorMessage = checkDateRange(startDate, endDate);
+            const errorMessage = checkDateRange(startDate, endDate, true);
             if (errorMessage) { showEditAlerts(errorMessage, 'danger'); return; }
             
             $.ajax({

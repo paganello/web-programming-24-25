@@ -169,7 +169,6 @@ try {
         <div id="form-messages"></div>
         <br>
         <button type="submit" class="submit-btn">Salva Modifiche al Quiz</button>
-
     </form>
 
     <!-- Template per Nuova Domanda (nascosto) -->
