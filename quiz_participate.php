@@ -83,7 +83,9 @@ $i = 0;
                 <?php foreach ($questions as $question): ?>
                     <div class="question-item">
                         <div class="question-text">
-                            Domanda <?php $i++; $j = 0; echo $i; ?>: <?php echo htmlspecialchars($question['testo']); ?>
+                            Domanda <?php $i++;
+                            $j = 0;
+                            echo $i; ?>: <?php echo htmlspecialchars($question['testo']); ?>
                         </div>
 
                         <div class="answer-options">
@@ -91,7 +93,8 @@ $i = 0;
                                 <div class="answer-option">
                                     <label>
                                         <input type="checkbox" name="answers[<?php echo $question['numero']; ?>][]"
-                                            value="<?php $j++; echo $i; ?>">
+                                            value="<?php $j++;
+                                            echo $i; ?>">
                                         <?php echo htmlspecialchars($answer['testo']); ?>
                                     </label>
                                 </div>

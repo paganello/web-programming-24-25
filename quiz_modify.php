@@ -196,7 +196,8 @@ try {
         <div class="answer-block div" data-answer-index="__A_INDEX__">
             <h3>Risposta __A_DISPLAY_NUM__</h3>
             <div>
-                <textarea class="textarea"name="questions[__Q_INDEX__][answers][__A_INDEX__][testo]" required></textarea>
+                <textarea class="textarea" name="questions[__Q_INDEX__][answers][__A_INDEX__][testo]"
+                    required></textarea>
             </div>
             <button type="button" class="remove-btn remove-answer-btn">Rimuovi Risposta</button>
             <div>
@@ -220,4 +221,5 @@ try {
     </template>
 </body>
 <?php include 'includes/footer.php'; ?>
+
 </html>
