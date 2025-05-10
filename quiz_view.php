@@ -155,40 +155,42 @@ try {
             <h2><i class="fas fa-list-ul"></i> Anteprima delle Domande</h2>
 
             <?php if (empty($questions)): ?>
-                <div class="no-questions-notice">
-                    <i class="fas fa-info-circle"></i>
-                    <p>Nessuna domanda disponibile per questo quiz al momento.</p>
-                </div>
+            <div class="no-questions-notice">
+                <i class="fas fa-info-circle"></i>
+                <p>Nessuna domanda disponibile per questo quiz al momento.</p>
+            </div>
             <?php else: ?>
-                <div class="questions-accordion">
-                    <?php foreach ($questions as $index => $question): ?>
-                        <div class="question-card open">
-                            <div class="question-header" role="button" tabindex="0" aria-expanded="true"
-                                aria-controls="question-content-<?php echo $index; ?>">
-                                <span class="question-number">Domanda
-                                    <?php echo htmlspecialchars($question['numero']); ?></span>
-                                <div class="question-toggle"><i class="fas fa-chevron-down"></i></div>
-                            </div>
-                            <div class="question-content-wrapper" id="question-content-<?php echo $index; ?>">
-                                <div class="question-text">
-                                    <?php echo nl2br(htmlspecialchars($question['testo'])); ?>
-                                </div>
-                                <?php if (!empty($question['answers'])): ?>
-                                    <ul class="answer-options">
-                                        <?php foreach ($question['answers'] as $answer): ?>
-                                            <li class="answer-option">
-                                                <span class="option-marker"><?php echo chr(64 + $answer['numero']); ?>.</span>
-                                                <span class="option-text"><?php echo htmlspecialchars($answer['testo']); ?></span>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php else: ?>
-                                    <p class="no-answers-notice">Nessuna opzione di risposta fornita per questa domanda.</p>
-                                <?php endif; ?>
-                            </div>
+            <div class="questions-accordion">
+                <?php
+                $numeroDomandaVisualizzato = 1;
+                 foreach ($questions as $index => $question): ?>
+                <div class="question-card open">
+                    <div class="question-header" role="button" tabindex="0" aria-expanded="true" aria-controls="question-content-<?php echo $index; ?>">
+                        <span class="question-number">Domanda <?php echo $numeroDomandaVisualizzato; ?></span>
+                        <div class="question-toggle"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="question-content-wrapper" id="question-content-<?php echo $index; ?>">
+                        <div class="question-text">
+                            <?php echo nl2br(htmlspecialchars($question['testo'])); ?>
                         </div>
-                    <?php endforeach; ?>
+                        <?php if (!empty($question['answers'])): ?>
+                        <ul class="answer-options">
+                            <?php foreach ($question['answers'] as $answer): ?>
+                            <li class="answer-option">
+                                <span class="option-marker"><?php echo chr(64 + $answer['numero']); ?>.</span>
+                                <span class="option-text"><?php echo htmlspecialchars($answer['testo']); ?></span>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php else: ?>
+                        <p class="no-answers-notice">Nessuna opzione di risposta fornita per questa domanda.</p>
+                        <?php endif; ?>
+                    </div>
                 </div>
+                <?php
+                $numeroDomandaVisualizzato++;
+                endforeach; ?>
+            </div>
             <?php endif; ?>
         </div>
     </div>
