@@ -209,7 +209,7 @@ try {
             <div class="question-body-styled padding-medium-horizontal">
                 <div class="form-field-group margin-bottom-medium">
                     <label for="question_text___Q_INDEX__" class="form-label-styled label-bold-styled">Testo della Domanda:</label>
-                    <textarea id="question_text___Q_INDEX__" class="textarea-styled" name="questions[__Q_INDEX__][text]" rows="3" required placeholder="Inserisci qui il testo della domanda..."></textarea>
+<textarea id="question_text___Q_INDEX__" class="textarea-styled" name="questions[__Q_INDEX__][text]" rows="3" required placeholder="Inserisci qui il testo della domanda..."></textarea>
                 </div>
                 <h4 class="answers-area-title-styled margin-top-medium margin-bottom-small">Risposte:</h4>
                 <div class="answers-container-styled padding-left-small" id="answers-container-q__Q_INDEX__">

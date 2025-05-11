@@ -423,97 +423,103 @@ success: function (response) {
 
         // Funzioni specifiche per la rinumerazione nella pagina di modifica
         function renumberQuestionsForEdit() {
-            const $form = $('#edit-quiz-form');
-            const $questionBlocks = $form.find('#questions-container .question-block-styled');
-            $form.find('#no-questions-message').toggle($questionBlocks.length === 0);
+    // console.log("--- RENUMBERING QUESTIONS FOR EDIT ---"); // Rimuovi i console.log se non servono più per il debug
+    const $form = $('#edit-quiz-form');
+    const $questionBlocks = $form.find('#questions-container .question-block-styled');
+    $form.find('#no-questions-message').toggle($questionBlocks.length === 0);
 
-            $questionBlocks.each(function (qIndex) { // qIndex parte da 0
-                const $currentQuestionBlock = $(this);
-                const displayQNum = qIndex + 1;
+    $questionBlocks.each(function (qIndex) { // qIndex parte da 0
+        const $currentQuestionBlock = $(this);
+        const displayQNum = qIndex + 1;
 
-                $currentQuestionBlock.attr('data-question-index', qIndex); // Usiamo data-question-index (basato su 0)
-                $currentQuestionBlock.find('.question-number').first().text(displayQNum);
-                
-                $currentQuestionBlock.find('.add-answer-btn .question-number-btn-text').text(displayQNum);
-                $currentQuestionBlock.find('.remove-question-btn').attr('title', `Rimuovi Domanda ${displayQNum}`);
+        // console.log(`Processing Question Block at qIndex: ${qIndex}`);
 
-                // Aggiorna textarea domanda
-$currentQuestionBlock.find('textarea.textarea-styled').each(function () { // Seleziona tramite la classe
-    // Imposta direttamente il nome corretto
-    $(this).attr('name', `questions[${qIndex}][text]`); 
-    
-    // Aggiorna ID e label
-    const newId = `question_text_${qIndex}`;
-    $(this).attr('id', newId);
-    // Trova la label corrispondente in modo più robusto (assumendo che sia l'unica label per un textarea dentro .form-field-group)
-    $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
-});
-                // Aggiorna campo hidden original_numero_domanda
-                $currentQuestionBlock.find('input[type="hidden"][name$="[original_numero_domanda]"]').each(function() {
-                    const oldName = $(this).attr('name');
-                    if (oldName) $(this).attr('name', oldName.replace(/questions\[.*?\]/, `questions[${qIndex}]`));
-                });
+        $currentQuestionBlock.attr('data-question-index', qIndex);
+        $currentQuestionBlock.find('.question-number').first().text(displayQNum);
+        
+        $currentQuestionBlock.find('.add-answer-btn .question-number-btn-text').text(displayQNum);
+        $currentQuestionBlock.find('.remove-question-btn').attr('title', `Rimuovi Domanda ${displayQNum}`);
 
-                const $answersContainer = $currentQuestionBlock.find('.answers-container-styled');
-                $answersContainer.attr('id', `answers-container-q${qIndex}`);
-                $answersContainer.find('.no-answers-message').attr('id', `no-answers-for-q${qIndex}`);
+        // Aggiorna textarea domanda
+        // USA 'textarea.textarea-styled' SE HAI AGGIUNTIO LA CLASSE NEL TEMPLATE (Modifica #1)
+        $currentQuestionBlock.find('textarea.textarea-styled').each(function () {
+            const currentName = $(this).attr('name');
+            const newName = `questions[${qIndex}][text]`; // Assicura [text]
+            $(this).attr('name', newName);
+            // console.log(`  Textarea: OLD name='${currentName}', NEW name='${newName}', ID='${$(this).attr('id')}'`);
+            
+            const newId = `question_text_${qIndex}`;
+            $(this).attr('id', newId);
+            $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
+        });
+        
+        // Aggiorna campo hidden original_numero_domanda
+        $currentQuestionBlock.find('input[type="hidden"][name$="[original_numero_domanda]"]').each(function() {
+            const oldNameHidden = $(this).attr('name');
+            const newNameHidden = `questions[${qIndex}][original_numero_domanda]`;
+            $(this).attr('name', newNameHidden);
+            // console.log(`  Hidden original_numero_domanda: OLD name='${oldNameHidden}', NEW name='${newNameHidden}'`);
+        });
 
-                renumberAnswersForEdit($currentQuestionBlock, qIndex);
-            });
-        }
+        const $answersContainer = $currentQuestionBlock.find('.answers-container-styled');
+        $answersContainer.attr('id', `answers-container-q${qIndex}`);
+        $answersContainer.find('.no-answers-message').attr('id', `no-answers-for-q${qIndex}`);
 
-function renumberAnswersForEdit($questionBlock, questionIndex) { // questionIndex è base 0
-            const $answerBlocks = $questionBlock.find('.answers-container-styled .answer-block-styled');
-            $questionBlock.find('.no-answers-message').toggle($answerBlocks.length === 0);
+        renumberAnswersForEdit($currentQuestionBlock, qIndex);
+    });
+    // console.log("--- FINISHED RENUMBERING QUESTIONS ---");
+}
 
-            $answerBlocks.each(function (aIndex) { // aIndex parte da 0
-                const $currentAnswerBlock = $(this);
-                const displayANum = aIndex + 1;
+function renumberAnswersForEdit($questionBlock, questionIndex) {
+    const $answerBlocks = $questionBlock.find('.answers-container-styled .answer-block-styled');
+    $questionBlock.find('.no-answers-message').toggle($answerBlocks.length === 0);
 
-                $currentAnswerBlock.attr('data-answer-index', aIndex);
-                $currentAnswerBlock.find('.answer-number').first().text(displayANum);
+    $answerBlocks.each(function (aIndex) {
+        const $currentAnswerBlock = $(this);
+        const displayANum = aIndex + 1;
 
-                const nameQuestionPart = `questions[${questionIndex}]`;
-                const nameAnswerPart = `[answers][${aIndex}]`;
+        $currentAnswerBlock.attr('data-answer-index', aIndex);
+        $currentAnswerBlock.find('.answer-number').first().text(displayANum);
 
-                // Testo risposta
-                $currentAnswerBlock.find('input[type="text"][name$="[testo]"]').each(function() { // 'this' qui è l'input text
-                    const oldId = $(this).attr('id');
-                    const newId = `answer_text_${questionIndex}_${aIndex}`;
-                    
-                    // !!! RIGA DA AGGIUNGERE/ASSICURARSI CHE CI SIA E SIA CORRETTA !!!
-                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[testo]`); 
-                    // !!! FINE RIGA DA AGGIUNGERE !!!
-                    
-                    $(this).attr('id', newId);
-                    $currentAnswerBlock.find(`label[for="${oldId}"]`).attr('for', newId); 
-                });
+        const nameQuestionPart = `questions[${questionIndex}]`;
+        const nameAnswerPart = `[answers][${aIndex}]`;
 
-                // Tipo (radio)
-                $currentAnswerBlock.find('input[type="radio"][name$="[type]"]').each(function() {
-                    const radioValue = $(this).val(); 
-                    const typeSuffix = radioValue === 'Corretta' ? 'C' : 'S';
-                    const newId = `q${questionIndex}a${aIndex}type${typeSuffix}`;
-                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[type]`);
-                    $(this).attr('id', newId);
-                    $(this).next('label.radio-label-styled').attr('for', newId);
-                });
+        // Testo risposta - USA I SELETTORI SPECIFICI CON LE CLASSI DEL TUO HTML
+        $currentAnswerBlock.find('input.form-input-styled.input-small-styled[type="text"]').each(function() {
+            const currentName = $(this).attr('name');
+            const newName = `${nameQuestionPart}${nameAnswerPart}[text]`;
+            $(this).attr('name', newName);
+            // console.log(`    Answer Text: OLD name='${currentName}', NEW name='${newName}', ID='${$(this).attr('id')}'`);
 
-                // Punteggio
-                $currentAnswerBlock.find('input[type="number"][name$="[points]"]').each(function() {
-                    const oldId = $(this).attr('id');
-                    const newId = `q${questionIndex}a${aIndex}points`;
-                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[points]`);
-                    $(this).attr('id', newId);
-                    $currentAnswerBlock.find(`label[for="${oldId}"]`).attr('for', newId); 
-                });
+            const newId = `answer_text_${questionIndex}_${aIndex}`;
+            $(this).attr('id', newId);
+            $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
+        });
 
-                // Campo hidden original_numero_risposta
-                $currentAnswerBlock.find('input[type="hidden"][name$="[original_numero_risposta]"]').each(function() {
-                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[original_numero_risposta]`);
-                });
-            });
-        }
+        // Tipo (radio) - USA I SELETTORI SPECIFICI
+        $currentAnswerBlock.find('input.radio-input-styled[name$="[type]"]').each(function() {
+            const radioValue = $(this).val(); 
+            const typeSuffix = radioValue === 'Corretta' ? 'C' : 'S';
+            const newId = `q${questionIndex}a${aIndex}tipo${typeSuffix}`;
+            $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[type]`);
+            $(this).attr('id', newId);
+            $(this).next('label.radio-label-styled').attr('for', newId);
+        });
+
+        // Punteggio - USA I SELETTORI SPECIFICI
+        $currentAnswerBlock.find('input.input-numerical-styled[name$="[points]"]').each(function() {
+            const newId = `q${questionIndex}a${aIndex}punti`;
+            $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[points]`);
+            $(this).attr('id', newId);
+            $(this).closest('.points-group').find('label.form-label-styled').attr('for', newId);
+        });
+
+        // Campo hidden original_numero_risposta
+        $currentAnswerBlock.find('input[type="hidden"][name$="[original_numero_risposta]"]').each(function() {
+            $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[original_numero_risposta]`);
+        });
+    });
+}
 
         // Chiamata iniziale per assicurare che gli indici e i numeri siano corretti al caricamento
         renumberQuestionsForEdit();
