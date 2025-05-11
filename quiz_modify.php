@@ -67,6 +67,8 @@ try {
 <div class="main-content">
     <div class="content">
     <h1 class="page-main-title">Modifica Quiz: <?php echo htmlspecialchars($quiz['titolo']); ?></h1>
+    
+    <div id="alert-container-page-modify" class="alert-placeholder"></div>
 
     <form id="edit-quiz-form" action="api/quiz.php?action=update" method="POST">
         <input type="hidden" name="quiz_id" value="<?php echo $quiz['codice']; ?>">
@@ -122,7 +124,7 @@ try {
                             <div class="question-body-styled padding-medium-horizontal">
                                 <div class="form-field-group margin-bottom-medium">
                                     <label for="question_text_<?php echo $indexDomanda; ?>" class="form-label-styled label-bold-styled">Testo della Domanda:</label>
-                                    <textarea id="question_text_<?php echo $indexDomanda; ?>" class="textarea-styled" name="questions[<?php echo $indexDomanda; ?>][testo]" rows="3" required placeholder="Inserisci qui il testo della domanda..."><?php echo htmlspecialchars($domanda['testo']); ?></textarea>
+                                    <textarea id="question_text_<?php echo $indexDomanda; ?>" class="textarea-styled" name="questions[<?php echo $indexDomanda; ?>][text]" rows="3" required placeholder="Inserisci qui il testo della domanda..."><?php echo htmlspecialchars($domanda['testo']); ?></textarea>
                                 </div>
                                 
                                 <h4 class="answers-area-title-styled margin-top-medium margin-bottom-small">Risposte:</h4>
@@ -147,7 +149,7 @@ try {
 
                                             <div class="form-field-group margin-bottom-small">
                                                 <label for="answer_text_<?php echo $indexDomanda; ?>_<?php echo $indexRisposta; ?>" class="form-label-styled label-small-styled">Testo della Risposta:</label>
-                                                <input type="text" id="answer_text_<?php echo $indexDomanda; ?>_<?php echo $indexRisposta; ?>" class="form-input-styled input-small-styled" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][testo]" value="<?php echo htmlspecialchars($risposta['testo']); ?>" required placeholder="Testo della risposta">
+                                                <input type="text" id="answer_text_<?php echo $indexDomanda; ?>_<?php echo $indexRisposta; ?>" class="form-input-styled input-small-styled" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][text]" value="<?php echo htmlspecialchars($risposta['testo']); ?>" required placeholder="Testo della risposta">
                                             </div>
                                             
                                             <?php $isCorrect = ($risposta['tipo'] == 'Corretta'); ?>
@@ -155,11 +157,11 @@ try {
                                                 <label class="form-label-styled label-small-styled display-block margin-bottom-extra-small">Tipo Risposta:</label>
                                                 <div class="radio-option-group-styled">
                                                     <div class="radio-option-styled">
-                                                        <input class="radio-input-styled" type="radio" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][tipo]" id="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>tipoC" value="Corretta" <?php echo $isCorrect ? 'checked' : ''; ?> required>
+                                                        <input class="radio-input-styled" type="radio" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][type]" id="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>tipoC" value="Corretta" <?php echo $isCorrect ? 'checked' : ''; ?> required>
                                                         <label class="radio-label-styled" for="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>tipoC">Corretta</label>
                                                     </div>
                                                     <div class="radio-option-styled">
-                                                        <input class="radio-input-styled" type="radio" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][tipo]" id="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>tipoS" value="Sbagliata" <?php echo !$isCorrect ? 'checked' : ''; ?> required>
+                                                        <input class="radio-input-styled" type="radio" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][type]" id="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>tipoS" value="Sbagliata" <?php echo !$isCorrect ? 'checked' : ''; ?> required>
                                                         <label class="radio-label-styled" for="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>tipoS">Sbagliata</label>
                                                     </div>
                                                 </div>
@@ -167,7 +169,7 @@ try {
 
                                             <div class="form-field-group points-group" <?php echo !$isCorrect ? 'style="display:none;"' : ''; ?>>
                                                 <label for="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>punti" class="form-label-styled label-small-styled">Punti (se corretta):</label>
-                                                <input type="number" id="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>punti" class="form-input-styled input-small-styled input-numerical-styled" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][punteggio]" value="<?php echo htmlspecialchars($risposta['punteggio'] ?? ($isCorrect ? 1 : 0)); ?>" required min="0">
+                                                <input type="number" id="q<?php echo $indexDomanda; ?>a<?php echo $indexRisposta; ?>punti" class="form-input-styled input-small-styled input-numerical-styled" name="questions[<?php echo $indexDomanda; ?>][answers][<?php echo $indexRisposta; ?>][points]" value="<?php echo htmlspecialchars($risposta['punteggio'] ?? ($isCorrect ? 1 : 0)); ?>" required min="0">
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -188,7 +190,6 @@ try {
                         <i class="fas fa-save icon-spacing-right"></i> Salva Modifiche al Quiz
                     </button>
                 </div>
-                 <div id="form-messages" class="margin-top-medium"></div> <!-- Per gli alert JS -->
             </div> <!-- fine custom-card-body -->
         </div> <!-- fine custom-card -->
     </form>
@@ -208,7 +209,7 @@ try {
             <div class="question-body-styled padding-medium-horizontal">
                 <div class="form-field-group margin-bottom-medium">
                     <label for="question_text___Q_INDEX__" class="form-label-styled label-bold-styled">Testo della Domanda:</label>
-                    <textarea id="question_text___Q_INDEX__" class="textarea-styled" name="questions[__Q_INDEX__][testo]" rows="3" required placeholder="Inserisci qui il testo della domanda..."></textarea>
+                    <textarea id="question_text___Q_INDEX__" class="textarea-styled" name="questions[__Q_INDEX__][text]" rows="3" required placeholder="Inserisci qui il testo della domanda..."></textarea>
                 </div>
                 <h4 class="answers-area-title-styled margin-top-medium margin-bottom-small">Risposte:</h4>
                 <div class="answers-container-styled padding-left-small" id="answers-container-q__Q_INDEX__">
@@ -223,50 +224,37 @@ try {
 
     <!-- Template per Nuova Risposta (nascosto) - Stile come quiz_create.php -->
     <template id="answer-template">
-<<<<<<< HEAD
         <div class="answer-block-styled padding-medium margin-bottom-medium box-shadow-extra-light" data-answer-index="__A_INDEX__">
             <div class="answer-header-styled flex-container flex-justify-between flex-align-center margin-bottom-small">
                 <label class="form-label-styled label-bold-styled label-accent-color-styled answer-label-dynamic">Risposta <span class="answer-number">__A_DISPLAY_NUM__</span></label>
                 <button type="button" class="button-styled button-danger-styled button-extra-small-styled remove-answer-btn" title="Rimuovi Risposta">
                     <i class="fas fa-times"></i>
                 </button>
-=======
-        <div class="answer-block div" data-answer-index="__A_INDEX__">
-            <h3>Risposta __A_DISPLAY_NUM__</h3>
-            <div>
-                <textarea class="textarea" name="questions[__Q_INDEX__][answers][__A_INDEX__][testo]"
-                    required></textarea>
->>>>>>> main
             </div>
             <div class="form-field-group margin-bottom-small">
                 <label for="answer_text___Q_INDEX_____A_INDEX__" class="form-label-styled label-small-styled">Testo della Risposta:</label>
-                <input type="text" id="answer_text___Q_INDEX_____A_INDEX__" class="form-input-styled input-small-styled" name="questions[__Q_INDEX__][answers][__A_INDEX__][testo]" required placeholder="Testo della risposta">
+                <input type="text" id="answer_text___Q_INDEX_____A_INDEX__" class="form-input-styled input-small-styled" name="questions[__Q_INDEX__][answers][__A_INDEX__][text]" required placeholder="Testo della risposta">
             </div>
             <div class="form-field-group margin-bottom-small">
                 <label class="form-label-styled label-small-styled display-block margin-bottom-extra-small">Tipo Risposta:</label>
                 <div class="radio-option-group-styled">
                     <div class="radio-option-styled">
-                        <input class="radio-input-styled" type="radio" name="questions[__Q_INDEX__][answers][__A_INDEX__][tipo]" id="q__Q_INDEX__a__A_INDEX__tipoC" value="Corretta" required>
+                        <input class="radio-input-styled" type="radio" name="questions[__Q_INDEX__][answers][__A_INDEX__][type]" id="q__Q_INDEX__a__A_INDEX__tipoC" value="Corretta" required>
                         <label class="radio-label-styled" for="q__Q_INDEX__a__A_INDEX__tipoC">Corretta</label>
                     </div>
                     <div class="radio-option-styled">
-                        <input class="radio-input-styled" type="radio" name="questions[__Q_INDEX__][answers][__A_INDEX__][tipo]" id="q__Q_INDEX__a__A_INDEX__tipoS" value="Sbagliata" checked required>
+                        <input class="radio-input-styled" type="radio" name="questions[__Q_INDEX__][answers][__A_INDEX__][type]" id="q__Q_INDEX__a__A_INDEX__tipoS" value="Sbagliata" checked>
                         <label class="radio-label-styled" for="q__Q_INDEX__a__A_INDEX__tipoS">Sbagliata</label>
                     </div>
                 </div>
             </div>
             <div class="form-field-group points-group" style="display:none;"> <!-- Nascosto di default per nuova risposta sbagliata -->
                 <label for="q__Q_INDEX__a__A_INDEX__punti" class="form-label-styled label-small-styled">Punti (se corretta):</label>
-                <input type="number" id="q__Q_INDEX__a__A_INDEX__punti" class="form-input-styled input-small-styled input-numerical-styled" name="questions[__Q_INDEX__][answers][__A_INDEX__][punteggio]" value="0" required min="0">
+                <input type="number" id="q__Q_INDEX__a__A_INDEX__punti" class="form-input-styled input-small-styled input-numerical-styled" name="questions[__Q_INDEX__][answers][__A_INDEX__][points]" value="0" required min="0">
             </div>
         </div>
     </template>
 
     <?php include 'includes/footer.php'; // Assicurati che footer.php includa jQuery e main.js ?>
 </body>
-<<<<<<< HEAD
-=======
-<?php include 'includes/footer.php'; ?>
-
->>>>>>> main
 </html>

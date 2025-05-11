@@ -39,8 +39,8 @@ function showAlert(message, type = 'info', containerSelector = '#alert-container
 }
 
 function showEditAlerts(message, type) { // Usata in quiz_edit.php
-    showAlert(message, type, '#form-messages');
-}
+    showAlert(message, type, '#alert-container-page-modify');
+    }
 
 // Funzione per rinumerare domande e risposte per quiz_create.php
 function renumberQuestions() { // Questa è per quiz_create.php
@@ -438,17 +438,16 @@ success: function (response) {
                 $currentQuestionBlock.find('.remove-question-btn').attr('title', `Rimuovi Domanda ${displayQNum}`);
 
                 // Aggiorna textarea domanda
-                $currentQuestionBlock.find('textarea[name^="questions["]').each(function () {
-                    const oldName = $(this).attr('name');
-                    if (oldName) $(this).attr('name', oldName.replace(/questions\[.*?\]/, `questions[${qIndex}]`));
-                    
-                    const oldId = $(this).attr('id');
-                    if (oldId && oldId.startsWith('question_text_')) {
-                        const newId = `question_text_${qIndex}`;
-                        $(this).attr('id', newId);
-                        $currentQuestionBlock.find(`label[for="${oldId}"]`).attr('for', newId); // Aggiorna label
-                    }
-                });
+$currentQuestionBlock.find('textarea.textarea-styled').each(function () { // Seleziona tramite la classe
+    // Imposta direttamente il nome corretto
+    $(this).attr('name', `questions[${qIndex}][text]`); 
+    
+    // Aggiorna ID e label
+    const newId = `question_text_${qIndex}`;
+    $(this).attr('id', newId);
+    // Trova la label corrispondente in modo più robusto (assumendo che sia l'unica label per un textarea dentro .form-field-group)
+    $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
+});
                 // Aggiorna campo hidden original_numero_domanda
                 $currentQuestionBlock.find('input[type="hidden"][name$="[original_numero_domanda]"]').each(function() {
                     const oldName = $(this).attr('name');
@@ -463,7 +462,7 @@ success: function (response) {
             });
         }
 
-        function renumberAnswersForEdit($questionBlock, questionIndex) { // questionIndex è base 0
+function renumberAnswersForEdit($questionBlock, questionIndex) { // questionIndex è base 0
             const $answerBlocks = $questionBlock.find('.answers-container-styled .answer-block-styled');
             $questionBlock.find('.no-answers-message').toggle($answerBlocks.length === 0);
 
@@ -471,37 +470,44 @@ success: function (response) {
                 const $currentAnswerBlock = $(this);
                 const displayANum = aIndex + 1;
 
-                $currentAnswerBlock.attr('data-answer-index', aIndex); // Usiamo data-answer-index (base 0)
+                $currentAnswerBlock.attr('data-answer-index', aIndex);
                 $currentAnswerBlock.find('.answer-number').first().text(displayANum);
 
                 const nameQuestionPart = `questions[${questionIndex}]`;
-                const nameAnswerPart = `[answers][${aIndex}]`; // Indici base 0
+                const nameAnswerPart = `[answers][${aIndex}]`;
 
                 // Testo risposta
-                $currentAnswerBlock.find('input[type="text"][name$="[testo]"]').each(function() {
+                $currentAnswerBlock.find('input[type="text"][name$="[testo]"]').each(function() { // 'this' qui è l'input text
                     const oldId = $(this).attr('id');
                     const newId = `answer_text_${questionIndex}_${aIndex}`;
-                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[testo]`);
+                    
+                    // !!! RIGA DA AGGIUNGERE/ASSICURARSI CHE CI SIA E SIA CORRETTA !!!
+                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[testo]`); 
+                    // !!! FINE RIGA DA AGGIUNGERE !!!
+                    
                     $(this).attr('id', newId);
-                    $currentAnswerBlock.find(`label[for="${oldId}"]`).attr('for', newId); // Aggiorna label
+                    $currentAnswerBlock.find(`label[for="${oldId}"]`).attr('for', newId); 
                 });
+
                 // Tipo (radio)
-                $currentAnswerBlock.find('input[type="radio"][name$="[tipo]"]').each(function() {
-                    const radioValue = $(this).val(); // "Corretta" o "Sbagliata"
+                $currentAnswerBlock.find('input[type="radio"][name$="[type]"]').each(function() {
+                    const radioValue = $(this).val(); 
                     const typeSuffix = radioValue === 'Corretta' ? 'C' : 'S';
-                    const newId = `q${questionIndex}a${aIndex}tipo${typeSuffix}`;
-                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[tipo]`);
+                    const newId = `q${questionIndex}a${aIndex}type${typeSuffix}`;
+                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[type]`);
                     $(this).attr('id', newId);
                     $(this).next('label.radio-label-styled').attr('for', newId);
                 });
+
                 // Punteggio
-                $currentAnswerBlock.find('input[type="number"][name$="[punteggio]"]').each(function() {
+                $currentAnswerBlock.find('input[type="number"][name$="[points]"]').each(function() {
                     const oldId = $(this).attr('id');
-                    const newId = `q${questionIndex}a${aIndex}punti`;
-                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[punteggio]`);
+                    const newId = `q${questionIndex}a${aIndex}points`;
+                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[points]`);
                     $(this).attr('id', newId);
-                    $currentAnswerBlock.find(`label[for="${oldId}"]`).attr('for', newId); // Aggiorna label
+                    $currentAnswerBlock.find(`label[for="${oldId}"]`).attr('for', newId); 
                 });
+
                 // Campo hidden original_numero_risposta
                 $currentAnswerBlock.find('input[type="hidden"][name$="[original_numero_risposta]"]').each(function() {
                     $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[original_numero_risposta]`);
@@ -583,7 +589,7 @@ success: function (response) {
         });
 
         // Gestione visualizzazione campo Punteggio in edit
-        $('#edit-quiz-form').on('change', '.answer-block-styled input[type="radio"][name$="[tipo]"]', function () {
+        $('#edit-quiz-form').on('change', '.answer-block-styled input[type="radio"][name$="[type]"]', function () {
             const $answerBlock = $(this).closest('.answer-block-styled');
             const $pointsGroup = $answerBlock.find('.points-group');
             const $pointsInput = $pointsGroup.find('input[type="number"]');
@@ -638,7 +644,7 @@ success: function (response) {
                 }
 
                 let hasCorrectAnswer = false;
-                $qBlock.find('.answers-container-styled .answer-block-styled input[type="radio"][name$="[tipo]"][value="Corretta"]').each(function() {
+                $qBlock.find('.answers-container-styled .answer-block-styled input[type="radio"][name$="[type]"][value="Corretta"]').each(function() {
                     if ($(this).is(':checked')) { hasCorrectAnswer = true; return false; }
                 });
                 if (!hasCorrectAnswer) {
@@ -674,34 +680,129 @@ success: function (response) {
     }
 
     // --- Gestione Modale Conferma Eliminazione (Globale) ---
-    const $confirmDeleteModal = $('#confirmDeleteModal');
+const $confirmDeleteModal = $('#confirmDeleteModal');
     if ($confirmDeleteModal.length) {
-        let quizIdToDeleteModal = null;
         const $confirmDeleteButton = $('#confirmDeleteActionBtn');
-        const $cancelOrCloseButtons = $confirmDeleteModal.find('.custom-modal-close-button, #cancelDeleteBtn'); // Usa .custom-modal-close-button
-        function hideMainDeleteModal() { $confirmDeleteModal.hide(); quizIdToDeleteModal = null; }
+        $confirmDeleteButton.off('click');
+        let quizIdToDeleteModal = null;
+
+        // Usa .custom-modal-close-button per il bottone di chiusura "X" come nel tuo CSS
+        // e #cancelDeleteBtn per il bottone "Annulla" o "Indietro"
+        const $cancelOrCloseButtons = $confirmDeleteModal.find('.custom-modal-close-button, #cancelDeleteBtn');
+
+        function showMainDeleteModal(quizId, quizTitle = 'questo quiz') {
+            quizIdToDeleteModal = quizId;
+            const $quizTitleSpan = $('#quizTitleToDelete'); // Assicurati che questo ID esista nel tuo modale HTML
+            if ($quizTitleSpan.length) {
+                $quizTitleSpan.text(quizTitle);
+            }
+            $confirmDeleteModal.show();
+        }
+
+        function hideMainDeleteModal() {
+            $confirmDeleteModal.hide();
+            quizIdToDeleteModal = null;
+            const $quizTitleSpan = $('#quizTitleToDelete');
+            if ($quizTitleSpan.length) {
+                $quizTitleSpan.text('[Nome Quiz]'); // Resetta il titolo
+            }
+        }
+
+        // Listener per aprire il modale
         $(document).on('click', '.delete-quiz-btn', function (event) {
             event.preventDefault();
-            quizIdToDeleteModal = $(this).data('delid') || $(this).attr('delid');
-            if (quizIdToDeleteModal && quizIdToDeleteModal !== '#') $confirmDeleteModal.show();
-        });
-        $confirmDeleteButton.on('click', function () {
-            if (quizIdToDeleteModal) {
-                $.ajax({
-                    url: `api/quiz.php?delId=${quizIdToDeleteModal}`, method: 'GET',
-                    success: function (response, status, xhr) {
-                        if (xhr.status === 204 || (response && response.status === 'success')) {
-                            showAlert('Quiz eliminato!', 'success'); setTimeout(() => location.reload(), 1500);
-                        } else showAlert(response.message || 'Errore eliminazione.', 'danger');
-                    },
-                    error: (xhr) => showAlert('Errore AJAX: ' + (xhr.responseJSON?.message || xhr.statusText), 'danger'),
-                    complete: () => hideMainDeleteModal()
-                });
+            const quizId = $(this).data('delid') || $(this).attr('delid');
+            const quizTitle = $(this).data('quiz-title') || 'questo quiz'; // Prendi il titolo dal data attribute
+            if (quizId && quizId !== '#') {
+                showMainDeleteModal(quizId, quizTitle);
             }
         });
+
+        // Listener per il bottone di conferma eliminazione
+        $confirmDeleteButton.on('click', function () {
+    if (quizIdToDeleteModal) {
+        const alertContainerSelector = '#alert-container-page'; // Definisci una volta per usarlo ovunque
+
+        // Svuota il contenitore PRIMA della chiamata AJAX
+        // Questo è importante se l'utente clicca velocemente più volte (anche se il modale dovrebbe impedirlo)
+        $(alertContainerSelector).empty();
+
+        $.ajax({
+            url: `api/quiz.php?delId=${quizIdToDeleteModal}`,
+            method: 'GET',
+            // Non specificare dataType: 'json' se ti aspetti un 204 vuoto.
+            // jQuery è abbastanza intelligente da gestire una risposta 204 vuota.
+            // Se specifichi dataType: 'json' e ricevi una risposta vuota (come dovrebbe essere un 204),
+            // jQuery potrebbe interpretarlo come un errore di parsing JSON e far scattare il blocco 'error'.
+
+            success: function (data, status, xhr) { // 'data' sarà null o vuoto per un 204
+                $(alertContainerSelector).empty(); // Svuota di nuovo per sicurezza
+
+                if (xhr.status === 204) {
+                    showAlert('Quiz eliminato!', 'success', alertContainerSelector);
+                    // Aumenta leggermente il timeout se pensi che le animazioni degli alert
+                    // possano interferire con il reload. 2000ms dovrebbero bastare.
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000); // Aumentato a 2 secondi
+                } else {
+                    // Questo ramo ora è meno probabile se il backend invia sempre 204 per delete OK.
+                    // Se il backend rispondesse con 200 OK e un JSON di successo (che non dovrebbe per DELETE)
+                    // if (data && data.status === 'success') {
+                    //    showAlert(data.message || 'Operazione completata!', 'success', alertContainerSelector);
+                    //    setTimeout(() => location.reload(), 2000);
+                    // } else {
+                        // Risposta inattesa ma status HTTP di successo (2xx)
+                        showAlert('Risposta inattesa dal server dopo l\'eliminazione.', 'warning', alertContainerSelector);
+                    // }
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(alertContainerSelector).empty(); // Svuota
+
+                let detailedErrorMessage = 'Errore AJAX durante l\'eliminazione';
+                if (textStatus === 'parsererror') {
+                    detailedErrorMessage = 'Errore AJAX: Problema nel parsing della risposta dal server.';
+                    if (xhr.responseText && xhr.status === 204) { // Specifico per 204 con contenuto
+                        detailedErrorMessage += ' (Il server ha risposto 204 ma con contenuto inatteso).';
+                    } else if (xhr.responseText) {
+                        detailedErrorMessage += ' Risposta ricevuta: ' + xhr.responseText.substring(0,100) + '...';
+                    }
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    detailedErrorMessage += ': ' + xhr.responseJSON.message;
+                } else if (errorThrown) {
+                    detailedErrorMessage += ': ' + errorThrown;
+                } else if (xhr.statusText && xhr.statusText.toLowerCase() !== 'ok') {
+                    detailedErrorMessage += ': ' + xhr.statusText;
+                } else if (xhr.status !== 0) {
+                    detailedErrorMessage += ` (Codice: ${xhr.status})`;
+                }
+
+                showAlert(detailedErrorMessage, 'danger', alertContainerSelector);
+            },
+            complete: () => {
+                // Nascondi il modale solo dopo un breve ritardo per permettere all'utente di vedere l'alert,
+                // specialmente se è un errore e la pagina non si ricarica.
+                setTimeout(() => {
+                    hideMainDeleteModal();
+                }, 500); // Ritardo di mezzo secondo
+            }
+        });
+    }
+});
+
+        // Listeners per chiudere il modale
         $cancelOrCloseButtons.on('click', hideMainDeleteModal);
-        $(window).on('click', (event) => { if ($(event.target).is($confirmDeleteModal)) hideMainDeleteModal(); });
-        $(document).on('keydown', (event) => { if (event.key === 'Escape' && $confirmDeleteModal.is(':visible')) hideMainDeleteModal(); });
+        $(window).on('click', (event) => {
+            if ($confirmDeleteModal.is(':visible') && $(event.target).is($confirmDeleteModal)) {
+                hideMainDeleteModal();
+            }
+        });
+        $(document).on('keydown', (event) => {
+            if (event.key === 'Escape' && $confirmDeleteModal.is(':visible')) {
+                hideMainDeleteModal();
+            }
+        });
     }
 
     // --- Funzionalità specifiche per la pagina Index (index.php) ---
@@ -722,66 +823,5 @@ success: function (response) {
         const $dataFineInput = $('#search_data_fine_a_sidebar');
         function toggleDateInputsState() { /* ... */ }
         if ($disponibileOraCheckbox.length) { $disponibileOraCheckbox.on('change', toggleDateInputsState); toggleDateInputsState(); }
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const deleteButtons = document.querySelectorAll('.delete-quiz-btn');
-    const modal = document.getElementById('confirmDeleteModal');
-    const quizTitleToDeleteSpan = document.getElementById('quizTitleToDelete');
-    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-    const confirmDeleteActionBtn = document.getElementById('confirmDeleteActionBtn');
-    const closeButton = modal ? modal.querySelector('.close-button') : null;
-    let quizCodeToDelete = null;
-
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            quizCodeToDelete = this.getAttribute('delId');
-            const quizTitle = this.dataset.quizTitle || 'questo quiz'; 
-            
-            if (quizTitleToDeleteSpan) {
-                quizTitleToDeleteSpan.textContent = quizTitle;
-            }
-            if (modal) {
-                modal.style.display = 'block';
-            }
-        });
-    });
-
-    function closeModal() {
-        if (modal) {
-            modal.style.display = 'none';
-        }
-        quizCodeToDelete = null;
-        if (quizTitleToDeleteSpan) { 
-            quizTitleToDeleteSpan.textContent = '[Nome Quiz]';
-        }
-    }
-
-    if (cancelDeleteBtn) {
-        cancelDeleteBtn.addEventListener('click', closeModal);
-    }
-    if (closeButton) {
-        closeButton.addEventListener('click', closeModal);
-    }
-    window.addEventListener('click', (event) => {
-        if (event.target == modal) {
-            closeModal();
-        }
-    });
-
-    if (confirmDeleteActionBtn) {
-        confirmDeleteActionBtn.addEventListener('click', () => {
-            if (quizCodeToDelete) {
-                // Azione di eliminazione (es. reindirizzamento o chiamata AJAX)
-                // Sostituisci con la tua logica di eliminazione effettiva
-                console.log('Azione ELIMINA per quiz con codice:', quizCodeToDelete);
-                // Esempio: window.location.href = 'quiz_delete_action.php?id=' + quizCodeToDelete; 
-                showAlert('Quiz con codice ' + quizCodeToDelete + ' eliminato (simulazione).', 'success'); 
-                closeModal();
-                // Potrebbe essere necessario ricaricare la pagina o rimuovere l'elemento dalla DOM
-                // window.location.reload(); 
-            }
-        });
     }
 });

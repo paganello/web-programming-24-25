@@ -118,6 +118,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     $stmt->execute();
                     $pdo->commit();
                     http_response_code(204); // No Content
+                    exit;
                 } catch (PDOException $e) {
                     $pdo->rollBack();
                     handleError('Errore durante l\'eliminazione del quiz: ' . $e->getMessage(), 500, $e->getTraceAsString());
@@ -195,6 +196,7 @@ try {
                 // ... (codice per popolare $formSentOriginalQuestionNumbers) ...
                 if (isset($data['questions']) && is_array($data['questions'])) {
                     foreach ($data['questions'] as $idx => $qData) {
+                        $q_text = trim($q_data['testo'] ?? '');
                         if (isset($qData['original_numero_domanda']) && $qData['original_numero_domanda'] !== '') {
                             $formSentOriginalQuestionNumbers[] = (int)$qData['original_numero_domanda'];
                         }
@@ -259,12 +261,23 @@ try {
 
                     foreach ($data['questions'] as $q_idx => $q_data) { // $q_idx è l'indice 0-based dall'array inviato
                         $q_text = trim($q_data['text']);
-                        if (empty($q_text)) {
-                            // Potresti decidere di saltare domande con testo vuoto o generare un errore
-                            // Per ora, lo saltiamo, ma considera la validazione
-                            error_log("API Update: Domanda con indice $q_idx saltata perché il testo è vuoto per quiz $quizId.");
-                            continue; 
-                        }
+if (empty($q_text)) {
+    $questionIdentifier = "all'indice form $q_idx";
+    if (isset($q_data['original_numero_domanda']) && !empty($q_data['original_numero_domanda'])) {
+        $questionIdentifier = "esistente con numero DB " . $q_data['original_numero_domanda'];
+    }
+    // Per debug, aggiungiamo l'intero $q_data al messaggio se è un array
+    $debug_q_data_info = "";
+    if (is_array($q_data)) {
+        $debug_q_data_info = " | Dati ricevuti per questo indice: " . json_encode($q_data);
+    } elseif (is_null($q_data)) {
+        $debug_q_data_info = " | Dati ricevuti per questo indice: NULL";
+    } else {
+        $debug_q_data_info = " | Dati ricevuti per questo indice: Non un array - " . gettype($q_data);
+    }
+
+    throw new Exception("Il testo per la domanda $questionIdentifier non può essere vuoto." . $debug_q_data_info);
+}
 
                         // Determina se è una domanda esistente o nuova
                         $isNewQuestion = !isset($q_data['original_numero_domanda']) || $q_data['original_numero_domanda'] === '' || (int)$q_data['original_numero_domanda'] <= 0;
@@ -341,10 +354,24 @@ try {
                             $newAnswerOrder = 1; // Per assegnare un nuovo 'numero' progressivo alle risposte se necessario
 
                             foreach ($q_data['answers'] as $a_idx => $a_data) {
-                                $a_text = trim($a_data['text']);
-                                $a_type = $a_data['type']; // "Corretta" o "Sbagliata"
-                                $a_points = ($a_type === 'Corretta' && isset($a_data['punteggio'])) ? (int)$a_data['punteggio'] : 0;
+    $a_text = trim($a_data['text'] ?? '');
+    
+// Leggi 'type' (inviato dal frontend come 'type')
+if (!isset($a_data['type']) || !in_array($a_data['type'], ['Corretta', 'Sbagliata'])) {
+    $questionIdentifier = "per domanda DB {$currentQuestionDbNumber}, risposta indice form {$a_idx}";
+    throw new Exception("Tipo di risposta non valido o mancante $questionIdentifier. Ricevuto: '" . htmlspecialchars($a_data['type'] ?? 'NULL') . "'.");
+}
+$a_type = $a_data['type'];
 
+$a_points = 0; 
+if ($a_type === 'Corretta') {
+    // Leggi 'points' (inviato dal frontend come 'points')
+    if (isset($a_data['points']) && is_numeric($a_data['points']) && (int)$a_data['points'] >= 0) {
+        $a_points = (int) $a_data['points'];
+    } else {
+        $a_points = 1; 
+    }
+}
                                 if (empty($a_text)) {
                                     error_log("API Update: Risposta con indice $a_idx per domanda $currentQuestionDbNumber saltata perché il testo è vuoto per quiz $quizId.");
                                     continue;
@@ -400,9 +427,10 @@ try {
                 if ($pdo->inTransaction()) $pdo->rollBack();
                 handleError('Errore del database durante l\'aggiornamento: ' . $e->getMessage(), 500, $e->getTraceAsString() . " | Dati: " . print_r($data, true));
             } catch (Exception $e) {
-                if ($pdo->inTransaction()) $pdo->rollBack();
-                handleError('Errore durante l\'aggiornamento: ' . $e->getMessage(), 400, "Dati: " . print_r($data, true)); // Spesso 400 per errori di validazione
-            }
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    // L'eccezione ora contiene $debug_q_data_info
+    handleError($e->getMessage(), 400, "Dati POST completi: " . print_r($data, true));
+}
 
         } else { // Altrimenti, si tratta di una creazione di un nuovo quiz (senza domande/risposte qui)
             // Questa logica gestisce solo la creazione dell'entità Quiz principale.

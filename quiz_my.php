@@ -123,6 +123,11 @@ include 'includes/header.php';
         <?php endif; ?>
     </div>
 
+    <!-- CONTENITORE PER GLI ALERT -->
+    <div id="alert-container-page" class="custom-alert-container-static" style="margin-bottom: 20px;">
+        <!-- Gli alert verranno inseriti qui da JavaScript -->
+    </div>
+
 
     <?php if ($dbError): ?>
         <div class="alert alert-danger" role="alert">
@@ -151,12 +156,12 @@ include 'includes/header.php';
                     <div class='quiz-meta'>
                         <p title="Periodo di disponibilità">
                             <i class="fas fa-calendar-alt" style="margin-right: 6px; color: var(--secondary-gray);"></i>
-                            Disponibile dal &nbsp; <strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataInizio']))); ?></strong>
-                            &nbsp; al &nbsp;<strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataFine']))); ?></strong>
+                            Disponibile dal   <strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataInizio']))); ?></strong>
+                              al  <strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataFine']))); ?></strong>
                         </p>
                         <p title="Codice Quiz">
                             <i class="fas fa-key" style="margin-right: 6px; color: var(--secondary-gray);"></i>
-                            Codice: &nbsp; <strong><?php echo htmlspecialchars($quiz['codice']); ?></strong>
+                            Codice:   <strong><?php echo htmlspecialchars($quiz['codice']); ?></strong>
                         </p>
                     </div>
                     <div class='quiz-actions'>
@@ -166,7 +171,7 @@ include 'includes/header.php';
                         <a href='quiz_modify.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn btn-secondary' title="Modifica">
                             <i class="fas fa-edit" style="margin-right: 5px;"></i> Modifica
                         </a>
-                        <button delId="<?php echo htmlspecialchars($quiz['codice']); ?>"
+                        <button data-delid="<?php echo htmlspecialchars($quiz['codice']); ?>"
                                 data-quiz-title="<?php echo htmlspecialchars($quiz['titolo']); ?>" 
                                 class='btn button-danger-styled delete-quiz-btn' 
                                 title="Elimina">
