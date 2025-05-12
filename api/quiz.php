@@ -451,6 +451,20 @@ if ($a_type === 'Corretta') {
             // Potresti aggiungere ulteriori validazioni per le date qui.
 
             try {
+
+                $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM Quiz WHERE titolo = :titolo");
+                $stmtCheck->bindParam(':titolo', $titolo, PDO::PARAM_STR);
+                $stmtCheck->execute();
+                $count = $stmtCheck->fetchColumn(); // Ottiene il numero di quiz esistenti con stesso titolo/creatore
+
+                // Se count è maggiore di 0, il quiz esiste già
+                if ($count > 0) {
+                // Trovato duplicato! Chiama handleError che invia la risposta e termina lo script.
+                handleError('Esiste già un quiz con questo titolo. Scegli un titolo diverso.', 409); // 409 Conflict
+                // Nota: handleError contiene exit; quindi l'esecuzione si ferma qui se duplicato.
+                }
+
+                // Se non esiste, procedi con l'inserimento
                 $stmt = $pdo->prepare("INSERT INTO Quiz (titolo, dataInizio, dataFine, creatore) VALUES (:titolo, :dataInizio, :dataFine, :creatore)");
                 $stmt->execute([
                     ':titolo' => $titolo,
