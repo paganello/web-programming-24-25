@@ -17,7 +17,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../config/database.php';
+require_once '../config/database.php'; // Assicurati che $pdo sia disponibile
 header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -30,7 +30,7 @@ switch ($method) {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (!isset($data['nomeUtente']) || !isset($data['nome']) || !isset($data['cognome']) || !isset($data['eMail'])) {
-            http_response_code(400);
+            http_response_code(400); // Bad Request
             echo json_encode(['status' => 'error', 'message' => 'Dati incompleti']);
             break;
         }
@@ -42,39 +42,43 @@ switch ($method) {
 
         // Validazione.
         if (empty($nomeUtente) || empty($nome) || empty($cognome) || empty($eMail)) {
-            http_response_code(400);
+            http_response_code(400); // Bad Request
             echo json_encode(['status' => 'error', 'message' => 'Tutti i campi sono obbligatori']);
             break;
         }
 
         if (!filter_var($eMail, FILTER_VALIDATE_EMAIL)) {
-            http_response_code(400);
+            http_response_code(400); // Bad Request
             echo json_encode(['status' => 'error', 'message' => 'Email non valida']);
             break;
         }
 
         try {
-            // Verifica se l'utente esiste già.
-            $stmt = $pdo->prepare("SELECT nomeUtente FROM Utente WHERE nomeUtente = :nomeUtente");
+            // Verifica se il nome utente e/o l'email sono già registrati con una singola query.
+            $stmt = $pdo->prepare("
+                SELECT 
+                    EXISTS(SELECT 1 FROM Utente WHERE nomeUtente = :nomeUtente) as username_exists,
+                    EXISTS(SELECT 1 FROM Utente WHERE eMail = :eMail) as email_exists
+            ");
             $stmt->bindParam(':nomeUtente', $nomeUtente);
-            $stmt->execute();
-
-            // Se l'utente esiste già, restituisci un errore.
-            if ($stmt->rowCount() > 0) {
-                http_response_code(409); 
-                echo json_encode(['status' => 'error', 'message' => 'Nome utente già registrato']);
-                break;
-            }
-
-            // Verifica se l'email è già registrata.
-            $stmt = $pdo->prepare("SELECT nomeUtente FROM Utente WHERE eMail = :eMail");
             $stmt->bindParam(':eMail', $eMail);
             $stmt->execute();
+            $existence = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Se l'email è già registrata, restituisci un errore.
-            if ($stmt->rowCount() > 0) {
-                http_response_code(409);
-                echo json_encode(['status' => 'error', 'message' => 'Email già registrata']);
+            $usernameExists = (bool)$existence['username_exists'];
+            $emailExists = (bool)$existence['email_exists'];
+            
+            $errorMessages = [];
+            if ($usernameExists) {
+                $errorMessages[] = 'Nome utente già registrato';
+            }
+            if ($emailExists) {
+                $errorMessages[] = 'Email già registrata';
+            }
+
+            if (!empty($errorMessages)) {
+                http_response_code(409); // Conflict
+                echo json_encode(['status' => 'error', 'message' => implode('. ', $errorMessages) . '.']);
                 break;
             }
 
@@ -89,12 +93,16 @@ switch ($method) {
                 http_response_code(201); // Created.
                 echo json_encode(['status' => 'success', 'message' => 'Utente registrato con successo']);
             } else {
-                http_response_code(500);
+                http_response_code(500); // Internal Server Error
+                // Log dell'errore per debug
+                error_log('API Errore registrazione DB: Impossibile eseguire INSERT');
                 echo json_encode(['status' => 'error', 'message' => 'Errore durante la registrazione']);
             }
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
+            http_response_code(500); // Internal Server Error
+            // Log dell'errore $e->getMessage() per debug
+            error_log('API Errore DB: ' . $e->getMessage());
+            echo json_encode(['status' => 'error', 'message' => 'Errore del database. Riprova più tardi.']);
         }
         break;
 

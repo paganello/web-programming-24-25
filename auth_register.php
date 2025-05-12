@@ -15,10 +15,14 @@ if (isset($_SESSION['user'])) {
     exit;
 }
 
-require_once 'config/database.php';
+require_once 'config/database.php'; // Assicurati che $pdo sia disponibile
 
 $error = '';
 $success = '';
+$nomeUtente = ''; // Inizializza per il value nel form
+$nome = '';       // Inizializza per il value nel form
+$cognome = '';    // Inizializza per il value nel form
+$eMail = '';      // Inizializza per il value nel form
 
 // --- Gestione del form di registrazione ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,38 +37,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Email non valida';
     } else {
         try {
-            // Verifica se il nome utente è già registrato.
-            $stmt = $pdo->prepare("SELECT nomeUtente FROM Utente WHERE nomeUtente = :nomeUtente");
+            // Verifica se il nome utente e/o l'email sono già registrati con una singola query.
+            $stmt = $pdo->prepare("
+                SELECT 
+                    EXISTS(SELECT 1 FROM Utente WHERE nomeUtente = :nomeUtente) as username_exists,
+                    EXISTS(SELECT 1 FROM Utente WHERE eMail = :eMail) as email_exists
+            ");
             $stmt->bindParam(':nomeUtente', $nomeUtente);
+            $stmt->bindParam(':eMail', $eMail);
             $stmt->execute();
+            $existence = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($stmt->rowCount() > 0) {
-                $error = 'Nome utente già registrato';
+            $usernameExists = (bool)$existence['username_exists'];
+            $emailExists = (bool)$existence['email_exists'];
+            
+            $errorsFound = [];
+            if ($usernameExists) {
+                $errorsFound[] = 'Nome utente già registrato';
+            }
+            if ($emailExists) {
+                $errorsFound[] = 'Email già registrata';
+            }
+
+            if (!empty($errorsFound)) {
+                $error = implode('. ', $errorsFound) . '.';
             } else {
-                // Verifica se l'email è già registrata.
-                $stmt = $pdo->prepare("SELECT nomeUtente FROM Utente WHERE eMail = :eMail");
+                // Inserimento del nuovo utente.
+                $stmt = $pdo->prepare("INSERT INTO Utente (nomeUtente, nome, cognome, eMail) VALUES (:nomeUtente, :nome, :cognome, :eMail)");
+                $stmt->bindParam(':nomeUtente', $nomeUtente);
+                $stmt->bindParam(':nome', $nome);
+                $stmt->bindParam(':cognome', $cognome);
                 $stmt->bindParam(':eMail', $eMail);
-                $stmt->execute();
 
-                if ($stmt->rowCount() > 0) {
-                    $error = 'Email già registrata';
+                if ($stmt->execute()) {
+                    $success = 'Registrazione completata con successo! Ora puoi accedere.';
+                    // Svuota i campi del form in caso di successo per evitare re-invio
+                    $nomeUtente = $nome = $cognome = $eMail = ''; 
                 } else {
-                    // Inserimento del nuovo utente.
-                    $stmt = $pdo->prepare("INSERT INTO Utente (nomeUtente, nome, cognome, eMail) VALUES (:nomeUtente, :nome, :cognome, :eMail)");
-                    $stmt->bindParam(':nomeUtente', $nomeUtente);
-                    $stmt->bindParam(':nome', $nome);
-                    $stmt->bindParam(':cognome', $cognome);
-                    $stmt->bindParam(':eMail', $eMail);
-
-                    if ($stmt->execute()) {
-                        $success = 'Registrazione completata con successo! Ora puoi accedere.';
-                    } else {
-                        $error = 'Errore durante la registrazione';
-                    }
+                    $error = 'Errore durante la registrazione. Riprova.';
                 }
             }
         } catch (PDOException $e) {
-            $error = 'Errore di connessione al database: ' . $e->getMessage();
+            // Log dell'errore $e->getMessage() per debug
+            error_log('Errore di registrazione DB: ' . $e->getMessage());
+            $error = 'Errore di connessione al database. Riprova più tardi.';
         }
     }
 }
@@ -77,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-center">Registrazione</h3>
+                    <h1 class="page-main-title">Registrazione</h1>
                 </div>
                 <div class="card-body">
                     <?php if (!empty($error)): ?>
@@ -93,27 +109,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <a href="auth_login.php" class="btn btn-primary">Vai al login</a>
                             </div>
                         </div>
-                    <?php else: ?>
+                    <?php else: // Mostra il form solo se non c'è un messaggio di successo ?>
                         <form method="POST" action="">
                             <div class="form-group mb-3">
                                 <label for="nomeUtente">Nome Utente</label>
                                 <input type="text" class="form-control" id="nomeUtente" name="nomeUtente" required
-                                    value="<?php echo htmlspecialchars($nomeUtente ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($nomeUtente); ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" required
-                                    value="<?php echo htmlspecialchars($nome ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($nome); ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="cognome">Cognome</label>
                                 <input type="text" class="form-control" id="cognome" name="cognome" required
-                                    value="<?php echo htmlspecialchars($cognome ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($cognome); ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="eMail">Email</label>
                                 <input type="email" class="form-control" id="eMail" name="eMail" required
-                                    value="<?php echo htmlspecialchars($eMail ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($eMail); ?>">
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Registrati</button>
