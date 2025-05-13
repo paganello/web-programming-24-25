@@ -17,7 +17,8 @@
     --background-card: #FFFFFF; /* Sfondo per card, content area, etc. */
 
     /* Palette alternativa/complementare (es. per UI moderna) */
-    --primary-blue: #007bff;
+    --primary-blue: #0050a5;
+    --light-blue: #0095da;
     --primary-blue-dark: #0056b3;
     --secondary-gray: #6c757d;
     --light-gray-bg: #f8f9fa; /* Sfondi molto chiari, es. header tabella */
@@ -823,7 +824,7 @@ footer {
 }
 .btn-participate { /* Eredita da .btn ma con personalizzazioni */
     background-color: var(--primary-blue); /* Colore primario moderno */
-    color: var(--text-light);
+    background-color: #459cff;
     padding: 12px 25px; /* Padding generoso */
     font-size: 1rem;
     font-weight: 600;
@@ -2167,12 +2168,12 @@ select:focus,
 
 .button-info-styled {
     color: var(--text-light); /* Testo bianco, di solito va bene su sfondo blu */
-    background-color: var(--primary-blue); /* Usa la tua variabile per il blu primario */
+    background-color: var(--light-blue); /* Usa la tua variabile per il blu primario */
     border-color: var(--primary-blue);
 }
 .button-info-styled:hover {
     color: var(--text-light);
-    background-color: var(--primary-blue-dark); /* Blu più scuro per l'hover */
-    border-color: var(--primary-blue-dark);
+    background-color: var(--primary-blue); /* Blu più scuro per l'hover */
+    border-color: var(--primary-blue);
     /* transform: translateY(-1px); // Già ereditato da .btn:hover se lo hai */
 }
