@@ -5,7 +5,7 @@
  * Questa pagina permette agli utenti di creare nuovi quiz.
  */
 
-include 'includes/header.php'; // Assicurati che questo includa Bootstrap e FontAwesome se usati
+include 'includes/header.php'; // Assicurati che questo includa FontAwesome se usato
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -20,42 +20,41 @@ if (!isset($_SESSION['user'])) {
 
 <div class="main-content">
     <div class="content">
-        <h1>Crea un nuovo Quiz</h1>
+        <h1 class="page-main-title">Crea un nuovo Quiz</h1>
 
         <!-- Placeholder per gli alert JavaScript -->
-        <div id="alert-container-page" class="mb-3"></div>
+        <div id="alert-container-page" class="alert-placeholder"></div>
 
-        <div id="quiz-details">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header">
-                    <h2 class="h5 mb-0">Dettagli del Quiz</h2>
+        <div id="quiz-details-section">
+            <div class="custom-card box-shadow- हल्का margin-bottom-large">
+                <div class="custom-card-header">
+                    <h2 class="custom-card-title">Dettagli del Quiz</h2>
                 </div>
-                <div class="card-body">
+                <div class="custom-card-body">
                     <form id="create-quiz-form">
-                        <div class="form-group mb-3">
-                            <label for="titolo" class="form-label">Titolo del Quiz</label>
-                            <input type="text" name="titolo" id="titolo" class="form-control" required>
+                        <div class="form-field-group margin-bottom-medium">
+                            <label for="titolo" class="form-label-styled">Titolo del Quiz</label>
+                            <input type="text" name="titolo" id="titolo" class="form-input-styled" required>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="dataInizio" class="form-label">Data di inizio</label>
-                                    <input type="date" name="dataInizio" id="dataInizio" class="form-control" required>
+                        <div class="form-row">
+                            <div class="form-col-half">
+                                <div class="form-field-group margin-bottom-medium">
+                                    <label for="dataInizio" class="form-label-styled">Data di inizio</label>
+                                    <input type="date" name="dataInizio" id="dataInizio" class="form-input-styled" required>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="dataFine" class="form-label">Data di fine</label>
-                                    <input type="date" name="dataFine" id="dataFine" class="form-control" required>
+                            <div class="form-col-half">
+                                <div class="form-field-group margin-bottom-medium">
+                                    <label for="dataFine" class="form-label-styled">Data di fine</label>
+                                    <input type="date" name="dataFine" id="dataFine" class="form-input-styled" required>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group text-end">
-                            <br>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-arrow-right"></i> Continua e Aggiungi Domande
+                        <br>
+                        <div class="form-actions-container padding-top-medium">
+                            <button type="submit" class="button-styled button-primary-styled">
+                                <i class="fas fa-arrow-right icon-spacing-right"></i> Continua e Aggiungi Domande
                             </button>
                         </div>
                     </form>
@@ -64,106 +63,108 @@ if (!isset($_SESSION['user'])) {
         </div>
 
         <div id="questions-section" style="display: none;">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h2 class="h5 mb-0">Aggiungi Domande al Quiz</h2>
+            <div class="custom-card box-shadow-light">
+                <div class="custom-card-header">
+                    <h2 class="custom-card-title">Aggiungi Domande al Quiz</h2>
                 </div>
-                <div class="card-body">
+                <div class="custom-card-body">
                     <input type="hidden" id="quiz-id" value="">
                     <form id="questions-form">
                         <div id="questions-container">
-                            <p id="no-questions-message" class="text-muted text-center py-3">
+                            <p id="no-questions-message" class="message-placeholder-styled text-align-center padding-vertical-medium">
                                 Nessuna domanda aggiunta. Clicca su "Aggiungi Domanda" per iniziare.
                             </p>
                         </div>
-
-                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                            <button type="button" id="add-question" class="btn btn-success">
-                                <i class="fas fa-plus"></i> Aggiungi Domanda
+                        <div class="main-actions-bar flex-container flex-gap-medium margin-top-large padding-top-medium border-top-light">
+                            <button type="button" id="add-question" class="button-styled button-secondary-styled">
+                                <i class="fas fa-plus icon-spacing-right"></i> Aggiungi Domanda
                             </button>
-                            <div>
-                                <button type="button" id="abort-quiz-creation" class="btn btn-outline-danger me-2">
-                                    <i class="fas fa-times"></i> Annulla Creazione
-                                </button>
-                                <button type="button" id="save-questions" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Salva Quiz e Domande
-                                </button>
-                            </div>
+                            <button type="button" id="abort-quiz-creation" class="button-styled button-danger-styled">
+                                <i class="fas fa-times icon-spacing-right"></i> Annulla Creazione
+                            </button>
+                            <button type="button" id="save-questions" class="button-styled button-success-styled">
+                                <i class="fas fa-save icon-spacing-right"></i> Salva Quiz e Domande
+                            </button>
                         </div>
                     </form>
+                </div> <!-- fine custom-card-body -->
+            </div> <!-- fine custom-card -->
+        </div> <!-- fine questions-section -->
+
+    </div>
+</div>
+
+ <!-- Template per una singola domanda (stile custom) -->
+<template id="question-template-create">
+    <div class="question-block-styled margin-bottom-large" data-question="__Q_NUM__">
+        <div class="question-header-styled flex-container flex-justify-between flex-align-center padding-medium margin-bottom-medium">
+            <h3 class="question-title-styled">Domanda <span class="question-number">__Q_NUM__</span></h3>
+            <button type="button" class="button-styled button-danger-outline-styled button-small-styled remove-question" data-question="__Q_NUM__" title="Rimuovi Domanda __Q_NUM__">
+                <i class="fas fa-trash-alt icon-spacing-right-small"></i>Rimuovi
+            </button>
+        </div>
+        <div class="question-body-styled padding-medium-horizontal">
+            <div class="form-field-group margin-bottom-medium">
+                <label for="question-__Q_NUM__" class="form-label-styled label-bold-styled">Testo della Domanda:</label>
+                <textarea name="questions[__Q_NUM__][text]" id="question-__Q_NUM__" class="textarea-styled" rows="3" required placeholder="Inserisci qui il testo della domanda..."></textarea>
+            </div>
+            <h4 class="answers-area-title-styled margin-top-medium margin-bottom-small">Risposte:</h4>
+            <div class="answers-container-styled padding-left-small" id="answers-container-__Q_NUM__">
+                <p class="message-inline-styled text-description-styled" id="no-answers-for-q-__Q_NUM__">Nessuna risposta aggiunta per questa domanda.</p>
+            </div>
+            <button type="button" class="button-styled button-secondary-styled button-small-styled margin-top-medium add-answer" data-question="__Q_NUM__">
+                <i class="fas fa-plus-circle icon-spacing-right-small"></i>Aggiungi Risposta
+            </button>
+        </div>
+    </div>
+</template>
+
+<!-- Template per una singola risposta (stile custom) -->
+<template id="answer-template-create">
+    <div class="answer-block-styled padding-medium margin-bottom-medium box-shadow-extra-light" data-answer="__A_NUM__">
+        <div class="answer-header-styled flex-container flex-justify-between flex-align-center margin-bottom-small">
+            <label class="form-label-styled label-bold-styled label-accent-color-styled answer-label-dynamic">Risposta <span class="answer-number">__A_NUM__</span></label>
+            <button type="button" class="button-styled button-danger-styled button-extra-small-styled remove-answer" title="Rimuovi Risposta">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="form-field-group margin-bottom-small">
+            <label for="question-__Q_NUM__-answer-__A_NUM__" class="form-label-styled label-small-styled">Testo della Risposta:</label>
+            <input type="text" name="questions[__Q_NUM__][answers][__A_NUM__][text]" id="question-__Q_NUM__-answer-__A_NUM__" class="form-input-styled input-small-styled" required placeholder="Testo della risposta">
+        </div>
+        <div class="form-field-group margin-bottom-small">
+            <label class="form-label-styled label-small-styled display-block margin-bottom-extra-small">Tipo Risposta:</label>
+            <div class="radio-option-group-styled">
+                <div class="radio-option-styled">
+                    <input class="radio-input-styled" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]" id="question-__Q_NUM__-answer-__A_NUM__-type-correct" value="Corretta">
+                    <label class="radio-label-styled" for="question-__Q_NUM__-answer-__A_NUM__-type-correct">Corretta</label>
+                </div>
+                <div class="radio-option-styled">
+                    <input class="radio-input-styled" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]" id="question-__Q_NUM__-answer-__A_NUM__-type-wrong" value="Sbagliata" checked>
+                    <label class="radio-label-styled" for="question-__Q_NUM__-answer-__A_NUM__-type-wrong">Sbagliata</label>
                 </div>
             </div>
+        </div>
+        <div class="form-field-group points-group" style="display:none;">
+            <label for="question-__Q_NUM__-answer-__A_NUM__-points" class="form-label-styled label-small-styled">Punti (se corretta):</label>
+            <input type="number" name="questions[__Q_NUM__][answers][__A_NUM__][points]" id="question-__Q_NUM__-answer-__A_NUM__-points" class="form-input-styled input-small-styled input-numerical-styled" value="1" min="0">
+        </div>
+    </div>
+</template>
+
+<!-- Modale di Conferma Annullamento Creazione Quiz (stili custom) -->
+<div id="confirmAbortCreationModal" class="custom-modal" style="display:none;">
+    <div class="custom-modal-content">
+        <span class="custom-modal-close-button">×</span>
+        <h2 class="custom-modal-title">Conferma Annullamento</h2>
+        <p id="abortCreationModalMessage" class="custom-modal-text">Sei sicuro di voler annullare la creazione del quiz? Eventuali dati inseriti o il quiz parzialmente creato verranno persi.</p>
+        <div class="custom-modal-actions">
+            <button type="button" id="cancelAbortBtn" class="button-styled button-grey-styled">Indietro</button>
+            <button type="button" id="confirmAbortActionBtn" class="button-styled button-danger-styled">Sì, Annulla Creazione</button>
         </div>
     </div>
 </div>
 
-<!-- Template per una singola domanda (usato da JavaScript) -->
-<template id="question-template-create">
-    <div class="question-block card mb-3" data-question="__Q_NUM__">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-                <h3 class="h6 mb-0">Domanda <span class="question-number">__Q_NUM__</span></h3>
-                <button type="button" class="btn btn-sm btn-outline-danger remove-question" data-question="__Q_NUM__"
-                    title="Rimuovi Domanda __Q_NUM__">
-                    <i class="fas fa-trash"></i> Rimuovi Domanda
-                </button>
-            </div>
-            <div class="form-group mb-3">
-                <label for="question-__Q_NUM__" class="form-label">Testo della domanda</label>
-                <textarea name="questions[__Q_NUM__][text]" id="question-__Q_NUM__" class="form-control" rows="2"
-                    required></textarea>
-            </div>
-
-            <h4 class="h6 mt-3 mb-2">Risposte:</h4>
-            <div class="answers-container ps-3" id="answers-container-__Q_NUM__">
-                <!-- Le risposte verranno aggiunte qui -->
-            </div>
-            <button type="button" class="btn btn-sm btn-info add-answer mt-2" data-question="__Q_NUM__">
-                <i class="fas fa-plus-circle"></i> Aggiungi Risposta
-            </button>
-        </div>
-    </div>
-</template>
-
-<!-- Template per una singola risposta (usato da JavaScript) -->
-<template id="answer-template-create">
-    <div class="answer-block border rounded p-2 mb-2 bg-light" data-answer="__A_NUM__">
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <label for="question-__Q_NUM__-answer-__A_NUM__" class="form-label fw-bold">Risposta <span
-                    class="answer-number">__A_NUM__</span></label>
-            <button type="button" class="btn btn-xs btn-outline-danger remove-answer" title="Rimuovi Risposta">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="form-group mb-2">
-            <input type="text" name="questions[__Q_NUM__][answers][__A_NUM__][text]"
-                id="question-__Q_NUM__-answer-__A_NUM__" class="form-control form-control-sm" required
-                placeholder="Testo della risposta">
-        </div>
-        <div class="form-group mb-2">
-            <div class="radio-group">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]"
-                        id="question-__Q_NUM__-answer-__A_NUM__-type-correct" value="Corretta">
-                    <label class="form-check-label"
-                        for="question-__Q_NUM__-answer-__A_NUM__-type-correct">Corretta</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="questions[__Q_NUM__][answers][__A_NUM__][type]"
-                        id="question-__Q_NUM__-answer-__A_NUM__-type-wrong" value="Sbagliata" checked>
-                    <label class="form-check-label"
-                        for="question-__Q_NUM__-answer-__A_NUM__-type-wrong">Sbagliata</label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group points-group" style="display:none;">
-            <label for="question-__Q_NUM__-answer-__A_NUM__-points" class="form-label form-label-sm">Punti (se
-                corretta):</label>
-            <input type="number" name="questions[__Q_NUM__][answers][__A_NUM__][points]"
-                id="question-__Q_NUM__-answer-__A_NUM__-points" class="form-control form-control-sm" value="1" min="0"
-                style="width: 80px;">
-        </div>
-    </div>
-</template>
-
 <?php include 'includes/footer.php'; ?>
+</body>
+</html>

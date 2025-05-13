@@ -198,7 +198,7 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
         <?php else: ?>
             <div class="card welcome-card">
                 <div class="card-content">
-                    <p>Benvenuto/a
+                    <p>Benvenuto
                         <strong><?php echo htmlspecialchars($_SESSION['user']['nome'] . ' ' . $_SESSION['user']['cognome']); ?></strong>!
                     </p>
                 </div>
@@ -389,3 +389,5 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
 </div>
 
 <?php include 'includes/footer.php'; ?>
+</body>
+</html>

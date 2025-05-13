@@ -1,10 +1,9 @@
-// assets/js/main.js
-
-// Funzioni helper globali (definite prima di $(document).ready)
-function checkDateRange(startDate, endDate) {
+// Funzioni helper globali
+function checkDateRange(startDate, endDate, allowPastStartDate = false) { // Modificata per includere allowPastStartDate
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (startDate < today) {
+    today.setHours(0, 0, 0, 0); // Normalizza a mezzanotte per confronto date
+
+    if (!allowPastStartDate && startDate < today) {
         return 'La data di inizio non può essere precedente a oggi.';
     }
     if (endDate < startDate) {
@@ -13,11 +12,8 @@ function checkDateRange(startDate, endDate) {
     return null;
 }
 
-// assets/js/main.js
-
-function showAlert(message, type = 'info', containerSelector = '#alert-container-page') { // Default a #alert-container-page per quiz_create
-    // type può essere 'info', 'success', 'warning', 'danger'
-    const alertId = 'custom-alert-' + Date.now(); // ID unico per l'alert
+function showAlert(message, type = 'info', containerSelector = '#alert-container-page') {
+    const alertId = 'custom-alert-' + Date.now();
     const alertHtml = `
         <div id="${alertId}" class="custom-alert custom-alert-${type}" role="alert">
             <span class="custom-alert-message">${message}</span>
@@ -26,580 +22,928 @@ function showAlert(message, type = 'info', containerSelector = '#alert-container
 
     let $alertContainer = $(containerSelector);
     if (!$alertContainer.length) {
-        // Fallback se il contenitore specificato non esiste
-        $('body').prepend('<div id="alert-container-fallback" class="custom-alert-fallback-container"></div>');
+        $('body').prepend('<div id="alert-container-fallback" class="custom-alert-fallback-container" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 90%;"></div>');
         $alertContainer = $('#alert-container-fallback');
     }
-
-    // Rimuovi alert precedenti dallo stesso contenitore per evitare sovrapposizioni
-    // se non sono auto-dismissed o se l'utente clicca velocemente.
-    $alertContainer.find('.custom-alert').remove();
-    
-    $alertContainer.append(alertHtml); // Usa append invece di html per non sovrascrivere altri eventuali contenuti del container
-
+    $alertContainer.find('.custom-alert').remove(); // Rimuove solo alert precedenti nello stesso container
+    $alertContainer.append(alertHtml);
     const $currentAlert = $('#' + alertId);
-
-    // Gestione chiusura
     $currentAlert.find('.custom-alert-close').on('click', function() {
         $currentAlert.fadeOut(300, function() { $(this).remove(); });
     });
-
-    // Auto-dismiss per tipi non critici
-    if (type !== 'danger' && type !== 'error' && type !== 'warning') { // Modificato per non far sparire warning
+    if (type !== 'danger' && type !== 'error' && type !== 'warning') { // Non auto-chiudere danger/error/warning
         setTimeout(function () {
             $currentAlert.fadeOut(500, function() { $(this).remove(); });
         }, 5000);
     }
 }
 
-function showEditAlerts(message, type) { // Specifica per form di modifica, usa showAlert
-    showAlert(message, type, '#form-messages');
-}
+function showEditAlerts(message, type) { // Usata in quiz_edit.php
+    showAlert(message, type, '#alert-container-page-modify');
+    }
 
-function renumberQuestions() {
-    $('#no-questions-message').toggle($('#questions-container .question-block').length === 0);
+// Funzione per rinumerare domande e risposte per quiz_create.php
+function renumberQuestions() { // Questa è per quiz_create.php
+    const $questionBlocks = $('#questions-container .question-block-styled');
+    $('#no-questions-message').toggle($questionBlocks.length === 0);
 
-    $('.question-block').each(function (index) {
-        const qNum = index + 1; // 1-based index
-        $(this).attr('data-question', qNum);
-        $(this).find('.question-number').text(qNum); // Aggiorna il numero visualizzato
-        $(this).find('label[for^="question-"]').first().attr('for', `question-${qNum}`); // Etichetta testo domanda
-        $(this).find('textarea[id^="question-"]').attr({
+    $questionBlocks.each(function (index) {
+        const qNum = index + 1; // Per quiz_create, gli indici partono da 1 nei name
+        const $currentQuestionBlock = $(this);
+        $currentQuestionBlock.attr('data-question', qNum); // Usiamo data-question
+        $currentQuestionBlock.find('.question-number').text(qNum);
+
+        // Aggiorna label for e id/name del textarea domanda
+        $currentQuestionBlock.find('label.form-label-styled[for^="question-"]').first().attr('for', `question-${qNum}`);
+        $currentQuestionBlock.find('textarea.textarea-styled[id^="question-"]').attr({
             'id': `question-${qNum}`,
-            'name': `questions[${qNum}][text]`
+            'name': `questions[${qNum}][text]` // questions[1][text], questions[2][text]
         });
-        
-        const answersContainer = $(this).find('.answers-container');
-        answersContainer.attr('id', `answers-container-${qNum}`);
-        
-        $(this).find('.add-answer').data('question', qNum);
-        $(this).find('.remove-question').data('question', qNum).attr('title', `Rimuovi Domanda ${qNum}`);
-        // Potresti anche aggiornare il testo del bottone se non usi solo title e icona
-        // $(this).find('.remove-question').html(`<i class="fas fa-trash"></i> Rimuovi Domanda ${qNum}`);
 
+        const $answersContainer = $currentQuestionBlock.find('.answers-container-styled');
+        $answersContainer.attr('id', `answers-container-${qNum}`); // O answers-container-q${qNum}
+        $answersContainer.find('.message-inline-styled[id^="no-answers-for-q-"]').attr('id', `no-answers-for-q-${qNum}`);
 
-        answersContainer.find('.answer-block').each(function (aIndex) {
-            const aNum = aIndex + 1; // 1-based index
-            $(this).attr('data-answer', aNum);
-            $(this).find('.answer-number').text(aNum); // Aggiorna numero visualizzato risposta
+        $currentQuestionBlock.find('button.add-answer').data('question', qNum); // data-question per il bottone
+        $currentQuestionBlock.find('button.remove-question').data('question', qNum).attr('title', `Rimuovi Domanda ${qNum}`);
 
-            // Label per il testo della risposta
-            $(this).find('label[for^="question-"][for*="-answer-"]').attr('for', `question-${qNum}-answer-${aNum}`);
-            
-            // Input testo risposta
-            $(this).find('input[type="text"][id^="question-"]').attr({
+        $answersContainer.find('.answer-block-styled').each(function (aIndex) {
+            const aNum = aIndex + 1; // Indici risposte partono da 1
+            const $currentAnswerBlock = $(this);
+            $currentAnswerBlock.attr('data-answer', aNum); // data-answer
+            $currentAnswerBlock.find('.answer-number').text(aNum);
+
+            // Testo risposta
+            $currentAnswerBlock.find('label.label-small-styled[for^="question-"][for*="-answer-"]').attr('for', `question-${qNum}-answer-${aNum}`);
+            $currentAnswerBlock.find('input[type="text"].input-small-styled[id^="question-"]').attr({
                 'id': `question-${qNum}-answer-${aNum}`,
                 'name': `questions[${qNum}][answers][${aNum}][text]`
             });
 
-            // Radio buttons tipo risposta
-            $(this).find('input[type="radio"][name$="[type]"]').each(function() {
+            // Radio buttons per tipo
+            $currentAnswerBlock.find('input.radio-input-styled[name$="[type]"]').each(function() {
                 const radioIdBase = `question-${qNum}-answer-${aNum}-type-`;
-                const radioValue = $(this).val().toLowerCase(); // es. corretta, sbagliata
+                const radioValue = $(this).val(); // "Corretta" o "Sbagliata"
+                const typeSuffix = radioValue === 'Corretta' ? 'correct' : 'wrong';
                 $(this).attr({
                     'name': `questions[${qNum}][answers][${aNum}][type]`,
-                    'id': radioIdBase + (radioValue === 'corretta' ? 'correct' : 'wrong')
+                    'id': radioIdBase + typeSuffix
                 });
-                // Aggiorna il 'for' della label associata al radio
-                $(this).next('label.form-check-label').attr('for', radioIdBase + (radioValue === 'corretta' ? 'correct' : 'wrong'));
+                $(this).next('label.radio-label-styled').attr('for', radioIdBase + typeSuffix);
             });
-            
-            // Punti
-            const pointsGroup = $(this).find('.points-group');
-            pointsGroup.find('label').attr('for', `question-${qNum}-answer-${aNum}-points`);
-            pointsGroup.find('input[type="number"]').attr({
+
+            // Punteggio
+            const $pointsGroup = $currentAnswerBlock.find('.points-group');
+            $pointsGroup.find('label.label-small-styled[for$="-points"]').attr('for', `question-${qNum}-answer-${aNum}-points`);
+            $pointsGroup.find('input[type="number"].input-numerical-styled[name$="[points]"]').attr({
                 'id': `question-${qNum}-answer-${aNum}-points`,
                 'name': `questions[${qNum}][answers][${aNum}][points]`
             });
         });
+        // Gestione messaggio "nessuna risposta"
+        const noAnswersMsg = document.getElementById(`no-answers-for-q-${qNum}`); // Usa qNum qui
+        if (noAnswersMsg) {
+            noAnswersMsg.style.display = $answersContainer.find('.answer-block-styled').length === 0 ? 'block' : 'none';
+        }
     });
 }
 
-function renumberEditQuestions() { /* ... codice per rinumerare domande in edit quiz ... */
-    $('#edit-quiz-form .question-block').each(function (index) {
-        $(this).attr('data-question-index', index);
-        $(this).find('h2.question-title-editor, .question-block > label').first().text('Domanda ' + (index + 1)); // Adatta selettore titolo
-        $(this).find('[name^="questions["]').each(function () {
-            const oldName = $(this).attr('name');
-            if (oldName) {
-                const newName = oldName.replace(/questions\[\d+\]/, 'questions[' + index + ']');
-                $(this).attr('name', newName);
-            }
-        });
-        renumberEditAnswers($(this), index);
-    });
-}
-
-function renumberEditAnswers(questionBlock, questionIndex) { /* ... codice per rinumerare risposte in edit quiz ... */
-    questionBlock.find('.answer-block').each(function (answerIdx) {
-        $(this).attr('data-answer-index', answerIdx);
-        $(this).find('h3.answer-title-editor, .answer-block > label').first().text('Risposta ' + (answerIdx + 1)); // Adatta selettore titolo
-        $(this).find('[name*="[answers]"]').each(function () {
-            const oldName = $(this).attr('name');
-            if (oldName) {
-                const newName = oldName.replace(/\[answers\]\[\d+\]/, `[answers][${answerIdx}]`).replace(/questions\[\d+\]/, `questions[${questionIndex}]`);
-                $(this).attr('name', newName);
-            }
-        });
-    });
+function addAnswerToQuestion(questionBlockElement, questionNum, answerCount) { // Per quiz_create.php
+    const answerTemplate = document.getElementById('answer-template-create').innerHTML;
+    let answerHtml = answerTemplate.replace(/__Q_NUM__/g, questionNum) // Sostituisce __Q_NUM__
+                                .replace(/__A_NUM__/g, answerCount); // Sostituisce __A_NUM__
+    $(questionBlockElement).find('.answers-container-styled').append(answerHtml);
+    $(questionBlockElement).find(`#no-answers-for-q-${questionNum}`).hide();
 }
 
 
-$(document).ready(function () {
-    // --- Login e Registrazione ---
-    $('#login-form').on('submit', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST', url: 'api/users.php?action=login', data: $(this).serialize(), dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    showAlert('Login effettuato con successo!', 'success');
-                    setTimeout(() => window.location.href = 'index.php', 1500);
-                } else { showAlert(response.message, 'danger'); }
-            },
-            error: () => showAlert('Errore durante la comunicazione con il server.', 'danger')
-        });
-    });
-
-    $('#register-form').on('submit', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST', url: 'api/users.php?action=register', data: $(this).serialize(), dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    showAlert('Registrazione completata con successo!', 'success');
-                    setTimeout(() => window.location.href = 'auth_login.php', 1500);
-                } else { showAlert(response.message, 'danger'); }
-            },
-            error: () => showAlert('Errore durante la comunicazione con il server.', 'danger')
-        });
-    });
-
-    // --- Creazione Quiz (es. su quiz_create.php) ---
-    if ($('#create-quiz-form').length) {
-        $('#create-quiz-form').on('submit', function (e) {
-            e.preventDefault();
-            const startDate = new Date($('#dataInizio').val());
-            const endDate = new Date($('#dataFine').val());
-            const errorMessage = checkDateRange(startDate, endDate);
-            if (errorMessage) { showAlert(errorMessage, 'danger'); return; }
-            $.ajax({
-                type: 'POST', url: 'api/quiz.php?action=create', data: $(this).serialize(), dataType: 'json',
-                success: function (response) {
-                    if (response.status === 'success' && response.idQuiz) {
-                        showAlert('Quiz creato con successo! Ora aggiungi le domande.', 'success');
-                        $('#quiz-id').val(response.idQuiz);
-                        $('#quiz-details').hide();
-                        $('#questions-section').show();
-                    } else { showAlert(response.message || 'Errore nella creazione del quiz.', 'danger'); }
-                },
-                error: () => showAlert('Errore durante la creazione del quiz.', 'danger')
-            });
-        });
-
-$('#add-question').click(function () {
-    $('#no-questions-message').hide(); // Nascondi il messaggio se presente
-
-    const questionCounter = $('#questions-container .question-block').length + 1;
-    const questionTemplate = document.getElementById('question-template-create').innerHTML;
-    
-    // Sostituisci i placeholder. NOTA: __Q_NUM__ viene usato per gli indici degli array,
-    // mentre il testo visualizzato "Domanda X" userà questionCounter direttamente.
-    // Se vuoi che gli array siano 0-indexed, allora dovrai usare questionCounter - 1 per gli array.
-    // Per semplicità, qui usiamo 1-indexed come nel tuo codice originale.
-    const questionHtml = questionTemplate.replace(/__Q_NUM__/g, questionCounter);
-                                    // .replace(/__Q_DISPLAY_NUM__/g, questionCounter); // Se avessi un placeholder per il numero visualizzato
-
-    $('#questions-container').append(questionHtml);
-    
-    // Aggiungi automaticamente la prima risposta alla nuova domanda
-    const newQuestionBlock = $(`#questions-container .question-block[data-question="${questionCounter}"]`);
-    addAnswerToQuestion(newQuestionBlock, questionCounter, 1); // Aggiunge la prima risposta
-    
-    renumberQuestions(); // Assicurati che questa funzione aggiorni anche i testi "Domanda X" e "Risposta Y"
-});
-
-        $(document).on('click', '#questions-container .add-answer', function () {
-            const questionNum = $(this).data('question');
-            const answersContainer = $(`#answers-container-${questionNum}`);
-            const answerCount = answersContainer.find('.answer-block').length + 1;
-            const answerHtml = `
-            <div class="answer-block" data-answer="${answerCount}">
-                <div class="form-group"><label for="question-${questionNum}-answer-${answerCount}">Risposta ${answerCount}</label><input type="text" name="questions[${questionNum}][answers][${answerCount}][text]" id="question-${questionNum}-answer-${answerCount}" class="form-control" required></div>
-                <div class="form-group"><label>Tipo:</label><div class="radio-group"><label class="radio-inline"><input type="radio" name="questions[${questionNum}][answers][${answerCount}][type]" value="Corretta"> Corretta</label><label class="radio-inline"><input type="radio" name="questions[${questionNum}][answers][${answerCount}][type]" value="Sbagliata" checked> Sbagliata</label></div></div>
-                <div class="form-group points-group" style="display:none;"><label for="question-${questionNum}-answer-${answerCount}-points">Punti:</label><input type="number" name="questions[${questionNum}][answers][${answerCount}][points]" id="question-${questionNum}-answer-${answerCount}-points" class="form-control" value="1" min="0"></div>
-                <button type="button" class="btn btn-sm btn-danger remove-answer"><i class="fas fa-times"></i> Rimuovi Risp.</button>
-            </div>`;
-            answersContainer.append(answerHtml);
-        });
-
-$(document).on('click', '#questions-container .remove-question', function () {
-    $(this).closest('.question-block').remove();
-    renumberQuestions(); // Questo si occuperà anche di mostrare/nascondere no-questions-message
-});
-
-$(document).on('click', '#questions-container .remove-answer', function () {
-    const questionBlock = $(this).closest('.question-block');
-    if (questionBlock.find('.answer-block').length > 1) {
-        $(this).closest('.answer-block').remove();
-        // Non è necessario rinumerare l'intera lista di domande qui,
-        // ma solo le risposte all'interno di questa domanda.
-        // La funzione renumberQuestions() completa lo farà comunque.
-        // Per ottimizzare, potresti creare renumberAnswersForQuestion(questionBlock)
-        renumberQuestions(); 
-    } else { 
-        showAlert('Ogni domanda deve avere almeno una risposta.', 'warning', '#alert-container-page'); 
-    }
-});
-
-        $('#save-questions').click(function () {
-            const quizId = $('#quiz-id').val();
-            if (!quizId) { showAlert('ID del Quiz non trovato.', 'danger'); return; }
-            const formData = $('#questions-form').serialize();
-            $.ajax({
-                type: 'POST', url: 'api/questions.php?action=save', data: formData, dataType: 'json',
-                success: function (response) {
-                    if (response.status === 'success') {
-                        showAlert('Domande salvate con successo!', 'success');
-                        setTimeout(() => window.location.href = 'quiz_view.php?id=' + quizId, 1500);
-                    } else { showAlert(response.message || 'Errore nel salvataggio delle domande.', 'danger'); }
-                },
-                error: () => showAlert('Errore durante il salvataggio delle domande.', 'danger')
-            });
-        });
-
-        $('#abort-quiz-creation').click(function () {
-            const quizIdToDelete = $('#quiz-id').val();
-            if (quizIdToDelete && confirm("Sei sicuro di voler annullare? Il quiz e le domande verranno eliminati.")) {
-                $.ajax({
-                    url: `api/quiz.php?delId=${quizIdToDelete}`, method: 'GET', // o DELETE se API supporta
-                    success: (response, status, xhr) => {
-                        if (xhr.status === 204 || (response && response.status === 'success')) {
-                            showAlert('Creazione quiz annullata.', 'info');
-                            setTimeout(() => window.location.href = 'quiz_create.php', 1000);
-                        } else { showAlert(response.message || 'Errore durante l\'annullamento.', 'danger');}
-                    },
-                    error: () => showAlert('Errore di comunicazione durante l\'annullamento.', 'danger')
-                });
-            } else if (!quizIdToDelete) { // Se non c'è ID, resetta solo UI
-                 $('#questions-section').hide(); $('#quiz-details').show();
-                 $('#create-quiz-form')[0].reset(); $('#questions-form')[0].reset();
-                 $('#questions-container').empty();
-            }
-        });
-    } // Fine if ($('#create-quiz-form').length)
-
-    // Mostra/nascondi campo punteggio (per create e edit)
-    $(document).on('change', '.answers-container input[type="radio"][name$="[type]"], .answer-block input[type="radio"][name$="[type]"]', function () {
-        const pointsGroup = $(this).closest('.answer-block').find('.points-group');
-        if ($(this).val() === 'Corretta') {
-            pointsGroup.slideDown();
-        } else {
-            pointsGroup.slideUp();
-            pointsGroup.find('input[type="number"]').val(0);
-        }
-    });
-    
-    // --- Partecipazione Quiz (es. su quiz_participate.php) ---
-    if ($('#participate-form').length) {
-        $('#participate-form').on('submit', function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST', url: 'api/partecipation.php?action=submit', data: $(this).serialize(), dataType: 'json',
-                success: function (response) {
-                    if (response.status === 'success' && response.data && response.data.codice) {
-                        showAlert('Risposte inviate con successo!', 'success');
-                        setTimeout(() => window.location.href = 'quiz_results.php?participation=' + response.data.codice, 1500);
-                    } else { showAlert(response.message || 'Errore nell\'invio.', 'danger'); }
-                },
-                error: () => showAlert('Errore di comunicazione.', 'danger')
-            });
-        });
-    }
-
-    // --- Elenco Partecipazioni (es. su quiz_participations.php) ---
-    if (window.location.pathname.endsWith('quiz_participations.php') && $('#partecipations-container').length) {
-        $.ajax({
-            url: 'api/partecipation.php', type: 'GET', dataType: 'json',
-            success: function (response) {
-                let html = '';
-                if (response.status === 'success' && response.data && response.data.length > 0) {
-                    $.each(response.data, (index, part) => {
-                        html += `<div class="partecipation-card card"><div class="card-content"><h3>${part.titolo}</h3><p>Data: ${new Date(part.data).toLocaleDateString('it-IT')}</p><a href="quiz_results.php?participation=${part.codice}" class="btn btn-sm">Vedi Risultati</a></div></div>`;
-                    });
-                } else { html = '<p>Nessuna partecipazione trovata.</p>'; }
-                $('#partecipations-container').html(html);
-            },
-            error: () => $('#partecipations-container').html('<p>Errore nel caricamento.</p>')
-        });
-    }
-
-    // --- Modifica Quiz (es. su quiz_edit.php) ---
-    if ($('#edit-quiz-form').length) {
-        // Bottone Aggiungi Domanda in Edit
-        $('#add-question-btn-edit').click(function () { // Assicurati che questo ID sia unico per la pagina di edit
-            const questionIndex = $('#edit-quiz-form .question-block').length;
-            // Assicurati che #question-template esista e sia corretto per l'edit
-            const template = $('#question-template').html().replace(/__Q_INDEX__/g, questionIndex).replace(/__Q_DISPLAY_NUM__/g, questionIndex + 1);
-            $('#edit-quiz-form #questions-container-edit').append(template); // Contenitore specifico
-            renumberEditQuestions();
-        });
-
-        // Bottone Aggiungi Risposta in Edit
-        $(document).on('click', '#edit-quiz-form .add-answer-btn-edit', function () { // Classe specifica
-            const questionBlock = $(this).closest('.question-block');
-            const questionIndex = questionBlock.data('question-index');
-            const answerIndex = questionBlock.find('.answer-block').length;
-            const answersContainer = questionBlock.find('.answers-container');
-            // Assicurati che #answer-template esista
-            const template = $('#answer-template').html().replace(/__Q_INDEX__/g, questionIndex).replace(/__A_INDEX__/g, answerIndex).replace(/__A_DISPLAY_NUM__/g, answerIndex + 1);
-            answersContainer.append(template);
-            renumberEditAnswers(questionBlock, questionIndex);
-        });
-        
-        // Rimuovi Domanda/Risposta in Edit (usa classi specifiche o controlla il contesto del form)
-        $(document).on('click', '#edit-quiz-form .remove-question-btn', function () {
-             $(this).closest('.question-block').remove();
-             renumberEditQuestions();
-        });
-        $(document).on('click', '#edit-quiz-form .remove-answer-btn', function () {
-            const answerBlock = $(this).closest('.answer-block');
-            const questionBlock = answerBlock.closest('.question-block');
-            if (questionBlock.find('.answer-block').length > 1) {
-                answerBlock.remove();
-                renumberEditAnswers(questionBlock, questionBlock.data('question-index'));
-            } else { showEditAlerts('Ogni domanda deve avere almeno una risposta!', 'warning'); }
-        });
-
-        // Invio Form Modifica Quiz
-        $('#edit-quiz-form').submit(function (e) {
-            e.preventDefault();
-            const startDate = new Date($(this).find('#dataInizio').val());
-            const endDate = new Date($(this).find('#dataFine').val());
-            const errorMessage = checkDateRange(startDate, endDate);
-            if (errorMessage) { showEditAlerts(errorMessage, 'danger'); return; }
-            
-            $.ajax({
-                url: $(this).attr('action'), type: $(this).attr('method'), // Usa method dal form (potrebbe essere POST con _method=PUT)
-                data: $(this).serialize(), dataType: 'json',
-                success: function (response) {
-                    if (response.status === 'success') {
-                        showEditAlerts('Quiz aggiornato con successo!', 'success');
-                        const quizId = $('#edit-quiz-form input[name="quiz_id"]').val();
-                        setTimeout(() => window.location.href = 'quiz_view.php?id=' + quizId, 1500);
-                    } else { showEditAlerts(response.message || 'Errore durante il salvataggio.', 'danger'); }
-                },
-                error: (xhr) => showEditAlerts('Errore: ' + (xhr.responseJSON?.message || xhr.statusText), 'danger')
-            });
-        });
-    } // Fine if ($('#edit-quiz-form').length)
-
-
-    // --- Gestione Modale Conferma Eliminazione (Globale o per pagina specifica) ---
-    const $confirmDeleteModal = $('#confirmDeleteModal');
-    if ($confirmDeleteModal.length) {
-        let quizIdToDeleteModal = null;
-        const $confirmDeleteButton = $('#confirmDeleteActionBtn');
-        const $cancelOrCloseButtons = $confirmDeleteModal.find('.close-button, #cancelDeleteBtn');
-
-        $(document).on('click', '.delete-quiz-btn', function (event) { // Delega l'evento se i bottoni sono dinamici
-            event.preventDefault();
-            quizIdToDeleteModal = $(this).data('delid') || $(this).attr('delid');
-            if (quizIdToDeleteModal && quizIdToDeleteModal !== '#') {
-                // Potresti popolare info nel modale qui, es. nome quiz
-                // $('#confirmDeleteModal .quiz-name-placeholder').text($(this).data('quiz-title'));
-                $confirmDeleteModal.show();
-            }
-        });
-
-        $confirmDeleteButton.on('click', function () {
-            if (quizIdToDeleteModal) {
-                const apiUrl = `api/quiz.php?delId=${quizIdToDeleteModal}`; // O usa `quiz_manage.php?action=delete&id=`
-                $.ajax({
-                    url: apiUrl, method: 'GET', // Idealmente DELETE, ma GET è più semplice per link/API base
-                    success: function (response, status, xhr) {
-                        if (xhr.status === 204 || (response && response.status === 'success')) {
-                            showAlert('Quiz eliminato con successo!', 'success');
-                            setTimeout(() => location.reload(), 1500);
-                        } else { showAlert(response.message || 'Errore durante l\'eliminazione.', 'danger');}
-                    },
-                    error: (xhr) => showAlert('Errore: ' + (xhr.responseJSON?.message || xhr.statusText), 'danger'),
-                    complete: () => hideModal()
-                });
-            }
-        });
-        const hideModal = () => { $confirmDeleteModal.hide(); quizIdToDeleteModal = null; };
-        $cancelOrCloseButtons.on('click', hideModal);
-        $(window).on('click', (event) => { if ($(event.target).is($confirmDeleteModal)) hideModal(); });
-        $(document).on('keydown', (event) => { if (event.key === 'Escape' && $confirmDeleteModal.is(':visible')) hideModal(); });
-    }
-
-
-    // --- Funzionalità specifiche per la pagina Index (index.php) ---
-    if (window.location.pathname.endsWith('index.php') || window.location.pathname === '/' || window.location.pathname.endsWith('tuo-path-base/')) { // Adatta se il tuo index ha un nome diverso o è la root
-        const $resetFormButton = $('#reset-form');
-        if ($resetFormButton.length) {
-            $resetFormButton.on('click', function(event) {
-                event.preventDefault();
-                window.location.href = window.location.pathname;
-            });
-        }
-
-        $('.compact-pagination .page-item:not(.disabled):not(.active)').on('click', function(e) {
-            e.preventDefault();
-            const $link = $(this);
-            $link.html('<i class="fas fa-spinner fa-spin"></i>').css('pointer-events', 'none');
-            const targetHref = $link.attr('href');
-            if (window.scrollY > 200) {
-                $('html, body').animate({ scrollTop: 0 }, 300, 'swing', () => window.location.href = targetHref);
-            } else {
-                setTimeout(() => window.location.href = targetHref, 100);
-            }
-        });
-
-        const $paginationContainer = $('.compact-pagination');
-        if ($paginationContainer.length && !$paginationContainer.attr('role')) {
-            $paginationContainer.attr({'role': 'navigation', 'aria-label': 'Navigazione pagine'});
-        }
-
-        const $perPageSelect = $('#per_page_select');
-        if ($perPageSelect.length) {
-            $perPageSelect.on('change', function() {
-                const $form = $(this).closest('form');
-                if ($form.find('input[name="page"]').length) {
-                    $form.find('input[name="page"]').val('1');
-                } else {
-                    $form.append('<input type="hidden" name="page" value="1" />');
-                }
-                $form.submit();
-            });
-        }
-
-        const $sortBySelect = $('#sort_by_inline');
-        if ($sortBySelect.length) {
-            $sortBySelect.on('change', function() {
-                // L'ordinamento dovrebbe resettare alla pagina 1, quindi non serve modificare 'page' qui se già gestito
-                $(this).closest('form').submit();
-            });
-        }
-
-        const $disponibileOraCheckbox = $('#search_disponibile_ora_sidebar');
-        const $dataInizioInput = $('#search_data_inizio_da_sidebar');
-        const $dataFineInput = $('#search_data_fine_a_sidebar');
-        function toggleDateInputsState() {
-            if ($disponibileOraCheckbox.is(':checked')) {
-                $dataInizioInput.prop('disabled', true).val('');
-                $dataFineInput.prop('disabled', true).val('');
-            } else {
-                $dataInizioInput.prop('disabled', false);
-                $dataFineInput.prop('disabled', false);
-            }
-        }
-        if ($disponibileOraCheckbox.length) {
-            $disponibileOraCheckbox.on('change', toggleDateInputsState);
-            toggleDateInputsState(); // Stato iniziale
-        }
-    } // Fine if (pagina index)
-});
-
-// Funzione per gestire l'apertura/chiusura delle domande
 function toggleQuestion(headerElement) {
     const questionCard = headerElement.closest('.question-card');
-    if (questionCard) {
-        const contentWrapper = questionCard.querySelector('.question-content-wrapper');
-        // Toggla la classe 'open' sulla card, che controlla lo stile CSS
-        const isOpen = questionCard.classList.toggle('open'); 
-        
-        // Aggiorna l'attributo ARIA per l'accessibilità
-        headerElement.setAttribute('aria-expanded', isOpen.toString());
-        
-        if (isOpen) {
-            // Se la domanda si sta aprendo, imposta maxHeight per l'animazione
-            // basandosi sull'altezza effettiva del suo contenuto.
-            contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
-        } else {
-            // Se la domanda si sta chiudendo, resetta maxHeight a null.
-            // Il CSS (max-height: 0) si occuperà di collassarla con l'animazione.
-            contentWrapper.style.maxHeight = null; 
+    if (!questionCard) return;
+
+    const contentWrapper = questionCard.querySelector('.question-content-wrapper');
+    if (!contentWrapper) return;
+
+    const wasOpen = questionCard.classList.contains('open');
+
+    if (wasOpen) { // Sta per chiudere
+        // Prima imposta l'altezza esplicita se era 'none'
+        if (contentWrapper.style.maxHeight === 'none' || contentWrapper.style.maxHeight === '') {
+             contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
         }
+        // Forza un reflow per assicurare che l'altezza esplicita sia applicata prima della transizione a 0
+        contentWrapper.offsetHeight; 
+
+        requestAnimationFrame(() => { // Usa requestAnimationFrame per la transizione a 0
+            contentWrapper.style.maxHeight = "0px";
+            questionCard.classList.remove('open');
+            headerElement.setAttribute('aria-expanded', 'false');
+        });
+    } else { // Sta per aprire
+        questionCard.classList.add('open');
+        headerElement.setAttribute('aria-expanded', 'true');
+        contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
+
+        // Rimuovi l'altezza esplicita dopo la transizione per permettere contenuto dinamico
+        const handleTransitionEnd = () => {
+            if (questionCard.classList.contains('open')) { // Controlla se è ancora aperto
+                contentWrapper.style.maxHeight = 'none';
+            }
+            contentWrapper.removeEventListener('transitionend', handleTransitionEnd);
+        };
+        contentWrapper.addEventListener('transitionend', handleTransitionEnd);
     }
 }
 
-// Questo codice viene eseguito quando l'intera pagina HTML è stata caricata e analizzata
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Aggiungi event listener per il click e per la tastiera (accessibilità)
-    // a ogni header di domanda.
+    // Accordion per quiz_view.php e altre pagine che usano .question-card
     document.querySelectorAll('.question-header').forEach(header => {
-        header.addEventListener('click', function() {
-            toggleQuestion(this); // Chiama la funzione quando l'header viene cliccato
-        });
-
+        header.addEventListener('click', function() { toggleQuestion(this); });
         header.addEventListener('keydown', function(event) {
-            // Permetti di aprire/chiudere con i tasti Invio o Spazio
             if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault(); // Evita il comportamento di default (es. scroll)
+                event.preventDefault();
                 toggleQuestion(this);
             }
         });
     });
 
-    // Gestisci lo stato iniziale delle domande che sono già aperte
-    // (quelle a cui abbiamo aggiunto la classe 'open' nell'HTML via PHP).
+    // Inizializzazione delle card già aperte (es. se la classe 'open' è impostata server-side)
     document.querySelectorAll('.question-card.open').forEach(card => {
         const contentWrapper = card.querySelector('.question-content-wrapper');
         const header = card.querySelector('.question-header');
-
-        // L'attributo aria-expanded dovrebbe essere già 'true' dall'HTML,
-        // ma lo confermiamo qui per coerenza.
-        if (header) {
-            header.setAttribute('aria-expanded', 'true');
-        }
-
+        if (header) header.setAttribute('aria-expanded', 'true');
         if (contentWrapper) {
-            // Per evitare l'animazione "scattosa" al caricamento iniziale
-            // per le domande che sono già aperte:
-            
-            // 1. Salva la transizione CSS originale del wrapper (se presente)
-            const originalTransition = contentWrapper.style.transition;
-            // 2. Rimuovi temporaneamente la transizione
-            contentWrapper.style.transition = 'none'; 
-            
-            // 3. Imposta il maxHeight all'altezza effettiva del contenuto
+            // Imposta maxHeight a scrollHeight per l'apertura iniziale,
+            // poi 'none' dopo un breve timeout per permettere alla transizione di finire
+            // e per adattarsi a contenuti che potrebbero cambiare dimensione.
             contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
-            
-            // 4. Forza il browser a "ricalcolare" il layout (reflow).
-            // Questo trucco assicura che il maxHeight sia applicato immediatamente
-            // senza che la transizione (che abbiamo appena rimosso) possa interferire.
-            void contentWrapper.offsetWidth; 
-            
-            // 5. Ripristina la transizione CSS originale.
-            // Ora, le future aperture/chiusure manuali avranno l'animazione.
-            contentWrapper.style.transition = originalTransition;
+            setTimeout(() => {
+               if (card.classList.contains('open')) contentWrapper.style.maxHeight = 'none';
+            }, 360); // Durata leggermente superiore alla transizione CSS (es. 0.35s)
         }
-        // L'icona a freccia (es. chevron) dovrebbe già essere ruotata correttamente
-        // grazie alla classe '.open' e agli stili CSS corrispondenti
-        // (.question-card.open .question-header .question-toggle i { transform: rotate(180deg); })
     });
 });
 
-// Funzione helper per aggiungere una risposta, da chiamare sia da "add-question" che da "add-answer"
-function addAnswerToQuestion(questionBlockElement, questionNum, answerCount) {
-    const answerTemplate = document.getElementById('answer-template-create').innerHTML;
-    let answerHtml = answerTemplate.replace(/__Q_NUM__/g, questionNum)
-                                   .replace(/__A_NUM__/g, answerCount);
-    
-    // Se il template non ha già la prima risposta, questa logica è per aggiungerla.
-    // Altrimenti, se il template domanda include già una risposta, questa funzione è più per il bottone "Aggiungi Risposta"
-    $(questionBlockElement).find('.answers-container').append(answerHtml);
-}
+// Codice jQuery principale
+$(document).ready(function () {
 
-$(document).on('click', '#questions-container .add-answer', function () {
-    const questionNum = $(this).data('question');
-    const questionBlock = $(this).closest('.question-block');
-    const answersContainer = questionBlock.find('.answers-container');
-    const answerCount = answersContainer.find('.answer-block').length + 1;
+    // --- Login e Registrazione ---
+    $('#login-form').on('submit', function (e) {
+        e.preventDefault();
+        const $form = $(this); // Cache form
+        $.ajax({
+            type: 'POST', 
+            url: 'api/users.php?action=login', 
+            data: $form.serialize(), 
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    // showAlert per login di solito non serve qui, si reindirizza
+                    // Se vuoi mostrare un messaggio sulla pagina successiva, usa sessionStorage
+                    sessionStorage.setItem('loginMessage', response.message || 'Login effettuato con successo!');
+                    sessionStorage.setItem('loginMessageType', 'success');
+                    window.location.href = response.redirect_url || 'index.php'; // Usa redirect_url dall'API se fornito
+                } else {
+                    showAlert(response.message || 'Credenziali non valide.', 'danger', '#alert-container-login'); // Specifica container
+                }
+            },
+            error: () => showAlert('Errore durante la comunicazione con il server.', 'danger', '#alert-container-login')
+        });
+    });
 
-    addAnswerToQuestion(questionBlock, questionNum, answerCount);
-    renumberQuestions(); // Assicurati che questa funzione aggiorni anche i testi
+    $('#register-form').on('submit', function (e) {
+        e.preventDefault();
+        const $form = $(this); // Cache form
+        $.ajax({
+            type: 'POST', 
+            url: 'api/users.php?action=register', 
+            data: $form.serialize(), 
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    showAlert(response.message || 'Registrazione completata con successo! Effettua il login.', 'success', '#alert-container-register');
+                    setTimeout(() => window.location.href = 'auth_login.php', 2000); // Reindirizza dopo aver mostrato il messaggio
+                } else { 
+                    showAlert(response.message || 'Errore durante la registrazione.', 'danger', '#alert-container-register');
+                }
+            },
+            error: () => showAlert('Errore durante la comunicazione con il server.', 'danger', '#alert-container-register')
+        });
+    });
+
+    // --- Creazione Quiz (Pagina: quiz_create.php) ---
+    if ($('#create-quiz-form').length) {
+
+        $('#create-quiz-form').on('submit', function (e) {
+            e.preventDefault();
+            const startDateVal = $('#dataInizio').val();
+            const endDateVal = $('#dataFine').val();
+
+            if (!startDateVal || !endDateVal) {
+                 showAlert('Le date di inizio e fine sono obbligatorie.', 'warning', '#alert-container-page'); // Usa il container corretto
+                 return;
+            }
+            const startDate = new Date(startDateVal);
+            const endDate = new Date(endDateVal);
+
+            const errorMessage = checkDateRange(startDate, endDate, false); // false: non permettere data inizio passata
+            if (errorMessage) { 
+                showAlert(errorMessage, 'danger', '#alert-container-page'); // Usa il container corretto
+                return; 
+            }
+            $.ajax({
+                type: 'POST', url: 'api/quiz.php?action=create', data: $(this).serialize(), dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success' && response.idQuiz) {
+                        showAlert('Quiz creato con successo! Ora aggiungi le domande.', 'success', '#alert-container-page');
+                        $('#quiz-id').val(response.idQuiz);
+                        $('#quiz-details-section').slideUp();
+                        $('#questions-section').slideDown();
+                        // Aggiungi automaticamente la prima domanda se non ce ne sono
+                        if ($('#questions-container .question-block-styled').length === 0) {
+                            $('#add-question').click(); // Simula click su "Aggiungi Domanda"
+                        } else {
+                            renumberQuestions(); 
+                        }
+                    } else { showAlert(response.message || 'Errore nella creazione del quiz.', 'danger', '#alert-container-page'); }
+                },
+                error: (xhr) => showAlert('Errore AJAX creazione quiz: ' + (xhr.responseJSON?.message || xhr.statusText), 'danger', '#alert-container-page')
+            });
+        });
+
+        $('#add-question').click(function () { 
+            $('#no-questions-message').hide();
+            const questionTemplate = document.getElementById('question-template-create').innerHTML;
+            const questionNumberForTemplate = $('#questions-container .question-block-styled').length + 1;
+
+            const questionHtml = questionTemplate.replace(/__Q_NUM__/g, questionNumberForTemplate); // Per i placeholder nel template
+            $('#questions-container').append(questionHtml);
+            
+            const $newlyAddedQuestionBlock = $('#questions-container .question-block-styled:last-child');
+            if ($newlyAddedQuestionBlock.length) {
+                // Aggiungi automaticamente la prima risposta alla nuova domanda
+                const actualQuestionNumForData = $newlyAddedQuestionBlock.data('question') || questionNumberForTemplate; // Usa data('question') se già settato da renumber
+                addAnswerToQuestion($newlyAddedQuestionBlock, actualQuestionNumForData, 1); 
+            }
+            renumberQuestions(); 
+            $newlyAddedQuestionBlock.find('textarea.textarea-styled').first().focus(); // Focus sul testo della nuova domanda
+        });
+
+        $(document).on('click', '#questions-container .add-answer', function () { 
+            const $thisButton = $(this);
+            const questionNum = $thisButton.data('question'); 
+            const $questionBlock = $thisButton.closest('.question-block-styled');
+            const answerCount = $questionBlock.find('.answers-container-styled .answer-block-styled').length + 1;
+            addAnswerToQuestion($questionBlock, questionNum, answerCount);
+            renumberQuestions(); 
+            $questionBlock.find('.answer-block-styled:last-child input[type="text"]').first().focus(); // Focus sul testo della nuova risposta
+        });
+
+        $(document).on('click', '#questions-container .remove-question', function () { 
+            $(this).closest('.question-block-styled').remove();
+            renumberQuestions(); 
+        });
+
+        $(document).on('click', '#questions-container .remove-answer', function () { 
+            const $answerBlock = $(this).closest('.answer-block-styled');
+            const $questionBlock = $answerBlock.closest('.question-block-styled');
+
+            if ($questionBlock.find('.answers-container-styled .answer-block-styled').length > 1) {
+                $answerBlock.remove();
+                renumberQuestions(); 
+            } else {
+                showAlert('Ogni domanda deve avere almeno una risposta.', 'warning', '#alert-container-page');
+            }
+        });
+
+        $('#save-questions').click(function () {
+            const quizId = $('#quiz-id').val();
+            if (!quizId) {
+                showAlert('ID del Quiz non trovato. Impossibile salvare.', 'danger', '#alert-container-page');
+                return;
+            }
+            if ($('#questions-container .question-block-styled').length === 0) {
+                showAlert('Devi aggiungere almeno una domanda.', 'warning', '#alert-container-page');
+                return;
+            }
+            let allQuestionsValid = true;
+            $('#questions-container .question-block-styled').each(function() {
+                const $qBlock = $(this);
+                const qNumText = $qBlock.find('.question-number').text();
+                if ($qBlock.find('textarea.textarea-styled').val().trim() === '') {
+                    showAlert(`Il testo della Domanda ${qNumText} non può essere vuoto.`, 'warning', '#alert-container-page');
+                    allQuestionsValid = false; return false;
+                }
+                if ($qBlock.find('.answers-container-styled .answer-block-styled').length === 0) {
+                    showAlert(`La Domanda ${qNumText} non ha risposte.`, 'warning', '#alert-container-page');
+                    allQuestionsValid = false; return false; 
+                }
+                let hasCorrect = false;
+                let allAnswersHaveText = true;
+                $qBlock.find('.answers-container-styled .answer-block-styled').each(function(idx) {
+                    if ($(this).find('input[type="text"].input-small-styled').val().trim() === '') {
+                        showAlert(`Il testo della Risposta ${idx+1} per la Domanda ${qNumText} non può essere vuoto.`, 'warning', '#alert-container-page');
+                        allAnswersHaveText = false; return false;
+                    }
+                    if ($(this).find('input.radio-input-styled[value="Corretta"]').is(':checked')) {
+                        hasCorrect = true;
+                    }
+                });
+                if (!allAnswersHaveText) { allQuestionsValid = false; return false; }
+                if (!hasCorrect) {
+                    showAlert(`La Domanda ${qNumText} non ha una risposta designata come "Corretta".`, 'warning', '#alert-container-page');
+                    allQuestionsValid = false; return false; 
+                }
+            });
+            if (!allQuestionsValid) return;
+
+            const formData = $('#questions-form').serialize() + '&quiz_id=' + quizId + '&action=save_questions'; // Aggiungi action per API
+            $.ajax({
+                type: 'POST',
+                url: 'api/questions.php', // API per le domande
+                data: formData,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        showAlert('Domande salvate con successo!', 'success', '#alert-container-page');
+                        setTimeout(() => window.location.href = 'quiz_view.php?id=' + quizId, 1500);
+                    } else {
+                        showAlert(response.message || 'Errore nel salvataggio delle domande.', 'danger', '#alert-container-page');
+                    }
+                },
+                error: (xhr) => {
+                    showAlert('Errore AJAX salvataggio domande: ' + (xhr.responseJSON?.message || xhr.statusText), 'danger', '#alert-container-page');
+                }
+            });
+        });
+
+        const $confirmAbortModal = $('#confirmAbortCreationModal');
+        const $confirmAbortActionBtn = $('#confirmAbortActionBtn');
+        const $abortModalMessage = $('#abortCreationModalMessage');
+        function showAbortCreationModal() { if($confirmAbortModal.length) $confirmAbortModal.fadeIn(200); }
+        function hideAbortCreationModal() { if($confirmAbortModal.length) $confirmAbortModal.fadeOut(200); }
+
+        if ($confirmAbortModal.length) {
+            $confirmAbortModal.find('.custom-modal-close-button, #cancelAbortBtn').on('click', hideAbortCreationModal);
+            $(window).on('click', (event) => { if ($(event.target).is($confirmAbortModal)) hideAbortCreationModal(); });
+            $(document).on('keydown', (event) => { if (event.key === 'Escape' && $confirmAbortModal.is(':visible')) hideAbortCreationModal(); });
+        }
+
+        $('#abort-quiz-creation').click(function () {
+            const quizIdToDelete = $('#quiz-id').val();
+            let msg = "Sei sicuro di voler annullare la creazione del quiz?";
+            if (quizIdToDelete && $('#questions-section').is(':visible')) { // Solo se il quiz è stato creato e siamo nella sezione domande
+                 msg += " Il quiz parzialmente creato (ID: " + quizIdToDelete + ") e le sue domande verranno eliminati.";
+            } else if ($('#create-quiz-form').find('input[name="titolo"]').val() !== '') { // Se ci sono dati nel form dettagli
+                msg += " Eventuali dati inseriti per i dettagli del quiz verranno persi.";
+            }
+            if($abortModalMessage.length) $abortModalMessage.text(msg);
+            showAbortCreationModal();
+
+            if($confirmAbortActionBtn.length) {
+                $confirmAbortActionBtn.off('click').on('click', function() {
+                    hideAbortCreationModal();
+                    if (quizIdToDelete && $('#questions-section').is(':visible')) { // Quiz creato, cancella da DB
+                        $.ajax({
+                            url: `api/quiz.php?action=delete&delId=${quizIdToDelete}`, // usa action=delete
+                            method: 'GET', // o DELETE se il server lo supporta e l'API è configurata
+                            dataType: 'json',
+                            success: (res) => {
+                                if (res.status === 'success') { // API quiz.php dovrebbe tornare JSON per delete
+                                    showAlert('Creazione annullata e quiz eliminato.', 'info', '#alert-container-page');
+                                    setTimeout(() => {
+                                        // Resetta completamente la pagina
+                                        $('#quiz-details-section').slideDown();
+                                        $('#questions-section').slideUp();
+                                        $('#create-quiz-form')[0].reset();
+                                        $('#questions-form')[0].reset();
+                                        $('#quiz-id').val('');
+                                        $('#questions-container').empty().html('<p id="no-questions-message" class="message-placeholder-styled text-align-center padding-vertical-medium">Nessuna domanda aggiunta. Clicca su "Aggiungi Domanda" per iniziare.</p>');
+                                        renumberQuestions();
+                                    }, 1500);
+                                } else showAlert(res.message || 'Errore durante l\'eliminazione del quiz.', 'danger', '#alert-container-page');
+                            }, error: () => showAlert('Errore AJAX durante l\'annullamento.', 'danger', '#alert-container-page')
+                        });
+                    } else { // Solo reset del form, nessun quiz da cancellare da DB
+                        showAlert('Creazione annullata.', 'info', '#alert-container-page');
+                        $('#quiz-details-section').slideDown();
+                        $('#questions-section').slideUp();
+                        $('#create-quiz-form')[0].reset();
+                        $('#questions-form')[0].reset();
+                        $('#quiz-id').val('');
+                        $('#questions-container').empty().html('<p id="no-questions-message" class="message-placeholder-styled text-align-center padding-vertical-medium">Nessuna domanda aggiunta. Clicca su "Aggiungi Domanda" per iniziare.</p>');
+                        renumberQuestions();
+                    }
+                });
+            }
+        });
+    } 
+
+    // Handler per il cambio dei radio button (gestione campo punti) in quiz_create.php e quiz_modify.php
+    $(document).on('change', '#questions-section .answer-block-styled input[type="radio"][name$="[type]"], #edit-quiz-form .answer-block-styled input[type="radio"][name$="[type]"]', function () {
+        const $answerBlock = $(this).closest('.answer-block-styled');
+        const $pointsGroup = $answerBlock.find('.points-group');
+        const $pointsInput = $pointsGroup.find('input[type="number"]');
+
+        if ($(this).val() === 'Corretta' && $(this).is(':checked')) {
+            $pointsGroup.slideDown();
+             if (parseInt($pointsInput.val(), 10) <= 0 || $pointsInput.val() === "") {
+                $pointsInput.val(1); // Default a 1 se non valido o vuoto
+            }
+        } else {
+            // Azzera e nascondi solo se "Sbagliata" è effettivamente selezionato per questo gruppo di radio
+            const nameAttr = $(this).attr('name');
+            if ($answerBlock.find('input[type="radio"][name="'+nameAttr+'"][value="Sbagliata"]').is(':checked')) {
+                $pointsGroup.slideUp(function() { // Callback per azzerare dopo l'animazione
+                    $pointsInput.val(0);
+                });
+            }
+        }
+    });
+
+
+    if ($('#participate-form').length) {
+        $('#participate-form').on('submit', function(e) {
+            e.preventDefault();
+            const $form = $(this);
+            const $submitButton = $form.find('button[type="submit"]');
+            const originalButtonText = $submitButton.html();
+
+            let answersGiven = false;
+            $form.find('input[type="checkbox"]:checked, input[type="radio"]:checked').each(function() {
+                answersGiven = true;
+                return false; 
+            });
+
+            // Potresti decidere se rendere obbligatorio rispondere ad almeno una domanda
+            // if (!answersGiven) {
+            //     showAlert('Devi selezionare almeno una risposta per inviare il quiz.', 'warning', '#alert-container-participate');
+            //     return;
+            // }
+
+            $submitButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Invio in corso...');
+
+            $.ajax({
+                type: 'POST',
+                url: 'api/partecipation.php', // Assicurati che action=submit sia nel form o qui
+                data: $form.serialize(), 
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        if (response.redirect_url) {
+                            sessionStorage.setItem('participationMessage', response.message || 'Partecipazione inviata con successo!');
+                            sessionStorage.setItem('participationMessageType', 'success');
+                            window.location.href = response.redirect_url;
+                        } else {
+                            showAlert(response.message || 'Partecipazione inviata!', 'success', '#alert-container-participate');
+                             $form.hide(); 
+                        }
+                    } else {
+                        showAlert(response.message || 'Si è verificato un errore durante l\'invio.', 'danger', '#alert-container-participate');
+                        $submitButton.prop('disabled', false).html(originalButtonText); 
+                    }
+                },
+                error: function(xhr, status, error) {
+                    let errorMsg = 'Errore di comunicazione con il server.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    } else if (xhr.status === 401) {
+                         errorMsg = 'Sessione scaduta o non autorizzato. Effettua nuovamente il login.';
+                         setTimeout(() => window.location.href = 'auth_login.php', 2500);
+                    } else if (xhr.status === 409) { 
+                        errorMsg = xhr.responseJSON.message || 'Hai già partecipato a questo quiz.';
+                        setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
+                    }
+                    showAlert(errorMsg, 'danger', '#alert-container-participate');
+                    $submitButton.prop('disabled', false).html(originalButtonText); 
+                    console.error("Errore AJAX invio partecipazione:", xhr.responseText, status, error);
+                }
+            });
+        });
+    }
+
+    // --- Modifica Quiz (quiz_modify.php) ---
+    if ($('#edit-quiz-form').length) {
+
+        // Funzioni specifiche per la rinumerazione nella pagina di modifica
+        function renumberQuestionsForEdit() {
+            const $form = $('#edit-quiz-form');
+            const $questionBlocks = $form.find('#questions-container .question-block-styled');
+            $form.find('#no-questions-message').toggle($questionBlocks.length === 0);
+
+            $questionBlocks.each(function (qIndex) { 
+                const $currentQuestionBlock = $(this);
+                const displayQNum = qIndex + 1;
+
+                $currentQuestionBlock.attr('data-question-index', qIndex);
+                $currentQuestionBlock.find('.question-number-badge').first().text(displayQNum); // Usa .question-number-badge
+                
+                $currentQuestionBlock.find('.add-answer-btn .question-number-btn-text').text(displayQNum);
+                $currentQuestionBlock.find('.remove-question-btn').attr('title', `Rimuovi Domanda ${displayQNum}`);
+
+                $currentQuestionBlock.find('textarea.textarea-styled').each(function () {
+                    const newName = `questions[${qIndex}][text]`; 
+                    $(this).attr('name', newName);
+                    const newId = `question_text_${qIndex}`;
+                    $(this).attr('id', newId);
+                    $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
+                });
+                
+                $currentQuestionBlock.find('input[type="hidden"][name$="[original_numero_domanda]"]').each(function() {
+                    const newNameHidden = `questions[${qIndex}][original_numero_domanda]`;
+                    $(this).attr('name', newNameHidden);
+                });
+
+                const $answersContainer = $currentQuestionBlock.find('.answers-container-styled');
+                $answersContainer.attr('id', `answers-container-q${qIndex}`);
+                $answersContainer.find('.no-answers-message').attr('id', `no-answers-for-q${qIndex}`);
+
+                renumberAnswersForEdit($currentQuestionBlock, qIndex);
+            });
+        }
+
+        function renumberAnswersForEdit($questionBlock, questionIndex) {
+            const $answerBlocks = $questionBlock.find('.answers-container-styled .answer-block-styled');
+            $questionBlock.find('.no-answers-message').toggle($answerBlocks.length === 0);
+
+            $answerBlocks.each(function (aIndex) {
+                const $currentAnswerBlock = $(this);
+                const displayANum = aIndex + 1;
+
+                $currentAnswerBlock.attr('data-answer-index', aIndex);
+                $currentAnswerBlock.find('.answer-number-badge').first().text(displayANum); // Usa .answer-number-badge
+
+                const nameQuestionPart = `questions[${questionIndex}]`;
+                const nameAnswerPart = `[answers][${aIndex}]`;
+
+                $currentAnswerBlock.find('input.form-input-styled.input-small-styled[type="text"]').each(function() {
+                    const newName = `${nameQuestionPart}${nameAnswerPart}[text]`;
+                    $(this).attr('name', newName);
+                    const newId = `answer_text_${questionIndex}_${aIndex}`;
+                    $(this).attr('id', newId);
+                    $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
+                });
+
+                $currentAnswerBlock.find('input.radio-input-styled[name$="[type]"]').each(function() {
+                    const radioValue = $(this).val(); 
+                    const typeSuffix = radioValue === 'Corretta' ? 'C' : 'S';
+                    const newId = `q${questionIndex}a${aIndex}tipo${typeSuffix}`;
+                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[type]`);
+                    $(this).attr('id', newId);
+                    $(this).next('label.radio-label-styled').attr('for', newId);
+                });
+
+                $currentAnswerBlock.find('input.input-numerical-styled[name$="[points]"]').each(function() {
+                    const newId = `q${questionIndex}a${aIndex}punti`;
+                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[points]`);
+                    $(this).attr('id', newId);
+                    $(this).closest('.points-group').find('label.form-label-styled').attr('for', newId);
+                });
+
+                $currentAnswerBlock.find('input[type="hidden"][name$="[original_numero_risposta]"]').each(function() {
+                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[original_numero_risposta]`);
+                });
+                 $currentAnswerBlock.find('input[type="hidden"][name$="[id_risposta]"]').each(function() { // Per API update
+                    $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[id_risposta]`);
+                });
+            });
+        }
+
+        // Chiamata iniziale per assicurare che gli indici e i numeri siano corretti al caricamento
+        renumberQuestionsForEdit();
+
+        // Aggiungi Nuova Domanda in edit
+        $('#edit-quiz-form').on('click', '#add-question-btn', function () {
+            const questionTemplate = $('#question-template').html(); 
+            const questionIndex = $('#edit-quiz-form #questions-container .question-block-styled').length; 
+            const displayQNum = questionIndex + 1;
+
+            let newQuestionHtml = questionTemplate
+                .replace(/__Q_INDEX__/g, questionIndex) 
+                .replace(/__Q_DISPLAY_NUM__/g, displayQNum)
+                .replace(/value="[^"]*"/g, 'value=""') // Pulisce i value degli input nel template
+                .replace(/original_numero_domanda" value="[^"]*"/g, 'original_numero_domanda" value=""') // Pulisce original_numero_domanda
+                .replace(/<textarea[^>]*>[\s\S]*?<\/textarea>/g, '<textarea class="textarea-styled" name="questions[' + questionIndex + '][text]" id="question_text_' + questionIndex + '" rows="3"></textarea>'); // Pulisce textarea
+
+
+            $('#edit-quiz-form #questions-container').append(newQuestionHtml);
+            
+            const $newlyAddedQuestionBlock = $('#edit-quiz-form #questions-container .question-block-styled').last();
+            if ($newlyAddedQuestionBlock.length) {
+                const answerTemplate = $('#answer-template').html(); 
+                const answerIndex = 0; 
+                const displayANum = 1;
+                let newAnswerHtml = answerTemplate
+                    .replace(/__Q_INDEX__/g, questionIndex) 
+                    .replace(/__A_INDEX__/g, answerIndex)   
+                    .replace(/__A_DISPLAY_NUM__/g, displayANum)
+                    .replace(/value="[^"]*"/g, 'value=""') // Pulisce value
+                    .replace(/id_risposta" value="[^"]*"/g, 'id_risposta" value=""') // Pulisce id_risposta
+                    .replace(/original_numero_risposta" value="[^"]*"/g, 'original_numero_risposta" value=""'); // Pulisce original_numero_risposta
+                
+                $newlyAddedQuestionBlock.find('.answers-container-styled').append(newAnswerHtml);
+                $newlyAddedQuestionBlock.find('.no-answers-message').hide();
+                // Seleziona "Sbagliata" e imposta punti a 0 per la nuova risposta di default
+                const $newAnswer = $newlyAddedQuestionBlock.find('.answer-block-styled').first();
+                $newAnswer.find('input[type="radio"][value="Sbagliata"]').prop('checked', true);
+                $newAnswer.find('input[type="number"][name$="[points]"]').val(0);
+                $newAnswer.find('.points-group').hide(); // Nascondi gruppo punti se "Sbagliata"
+            }
+            renumberQuestionsForEdit(); 
+            $newlyAddedQuestionBlock.find('textarea').first().focus();
+        });
+
+        // Aggiungi Risposta a una Domanda in edit
+        $('#edit-quiz-form').on('click', '.add-answer-btn', function () {
+            const $questionBlock = $(this).closest('.question-block-styled');
+            const questionIndex = $questionBlock.data('question-index'); 
+            
+            const $answersContainer = $questionBlock.find('.answers-container-styled');
+            const answerIndex = $answersContainer.find('.answer-block-styled').length; 
+            const displayANum = answerIndex + 1;
+
+            const answerTemplate = $('#answer-template').html(); 
+            let newAnswerHtml = answerTemplate
+                .replace(/__Q_INDEX__/g, questionIndex)
+                .replace(/__A_INDEX__/g, answerIndex)
+                .replace(/__A_DISPLAY_NUM__/g, displayANum)
+                .replace(/value="[^"]*"/g, 'value=""')
+                .replace(/id_risposta" value="[^"]*"/g, 'id_risposta" value=""')
+                .replace(/original_numero_risposta" value="[^"]*"/g, 'original_numero_risposta" value=""');
+            
+            $answersContainer.append(newAnswerHtml);
+            $questionBlock.find('.no-answers-message').hide();
+            // Seleziona "Sbagliata" e imposta punti a 0 per la nuova risposta di default
+            const $newAnswer = $answersContainer.find('.answer-block-styled').last();
+            $newAnswer.find('input[type="radio"][value="Sbagliata"]').prop('checked', true);
+            $newAnswer.find('input[type="number"][name$="[points]"]').val(0);
+            $newAnswer.find('.points-group').hide();
+
+            renumberAnswersForEdit($questionBlock, questionIndex); 
+            $newAnswer.find('input[type="text"]').first().focus();
+        });
+
+        // Rimuovi Domanda in edit
+        $('#edit-quiz-form').on('click', '.remove-question-btn', function () {
+            $(this).closest('.question-block-styled').remove();
+            renumberQuestionsForEdit();
+        });
+
+        // Rimuovi Risposta in edit
+        $('#edit-quiz-form').on('click', '.remove-answer-btn', function () {
+            const $answerBlock = $(this).closest('.answer-block-styled');
+            const $questionBlock = $answerBlock.closest('.question-block-styled');
+            const questionIndex = $questionBlock.data('question-index'); 
+
+            if ($questionBlock.find('.answers-container-styled .answer-block-styled').length > 1) {
+                $answerBlock.remove();
+                renumberAnswersForEdit($questionBlock, questionIndex);
+            } else {
+                showEditAlerts('Ogni domanda deve avere almeno una risposta!', 'warning');
+            }
+        });
+
+
+        // Submit del form di modifica
+        $('#edit-quiz-form').submit(function (e) {
+            e.preventDefault();
+            const $form = $(this);
+            const startDateVal = $form.find('#dataInizio').val();
+            const endDateVal = $form.find('#dataFine').val();
+            
+            if (startDateVal && endDateVal) {
+                const startDate = new Date(startDateVal);
+                const endDate = new Date(endDateVal);
+                // true per allowPastStartDate in modifica, ma solo se la data di inizio originale non è nel futuro
+                const originalStartDate = new Date($form.find('#original_data_inizio').val() || startDateVal); // Campo hidden con data originale
+                const allowPast = originalStartDate <= new Date(); // Permetti date passate solo se la data originale non era futura
+
+                const dateError = checkDateRange(startDate, endDate, allowPast); 
+                if (dateError) {
+                     showEditAlerts(dateError, 'danger');
+                     return;
+                }
+            } else if (!startDateVal || !endDateVal) {
+                 showEditAlerts('Le date di inizio e fine sono obbligatorie.', 'warning');
+                 return;
+            }
+
+
+            if ($form.find('#questions-container .question-block-styled').length === 0) {
+                showEditAlerts('Il quiz deve avere almeno una domanda.', 'warning');
+                return;
+            }
+
+            let allQuestionsValid = true;
+            $form.find('#questions-container .question-block-styled').each(function(qIdx) {
+                const $qBlock = $(this);
+                const qNumText = $qBlock.find('.question-number-badge').first().text();
+
+                if ($qBlock.find('textarea.textarea-styled').val().trim() === '') {
+                    showEditAlerts(`Il testo della Domanda ${qNumText} non può essere vuoto.`, 'warning');
+                    allQuestionsValid = false; return false;
+                }
+
+                if ($qBlock.find('.answers-container-styled .answer-block-styled').length === 0) {
+                    showEditAlerts(`La Domanda ${qNumText} non ha risposte. Ogni domanda deve avere almeno una risposta.`, 'warning');
+                    allQuestionsValid = false; return false; 
+                }
+
+                let hasCorrectAnswer = false;
+                let allAnswersHaveText = true;
+                $qBlock.find('.answers-container-styled .answer-block-styled').each(function(aIdx) {
+                    if ($(this).find('input[type="text"].form-input-styled').val().trim() === '') {
+                         showEditAlerts(`Il testo della Risposta ${aIdx+1} per la Domanda ${qNumText} non può essere vuoto.`, 'warning');
+                         allAnswersHaveText = false; return false;
+                    }
+                    if ($(this).find('input[type="radio"][name$="[type]"][value="Corretta"]').is(':checked')) { 
+                        hasCorrectAnswer = true; 
+                    }
+                });
+                if (!allAnswersHaveText) { allQuestionsValid = false; return false; }
+
+                if (!hasCorrectAnswer) {
+                    showEditAlerts(`La Domanda ${qNumText} non ha una risposta designata come "Corretta".`, 'warning');
+                    allQuestionsValid = false; return false;
+                }
+            });
+
+            if (!allQuestionsValid) return;
+
+            const $submitButton = $form.find('button[type="submit"]');
+            const originalButtonText = $submitButton.html();
+            $submitButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Salvataggio...');
+
+
+            $.ajax({
+                url: $form.attr('action'), // action dovrebbe essere api/quiz.php?action=update
+                type: $form.attr('method'), // method dovrebbe essere POST
+                data: $form.serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        showEditAlerts(response.message || 'Quiz aggiornato con successo!', 'success');
+                        // const quizId = $form.find('input[name="quiz_id"]').val();
+                        setTimeout(() => {
+                             // window.location.href = 'quiz_view.php?id=' + quizId;
+                             window.location.href = response.redirect_url || 'quiz_my.php'; // Usa redirect_url o fallback
+                        }, 1500);
+                    } else {
+                        showEditAlerts(response.message || 'Errore durante il salvataggio delle modifiche.', 'danger');
+                    }
+                },
+                error: function (xhr) {
+                    showEditAlerts('Errore di comunicazione: ' + (xhr.responseJSON?.message || xhr.statusText || 'Dettagli non disponibili'), 'danger');
+                },
+                complete: function() {
+                    $submitButton.prop('disabled', false).html(originalButtonText);
+                }
+            });
+        });
+    } // Fine if ($('#edit-quiz-form').length)
+
+
+    // --- Gestione Modale Conferma Eliminazione (Globale per quiz_my_list.php, quiz_view.php) ---
+    const $confirmDeleteModal = $('#confirmDeleteModal'); // Modale di conferma eliminazione
+    if ($confirmDeleteModal.length) {
+        const $confirmDeleteButton = $('#confirmDeleteActionBtn');
+        let quizIdToDeleteModal = null;
+        let quizTitleToDeleteModal = '';
+        let successRedirectUrl = ''; // Per reindirizzare dopo eliminazione (es. da quiz_view a quiz_my_list)
+
+        const $cancelOrCloseButtons = $confirmDeleteModal.find('.custom-modal-close-button, #cancelDeleteBtn');
+
+        function showMainDeleteModal(quizId, quizTitle = 'questo quiz', redirectUrlAfterDelete = null) {
+            quizIdToDeleteModal = quizId;
+            quizTitleToDeleteModal = quizTitle;
+            successRedirectUrl = redirectUrlAfterDelete || window.location.href; // Default: ricarica pagina corrente
+
+            const $quizTitleSpan = $('#quizTitleToDelete'); 
+            if ($quizTitleSpan.length) {
+                $quizTitleSpan.text(quizTitleToDeleteModal); // Mostra il titolo del quiz
+            }
+             $('#modalDeleteErrorMessage').hide().text(''); // Nascondi/resetta messaggi di errore precedenti
+            $confirmDeleteModal.fadeIn(200);
+        }
+
+        function hideMainDeleteModal() {
+            $confirmDeleteModal.fadeOut(200);
+            quizIdToDeleteModal = null;
+            quizTitleToDeleteModal = '';
+            successRedirectUrl = '';
+        }
+
+        // Listener per aprire il modale (delegato per bottoni aggiunti dinamicamente)
+        $(document).on('click', '.delete-quiz-btn', function (event) {
+            event.preventDefault();
+            const $button = $(this);
+            const quizId = $button.data('delid') || $button.attr('delid');
+            const quizTitle = $button.data('quiz-title') || 'questo quiz';
+            const redirectUrl = $button.data('redirect-on-delete'); // es. 'quiz_my_list.php' se si elimina da quiz_view
+
+            if (quizId && quizId !== '#') {
+                showMainDeleteModal(quizId, quizTitle, redirectUrl);
+            }
+        });
+
+        $confirmDeleteButton.on('click', function () {
+            if (quizIdToDeleteModal) {
+                const $thisButton = $(this);
+                const originalButtonText = $thisButton.html();
+                $thisButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Eliminazione...');
+                $('#modalDeleteErrorMessage').hide();
+
+                $.ajax({
+                    url: `api/quiz.php?action=delete&delId=${quizIdToDeleteModal}`, // API dovrebbe gestire action=delete
+                    method: 'GET', // o 'DELETE' se l'API lo supporta
+                    dataType: 'json', // Aspettati JSON dalla tua API
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            hideMainDeleteModal();
+                            // Usa showAlert sulla pagina principale, non nel modale
+                            showAlert(response.message || 'Quiz eliminato con successo!', 'success', '#alert-container-page'); 
+                            setTimeout(() => {
+                                if (successRedirectUrl && successRedirectUrl !== window.location.href) {
+                                    window.location.href = successRedirectUrl;
+                                } else {
+                                    location.reload(); // Ricarica la pagina corrente (es. quiz_my_list.php)
+                                }
+                            }, 1500);
+                        } else {
+                             // Mostra errore nel modale o come alert globale
+                            // showAlert(response.message || 'Errore durante l\'eliminazione.', 'danger', '#alert-container-page');
+                            $('#modalDeleteErrorMessage').text(response.message || 'Errore durante l\'eliminazione.').show();
+                        }
+                    },
+                    error: function (xhr) {
+                        const errorMsg = xhr.responseJSON?.message || xhr.statusText || 'Errore AJAX durante l\'eliminazione.';
+                        // showAlert(errorMsg, 'danger', '#alert-container-page');
+                         $('#modalDeleteErrorMessage').text(errorMsg).show();
+                    },
+                    complete: function() {
+                        $thisButton.prop('disabled', false).html(originalButtonText);
+                        // Non nascondere il modale qui se c'è stato un errore, l'utente potrebbe voler riprovare
+                        // hideMainDeleteModal(); // Spostato nel success
+                    }
+                });
+            }
+        });
+
+        $cancelOrCloseButtons.on('click', hideMainDeleteModal);
+        $(window).on('click', (event) => {
+            if ($confirmDeleteModal.is(':visible') && $(event.target).is($confirmDeleteModal)) {
+                hideMainDeleteModal();
+            }
+        });
+        $(document).on('keydown', (event) => {
+            if (event.key === 'Escape' && $confirmDeleteModal.is(':visible')) {
+                hideMainDeleteModal();
+            }
+        });
+    } // Fine if ($confirmDeleteModal.length)
+
+
+    // --- Funzionalità specifiche per la pagina Index (index.php) ---
+    if (document.body.classList.contains('page-index')) { // Meglio usare una classe sul body per identificare la pagina
+        const $resetFormButton = $('#reset-filters-btn'); // ID del bottone reset filtri
+        if ($resetFormButton.length) {
+            $resetFormButton.on('click', function(event) { 
+                event.preventDefault(); 
+                // Resetta i campi del form filtri e ricarica la pagina o invia il form vuoto
+                const $filterForm = $(this).closest('form');
+                if ($filterForm.length) {
+                    $filterForm[0].reset(); // Resetta i campi del form
+                    // Rimuovi parametri extra dall'URL se vuoi una pulizia completa
+                    window.location.href = window.location.pathname; 
+                } else {
+                    window.location.href = window.location.pathname; // Fallback se non trova il form
+                }
+            });
+        }
+        
+        // Gestione cambio per_page e sort_by se esistono e sono select
+        $('#per_page_select, #sort_by_select').on('change', function() {
+            $(this).closest('form').submit(); // Invia il form quando il select cambia
+        });
+
+        const $disponibileOraCheckbox = $('#search_disponibile_ora_sidebar'); // Checkbox "Disponibile Ora"
+        const $dataInizioInput = $('#search_data_inizio_da_sidebar');       // Input Data Inizio
+        const $dataFineInput = $('#search_data_fine_a_sidebar');           // Input Data Fine
+
+        function toggleDateInputsState() {
+            if ($disponibileOraCheckbox.length && $dataInizioInput.length && $dataFineInput.length) {
+                const isDisabled = $disponibileOraCheckbox.is(':checked');
+                $dataInizioInput.prop('disabled', isDisabled);
+                $dataFineInput.prop('disabled', isDisabled);
+                if (isDisabled) { // Se disabilitato, potresti voler pulire i valori
+                    // $dataInizioInput.val('');
+                    // $dataFineInput.val('');
+                }
+            }
+        }
+        if ($disponibileOraCheckbox.length) { 
+            $disponibileOraCheckbox.on('change', toggleDateInputsState); 
+            toggleDateInputsState(); // Chiamata iniziale per impostare lo stato corretto
+        }
+    } // Fine if (document.body.classList.contains('page-index'))
 });

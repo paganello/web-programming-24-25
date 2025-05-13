@@ -29,7 +29,10 @@ $quizId = (int) $_GET['id'];
 
 // --- Fetch Dati Quiz, Domande, Risposte e Statistiche ---
 try {
-    $sqlQuiz = "SELECT codice, titolo, dataInizio, dataFine FROM Quiz WHERE codice = :quizId AND creatore = :nomeUtente";
+    $sqlQuiz = "SELECT q.codice, q.titolo, q.dataInizio, q.dataFine, u.nome AS creatore_nome, u.cognome AS creatore_cognome 
+                FROM Quiz q 
+                JOIN Utente u ON q.creatore = u.nomeUtente 
+                WHERE q.codice = :quizId AND q.creatore = :nomeUtente";
     $stmtQuiz = $pdo->prepare($sqlQuiz);
     $stmtQuiz->bindParam(':quizId', $quizId, PDO::PARAM_INT);
     $stmtQuiz->bindParam(':nomeUtente', $nomeUtente, PDO::PARAM_STR);
@@ -109,14 +112,39 @@ $totalePartecipantiComplessivi = $risultatoPartecipazioni['totale_partecipanti']
     <div class="main-content">
         <div class="content">
             <h1
-                style="text-align:center; margin-bottom: 10px; padding-bottom:10px; border-bottom: 1px solid var(--border-color);">
-                <?php echo htmlspecialchars($quiz['titolo']); ?>
+                style="text-align:center; margin-bottom: 20px; padding-bottom:10px; border-bottom: 1px solid var(--border-color);">
+                Statistiche: <?php echo htmlspecialchars($quiz['titolo']); ?>
             </h1>
-            <div style="text-align:center; margin-bottom:25px; font-size:0.9rem;" class="text-muted">
-                Statistiche per il quiz creato da: <strong
-                    class="bold"><?php echo htmlspecialchars($nomeUtente); ?></strong><br>
-                Periodo di validità: dal <?php echo htmlspecialchars(date("d/m/Y", strtotime($quiz['dataInizio']))); ?>
-                al <?php echo htmlspecialchars(date("d/m/Y", strtotime($quiz['dataFine']))); ?>
+            <div class="quiz-detail-card" style="margin-bottom: 25px;">
+                <div class="quiz-info-grid">
+                    <div class="quiz-info-item">
+                        <i class="fas fa-user-edit"></i> <!-- Icona che rappresenta il creatore -->
+                        <div>
+                            <span class="info-label">Creato da</span>
+                            <span class="info-value">
+                                <?php echo htmlspecialchars($quiz['creatore_nome'] . ' ' . $quiz['creatore_cognome']); ?>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="quiz-info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div>
+                            <span class="info-label">Data di inizio</span>
+                            <span class="info-value"><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></span>
+                        </div>
+                    </div>
+
+                    <div class="quiz-info-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <div>
+                            <span class="info-label">Data di fine</span>
+                            <span class="info-value"><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nota: Il pulsante "Partecipa al Quiz" è stato omesso intenzionalmente qui
+                     poiché questa è una pagina di statistiche per il creatore del quiz. -->
             </div>
 
             <?php if (empty($domande)): ?>
