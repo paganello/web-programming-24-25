@@ -1,232 +1,221 @@
 <?php
-
-/**
- * API per la gestione delle partecipazioni ai quiz.
- * 
- * Questo file gestisce le operazioni relative alle partecipazioni degli utenti ai quiz.
- * Funzionalità principali:
- * - Registrazione di una nuova partecipazione;
- * - Recupero delle partecipazioni di un utente specifico;
- * - Recupero delle partecipazioni per un quiz specifico;
- * - Salvataggio delle risposte fornite dagli utenti;
- * - Calcolo del punteggio ottenuto in un quiz;
- */
-
-// --- Inizializzazione della sessione ---
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../config/database.php';
 header('Content-Type: application/json');
-$method = $_SERVER['REQUEST_METHOD'];
 
-// Verifica se l'utente è autenticato.
-function isAuthenticated()
-{
-    return isset($_SESSION['user']);
+// Assicurati che il percorso a database.php sia corretto
+// Se api/ è una sottocartella, e config/ è un'altra sottocartella della root:
+require_once '../config/database.php';
+
+
+if (!isset($_SESSION['user']['nomeUtente'])) {
+    echo json_encode(['status' => 'error', 'message' => 'Utente non autenticato. Accesso negato.']);
+    http_response_code(401);
+    exit();
 }
 
-// --- Gestione delle richieste API ---
-switch ($method) {
-    // --- Recupero delle partecipazioni ---
-    case 'GET':
-        if (!isAuthenticated()) {
-            http_response_code(401);
-            echo json_encode(['status' => 'error', 'message' => 'Non autenticato']);
-            break;
+$nomeUtente = $_SESSION['user']['nomeUtente'];
+$action = isset($_GET['action']) ? $_GET['action'] : (isset($_POST['action']) ? $_POST['action'] : null);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
+    // --- LOGICA PER SALVARE UNA NUOVA PARTECIPAZIONE ---
+    $quizId = isset($_POST['idQuiz']) ? (int)$_POST['idQuiz'] : null; // Nome del campo hidden nel form
+    // Le risposte sono inviate come answers[numero_domanda_originale][] = valore_risposta_originale
+    // Ma nel tuo HTML hai: value="<?php $j++; echo $i;" che non sembra corretto.
+    // Il value dovrebbe essere il 'numero' della Risposta (Risposta.numero)
+    // Il name dovrebbe essere 'answers[numero_domanda_originale]' (se è una sola scelta, radio)
+    // o 'answers[numero_domanda_originale][]' (se sono checkbox, scelte multiple)
+
+    // Modifichiamo la ricezione delle risposte basandoci sulla struttura del tuo form
+    // name="answers[<?php echo $question['numero'];][]"
+    // value="<?php $j++; echo $i; " <-- Questo 'i' è l'indice visualizzato della domanda, NON l'ID/numero della risposta
+    // Dovresti usare $answer['numero'] come value: value="<?php echo $answer['numero']; "
+
+    // Assumendo che il value delle checkbox sia l'ID/numero della risposta
+    $risposteUtenteRaw = isset($_POST['answers']) && is_array($_POST['answers']) ? $_POST['answers'] : [];
+    $risposteUtenteProcessed = [];
+
+    foreach($risposteUtenteRaw as $questionNumber => $selectedAnswersArray) {
+        if (is_array($selectedAnswersArray)) {
+            foreach($selectedAnswersArray as $answerNumber) {
+                // Per ogni checkbox selezionata per una domanda
+                $risposteUtenteProcessed[] = [
+                    'domanda_numero' => (int)$questionNumber,
+                    'risposta_numero' => (int)$answerNumber
+                ];
+            }
+        } else { // Nel caso fosse un radio button o un singolo valore non array
+             $risposteUtenteProcessed[] = [
+                'domanda_numero' => (int)$questionNumber,
+                'risposta_numero' => (int)$selectedAnswersArray
+            ];
+        }
+    }
+
+
+    $response = ['status' => 'error', 'message' => 'Errore sconosciuto.'];
+
+    if (empty($quizId)) {
+        $response['message'] = 'ID del quiz mancante.';
+        http_response_code(400);
+        echo json_encode($response);
+        exit();
+    }
+    // Non è necessario controllare empty($risposteUtenteProcessed) qui,
+    // una partecipazione potrebbe non avere risposte selezionate, anche se raro.
+
+    try {
+        $pdo->beginTransaction();
+
+        $quiz_check_sql = "SELECT codice, dataFine FROM Quiz WHERE codice = :quizId";
+        $quiz_stmt = $pdo->prepare($quiz_check_sql);
+        $quiz_stmt->bindParam(':quizId', $quizId, PDO::PARAM_INT);
+        $quiz_stmt->execute();
+        $quiz_data = $quiz_stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$quiz_data) {
+            $response['message'] = 'Quiz non trovato.';
+            $pdo->rollBack(); http_response_code(404); echo json_encode($response); exit();
         }
 
-        $nomeUtente = $_SESSION['user']['nomeUtente'];
-
-        if (isset($_GET['id'])) {
-            // Recupero di una singola partecipazione per ID.
-            $idPartecipazione = $_GET['id'];
-            try {
-                $stmt = $pdo->prepare("
-                    SELECT p.*, q.titolo 
-                    FROM Partecipazione p
-                    JOIN Quiz q ON p.quiz = q.codice
-                    WHERE p.codice = :idPartecipazione AND p.utente = :nomeUtente
-                ");
-                $stmt->bindParam(':idPartecipazione', $idPartecipazione);
-                $stmt->bindParam(':nomeUtente', $nomeUtente);
-                $stmt->execute();
-
-                if ($stmt->rowCount() > 0) {
-                    $partecipazione = $stmt->fetch(PDO::FETCH_ASSOC);
-                    // Recupera le risposte fornite dall'utente.
-                    $stmtRisposte = $pdo->prepare("
-                        SELECT ruq.*, d.testo as testoDomanda, r.testo as testoRisposta, r.punteggio
-                        FROM RispostaUtenteQuiz ruq
-                        JOIN Domanda d ON ruq.domanda = d.numero
-                        JOIN Risposta r ON ruq.risposta = r.numero
-                        WHERE ruq.nomeUtente = :nomeUtente AND ruq.partecipazione = :idPartecipazione
-                    ");
-                    $stmtRisposte->bindParam(':nomeUtente', $nomeUtente);
-                    $stmtRisposte->bindParam(':idPartecipazione', $idPartecipazione);
-                    $stmtRisposte->execute();
-                    $risposte = $stmtRisposte->fetchAll(PDO::FETCH_ASSOC);
-
-                    $partecipazione['risposte'] = $risposte;
-
-                    echo json_encode(['status' => 'success', 'data' => $partecipazione]);
-                } else {
-                    http_response_code(404);
-                    echo json_encode(['status' => 'error', 'message' => 'Partecipazione non trovata']);
-                }
-            } catch (PDOException $e) {
-                http_response_code(500);
-                echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
-            }
-        } elseif (isset($_GET['quiz_id'])) {
-            // Recupero di tutte le partecipazioni a un quiz specifico.
-            $idQuiz = $_GET['quiz_id'];
-
-            try {
-                // Prima verifica se l'utente è il creatore del quiz.
-                $stmtCreatore = $pdo->prepare("SELECT * FROM Quiz WHERE idQuiz = :idQuiz AND nomeUtente = :nomeUtente");
-                $stmtCreatore->bindParam(':idQuiz', $idQuiz);
-                $stmtCreatore->bindParam(':nomeUtente', $nomeUtente);
-                $stmtCreatore->execute();
-
-                if ($stmtCreatore->rowCount() > 0) {
-                    // L'utente è il creatore, mostra tutte le partecipazioni.
-                    $stmt = $pdo->prepare("
-                        SELECT p.*, u.nome, u.cognome, u.eMail
-                        FROM Partecipazione p
-                        JOIN Utente u ON p.nomeUtente = u.nomeUtente
-                        WHERE p.idQuiz = :idQuiz
-                        ORDER BY p.dataOra DESC
-                    ");
-                    $stmt->bindParam(':idQuiz', $idQuiz);
-                    $stmt->execute();
-                    $partecipazioni = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                    echo json_encode(['status' => 'success', 'data' => $partecipazioni]);
-                } else {
-                    // L'utente non è il creatore, mostra solo le sue partecipazioni.
-                    $stmt = $pdo->prepare("
-                        SELECT p.*, q.titolo
-                        FROM Partecipazione p
-                        JOIN Quiz q ON p.quiz = q.codice
-                        WHERE p.quiz = :idQuiz AND p.utente = :nomeUtente
-                        ORDER BY p.data DESC
-                    ");
-                    $stmt->bindParam(':idQuiz', $idQuiz);
-                    $stmt->bindParam(':nomeUtente', $nomeUtente);
-                    $stmt->execute();
-                    $partecipazioni = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                    echo json_encode(['status' => 'success', 'data' => $partecipazioni]);
-                }
-            } catch (PDOException $e) {
-                http_response_code(500);
-                echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
-            }
-        } else {
-            // Recupero di tutte le partecipazioni dell'utente.
-            try {
-                $stmt = $pdo->prepare("
-                    SELECT p.*, q.titolo
-                    FROM Partecipazione p
-                    JOIN Quiz q ON p.quiz = q.codice
-                    WHERE p.utente = :nomeUtente
-                    ORDER BY p.codice DESC
-                ");
-                $stmt->bindParam(':nomeUtente', $nomeUtente);
-                $stmt->execute();
-                $partecipazioni = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                echo json_encode(['status' => 'success', 'data' => $partecipazioni]);
-            } catch (PDOException $e) {
-                http_response_code(500);
-                echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
-            }
-        }
-        break;
-
-    // --- Creazione di una nuova partecipazione ---
-    case 'POST':
-        if (!isAuthenticated()) {
-            http_response_code(401);
-            echo json_encode(['status' => 'error', 'message' => 'Non autenticato']);
-            break;
-        }
-        $data = $_POST;
-        if (!$data || !isset($data['idQuiz'])) {
-            http_response_code(400);
-            echo json_encode(['status' => 'error', 'message' => 'Dati mancanti o formato non valido']);
-            break;
+        $today = date('Y-m-d');
+        if ($quiz_data['dataFine'] < $today) {
+            $response['message'] = 'Questo quiz è terminato.';
+            $pdo->rollBack(); http_response_code(403); echo json_encode($response); exit();
         }
 
-        $idQuiz = $data['idQuiz'];
-        $nomeUtente = $_SESSION['user']['nomeUtente'];
+        $participation_check_sql = "SELECT codice FROM Partecipazione WHERE utente = :nomeUtente AND quiz = :quizId";
+        $part_check_stmt = $pdo->prepare($participation_check_sql);
+        $part_check_stmt->bindParam(':nomeUtente', $nomeUtente, PDO::PARAM_STR);
+        $part_check_stmt->bindParam(':quizId', $quizId, PDO::PARAM_INT);
+        $part_check_stmt->execute();
+        if ($part_check_stmt->fetch()) {
+            $response['message'] = 'Hai già partecipato a questo quiz.';
+            $pdo->rollBack(); http_response_code(409); echo json_encode($response); exit();
+        }
 
-        try {
-            // Verifica se il quiz esiste ed è aperto.
-            $stmtQuiz = $pdo->prepare("
-        SELECT * FROM Quiz 
-        WHERE codice = :idQuiz 
-        AND dataInizio <= NOW() 
-        AND (dataFine IS NULL OR dataFine >= NOW())
-    ");
-            $stmtQuiz->bindParam(':idQuiz', $idQuiz);
-            $stmtQuiz->execute();
+        $sql_partecipazione = "INSERT INTO Partecipazione (utente, quiz, data) VALUES (:utente, :quiz, CURDATE())";
+        $stmt_partecipazione = $pdo->prepare($sql_partecipazione);
+        $stmt_partecipazione->bindParam(':utente', $nomeUtente, PDO::PARAM_STR);
+        $stmt_partecipazione->bindParam(':quiz', $quizId, PDO::PARAM_INT);
+        $stmt_partecipazione->execute();
+        $partecipazioneId = $pdo->lastInsertId();
 
-            if ($stmtQuiz->rowCount() === 0) {
-                http_response_code(400);
-                echo json_encode(['status' => 'error', 'message' => 'Quiz non disponibile o non aperto']);
-                break;
-            }
+        if (!$partecipazioneId) {
+            throw new Exception("Impossibile creare la partecipazione.");
+        }
 
-            // Crea una nuova partecipazione.
-            $stmt = $pdo->prepare("
-        INSERT INTO Partecipazione (quiz, utente, data) 
-        VALUES (:idQuiz, :nomeUtente, NOW())
-    ");
-            $stmt->bindParam(':idQuiz', $idQuiz);
-            $stmt->bindParam(':nomeUtente', $nomeUtente);
-            $stmt->execute();
+        if (!empty($risposteUtenteProcessed)) {
+            $sql_risposta_utente = "INSERT INTO RispostaUtenteQuiz (partecipazione, quiz, domanda, risposta)
+                                    VALUES (:partecipazione, :quiz, :domanda_numero, :risposta_numero)";
+            $stmt_risposta_utente = $pdo->prepare($sql_risposta_utente);
 
-            $idPartecipazione = $pdo->lastInsertId();
-
-            // Recupera la nuova partecipazione.
-            $stmtSelect = $pdo->prepare("
-        SELECT p.*, q.titolo
-        FROM Partecipazione p
-        JOIN Quiz q ON p.quiz = q.codice
-        WHERE p.codice = :idPartecipazione
-    ");
-            $stmtSelect->bindParam(':idPartecipazione', $idPartecipazione);
-            $stmtSelect->execute();
-            $nuovaPartecipazione = $stmtSelect->fetch(PDO::FETCH_ASSOC);
-
-            // Salvataggio delle risposte.
-            $risposte = $data['answers'];
-            foreach ($risposte as $idDomanda => $rispostaArray) {
-                foreach ($rispostaArray as $idRisposta) {
-                    // Inserisci la risposta nella tabella RispostaUtenteQuiz.
-                    $stmtInserisciRisposta = $pdo->prepare("
-                INSERT INTO RispostaUtenteQuiz (partecipazione, quiz, domanda, risposta) 
-                VALUES (:idPartecipazione, :idQuiz, :idDomanda, :idRisposta)
-            ");
-                    $stmtInserisciRisposta->bindParam(':idPartecipazione', $idPartecipazione);
-                    $stmtInserisciRisposta->bindParam(':idQuiz', $idQuiz);
-                    $stmtInserisciRisposta->bindParam(':idDomanda', $idDomanda);
-                    $stmtInserisciRisposta->bindParam(':idRisposta', $idRisposta);
-                    $stmtInserisciRisposta->execute();
+            foreach ($risposteUtenteProcessed as $risposta) {
+                $stmt_risposta_utente->bindParam(':partecipazione', $partecipazioneId, PDO::PARAM_INT);
+                $stmt_risposta_utente->bindParam(':quiz', $quizId, PDO::PARAM_INT);
+                $stmt_risposta_utente->bindParam(':domanda_numero', $risposta['domanda_numero'], PDO::PARAM_INT);
+                $stmt_risposta_utente->bindParam(':risposta_numero', $risposta['risposta_numero'], PDO::PARAM_INT);
+                
+                if (!$stmt_risposta_utente->execute()) {
+                    error_log("Errore insert RispostaUtenteQuiz: PID=$partecipazioneId, QID=$quizId, DN=" . $risposta['domanda_numero'] . ", RN=" . $risposta['risposta_numero'] . ". Err: " . implode(":", $stmt_risposta_utente->errorInfo()));
                 }
             }
-
-            echo json_encode(['status' => 'success', 'data' => $nuovaPartecipazione, 'message' => 'Partecipazione creata con successo e risposte salvate']);
-        } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 'error', 'message' => 'Errore del database: ' . $e->getMessage()]);
         }
-        break;
 
-    default:
-        http_response_code(405);
-        echo json_encode(['status' => 'error', 'message' => 'Metodo non consentito']);
-        break;
+        $pdo->commit();
+        $response = [
+            'status' => 'success',
+            'message' => 'Partecipazione registrata con successo!',
+            'partecipazione_id' => $partecipazioneId,
+            'redirect_url' => 'quiz_participations.php' // O una pagina di "grazie" / "risultati"
+        ];
+        http_response_code(201);
+
+    } catch (PDOException $e) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        error_log("Errore PDO submit_participation: " . $e->getMessage());
+        $response['message'] = 'Errore DB.'; http_response_code(500);
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        error_log("Errore generico submit_participation: " . $e->getMessage());
+        $response['message'] = 'Errore server.'; http_response_code(500);
+    }
+    echo json_encode($response);
+    exit();
+
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') { // Assumiamo GET per recuperare l'elenco
+    // --- LOGICA ESISTENTE PER RECUPERARE L'ELENCO DELLE PARTECIPAZIONI (PAGINATO) ---
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 10;
+    $valid_per_page_options = [5, 10, 20, 50, 100];
+
+    if ($page < 1) $page = 1;
+    if (!in_array($per_page, $valid_per_page_options)) $per_page = 10;
+
+    try {
+        $count_sql = "SELECT COUNT(*) as total FROM Partecipazione WHERE utente = :nomeUtente";
+        $count_stmt = $pdo->prepare($count_sql);
+        $count_stmt->bindParam(':nomeUtente', $nomeUtente, PDO::PARAM_STR);
+        $count_stmt->execute();
+        $total_participations = (int)$count_stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+        $total_pages = ($total_participations > 0) ? ceil($total_participations / $per_page) : 1;
+        if ($page > $total_pages && $total_participations > 0) $page = $total_pages;
+        if ($page < 1 && $total_participations > 0) $page = 1;
+        elseif ($total_participations === 0) $page = 1;
+
+        $offset = ($page - 1) * $per_page;
+
+        $sql = "SELECT
+                    P.codice AS partecipazione_id, Q.titolo AS quiz_titolo, Q.codice AS quiz_id,
+                    DATE_FORMAT(P.data, '%d/%m/%Y') AS data_partecipazione,
+                    COALESCE(SUM(R.punteggio), 0) AS punteggio_ottenuto,
+                    (SELECT COALESCE(SUM(R_total.punteggio), 0)
+                     FROM Domanda D_total
+                     JOIN Risposta R_total ON D_total.quiz = R_total.quiz AND D_total.numero = R_total.domanda
+                     WHERE D_total.quiz = Q.codice AND R_total.tipo = 'Corretta') AS punteggio_massimo_quiz
+                FROM Partecipazione P
+                JOIN Quiz Q ON P.quiz = Q.codice
+                LEFT JOIN RispostaUtenteQuiz RUQ ON P.codice = RUQ.partecipazione
+                LEFT JOIN Risposta R ON RUQ.quiz = R.quiz AND RUQ.domanda = R.domanda AND RUQ.risposta = R.numero AND R.tipo = 'Corretta'
+                WHERE P.utente = :nomeUtente
+                GROUP BY P.codice, Q.titolo, Q.codice, P.data
+                ORDER BY P.data DESC, P.codice DESC
+                LIMIT :offset, :per_page";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':nomeUtente', $nomeUtente, PDO::PARAM_STR);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindParam(':per_page', $per_page, PDO::PARAM_INT);
+        $stmt->execute();
+        $participations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $response = [
+            'status' => 'success', 'participations' => $participations,
+            'pagination' => [
+                'currentPage' => $page, 'perPage' => $per_page,
+                'totalPages' => $total_pages, 'totalItems' => $total_participations
+            ]
+        ];
+        if (empty($participations) && $total_participations === 0) {
+             $response['message'] = 'Nessuna partecipazione trovata.';
+        }
+    } catch (PDOException $e) {
+        error_log("Errore API Partecipazioni (GET): " . $e->getMessage());
+        $response = ['status' => 'error', 'message' => 'Errore DB recupero partecipazioni.'];
+        http_response_code(500);
+    } catch (Exception $e) {
+        error_log("Errore API Partecipazioni (GET): " . $e->getMessage());
+        $response = ['status' => 'error', 'message' => 'Errore server recupero partecipazioni.'];
+        http_response_code(500);
+    }
+    echo json_encode($response);
+    exit();
+
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'Azione o metodo non valido.']);
+    http_response_code(405); // Method Not Allowed or Bad Request
+    exit();
 }
+?>

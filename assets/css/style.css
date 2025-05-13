@@ -1641,3 +1641,115 @@ footer {
 .flex-gap-medium { gap: 1rem !important; }
 
 .border-top-light { border-top: 1px solid var(--border-color) !important; }
+
+/* Stile per il form di partecipazione */
+#participate-form {
+    margin-top: 20px;
+}
+
+/* Blocco di una singola domanda (question-item) */
+.question-item {
+    background-color: var(--background-card); /* Sfondo bianco per la card della domanda */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px; /* Spazio tra le domande */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Ombra leggera */
+}
+
+.question-item .question-text {
+    font-size: 1.1em; /* Dimensione testo domanda */
+    font-weight: 600; /* Testo domanda in grassetto */
+    color: var(--text-dark);
+    margin-bottom: 20px; /* Spazio tra testo domanda e opzioni di risposta */
+    line-height: 1.5;
+}
+.question-item .question-text span { /* Parte del testo della domanda non numerata */
+    font-weight: normal;
+}
+
+
+/* Contenitore delle opzioni di risposta */
+.question-item .answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Spazio verticale tra le opzioni di risposta */
+}
+
+.question-item .answer-option label {
+    display: flex; /* Per allineare checkbox e testo */
+    align-items: center;
+    font-weight: normal; /* Il tuo <label> base ha 500, qui normale */
+    font-size: 1rem;   /* Dimensione testo opzione */
+    color: var(--text-dark);
+    padding: 10px 12px; /* Padding interno per renderla cliccabile più facilmente */
+    border: 1px solid transparent; /* Bordo trasparente per l'hover */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.question-item .answer-option label:hover {
+    background-color: #f8f9fa; /* Grigio molto chiaro all'hover */
+    border-color: #e9ecef;
+}
+
+.question-item .answer-option input[type="checkbox"],
+.question-item .answer-option input[type="radio"] { /* Se in futuro usi radio */
+    margin-right: 12px; /* Spazio tra checkbox e testo */
+    transform: scale(1.2); /* Rende la checkbox leggermente più grande */
+    accent-color: var(--main-color); /* Colore della checkbox quando selezionata */
+    cursor: pointer;
+}
+/* Stili per gli input quando sono focus-visible (accessibilità tastiera) */
+.question-item .answer-option input[type="checkbox"]:focus-visible + span, /* Assumendo che il testo sia in uno span o direttamente dopo */
+.question-item .answer-option input[type="radio"]:focus-visible + span {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+.question-item .answer-option input[type="checkbox"]:checked + label { /* Stile per la label quando la checkbox è checked */
+    background-color: var(--light-color); /* Un verde più chiaro del tema */
+    color: var(--text-dark); /* O var(--text-light) se lo sfondo è scuro */
+    border-color: var(--main-color);
+    font-weight: 500;
+}
+
+
+/* Messaggio se non ci sono domande o opzioni */
+.question-item p[style*="color: #777"] { /* Stile per "Nessuna opzione..." */
+    padding: 10px 0;
+    font-style: italic;
+    color: var(--text-muted) !important; /* Usa la variabile per coerenza */
+}
+
+/* Contenitore per gli alert nella pagina di partecipazione */
+#alert-container-participate .custom-alert { /* Riusa i tuoi stili .custom-alert */
+    /* Eventuali aggiustamenti specifici se necessario */
+    margin-top: 10px;
+}
+
+
+/* Stili per il messaggio di caricamento (già presente in JS) */
+.loading-message { /* Assicurati sia definito globalmente o qui */
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 20px 0;
+    text-align: center; /* Se non già incluso nella classe */
+}
+
+/* Stili per i placeholder (già presente in JS, come .message-placeholder-styled) */
+.message-placeholder-styled { /* Assicurati sia definito globalmente o qui */
+    color: var(--text-muted);
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
+    background-color: var(--light-gray-bg);
+    padding: 1.5rem 1rem;
+    text-align: center; /* Se non già incluso nella classe */
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem !important;
+    font-size: .875rem !important;
+    border-radius: 0.2rem !important;
+}

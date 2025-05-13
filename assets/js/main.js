@@ -408,17 +408,90 @@ success: function (response) {
         }
     });
 
-    // --- Partecipazione Quiz ---
+// Questo blocco gestisce l'invio del form nella pagina di svolgimento del quiz (es. quiz_play.php)
     if ($('#participate-form').length) {
-        // ... (codice esistente) ...
+        $('#participate-form').on('submit', function(e) {
+            e.preventDefault();
+            const $form = $(this);
+            const $submitButton = $form.find('button[type="submit"]');
+            const originalButtonText = $submitButton.html();
+
+            // Controllo se almeno una risposta è stata selezionata (opzionale, ma consigliato)
+            let answersGiven = false;
+            $form.find('input[type="checkbox"]:checked, input[type="radio"]:checked').each(function() {
+                answersGiven = true;
+                return false; // Esce dal loop .each
+            });
+
+            // if (!answersGiven) {
+            //     showAlert('Devi selezionare almeno una risposta per inviare il quiz.', 'warning', '#alert-container-participate');
+            //     return;
+            // }
+
+
+            // Disabilita il bottone e mostra un messaggio di caricamento
+            $submitButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Invio in corso...');
+
+            $.ajax({
+                type: 'POST',
+                url: 'api/participations.php', // L'URL del tuo endpoint API che gestisce ?action=submit
+                data: $form.serialize(), // Invia tutti i dati del form
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // showAlert(response.message || 'Partecipazione inviata con successo!', 'success', '#alert-container-participate'); // Potrebbe non essere visibile se si reindirizza subito
+                        // Reindirizza alla pagina specificata dall'API (es. elenco partecipazioni o pagina risultati)
+                        if (response.redirect_url) {
+                            // Puoi salvare un messaggio in sessionStorage per mostrarlo nella pagina successiva
+                            sessionStorage.setItem('participationMessage', response.message || 'Partecipazione inviata con successo!');
+                            sessionStorage.setItem('participationMessageType', 'success');
+                            window.location.href = response.redirect_url;
+                        } else {
+                            // Fallback se non c'è redirect_url
+                            showAlert(response.message || 'Partecipazione inviata!', 'success', '#alert-container-participate');
+                             $form.hide(); // Nascondi il form dopo l'invio
+                        }
+                    } else {
+                        showAlert(response.message || 'Si è verificato un errore durante l\'invio.', 'danger', '#alert-container-participate');
+                        $submitButton.prop('disabled', false).html(originalButtonText); // Riabilita il bottone
+                    }
+                },
+                error: function(xhr, status, error) {
+                    let errorMsg = 'Errore di comunicazione con il server.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    } else if (xhr.status === 401) {
+                         errorMsg = 'Sessione scaduta o non autorizzato. Effettua nuovamente il login.';
+                         setTimeout(() => window.location.href = 'auth_login.php', 2500);
+                    } else if (xhr.status === 409) { // Conflitto (già partecipato)
+                        errorMsg = xhr.responseJSON.message || 'Hai già partecipato a questo quiz.';
+                        // Potresti reindirizzare a quiz_participations.php
+                        setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
+                    }
+                    showAlert(errorMsg, 'danger', '#alert-container-participate');
+                    $submitButton.prop('disabled', false).html(originalButtonText); // Riabilita il bottone
+                    console.error("Errore AJAX invio partecipazione:", xhr.responseText, status, error);
+                }
+            });
+        });
     }
 
     // --- Elenco Partecipazioni ---
-    if (window.location.pathname.endsWith('quiz_participations.php') && $('#partecipations-container').length) {
-        // ... (codice esistente) ...
+    // Il tuo codice esistente per 'quiz_participations.php' va qui
+    if (window.location.pathname.endsWith('quiz_participations.php')) {
+        // ... (il codice per caricare l'elenco delle partecipazioni che hai già) ...
+
+        // Mostra messaggio da sessionStorage se presente (dopo redirect da partecipazione)
+        if (sessionStorage.getItem('participationMessage')) {
+           const message = sessionStorage.getItem('participationMessage');
+           const type = sessionStorage.getItem('participationMessageType') || 'success';
+           showAlert(message, type, '#alert-container-participations'); // Assicurati che questo sia l'ID corretto
+           sessionStorage.removeItem('participationMessage');
+           sessionStorage.removeItem('participationMessageType');
+        }
     }
 
-    // --- Modifica Quiz (quiz_edit.php) ---
+    // --- Modifica Quiz (quiz_modify.php) ---
     if ($('#edit-quiz-form').length) {
 
         // Funzioni specifiche per la rinumerazione nella pagina di modifica
