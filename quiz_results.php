@@ -16,12 +16,15 @@ if (!isset($_SESSION['user'])) {
 }
 
 // Controllo se l'ID della partecipazione è stato fornito.
-if (!isset($_GET['participation']) || !is_numeric($_GET['participation'])) {
-    header('Location: index.php');
+if (!isset($_GET['participation_id']) || !is_numeric($_GET['participation_id'])) {
+    // Potresti voler reindirizzare a quiz_participations.php o mostrare un errore più specifico
+    $_SESSION['error_message'] = "ID della partecipazione non specificato o non valido.";
+    header('Location: quiz_participations.php'); // Reindirizza all'elenco delle partecipazioni
     exit;
 }
 
-$participation_id = (int) $_GET['participation'];
+// Modifica qui: da 'participation' a 'participation_id'
+$participation_id = (int) $_GET['participation_id'];
 $user = $_SESSION['user']['nomeUtente'];
 
 try {

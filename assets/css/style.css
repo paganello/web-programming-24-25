@@ -1753,3 +1753,54 @@ footer {
     font-size: .875rem !important;
     border-radius: 0.2rem !important;
 }
+
+ /* Stili per la paginazione (se non già globali e sufficienti) */
+    .pagination {
+        display: flex;
+        justify-content: center; /* Centra i controlli se sono l'unico elemento */
+        align-items: center;
+        margin-top: 30px;
+    }
+    .pagination-wrapper { /* Wrapper per info e controlli */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .pagination-info {
+        font-size: 0.9em;
+        color: var(--text-muted);
+    }
+    .pagination-controls button, .pagination-controls span {
+        margin: 0 3px;
+        padding: 8px 12px;
+        border: 1px solid var(--border-color, #ddd);
+        background-color: #fff;
+        color: var(--main-color, #007bff);
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.2s, color 0.2s;
+    }
+    .pagination-controls button:hover:not(:disabled) {
+        background-color: var(--main-color-light, #e9ecef);
+        border-color: var(--main-color, #007bff);
+    }
+    .pagination-controls button:disabled {
+        color: #aaa;
+        cursor: not-allowed;
+        background-color: #f8f8f8;
+    }
+    .pagination-controls span.current-page {
+        background-color: var(--main-color, #007bff);
+        color: #fff;
+        font-weight: bold;
+        border-color: var(--main-color, #007bff);
+    }
+    .loading-message, .error-message-placeholder { /* Stili per messaggi di stato */
+        text-align: center;
+        padding: 20px;
+        font-size: 1.1em;
+        color: var(--text-muted);
+    }
