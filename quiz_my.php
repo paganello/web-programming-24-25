@@ -164,18 +164,21 @@ include 'includes/header.php';
                             Codice:   <strong><?php echo htmlspecialchars($quiz['codice']); ?></strong>
                         </p>
                     </div>
-                    <div class='quiz-actions'>
+                        <div class='quiz-actions'>
+                        <a href='quiz_info.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn button-info-styled' title="Info">
+                            <i class="fas fa-info-circle"></i> Info 
+                        </a>
                         <a href='quiz_view.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn' title="Visualizza">
-                            <i class="fas fa-eye" style="margin-right: 5px;"></i> Visualizza
+                            <i class="fas fa-eye"></i> Visualizza
                         </a>
                         <a href='quiz_modify.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn btn-secondary' title="Modifica">
-                            <i class="fas fa-edit" style="margin-right: 5px;"></i> Modifica
+                            <i class="fas fa-edit"></i> Modifica
                         </a>
                         <button data-delid="<?php echo htmlspecialchars($quiz['codice']); ?>"
                                 data-quiz-title="<?php echo htmlspecialchars($quiz['titolo']); ?>" 
                                 class='btn button-danger-styled delete-quiz-btn' 
                                 title="Elimina">
-                            <i class="fas fa-trash-alt" style="margin-right: 5px;"></i> Elimina
+                            <i class="fas fa-trash-alt"></i> Elimina
                         </button>
                     </div>
                 </div>

@@ -176,10 +176,39 @@ switch ($_SERVER['REQUEST_METHOD']) {
 try {
                 $pdo->beginTransaction();
 
+
                 // --- PASSO 1: Aggiorna i dettagli del Quiz (titolo, date) ---
-                // ... (codice invariato) ...
-                if (isset($data['titolo']) || isset($data['dataInizio']) || isset($data['dataFine'])) {
-                    // ...
+                $updateQuizDetailsSqlParts = [];
+                $quizUpdateParams = [':quiz_id' => $quizId, ':current_user' => $currentUser];
+
+                if (isset($data['titolo']) && trim($data['titolo']) !== '') {
+                    $updateQuizDetailsSqlParts[] = "titolo = :titolo";
+                    $quizUpdateParams[':titolo'] = trim($data['titolo']);
+                }
+                if (isset($data['dataInizio']) && !empty($data['dataInizio'])) {
+                    $updateQuizDetailsSqlParts[] = "dataInizio = :dataInizio";
+                    $quizUpdateParams[':dataInizio'] = $data['dataInizio'];
+                }
+                if (isset($data['dataFine']) && !empty($data['dataFine'])) {
+                    $updateQuizDetailsSqlParts[] = "dataFine = :dataFine";
+                    $quizUpdateParams[':dataFine'] = $data['dataFine'];
+                }
+
+                if (!empty($updateQuizDetailsSqlParts)) {
+                    $sqlQuizUpdate = "UPDATE Quiz SET " . implode(', ', $updateQuizDetailsSqlParts) . 
+                                     " WHERE codice = :quiz_id AND creatore = :current_user";
+                    $stmtQuizUpdate = $pdo->prepare($sqlQuizUpdate);
+                    
+                    error_log("SQL Update Quiz Details: " . $sqlQuizUpdate);
+                    error_log("Params Update Quiz Details: " . print_r($quizUpdateParams, true));
+
+                    if (!$stmtQuizUpdate->execute($quizUpdateParams)) {
+                        $errorInfo = $stmtQuizUpdate->errorInfo();
+                        throw new PDOException("Errore durante l'aggiornamento dei dettagli del quiz: " . ($errorInfo[2] ?? 'Dettagli non disponibili'));
+                    }
+                    error_log("API Update: Dettagli del Quiz ID $quizId aggiornati. Righe affette: " . $stmtQuizUpdate->rowCount());
+                } else {
+                    error_log("API Update: Nessun dettaglio base del quiz (titolo/date) da aggiornare per Quiz ID $quizId.");
                 }
 
 

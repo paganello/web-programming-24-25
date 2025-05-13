@@ -786,7 +786,7 @@ $(document).ready(function () {
                         // const quizId = $form.find('input[name="quiz_id"]').val();
                         setTimeout(() => {
                              // window.location.href = 'quiz_view.php?id=' + quizId;
-                             window.location.href = response.redirect_url || 'quiz_my_list.php'; // Usa redirect_url o fallback
+                             window.location.href = response.redirect_url || 'quiz_my.php'; // Usa redirect_url o fallback
                         }, 1500);
                     } else {
                         showEditAlerts(response.message || 'Errore durante il salvataggio delle modifiche.', 'danger');

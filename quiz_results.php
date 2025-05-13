@@ -60,6 +60,15 @@ try {
     $scoreData = $stmtScore->fetch(PDO::FETCH_ASSOC);
     $total_score = $scoreData['total_score'] ?? 0;
 
+    $sqlPunteggioMassimo = "SELECT COALESCE(SUM(R_total.punteggio), 0) AS punteggio_massimo
+                            FROM Domanda D_total
+                            JOIN Risposta R_total ON D_total.quiz = R_total.quiz AND D_total.numero = R_total.domanda
+                            WHERE D_total.quiz = :quiz_id AND R_total.tipo = 'Corretta'";
+    $stmtPunteggioMassimo = $pdo->prepare($sqlPunteggioMassimo);
+    $stmtPunteggioMassimo->bindParam(':quiz_id', $quiz_id, PDO::PARAM_INT);
+    $stmtPunteggioMassimo->execute();
+    $punteggioMassimoData = $stmtPunteggioMassimo->fetch(PDO::FETCH_ASSOC);
+    $punteggio_massimo_quiz = $punteggioMassimoData['punteggio_massimo'] ?? 0;
 
     // 3. Recupero di tutte le domande del quiz
     $sqlDomande = "SELECT numero, testo FROM Domanda WHERE quiz = :quiz_id ORDER BY numero ASC";
@@ -107,6 +116,24 @@ try {
     // Puoi usare una classe .alert dal tuo CSS qui
     die("<div class='container' style='padding-top:20px;'><div class='alert alert-danger'>Errore nel caricamento dei risultati. Riprova più tardi.</div></div>");
 }
+
+$scorePercentage = 0;
+$scoreColorStyle = 'color: var(--primary-blue);'; // Colore di default (blu come nell'immagine originale)
+
+if ($punteggio_massimo_quiz > 0) {
+    $scorePercentage = ($total_score / $punteggio_massimo_quiz) * 100;
+    if ($scorePercentage >= 75) {
+        $scoreColorStyle = 'color: var(--score-high-color);';
+    } elseif ($scorePercentage >= 50) {
+        $scoreColorStyle = 'color: var(--score-medium-color);';
+    } else {
+        $scoreColorStyle = 'color: var(--score-low-color);';
+    }
+} elseif ($total_score > 0) { // Se il massimo non è calcolabile ma c'è un punteggio
+    $scoreColorStyle = 'color: var(--score-high-color);'; // Verde di default
+}
+// Se total_score è 0, rimane il colore di default (--primary-blue o quello che preferisci).
+
 ?>
 
 <div class="main-content">
@@ -119,7 +146,15 @@ try {
             <div class="card-content">
                 <h2 class="card-title" style="margin-bottom:15px;">Riepilogo Partecipazione</h2>
                 <p><strong class="bold">Data partecipazione:</strong> <?php echo htmlspecialchars(date('d/m/Y H:i', strtotime($data_partecipazione))); ?></p>
-                <p><strong class="bold">Punteggio totale ottenuto:</strong> <span style="font-size: 1.2em; color: var(--primary-blue); font-weight: bold;"><?php echo $total_score; ?></span> punti</p>
+                <p><strong class="bold">Punteggio totale ottenuto:</strong> 
+                    <span style="font-size: 1.1em; <?php echo $scoreColorStyle; ?> font-weight: bold;"><?php echo htmlspecialchars($total_score); ?></span>
+                    <?php if ($punteggio_massimo_quiz > 0): ?>
+                        <span style="font-size: 1em; color: var(--text-muted);"> / <?php echo htmlspecialchars($punteggio_massimo_quiz); ?> punti</span>
+                        <span style="font-size: 0.9em; color: var(--text-muted); margin-left: 0.4em;"></span>
+                    <?php else: // Se non c'è un punteggio massimo calcolabile, mostra solo "punti" ?>
+                        <span style="font-size: 1em; color: var(--text-muted);"> punti</span>
+                    <?php endif; ?>
+                </p>
                 <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 15px 0;">
                 <a href="quiz_view.php?id=<?php echo $quiz_id; ?>" class="btn btn-secondary" style="margin-right:10px;">
                     <?php // <i class="fas fa-eye"></i> ?> Torna alla Scheda Quiz
