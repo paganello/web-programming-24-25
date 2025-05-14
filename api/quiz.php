@@ -1,31 +1,50 @@
 <?php
-
 /**
- * API per la gestione dei quiz.
+ * API per la gestione dei Quiz.
  *
- * Questo file gestisce le operazioni CRUD relative ai quiz.
- * Funzionalità implementate:
- * - Creazione di nuovi quiz;
- * - Modifica dei dettagli di un quiz esistente;
- * - Eliminazione di quiz;
- * - Recupero di tutti i quiz disponibili;
- * - Recupero dei dettagli di un quiz specifico;
- * - Filtraggio dei quiz per data, creatore o stato (aperto/chiuso);
+ * Questo script gestisce le operazioni CRUD (Create, Read, Update, Delete)
+ * relative ai quiz, incluse le loro domande e risposte.
+ *
+ * Principali funzionalità:
+ * - GET:
+ *   - Recupero di un elenco di quiz (filtrabili, es. per creatore, attivi).
+ *   - Recupero dei dettagli completi di un singolo quiz (incluse domande e risposte).
+ *   - Eliminazione di un quiz (identificato da `delId`, richiede autenticazione e proprietà).
+ * - POST:
+ *   - Creazione di un nuovo quiz (solo i metadati del quiz).
+ *   - Aggiornamento completo di un quiz esistente (metadati, domande, risposte),
+ *     identificato da `action=update` e `quiz_id`. Richiede autenticazione e proprietà.
  */
 
 // --- Inizializzazione della sessione e configurazione ---
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../config/database.php'; // Assicurati che il percorso sia corretto
-header('Content-Type: application/json');
+require_once '../config/database.php'; // Connessione al database
+header('Content-Type: application/json'); // Risposte sempre in JSON
 
-// --- Funzioni di utilità ---
-function isAuthenticated() {
+// --- Funzioni di Utilità ---
+
+/**
+ * Verifica se l'utente corrente è autenticato.
+ *
+ * @return bool True se l'utente ha una sessione attiva con 'nomeUtente', false altrimenti.
+ */
+function isAuthenticated()
+{
     return isset($_SESSION['user']) && !empty($_SESSION['user']['nomeUtente']);
 }
 
-function isOwnerOfQuizActual($pdo, $quizCodice, $nomeUtente) {
+/**
+ * Verifica se l'utente specificato è il creatore del quiz.
+ *
+ * @param PDO $pdo L'oggetto PDO per la connessione al database.
+ * @param int $quizCodice L'ID del quiz (Quiz.codice).
+ * @param string $nomeUtente Il nome utente da verificare.
+ * @return bool True se l'utente è il proprietario del quiz, false altrimenti.
+ */
+function isOwnerOfQuizActual($pdo, $quizCodice, $nomeUtente)
+{
     $stmt = $pdo->prepare("SELECT codice FROM Quiz WHERE codice = :quizCodice AND creatore = :nomeUtente");
     $stmt->bindParam(':quizCodice', $quizCodice, PDO::PARAM_INT);
     $stmt->bindParam(':nomeUtente', $nomeUtente, PDO::PARAM_STR);
@@ -33,27 +52,40 @@ function isOwnerOfQuizActual($pdo, $quizCodice, $nomeUtente) {
     return $stmt->rowCount() > 0;
 }
 
-function handleError($message, $code = 500, $exceptionDetails = "") {
+/**
+ * Gestisce la risposta in caso di errore.
+ * Logga l'errore, imposta il codice di stato HTTP e invia una risposta JSON.
+ * Termina l'esecuzione dello script.
+ *
+ * @param string $message Messaggio di errore per l'utente.
+ * @param int $code Codice di stato HTTP (default 500).
+ * @param string $exceptionDetails Dettagli aggiuntivi per il log (es. trace dell'eccezione).
+ */
+function handleError($message, $code = 500, $exceptionDetails = "")
+{
+    $logMessage = "API Error (quiz.php): " . $message;
     if (!empty($exceptionDetails)) {
-        error_log("API Error: " . $message . " | Details: " . $exceptionDetails);
-    } else {
-        error_log("API Error: " . $message);
+        $logMessage .= " | Details: " . $exceptionDetails;
     }
+    error_log($logMessage);
+
     http_response_code($code);
     echo json_encode(['status' => 'error', 'message' => $message]);
     exit;
 }
 
 
-// --- Gestione delle richieste API ---
+// --- Gestione delle Richieste API basata sul Metodo HTTP ---
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
+        // --- Recupero Dettagli Singolo Quiz (con domande e risposte) ---
         if (isset($_GET['id'])) {
             $quizId = filter_var($_GET['id'], FILTER_VALIDATE_INT);
             if ($quizId === false) {
                 handleError('ID Quiz non valido per il recupero.', 400);
             }
             try {
+                // Recupera i dati base del quiz e il numero di partecipanti
                 $stmt = $pdo->prepare("
                     SELECT q.codice, q.titolo, q.dataInizio, q.dataFine, q.creatore, COUNT(DISTINCT p.utente) as numPartecipanti
                     FROM Quiz q
@@ -66,261 +98,255 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                 if ($stmt->rowCount() > 0) {
                     $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    // Recupera le domande associate al quiz
                     $stmtDomande = $pdo->prepare("SELECT numero, testo FROM Domanda WHERE quiz = :quizId ORDER BY numero ASC");
                     $stmtDomande->bindParam(':quizId', $quizId, PDO::PARAM_INT);
                     $stmtDomande->execute();
                     $domande = $stmtDomande->fetchAll(PDO::FETCH_ASSOC);
 
+                    // Per ogni domanda, recupera le relative risposte
                     foreach ($domande as $key => $domanda) {
                         $stmtRisposte = $pdo->prepare("SELECT numero, testo, tipo, punteggio FROM Risposta WHERE quiz = :quizId AND domanda = :numeroDomanda ORDER BY numero ASC");
                         $stmtRisposte->bindParam(':quizId', $quizId, PDO::PARAM_INT);
-                        $stmtRisposte->bindParam(':numeroDomanda', $domanda['numero'], PDO::PARAM_INT);
+                        $stmtRisposte->bindParam(':numeroDomanda', $domanda['numero'], PDO::PARAM_INT); // 'domanda' in Risposta è il 'numero' di Domanda
                         $stmtRisposte->execute();
                         $domande[$key]['risposte'] = $stmtRisposte->fetchAll(PDO::FETCH_ASSOC);
                     }
                     $quiz['domande_complete'] = $domande;
                     echo json_encode(['status' => 'success', 'data' => $quiz]);
                 } else {
-                    handleError('Quiz non trovato', 404);
+                    handleError('Quiz non trovato con ID: ' . $quizId, 404);
                 }
             } catch (PDOException $e) {
-                handleError('Errore del database durante il recupero del quiz: ' . $e->getMessage(), 500, $e->getTraceAsString());
+                handleError('Errore del database durante il recupero del quiz.', 500, $e->getMessage() . "\n" . $e->getTraceAsString());
             }
-
+        // --- Eliminazione Quiz ---
+        // Utilizza un parametro specifico `delId` per distinguere dall'operazione di recupero.
         } elseif (isset($_GET['delId'])) {
             if (!isAuthenticated()) {
-                handleError('Non sei autenticato', 401);
+                handleError('Autenticazione richiesta per eliminare un quiz.', 401);
             }
             $quizIdToDelete = filter_var($_GET['delId'], FILTER_VALIDATE_INT);
-             if ($quizIdToDelete === false) {
+            if ($quizIdToDelete === false) {
                 handleError('ID Quiz non valido per l\'eliminazione.', 400);
             }
             $nomeUtente = $_SESSION['user']['nomeUtente'];
 
+            // Verifica che l'utente sia il proprietario del quiz prima di eliminarlo.
             if (isOwnerOfQuizActual($pdo, $quizIdToDelete, $nomeUtente)) {
                 try {
-                    $pdo->beginTransaction();
+                    $pdo->beginTransaction(); // Transazione per garantire l'eliminazione atomica
 
+                    // L'ordine di eliminazione è importante per rispettare i vincoli di integrità referenziale (foreign keys).
+                    // Si eliminano prima i record nelle tabelle dipendenti.
+                    // 1. Risposte Utente (se presenti e con FK verso Risposta, altrimenti direttamente verso Domanda/Quiz)
+                    //    Nel tuo schema, RispostaUtenteQuiz ha FK verso Partecipazione, Quiz, Domanda, Risposta.
+                    //    Cancellare le Risposte e le Domande dovrebbe propagare (se ON DELETE CASCADE)
+                    //    o richiedere una cancellazione esplicita qui.
+                    //    Assumiamo che cancellare Partecipazione, Risposta, Domanda copra RispostaUtenteQuiz.
+
+                    // 2. Risposte (figlie di Domanda)
                     $stmt = $pdo->prepare("DELETE FROM Risposta WHERE quiz = :quizId");
                     $stmt->bindParam(':quizId', $quizIdToDelete, PDO::PARAM_INT);
                     $stmt->execute();
 
+                    // 3. Domande (figlie di Quiz)
                     $stmt = $pdo->prepare("DELETE FROM Domanda WHERE quiz = :quizId");
                     $stmt->bindParam(':quizId', $quizIdToDelete, PDO::PARAM_INT);
                     $stmt->execute();
 
+                    // 4. Partecipazioni (legate a Quiz)
                     $stmt = $pdo->prepare("DELETE FROM Partecipazione WHERE quiz = :quizId");
                     $stmt->bindParam(':quizId', $quizIdToDelete, PDO::PARAM_INT);
                     $stmt->execute();
 
+                    // 5. Infine, il Quiz stesso
                     $stmt = $pdo->prepare("DELETE FROM Quiz WHERE codice = :quizId");
                     $stmt->bindParam(':quizId', $quizIdToDelete, PDO::PARAM_INT);
                     $stmt->execute();
+
                     $pdo->commit();
-                    http_response_code(200); // OK
+                    http_response_code(200); // OK (o 204 No Content se non si restituisce corpo)
                     echo json_encode(['status' => 'success', 'message' => 'Quiz eliminato con successo.']);
-                    exit;
                 } catch (PDOException $e) {
                     $pdo->rollBack();
-                    handleError('Errore durante l\'eliminazione del quiz: ' . $e->getMessage(), 500, $e->getTraceAsString());
+                    handleError('Errore durante l\'eliminazione del quiz.', 500, $e->getMessage() . "\n" . $e->getTraceAsString());
                 }
             } else {
-                handleError('Quiz non trovato o non autorizzato a eliminarlo', 403);
+                handleError('Quiz non trovato o non sei autorizzato a eliminarlo.', 403); // Forbidden o 404
             }
-
+        // --- Recupero Lista Quiz (con filtri opzionali) ---
         } else {
             try {
+                // Query base per recuperare i quiz, includendo nome/cognome del creatore e numero partecipanti.
+                // Di default, mostra solo quiz non scaduti o senza data di fine.
                 $query = "
-                    SELECT q.codice, q.titolo, q.dataInizio, q.dataFine, q.creatore, u.nome, u.cognome, COUNT(DISTINCT p.utente) as numPartecipanti
+                    SELECT q.codice, q.titolo, q.dataInizio, q.dataFine, q.creatore, 
+                           u.nome as creatoreNome, u.cognome as creatoreCognome, 
+                           COUNT(DISTINCT p.utente) as numPartecipanti
                     FROM Quiz q
                     JOIN Utente u ON q.creatore = u.nomeUtente
                     LEFT JOIN Partecipazione p ON q.codice = p.quiz
-                    WHERE q.dataFine IS NULL OR q.dataFine >= CURRENT_DATE() 
-                "; // Potresti voler un filtro per i quiz attivi o tutti
+                    WHERE (q.dataFine IS NULL OR q.dataFine >= CURRENT_DATE()) 
+                ";
+                $queryParams = [];
+
+                // Filtro opzionale per creatore
                 if (isset($_GET['creatore'])) {
                     $query .= " AND q.creatore = :creatore";
+                    $queryParams[':creatore'] = $_GET['creatore'];
                 }
-                // Aggiungi altri filtri se necessario (es. stato, range di date)
-                $query .= " GROUP BY q.codice ORDER BY q.dataInizio DESC, q.titolo ASC";
+                // TODO: Aggiungere altri filtri se necessario (es. per stato aperto/chiuso, range di date).
+
+                $query .= " GROUP BY q.codice, q.titolo, q.dataInizio, q.dataFine, q.creatore, u.nome, u.cognome 
+                            ORDER BY q.dataInizio DESC, q.titolo ASC";
 
                 $stmt = $pdo->prepare($query);
-
-                if (isset($_GET['creatore'])) {
-                    $stmt->bindParam(':creatore', $_GET['creatore'], PDO::PARAM_STR);
-                }
-                $stmt->execute();
+                $stmt->execute($queryParams);
                 $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo json_encode(['status' => 'success', 'data' => $quizzes]);
             } catch (PDOException $e) {
-                handleError('Errore del database nel recupero lista quiz: ' . $e->getMessage(), 500, $e->getTraceAsString());
+                handleError('Errore del database nel recupero della lista dei quiz.', 500, $e->getMessage() . "\n" . $e->getTraceAsString());
             }
         }
         break;
 
     case 'POST':
         if (!isAuthenticated()) {
-            handleError('Non autenticato.', 401);
+            handleError('Autenticazione richiesta per questa operazione.', 401);
         }
         $currentUser = $_SESSION['user']['nomeUtente'];
-        $data = $_POST; // Dati del form
+        $data = $_POST; // Dati provenienti dal form (application/x-www-form-urlencoded o multipart/form-data)
 
+        // --- Aggiornamento Quiz Esistente (con domande e risposte) ---
         if (isset($_GET['action']) && $_GET['action'] === 'update') {
-            if (!isset($data['quiz_id']) || !filter_var($data['quiz_id'], FILTER_VALIDATE_INT)) {
+            if (!isset($data['quiz_id']) || !($quizId = filter_var($data['quiz_id'], FILTER_VALIDATE_INT))) {
                 handleError('ID quiz mancante o non valido per l\'aggiornamento.', 400);
             }
-            $quizId = (int)$data['quiz_id'];
 
+            // Verifica proprietà del quiz
             if (!isOwnerOfQuizActual($pdo, $quizId, $currentUser)) {
-                handleError('Non autorizzato a modificare questo quiz o quiz non trovato.', 403);
+                handleError('Non autorizzato a modificare questo quiz o quiz non trovato.', 403); // Forbidden o 404
             }
 
-try {
-                $pdo->beginTransaction();
+            try {
+                $pdo->beginTransaction(); // Transazione per l'intera operazione di aggiornamento
 
-
-                // --- PASSO 1: Aggiorna i dettagli del Quiz (titolo, date) ---
+                // --- PASSO 1: Aggiorna i dettagli del Quiz (titolo, dataInizio, dataFine) ---
                 $updateQuizDetailsSqlParts = [];
-                $quizUpdateParams = [':quiz_id' => $quizId, ':current_user' => $currentUser];
+                $quizUpdateParams = [':quiz_id' => $quizId, ':current_user' => $currentUser]; // :current_user per ulteriore sicurezza
 
                 if (isset($data['titolo']) && trim($data['titolo']) !== '') {
                     $updateQuizDetailsSqlParts[] = "titolo = :titolo";
                     $quizUpdateParams[':titolo'] = trim($data['titolo']);
                 }
                 if (isset($data['dataInizio']) && !empty($data['dataInizio'])) {
+                    // TODO: Aggiungere validazione formato data
                     $updateQuizDetailsSqlParts[] = "dataInizio = :dataInizio";
                     $quizUpdateParams[':dataInizio'] = $data['dataInizio'];
                 }
                 if (isset($data['dataFine']) && !empty($data['dataFine'])) {
+                    // TODO: Aggiungere validazione formato data e logica (es. dataFine >= dataInizio)
                     $updateQuizDetailsSqlParts[] = "dataFine = :dataFine";
                     $quizUpdateParams[':dataFine'] = $data['dataFine'];
                 }
 
                 if (!empty($updateQuizDetailsSqlParts)) {
-                    $sqlQuizUpdate = "UPDATE Quiz SET " . implode(', ', $updateQuizDetailsSqlParts) . 
+                    $sqlQuizUpdate = "UPDATE Quiz SET " . implode(', ', $updateQuizDetailsSqlParts) .
                                      " WHERE codice = :quiz_id AND creatore = :current_user";
                     $stmtQuizUpdate = $pdo->prepare($sqlQuizUpdate);
-                    
-                    error_log("SQL Update Quiz Details: " . $sqlQuizUpdate);
-                    error_log("Params Update Quiz Details: " . print_r($quizUpdateParams, true));
-
                     if (!$stmtQuizUpdate->execute($quizUpdateParams)) {
-                        $errorInfo = $stmtQuizUpdate->errorInfo();
-                        throw new PDOException("Errore durante l'aggiornamento dei dettagli del quiz: " . ($errorInfo[2] ?? 'Dettagli non disponibili'));
+                        throw new PDOException("Errore aggiornamento dettagli quiz: " . implode(" ", $stmtQuizUpdate->errorInfo()));
                     }
-                    error_log("API Update: Dettagli del Quiz ID $quizId aggiornati. Righe affette: " . $stmtQuizUpdate->rowCount());
-                } else {
-                    error_log("API Update: Nessun dettaglio base del quiz (titolo/date) da aggiornare per Quiz ID $quizId.");
+                    error_log("API Update: Dettagli Quiz ID $quizId aggiornati. Righe: " . $stmtQuizUpdate->rowCount());
                 }
 
-
-                // --- PASSO 2: Identifica e cancella le domande rimosse (e tutte le loro dipendenze) ---
-                $dbExistingQuestionNumbers = [];
-                // ... (codice per popolare $dbExistingQuestionNumbers) ...
+                // --- PASSO 2: Gestione Domande Rimosse ---
+                // Identifica le domande esistenti nel DB per questo quiz.
                 $stmtDbQ_Pre = $pdo->prepare("SELECT numero FROM Domanda WHERE quiz = :quizId");
                 $stmtDbQ_Pre->execute([':quizId' => $quizId]);
-                while ($row = $stmtDbQ_Pre->fetch(PDO::FETCH_ASSOC)) {
-                    $dbExistingQuestionNumbers[] = (int)$row['numero'];
-                }
+                $dbExistingQuestionNumbers = $stmtDbQ_Pre->fetchAll(PDO::FETCH_COLUMN, 0); // Array di numeri di domanda
+                $dbExistingQuestionNumbers = array_map('intval', $dbExistingQuestionNumbers);
 
+
+                // Identifica i numeri delle domande 'originali' inviate dal form.
+                // Le domande inviate dovrebbero avere un campo `original_numero_domanda` se sono preesistenti.
                 $formSentOriginalQuestionNumbers = [];
-                // ... (codice per popolare $formSentOriginalQuestionNumbers) ...
                 if (isset($data['questions']) && is_array($data['questions'])) {
-                    foreach ($data['questions'] as $idx => $qData) {
-                        $q_text = trim($q_data['testo'] ?? '');
-                        if (isset($qData['original_numero_domanda']) && $qData['original_numero_domanda'] !== '') {
+                    foreach ($data['questions'] as $qData) {
+                        if (isset($qData['original_numero_domanda']) && $qData['original_numero_domanda'] !== '' && (int)$qData['original_numero_domanda'] > 0) {
                             $formSentOriginalQuestionNumbers[] = (int)$qData['original_numero_domanda'];
                         }
                     }
                 }
-                
+
+                // Le domande da cancellare sono quelle presenti nel DB ma non più nell'elenco inviato dal form.
                 $questionsToDelete = array_diff($dbExistingQuestionNumbers, $formSentOriginalQuestionNumbers);
 
                 if (!empty($questionsToDelete)) {
                     $placeholdersDQ = implode(',', array_fill(0, count($questionsToDelete), '?'));
 
-                    // PRIMA: Cancella da RispostaUtenteQuiz le righe che si riferiscono alle Risposte
-                    // delle Domande che stanno per essere cancellate.
-                    // Dobbiamo selezionare le (quiz, domanda, numero_risposta) dalla tabella Risposta
-                    // per le domande in $questionsToDelete.
+                    // Prima, cancella le righe in RispostaUtenteQuiz che si riferiscono a risposte delle domande da eliminare.
+                    // Questo è necessario per evitare violazioni di foreign key se RispostaUtenteQuiz ha un FK diretto a Risposta.
                     $sqlSelectRisposteToDelete = "SELECT quiz, domanda, numero FROM Risposta WHERE quiz = ? AND domanda IN ($placeholdersDQ)";
                     $stmtSelectR = $pdo->prepare($sqlSelectRisposteToDelete);
                     $paramsSelectR = array_merge([$quizId], $questionsToDelete);
                     $stmtSelectR->execute($paramsSelectR);
-                    $risposteDaCuiCancellareRUQ = $stmtSelectR->fetchAll(PDO::FETCH_ASSOC);
+                    $risposteDiDomandeCancellate = $stmtSelectR->fetchAll(PDO::FETCH_ASSOC);
 
-                    if (!empty($risposteDaCuiCancellareRUQ)) {
-                        // Costruisci una condizione OR complessa per il DELETE da RispostaUtenteQuiz
-                        // Esempio: (quiz = ? AND domanda = ? AND risposta = ?) OR (quiz = ? AND domanda = ? AND risposta = ?) ...
+                    if (!empty($risposteDiDomandeCancellate)) {
                         $deleteRUQConditions = [];
                         $deleteRUQParams = [];
-                        foreach ($risposteDaCuiCancellareRUQ as $r) {
+                        foreach ($risposteDiDomandeCancellate as $r) {
+                            // 'risposta' in RispostaUtenteQuiz è 'numero' in Risposta
                             $deleteRUQConditions[] = "(quiz = ? AND domanda = ? AND risposta = ?)";
-                            $deleteRUQParams[] = $r['quiz'];
-                            $deleteRUQParams[] = $r['domanda'];
-                            $deleteRUQParams[] = $r['numero']; // 'numero' della Risposta è 'risposta' in RispostaUtenteQuiz
+                            array_push($deleteRUQParams, $r['quiz'], $r['domanda'], $r['numero']);
                         }
                         if (!empty($deleteRUQConditions)) {
                             $sqlDeleteRUQ = "DELETE FROM RispostaUtenteQuiz WHERE " . implode(" OR ", $deleteRUQConditions);
                             $stmtDelRUQ = $pdo->prepare($sqlDeleteRUQ);
                             $stmtDelRUQ->execute($deleteRUQParams);
-                            error_log("API Update: RispostaUtenteQuiz cancellate per quiz $quizId e domande " . implode(', ', $questionsToDelete));
+                            error_log("API Update: RispostaUtenteQuiz cancellate per quiz $quizId, domande " . implode(', ', $questionsToDelete));
                         }
                     }
-                    // Alternativamente, se non ci sono partecipazioni attive, potresti fare un delete più ampio,
-                    // ma è più sicuro essere specifici.
-                    // Oppure, se sai che ogni RispostaUtenteQuiz è legata a una Partecipazione,
-                    // e le Partecipazioni vengono gestite altrove, potresti non doverlo fare qui.
-                    // Ma l'errore suggerisce che è necessario.
 
-                    // POI: Cancella le Risposte (questo dovrebbe funzionare ora che RispostaUtenteQuiz è pulita)
-                    // Se Domanda ha ON DELETE CASCADE verso Risposta, questo è ridondante ma sicuro.
-                    // Altrimenti, è necessario.
+                    // Poi, cancella le Risposte associate alle domande da eliminare.
                     $stmtDelR = $pdo->prepare("DELETE FROM Risposta WHERE quiz = ? AND domanda IN ($placeholdersDQ)");
                     $stmtDelR->execute(array_merge([$quizId], $questionsToDelete));
-                    error_log("API Update: Risposte cancellate per quiz $quizId e domande " . implode(', ', $questionsToDelete));
-                    
-                    // INFINE: Cancella le Domande
+                    error_log("API Update: Risposte cancellate per quiz $quizId, domande " . implode(', ', $questionsToDelete));
+
+                    // Infine, cancella le Domande stesse.
                     $stmtDelQ = $pdo->prepare("DELETE FROM Domanda WHERE quiz = ? AND numero IN ($placeholdersDQ)");
                     $stmtDelQ->execute(array_merge([$quizId], $questionsToDelete));
                     error_log("API Update: Domande cancellate (quiz $quizId): " . implode(', ', $questionsToDelete));
                 }
 
-// --- PASSO 3: Itera sulle domande inviate per aggiornarle/inserirle ---
+                // --- PASSO 3: Itera sulle Domande Inviate per Aggiornarle o Inserirle ---
                 if (isset($data['questions']) && is_array($data['questions'])) {
-                    $newQuestionOrder = 1; // Per assegnare un nuovo 'numero' progressivo alle domande se necessario
+                    // $newQuestionOrder non sembra usato attivamente per riordinare, ma per assegnare 'numero' a nuove domande.
+                    // Per nuove domande, il 'numero' è determinato da MAX(numero)+1 per quel quiz.
 
-                    foreach ($data['questions'] as $q_idx => $q_data) { // $q_idx è l'indice 0-based dall'array inviato
-                        $q_text = trim($q_data['text']);
-if (empty($q_text)) {
-    $questionIdentifier = "all'indice form $q_idx";
-    if (isset($q_data['original_numero_domanda']) && !empty($q_data['original_numero_domanda'])) {
-        $questionIdentifier = "esistente con numero DB " . $q_data['original_numero_domanda'];
-    }
-    // Per debug, aggiungiamo l'intero $q_data al messaggio se è un array
-    $debug_q_data_info = "";
-    if (is_array($q_data)) {
-        $debug_q_data_info = " | Dati ricevuti per questo indice: " . json_encode($q_data);
-    } elseif (is_null($q_data)) {
-        $debug_q_data_info = " | Dati ricevuti per questo indice: NULL";
-    } else {
-        $debug_q_data_info = " | Dati ricevuti per questo indice: Non un array - " . gettype($q_data);
-    }
+                    foreach ($data['questions'] as $q_idx => $q_data) {
+                        if (!is_array($q_data)) {
+                             throw new Exception("Dati domanda non validi per l'indice form $q_idx. Atteso array.");
+                        }
+                        $q_text = trim($q_data['text'] ?? '');
+                        if (empty($q_text)) {
+                            $qIdentifier = isset($q_data['original_numero_domanda']) && !empty($q_data['original_numero_domanda']) ?
+                                "domanda esistente DB #" . $q_data['original_numero_domanda'] :
+                                "nuova domanda (indice form $q_idx)";
+                            throw new Exception("Il testo per $qIdentifier non può essere vuoto. Dati: " . json_encode($q_data));
+                        }
 
-    throw new Exception("Il testo per la domanda $questionIdentifier non può essere vuoto." . $debug_q_data_info);
-}
-
-                        // Determina se è una domanda esistente o nuova
                         $isNewQuestion = !isset($q_data['original_numero_domanda']) || $q_data['original_numero_domanda'] === '' || (int)$q_data['original_numero_domanda'] <= 0;
-
-                        $currentQuestionDbNumber = null;
+                        $currentQuestionDbNumber = null; // Numero della domanda nel DB (sia per update che per insert)
 
                         if ($isNewQuestion) {
-                            // NUOVA DOMANDA: Inseriscila
-                            // Ottieni il prossimo numero disponibile per la domanda IN QUESTO QUIZ
+                            // NUOVA DOMANDA: determina il prossimo 'numero' e inserisci.
                             $stmtNextQNum = $pdo->prepare("SELECT COALESCE(MAX(numero), 0) + 1 as next_num FROM Domanda WHERE quiz = :quizId");
                             $stmtNextQNum->execute([':quizId' => $quizId]);
-                            $currentQuestionDbNumber = $stmtNextQNum->fetchColumn();
-                            if (!$currentQuestionDbNumber) $currentQuestionDbNumber = 1; // Se è la prima domanda del quiz
+                            $currentQuestionDbNumber = (int)$stmtNextQNum->fetchColumn();
 
                             $stmtInsertQ = $pdo->prepare("INSERT INTO Domanda (quiz, numero, testo) VALUES (:quizId, :numero, :testo)");
                             $stmtInsertQ->execute([
@@ -328,35 +354,27 @@ if (empty($q_text)) {
                                 ':numero' => $currentQuestionDbNumber,
                                 ':testo' => $q_text
                             ]);
-                            error_log("API Update: Nuova domanda inserita (quiz $quizId, numero $currentQuestionDbNumber): " . $q_text);
+                            error_log("API Update: Nuova domanda (quiz $quizId, #$currentQuestionDbNumber): '$q_text'");
                         } else {
-                            // DOMANDA ESISTENTE: Aggiornala
+                            // DOMANDA ESISTENTE: aggiorna il testo.
                             $currentQuestionDbNumber = (int)$q_data['original_numero_domanda'];
-                            // Il numero visualizzato (posizione nell'array del form) potrebbe essere diverso dal numero nel DB.
-                            // Qui aggiorniamo il testo. Il 'numero' della domanda (PK composita con quiz) di solito non cambia,
-                            // a meno che tu non stia implementando un riordinamento complesso.
-                            // Per semplicità, assumiamo che il 'numero' della domanda originale non cambi,
-                            // ma il suo testo sì. $newQuestionOrder potrebbe essere usato se si implementa il riordino.
                             $stmtUpdateQ = $pdo->prepare("UPDATE Domanda SET testo = :testo WHERE quiz = :quizId AND numero = :original_q_num");
                             $stmtUpdateQ->execute([
                                 ':testo' => $q_text,
                                 ':quizId' => $quizId,
                                 ':original_q_num' => $currentQuestionDbNumber
                             ]);
-                            error_log("API Update: Domanda esistente aggiornata (quiz $quizId, numero $currentQuestionDbNumber): " . $q_text);
+                            error_log("API Update: Aggiornata domanda (quiz $quizId, #$currentQuestionDbNumber): '$q_text'");
 
-                            // Per le domande esistenti, potremmo dover cancellare le risposte che non sono più presenti nel form
-                            $dbExistingAnswerNumbers = [];
+                            // Per le domande esistenti, gestisci le risposte rimosse.
                             $stmtDbA_Pre = $pdo->prepare("SELECT numero FROM Risposta WHERE quiz = :quizId AND domanda = :domandaNum");
                             $stmtDbA_Pre->execute([':quizId' => $quizId, ':domandaNum' => $currentQuestionDbNumber]);
-                            while ($rowA = $stmtDbA_Pre->fetch(PDO::FETCH_ASSOC)) {
-                                $dbExistingAnswerNumbers[] = (int)$rowA['numero'];
-                            }
+                            $dbExistingAnswerNumbers = array_map('intval', $stmtDbA_Pre->fetchAll(PDO::FETCH_COLUMN, 0));
 
                             $formSentOriginalAnswerNumbers = [];
                             if (isset($q_data['answers']) && is_array($q_data['answers'])) {
                                 foreach ($q_data['answers'] as $a_data_check) {
-                                    if (isset($a_data_check['original_numero_risposta']) && $a_data_check['original_numero_risposta'] !== '') {
+                                     if (is_array($a_data_check) && isset($a_data_check['original_numero_risposta']) && $a_data_check['original_numero_risposta'] !== '' && (int)$a_data_check['original_numero_risposta'] > 0) {
                                         $formSentOriginalAnswerNumbers[] = (int)$a_data_check['original_numero_risposta'];
                                     }
                                 }
@@ -365,57 +383,50 @@ if (empty($q_text)) {
 
                             if (!empty($answersToDelete)) {
                                 $placeholdersDA = implode(',', array_fill(0, count($answersToDelete), '?'));
-                                // Prima cancella da RispostaUtenteQuiz
+                                // Cancella da RispostaUtenteQuiz per le risposte eliminate
                                 $stmtDelRUQ_A = $pdo->prepare("DELETE FROM RispostaUtenteQuiz WHERE quiz = ? AND domanda = ? AND risposta IN ($placeholdersDA)");
-                                $paramsDelRUQ_A = array_merge([$quizId, $currentQuestionDbNumber], $answersToDelete);
-                                $stmtDelRUQ_A->execute($paramsDelRUQ_A);
-                                error_log("API Update: RispostaUtenteQuiz cancellate per risposte eliminate della domanda $currentQuestionDbNumber, quiz $quizId");
+                                $stmtDelRUQ_A->execute(array_merge([$quizId, $currentQuestionDbNumber], $answersToDelete));
+                                error_log("API Update: RispostaUtenteQuiz cancellate per domanda #$currentQuestionDbNumber, quiz $quizId, risposte " . implode(', ', $answersToDelete));
 
-                                // Poi cancella le Risposte
+                                // Cancella le Risposte
                                 $stmtDelA = $pdo->prepare("DELETE FROM Risposta WHERE quiz = ? AND domanda = ? AND numero IN ($placeholdersDA)");
-                                $paramsDelA = array_merge([$quizId, $currentQuestionDbNumber], $answersToDelete);
-                                $stmtDelA->execute($paramsDelA);
-                                error_log("API Update: Risposte eliminate (quiz $quizId, domanda $currentQuestionDbNumber): " . implode(', ', $answersToDelete));
+                                $stmtDelA->execute(array_merge([$quizId, $currentQuestionDbNumber], $answersToDelete));
+                                error_log("API Update: Risposte eliminate (quiz $quizId, domanda #$currentQuestionDbNumber): " . implode(', ', $answersToDelete));
                             }
                         }
 
-                        // Ora gestisci le RISPOSTE per questa domanda (nuova o esistente)
+                        // --- PASSO 3.1: Gestisci le Risposte per la domanda corrente (nuova o aggiornata) ---
                         if (isset($q_data['answers']) && is_array($q_data['answers'])) {
-                            $newAnswerOrder = 1; // Per assegnare un nuovo 'numero' progressivo alle risposte se necessario
-
                             foreach ($q_data['answers'] as $a_idx => $a_data) {
-    $a_text = trim($a_data['text'] ?? '');
-    
-// Leggi 'type' (inviato dal frontend come 'type')
-if (!isset($a_data['type']) || !in_array($a_data['type'], ['Corretta', 'Sbagliata'])) {
-    $questionIdentifier = "per domanda DB {$currentQuestionDbNumber}, risposta indice form {$a_idx}";
-    throw new Exception("Tipo di risposta non valido o mancante $questionIdentifier. Ricevuto: '" . htmlspecialchars($a_data['type'] ?? 'NULL') . "'.");
-}
-$a_type = $a_data['type'];
-
-$a_points = 0; 
-if ($a_type === 'Corretta') {
-    // Leggi 'points' (inviato dal frontend come 'points')
-    if (isset($a_data['points']) && is_numeric($a_data['points']) && (int)$a_data['points'] >= 0) {
-        $a_points = (int) $a_data['points'];
-    } else {
-        $a_points = 1; 
-    }
-}
-                                if (empty($a_text)) {
-                                    error_log("API Update: Risposta con indice $a_idx per domanda $currentQuestionDbNumber saltata perché il testo è vuoto per quiz $quizId.");
-                                    continue;
+                                if (!is_array($a_data)) {
+                                    throw new Exception("Dati risposta non validi per domanda #$currentQuestionDbNumber, indice form $a_idx. Atteso array.");
                                 }
-                                
+                                $a_text = trim($a_data['text'] ?? '');
+                                if (empty($a_text)) {
+                                    error_log("API Update: Risposta saltata (testo vuoto) per domanda #$currentQuestionDbNumber, quiz $quizId, indice form $a_idx.");
+                                    continue; // Salta risposte con testo vuoto
+                                }
+
+                                if (!isset($a_data['type']) || !in_array($a_data['type'], ['Corretta', 'Sbagliata'])) {
+                                    throw new Exception("Tipo risposta non valido per domanda #$currentQuestionDbNumber, indice form $a_idx. Ricevuto: '" . htmlspecialchars($a_data['type'] ?? 'NULL') . "'.");
+                                }
+                                $a_type = $a_data['type'];
+                                $a_points = 0;
+                                if ($a_type === 'Corretta') {
+                                    if (isset($a_data['points']) && is_numeric($a_data['points']) && (int)$a_data['points'] >= 0) {
+                                        $a_points = (int)$a_data['points'];
+                                    } else {
+                                        $a_points = 1; // Default punti per risposta corretta
+                                    }
+                                }
+
                                 $isNewAnswer = !isset($a_data['original_numero_risposta']) || $a_data['original_numero_risposta'] === '' || (int)$a_data['original_numero_risposta'] <= 0;
-                                
+
                                 if ($isNewAnswer) {
-                                    // NUOVA RISPOSTA: Inseriscila
-                                    // Ottieni il prossimo numero disponibile per la risposta IN QUESTA DOMANDA
+                                    // NUOVA RISPOSTA: determina il prossimo 'numero' e inserisci.
                                     $stmtNextANum = $pdo->prepare("SELECT COALESCE(MAX(numero), 0) + 1 as next_num FROM Risposta WHERE quiz = :quizId AND domanda = :domandaNum");
                                     $stmtNextANum->execute([':quizId' => $quizId, ':domandaNum' => $currentQuestionDbNumber]);
-                                    $currentAnswerDbNumber = $stmtNextANum->fetchColumn();
-                                    if (!$currentAnswerDbNumber) $currentAnswerDbNumber = 1;
+                                    $currentAnswerDbNumber = (int)$stmtNextANum->fetchColumn();
 
                                     $stmtInsertA = $pdo->prepare("INSERT INTO Risposta (quiz, domanda, numero, testo, tipo, punteggio) VALUES (:quizId, :domanda_numero, :numero_risposta, :testo, :tipo, :punteggio)");
                                     $stmtInsertA->execute([
@@ -426,12 +437,10 @@ if ($a_type === 'Corretta') {
                                         ':tipo' => $a_type,
                                         ':punteggio' => $a_points
                                     ]);
-                                    error_log("API Update: Nuova risposta inserita (quiz $quizId, domanda $currentQuestionDbNumber, numero $currentAnswerDbNumber): " . $a_text);
+                                    error_log("API Update: Nuova risposta (q#$currentQuestionDbNumber, r#$currentAnswerDbNumber): '$a_text'");
                                 } else {
-                                    // RISPOSTA ESISTENTE: Aggiornala
+                                    // RISPOSTA ESISTENTE: aggiorna.
                                     $original_a_num = (int)$a_data['original_numero_risposta'];
-                                    // Anche qui, il 'numero' della risposta (PK composita) di solito non cambia.
-                                    // $newAnswerOrder potrebbe essere usato per il riordino.
                                     $stmtUpdateA = $pdo->prepare("UPDATE Risposta SET testo = :testo, tipo = :tipo, punteggio = :punteggio WHERE quiz = :quizId AND domanda = :domanda_numero AND numero = :original_a_num");
                                     $stmtUpdateA->execute([
                                         ':testo' => $a_text,
@@ -441,60 +450,48 @@ if ($a_type === 'Corretta') {
                                         ':domanda_numero' => $currentQuestionDbNumber,
                                         ':original_a_num' => $original_a_num
                                     ]);
-                                    error_log("API Update: Risposta esistente aggiornata (quiz $quizId, domanda $currentQuestionDbNumber, numero $original_a_num): " . $a_text);
+                                    error_log("API Update: Aggiornata risposta (q#$currentQuestionDbNumber, r#$original_a_num): '$a_text'");
                                 }
-                                $newAnswerOrder++;
                             }
                         }
-                        $newQuestionOrder++;
                     }
                 }
-                
-                $pdo->commit();
+                $pdo->commit(); // Conferma tutte le modifiche
                 echo json_encode(['status' => 'success', 'message' => 'Quiz aggiornato con successo.']);
 
             } catch (PDOException $e) {
                 if ($pdo->inTransaction()) $pdo->rollBack();
-                handleError('Errore del database durante l\'aggiornamento: ' . $e->getMessage(), 500, $e->getTraceAsString() . " | Dati: " . print_r($data, true));
-            } catch (Exception $e) {
-    if ($pdo->inTransaction()) $pdo->rollBack();
-    // L'eccezione ora contiene $debug_q_data_info
-    handleError($e->getMessage(), 400, "Dati POST completi: " . print_r($data, true));
-}
-
-        } else { // Altrimenti, si tratta di una creazione di un nuovo quiz (senza domande/risposte qui)
-            // Questa logica gestisce solo la creazione dell'entità Quiz principale.
-            // Le domande/risposte per un nuovo quiz potrebbero essere gestite da un endpoint separato
-            // o in una fase successiva dopo che il quiz è stato creato e ha un ID.
-            // Il tuo codice precedente suggeriva che la creazione di quiz qui crea solo il record Quiz.
-            
+                handleError('Errore database durante l\'aggiornamento del quiz: ' . $e->getMessage(), 500, $e->getTraceAsString() . " | Dati POST: " . print_r($data, true));
+            } catch (Exception $e) { // Per eccezioni personalizzate (es. testo vuoto)
+                if ($pdo->inTransaction()) $pdo->rollBack();
+                handleError('Errore durante l\'aggiornamento del quiz: ' . $e->getMessage(), 400, "Dati POST: " . print_r($data, true));
+            }
+        // --- Creazione Nuovo Quiz (solo metadati) ---
+        } else {
+            // Questa sezione gestisce solo la creazione del record 'Quiz'.
+            // Le domande e risposte andrebbero aggiunte in un secondo momento,
+            // ad esempio tramite l'endpoint `questions.php` o un'interfaccia dedicata.
             if (!isset($data['titolo']) || !isset($data['dataInizio']) || !isset($data['dataFine'])) {
                 handleError('Dati incompleti per la creazione del quiz (titolo, dataInizio, dataFine richiesti).', 400);
             }
             $titolo = trim($data['titolo']);
-            $dataInizio = $data['dataInizio'];
-            $dataFine = $data['dataFine'];
+            $dataInizio = $data['dataInizio']; // TODO: Validare formato data
+            $dataFine = $data['dataFine'];     // TODO: Validare formato data
 
             if (empty($titolo)) {
                 handleError('Il titolo del quiz non può essere vuoto.', 400);
             }
-            // Potresti aggiungere ulteriori validazioni per le date qui.
+            // TODO: Aggiungere validazione che dataFine >= dataInizio se entrambe presenti.
 
             try {
-
-                $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM Quiz WHERE titolo = :titolo");
-                $stmtCheck->bindParam(':titolo', $titolo, PDO::PARAM_STR);
-                $stmtCheck->execute();
-                $count = $stmtCheck->fetchColumn(); // Ottiene il numero di quiz esistenti con stesso titolo/creatore
-
-                // Se count è maggiore di 0, il quiz esiste già
-                if ($count > 0) {
-                // Trovato duplicato! Chiama handleError che invia la risposta e termina lo script.
-                handleError('Esiste già un quiz con questo titolo. Scegli un titolo diverso.', 409); // 409 Conflict
-                // Nota: handleError contiene exit; quindi l'esecuzione si ferma qui se duplicato.
+                // Controlla se esiste già un quiz con lo stesso titolo creato dallo stesso utente.
+                // Questo previene duplicati accidentali.
+                $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM Quiz WHERE titolo = :titolo AND creatore = :creatore");
+                $stmtCheck->execute([':titolo' => $titolo, ':creatore' => $currentUser]);
+                if ($stmtCheck->fetchColumn() > 0) {
+                    handleError('Esiste già un quiz con questo titolo creato da te. Scegli un titolo diverso.', 409); // Conflict
                 }
 
-                // Se non esiste, procedi con l'inserimento
                 $stmt = $pdo->prepare("INSERT INTO Quiz (titolo, dataInizio, dataFine, creatore) VALUES (:titolo, :dataInizio, :dataFine, :creatore)");
                 $stmt->execute([
                     ':titolo' => $titolo,
@@ -506,19 +503,19 @@ if ($a_type === 'Corretta') {
                 http_response_code(201); // Created
                 echo json_encode(['status' => 'success', 'message' => 'Quiz creato con successo.', 'idQuiz' => $newQuizId]);
             } catch (PDOException $e) {
-                handleError('Errore database durante la creazione del quiz: ' . $e->getMessage(), 500, $e->getTraceAsString());
+                handleError('Errore database durante la creazione del quiz.', 500, $e->getMessage() . "\n" . $e->getTraceAsString());
             }
         }
         break;
 
     case 'PUT':
-        // Generalmente, per l'aggiornamento completo di una risorsa.
-        // Il tuo approccio con POST e action=update è comune per i form HTML.
-        handleError('Metodo PUT non supportato per questa risorsa. Usare POST con action=update per aggiornamenti.', 405);
+        // Il metodo PUT è semanticamente per la sostituzione completa di una risorsa.
+        // L'approccio POST con action=update è comune per form HTML e API più semplici.
+        // Si potrebbe implementare PUT se si adotta un approccio REST più rigoroso.
+        handleError('Metodo PUT non supportato. Utilizzare POST con action=update per gli aggiornamenti.', 405);
         break;
 
     default:
-        handleError('Metodo non consentito.', 405);
+        handleError('Metodo HTTP non consentito per questa risorsa.', 405);
 }
-
 ?>
