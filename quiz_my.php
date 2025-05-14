@@ -164,19 +164,19 @@ include 'includes/header.php';
                             Codice:   <strong><?php echo htmlspecialchars($quiz['codice']); ?></strong>
                         </p>
                     </div>
-                        <div class='quiz-actions'>
-                        <a href='quiz_info.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn button-info-styled' title="Info">
+                        <div class='quiz-actions quiz-actions-manage'>
+                        <a href='quiz_info.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn button-info-styled btn-sm' title="Info">
                             <i class="fas fa-info-circle"></i> Info 
                         </a>
-                        <a href='quiz_view.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn' title="Visualizza">
+                        <a href='quiz_view.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn button-primary-styled btn-sm' title="Visualizza">
                             <i class="fas fa-eye"></i> Visualizza
                         </a>
-                        <a href='quiz_modify.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn btn-secondary' title="Modifica">
+                        <a href='quiz_modify.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn btn-secondary btn-sm' title="Modifica">
                             <i class="fas fa-edit"></i> Modifica
                         </a>
                         <button data-delid="<?php echo htmlspecialchars($quiz['codice']); ?>"
                                 data-quiz-title="<?php echo htmlspecialchars($quiz['titolo']); ?>" 
-                                class='btn button-danger-styled delete-quiz-btn' 
+                                class='btn button-danger-styled delete-quiz-btn btn-sm' 
                                 title="Elimina">
                             <i class="fas fa-trash-alt"></i> Elimina
                         </button>

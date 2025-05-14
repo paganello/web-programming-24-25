@@ -922,28 +922,8 @@ $(document).ready(function () {
         }
         
         // Gestione cambio per_page e sort_by se esistono e sono select
-        $('#per_page_select, #sort_by_select').on('change', function() {
+        $('#per_page_select, #sort_by_inline').on('change', function() {
             $(this).closest('form').submit(); // Invia il form quando il select cambia
         });
-
-        const $disponibileOraCheckbox = $('#search_disponibile_ora_sidebar'); // Checkbox "Disponibile Ora"
-        const $dataInizioInput = $('#search_data_inizio_da_sidebar');       // Input Data Inizio
-        const $dataFineInput = $('#search_data_fine_a_sidebar');           // Input Data Fine
-
-        function toggleDateInputsState() {
-            if ($disponibileOraCheckbox.length && $dataInizioInput.length && $dataFineInput.length) {
-                const isDisabled = $disponibileOraCheckbox.is(':checked');
-                $dataInizioInput.prop('disabled', isDisabled);
-                $dataFineInput.prop('disabled', isDisabled);
-                if (isDisabled) { // Se disabilitato, potresti voler pulire i valori
-                    // $dataInizioInput.val('');
-                    // $dataFineInput.val('');
-                }
-            }
-        }
-        if ($disponibileOraCheckbox.length) { 
-            $disponibileOraCheckbox.on('change', toggleDateInputsState); 
-            toggleDateInputsState(); // Chiamata iniziale per impostare lo stato corretto
-        }
-    } // Fine if (document.body.classList.contains('page-index'))
+    }
 });

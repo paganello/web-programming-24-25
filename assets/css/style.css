@@ -134,8 +134,20 @@ header {
     align-items: center;
 }
 
-.logo { font-size: 24px; font-weight: bold; }
-.logo a { color: var(--text-light); text-decoration: none; }
+#header-logo {
+    height: 100px; /* Modifica questo valore! */
+    width: auto;
+    display: block;
+}
+
+.container.header-content {
+    display: flex;
+    justify-content: space-between; /* Spazio tra logo e info utente */
+    align-items: center;          /* Allinea verticalmente logo e info utente */
+    max-width: 1200px; /* O la larghezza massima del tuo layout */
+    margin: 0 auto;    /* Centra il contenuto dell'header */
+    padding: 0 15px;   /* Padding laterale per non attaccare ai bordi */
+}
 
 /* Stili per migliorare i link di Login/Registrazione nell'Header */
 
@@ -361,6 +373,7 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Spinge le azioni in fondo */
+    width: 100%;
 }
 .quiz-item:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); }
 
@@ -381,22 +394,68 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
 .quiz-meta p i { margin-right: 8px; color: var(--secondary-gray); width: 16px; }
 .quiz-meta strong { color: var(--text-dark); }
 
-.quiz-actions { /* Contenitore per i bottoni 'Visualizza', 'Partecipa' */
-    margin-top: auto; /* Allinea in fondo se .quiz-item è flex */
-    padding-top: 15px;
-    border-top: 1px solid var(--border-color); /* Linea separatrice */
+.quiz-actions {
     display: flex;
-    gap: 10px;
+    gap: 10px; /* Spazio di default TRA i bottoni */
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
 }
-.quiz-actions .btn,
-.quiz-actions button.btn { /* Applica a tutti gli elementi .btn (link o button) dentro .quiz-actions */
-    flex-grow: 1;         /* FA SÌ CHE OGNI BOTTONE CRESCA PER RIEMPIRE LO SPAZIO */
-    flex-basis: 0;        /* Inizia il calcolo della larghezza da 0, così flex-grow distribuisce equamente */
-    padding: 8px 10px;     /* Riduci leggermente il padding orizzontale se il testo è corto per evitare che si stringa troppo */
-    font-size: 0.85rem;   /* Riduci leggermente il font se necessario per far stare il testo */
-    font-weight: bold;    /* Grassetto per i bottoni */
-    text-align: center;   /* Assicura che il testo sia centrato */
-    /* white-space: nowrap; */ /* Puoi aggiungere questo se vuoi evitare che il testo vada a capo, ma potrebbe richiedere font ancora più piccolo o meno padding */
+
+/*
+   BOTTONI IN INDEX.PHP (lista principale dei quiz, di solito 2 bottoni: Visualizza, Partecipa)
+   Questi bottoni si espandono per riempire lo spazio.
+   Usiamo un selettore che NON includa la classe .quiz-actions-my-list
+*/
+.quiz-list .quiz-item .quiz-actions:not(.quiz-actions-my-list) .btn {
+    flex-grow: 1;   /* FA ESPANDERE I BOTTONI */
+    flex-basis: 0;
+    padding: 8px 12px; /* Padding per i bottoni di index.php */
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+.quiz-list .quiz-item .quiz-actions:not(.quiz-actions-my-list) .btn i.fas {
+    margin-right: 8px; /* Spazio icona-testo per i bottoni di index.php */
+    font-size: 0.9em;
+}
+
+
+/*
+   BOTTONI IN QUIZ_MY.PHP (lista "I Miei Quiz", 4 bottoni: Info, Visualizza, Modifica, Elimina)
+   Questi bottoni devono essere più piccoli e non espandersi troppo.
+   Hanno la classe .quiz-actions-my-list sul contenitore e .btn-sm sui bottoni.
+*/
+.quiz-actions-manage {
+    gap: 8px; /* Spazio TRA i quattro bottoni - puoi regolarlo */
+    flex-wrap: wrap; /* Permette ai bottoni di andare a capo se necessario */
+    justify-content: flex-start; /* Allinea i bottoni all'inizio (sinistra) se non occupano tutto lo spazio */
+}
+
+.quiz-actions-manage .btn {
+    flex-grow: 1; /* Allows buttons to grow and share available space */
+    flex-shrink: 1; /* Allows buttons to shrink if there's not enough space (less critical here) */
+    flex-basis: calc(50% - 4px); /* (50% of container width) - (half of the 'gap' value) */
+                                 /* 4px is half of the 8px gap. */
+
+    box-sizing: border-box; /* IMPORTANT: Ensures padding and border are included in the
+                               button's total width, not added on top of the percentage. */
+}
+
+/* Stile per bottoni più piccoli (.btn-sm) */
+.btn-sm {
+    padding: 7px 12px !important;      /* Aumentato padding verticale e orizzontale */
+    font-size: 0.825rem !important;    /* Aumentato leggermente il font size (circa 13.2px se 1rem=16px) */
+    line-height: 1.5 !important;       /* Aumentata line-height per migliore respiro verticale */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap; /* Mantenuto per evitare che il testo INTERNO al bottone vada a capo */
+}
+
+.btn-sm i.fas {
+    margin-right: 6px !important;      /* Leggermente più spazio tra icona e testo */
+    font-size: 0.9em !important;       /* Dimensione icona relativa al font-size del bottone, va bene */
 }
 
 /* Badge di Stato (Disponibile, In Attesa, Scaduto) */
@@ -1814,11 +1873,7 @@ footer {
     text-align: center; /* Se non già incluso nella classe */
 }
 
-.btn-sm {
-    padding: 0.25rem 0.5rem !important;
-    font-size: .875rem !important;
-    border-radius: 0.2rem !important;
-}
+
 
  /* Stili per la paginazione (se non già globali e sufficienti) */
     .pagination {
