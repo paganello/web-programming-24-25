@@ -1,10 +1,11 @@
 <?php
+// participation.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 header('Content-Type: application/json');
-require_once '../config/database.php';
 
+require_once '../config/database.php';
 
 if (!isset($_SESSION['user']['nomeUtente'])) {
     echo json_encode(['status' => 'error', 'message' => 'Utente non autenticato. Accesso negato.']);
@@ -13,10 +14,10 @@ if (!isset($_SESSION['user']['nomeUtente'])) {
 }
 
 $nomeUtente = $_SESSION['user']['nomeUtente'];
-$action = isset($_GET['action']) ? $_GET['action'] : (isset($_POST['action']) ? $_POST['action'] : null);
+// L'action dovrebbe arrivare sempre via POST con i dati del form quando si usa FormData
+$action = isset($_POST['action']) ? $_POST['action'] : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
-    // --- LOGICA PER SALVARE UNA NUOVA PARTECIPAZIONE (INVARIATA) ---
     $quizId = isset($_POST['idQuiz']) ? (int)$_POST['idQuiz'] : null;
     $risposteUtenteRaw = isset($_POST['answers']) && is_array($_POST['answers']) ? $_POST['answers'] : [];
     $risposteUtenteProcessed = [];
@@ -30,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
                 ];
             }
         } else {
+             // Questo caso è meno probabile con checkbox, ma lo teniamo per robustezza
              $risposteUtenteProcessed[] = [
                 'domanda_numero' => (int)$questionNumber,
                 'risposta_numero' => (int)$selectedAnswersArray
@@ -37,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
         }
     }
 
-    $response = ['status' => 'error', 'message' => 'Errore sconosciuto.'];
+    $response = ['status' => 'error', 'message' => 'Errore sconosciuto durante l\'invio.']; // Default error
 
     if (empty($quizId)) {
         $response['message'] = 'ID del quiz mancante.';
@@ -45,6 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
         echo json_encode($response);
         exit();
     }
+    // Non è necessario inviare risposte vuote per partecipare, quindi non controlliamo empty($risposteUtenteProcessed) qui
+    // a meno che non sia un requisito specifico.
 
     try {
         $pdo->beginTransaction();
@@ -56,13 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
         $quiz_data = $quiz_stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$quiz_data) {
-            $response['message'] = 'Quiz non trovato.';
+            $response['message'] = 'Quiz non trovato (ID: '.$quizId.').';
             $pdo->rollBack(); http_response_code(404); echo json_encode($response); exit();
         }
 
         $today = date('Y-m-d');
         if ($quiz_data['dataFine'] < $today) {
-            $response['message'] = 'Questo quiz è terminato e non accetta più partecipazioni.'; // Messaggio più chiaro
+            $response['message'] = 'Questo quiz è terminato e non accetta più partecipazioni.';
             $pdo->rollBack(); http_response_code(403); echo json_encode($response); exit();
         }
 
@@ -84,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
         $partecipazioneId = $pdo->lastInsertId();
 
         if (!$partecipazioneId) {
-            throw new Exception("Impossibile creare la partecipazione.");
+            throw new Exception("Impossibile creare la partecipazione nel database.");
         }
 
         if (!empty($risposteUtenteProcessed)) {
@@ -99,40 +103,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
                 $stmt_risposta_utente->bindParam(':risposta_numero', $risposta['risposta_numero'], PDO::PARAM_INT);
                 
                 if (!$stmt_risposta_utente->execute()) {
+                    // Logga l'errore e potrebbe essere utile far fallire la transazione
                     error_log("Errore insert RispostaUtenteQuiz: PID=$partecipazioneId, QID=$quizId, DN=" . $risposta['domanda_numero'] . ", RN=" . $risposta['risposta_numero'] . ". Err: " . implode(":", $stmt_risposta_utente->errorInfo()));
-                    // Potresti voler lanciare un'eccezione qui per far fallire la transazione
+                    // throw new Exception("Errore durante il salvataggio di una risposta."); // Per far fallire la transazione
                 }
             }
         }
 
         $pdo->commit();
-        // Imposta messaggi per sessionStorage, saranno mostrati da quiz_participations.php dopo il redirect
         $_SESSION['participationMessage'] = 'Partecipazione registrata con successo!';
         $_SESSION['participationMessageType'] = 'success';
 
         $response = [
             'status' => 'success',
-            'message' => 'Partecipazione registrata con successo!', // Questo messaggio è più per la risposta JSON diretta
+            'message' => 'Partecipazione registrata con successo!',
             'partecipazione_id' => $partecipazioneId,
-            'redirect_url' => 'quiz_participations.php' 
+            'redirect_url' => 'quiz_results.php?participation_id=' . $partecipazioneId
         ];
         http_response_code(201);
 
     } catch (PDOException $e) {
         if ($pdo->inTransaction()) $pdo->rollBack();
-        error_log("Errore PDO submit_participation: " . $e->getMessage());
-        $response['message'] = 'Errore del database durante la registrazione della partecipazione.'; http_response_code(500);
+        error_log("Errore PDO submit_participation: " . $e->getMessage() . " | Dati: quizId=$quizId, utente=$nomeUtente");
+        $response['message'] = 'Errore del database durante la registrazione. Riprova più tardi.'; 
+        http_response_code(500);
     } catch (Exception $e) {
         if ($pdo->inTransaction()) $pdo->rollBack();
-        error_log("Errore generico submit_participation: " . $e->getMessage());
-        $response['message'] = 'Errore del server durante la registrazione della partecipazione.'; http_response_code(500);
+        error_log("Errore generico submit_participation: " . $e->getMessage() . " | Dati: quizId=$quizId, utente=$nomeUtente");
+        $response['message'] = 'Errore del server durante la registrazione. Riprova più tardi.'; 
+        http_response_code(500);
     }
     echo json_encode($response);
     exit();
 
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Azione o metodo non valido.']);
-    http_response_code(405);
+    // Metodo non POST o action non 'submit'
+    echo json_encode(['status' => 'error', 'message' => 'Richiesta non valida. Metodo POST e action "submit" richiesti.']);
+    http_response_code(405); // Method Not Allowed
     exit();
 }
 ?>

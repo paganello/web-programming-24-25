@@ -5,80 +5,77 @@
  * Questa pagina permette agli utenti di partecipare a un quiz esistente.
  */
 
-// Questo if session_start() dovrebbe essere già in header.php
-// if (session_status() === PHP_SESSION_NONE) {
-//     session_start();
-// }
-
 include 'includes/header.php';
-require_once 'config/database.php'; // Assicurati del percorso
+require_once 'config/database.php';
 
-// Controllo se l'utente è loggato.
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['nomeUtente'])) {
-    $_SESSION['error_message'] = "Devi effettuare il login per partecipare ai quiz."; // Messaggio per il login
+    $_SESSION['error_message'] = "Devi effettuare il login per partecipare ai quiz.";
     header('Location: auth_login.php');
     exit;
 }
 
-// Controllo se l'ID del quiz è stato fornito.
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    $_SESSION['info_message'] = "ID del quiz non specificato."; // Messaggio per index
+    $_SESSION['info_message'] = "ID del quiz non specificato.";
     header('Location: index.php');
     exit;
 }
 
 $quiz_id = (int) $_GET['id'];
-$user = $_SESSION['user']['nomeUtente'];
+$user_name = $_SESSION['user']['nomeUtente'];
 $today = date('Y-m-d');
-$error_message_page = null; // Per errori da mostrare sulla pagina
+$error_message_page = null;
+$quiz = null;
+$questions = [];
+$quiz_details_for_error = null;
 
 try {
-    // Verifica se l'utente ha già partecipato
     $participation_check_sql = "SELECT codice FROM Partecipazione WHERE utente = :nomeUtente AND quiz = :quizId";
     $part_check_stmt = $pdo->prepare($participation_check_sql);
-    $part_check_stmt->bindParam(':nomeUtente', $user, PDO::PARAM_STR);
+    $part_check_stmt->bindParam(':nomeUtente', $user_name, PDO::PARAM_STR);
     $part_check_stmt->bindParam(':quizId', $quiz_id, PDO::PARAM_INT);
     $part_check_stmt->execute();
     if ($part_check_stmt->fetch()) {
         $_SESSION['info_message'] = "Hai già partecipato a questo quiz. Puoi vedere i tuoi risultati nella sezione 'Le Mie Partecipazioni'.";
-        header('Location: quiz_participations.php'); // Reindirizza all'elenco
+        header('Location: quiz_participations.php');
         exit;
     }
 
-
-    // --- Verifica disponibilità quiz ---
-    // Modificato per selezionare solo se dataInizio <= oggi E dataFine >= oggi
-    $sql_quiz = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :oggi AND dataFine >= :oggi";
+    $sql_quiz = "SELECT * FROM Quiz WHERE codice = :id AND dataInizio <= :oggiDataInizio AND dataFine >= :oggiDataFine";
     $stmt_quiz = $pdo->prepare($sql_quiz);
     $stmt_quiz->bindParam(':id', $quiz_id, PDO::PARAM_INT);
-    $stmt_quiz->bindParam(':oggi', $today, PDO::PARAM_STR);
-    // $stmt_quiz->bindParam(':oggi2', $today, PDO::PARAM_STR); // non più necessario
+    $stmt_quiz->bindParam(':oggiDataInizio', $today, PDO::PARAM_STR);
+    $stmt_quiz->bindParam(':oggiDataFine', $today, PDO::PARAM_STR);
     $stmt_quiz->execute();
     $quiz = $stmt_quiz->fetch(PDO::FETCH_ASSOC);
 
     if (!$quiz) {
-        // Controlliamo perché non è stato trovato
-        $check_existence_sql = "SELECT dataInizio, dataFine FROM Quiz WHERE codice = :id";
+        $check_existence_sql = "SELECT titolo, dataInizio, dataFine FROM Quiz WHERE codice = :id";
         $check_stmt = $pdo->prepare($check_existence_sql);
         $check_stmt->bindParam(':id', $quiz_id, PDO::PARAM_INT);
         $check_stmt->execute();
         $quiz_details_for_error = $check_stmt->fetch(PDO::FETCH_ASSOC);
 
+        $quiz_title_display = 'ID '.htmlspecialchars($quiz_id);
+        if ($quiz_details_for_error && !empty($quiz_details_for_error['titolo'])) {
+            $quiz_title_display = htmlspecialchars($quiz_details_for_error['titolo']);
+        } elseif ($quiz && !empty($quiz['titolo'])) {
+            $quiz_title_display = htmlspecialchars($quiz['titolo']);
+        }
+
         if (!$quiz_details_for_error) {
             $_SESSION['error_message'] = "Quiz con ID ".htmlspecialchars($quiz_id)." non trovato.";
         } elseif ($quiz_details_for_error['dataInizio'] > $today) {
-            $_SESSION['info_message'] = "Il quiz \"".htmlspecialchars($quiz['titolo'] ?? 'ID '.$quiz_id)."\" non è ancora iniziato. Sarà disponibile dal ".date('d/m/Y', strtotime($quiz_details_for_error['dataInizio'])).".";
+            $_SESSION['info_message'] = "Il quiz \"".$quiz_title_display."\" non è ancora iniziato. Sarà disponibile dal ".date('d/m/Y', strtotime($quiz_details_for_error['dataInizio'])).".";
         } elseif ($quiz_details_for_error['dataFine'] < $today) {
-            $_SESSION['info_message'] = "Il quiz \"".htmlspecialchars($quiz['titolo'] ?? 'ID '.$quiz_id)."\" è terminato il ".date('d/m/Y', strtotime($quiz_details_for_error['dataFine']))." e non accetta più partecipazioni.";
+            $_SESSION['info_message'] = "Il quiz \"".$quiz_title_display."\" è terminato il ".date('d/m/Y', strtotime($quiz_details_for_error['dataFine']))." e non accetta più partecipazioni.";
         } else {
-            $_SESSION['error_message'] = "Quiz non disponibile (ID: ".htmlspecialchars($quiz_id).").";
+            $_SESSION['error_message'] = "Quiz non disponibile (".$quiz_title_display.").";
         }
         header('Location: index.php');
         exit;
     }
 
-    // --- Recupero domande ---
-    $sql_domande = "SELECT * FROM Domanda WHERE quiz = :quiz ORDER BY numero"; // È buona norma ordinare per 'numero'
+    $sql_domande = "SELECT * FROM Domanda WHERE quiz = :quiz ORDER BY numero";
     $stmt_domande = $pdo->prepare($sql_domande);
     $stmt_domande->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
     $stmt_domande->execute();
@@ -87,97 +84,93 @@ try {
     if (empty($questions)) {
         $error_message_page = "Questo quiz non ha ancora domande associate. Torna più tardi o contatta il creatore del quiz.";
     } else {
-        foreach ($questions as &$question) { // Usa la reference & per modificare direttamente l'array
-            $sql_risposte = "SELECT * FROM Risposta WHERE quiz = :quiz AND domanda = :domanda ORDER BY RAND()"; // Ordina casualmente le risposte
-            // Oppure usa shuffle($question['answers']); dopo il fetch
+        foreach ($questions as &$question_data) { // Rinominato per evitare confusione con la reference in PHP < 8
+            $sql_risposte = "SELECT * FROM Risposta WHERE quiz = :quiz AND domanda = :domanda ORDER BY RAND()";
             $stmt_risposte = $pdo->prepare($sql_risposte);
             $stmt_risposte->bindParam(':quiz', $quiz_id, PDO::PARAM_INT);
-            $stmt_risposte->bindParam(':domanda', $question['numero'], PDO::PARAM_INT); // 'numero' dalla tabella Domanda
+            $stmt_risposte->bindParam(':domanda', $question_data['numero'], PDO::PARAM_INT);
             $stmt_risposte->execute();
-            $question['answers'] = $stmt_risposte->fetchAll(PDO::FETCH_ASSOC);
-            // shuffle($question['answers']); // Alternativa a ORDER BY RAND() se preferisci farlo in PHP
+            $question_data['answers'] = $stmt_risposte->fetchAll(PDO::FETCH_ASSOC);
         }
-        unset($question); // Rimuovi la reference
-
-        // shuffle($questions); // Mescola l'ordine delle domande se vuoi
+        unset($question_data); // Rimuovi la reference
     }
 
 } catch (PDOException $e) {
     error_log("Errore DB in quiz_participate.php: " . $e->getMessage());
-    // Non usare die() in produzione, mostra un messaggio amichevole
     $error_message_page = "Si è verificato un errore tecnico durante il caricamento del quiz. Riprova più tardi.";
-    // Opzionalmente, potresti voler reindirizzare o mostrare una pagina di errore generica
-    // include 'includes/error_page.php';
-    // exit;
 }
 
-$domanda_indice_visualizzato = 0; // Per numerare le domande 1, 2, 3...
+$domanda_indice_visualizzato = 0;
 ?>
 
-<div class="main-content container" style="padding-top: 20px; padding-bottom: 40px;">
-    <!-- Container per gli alert specifici di questa pagina -->
-    <div id="alert-container-participate" class="custom-alert-container-static" style="margin-bottom: 20px;"></div>
+<div class="main-content container main-content-page-padding"> <!-- Aggiunta classe per padding globale -->
+    <div id="alert-container-participate"></div> <!-- Il tuo custom-alert-container-static e margin-bottom è già gestito da showAlert -->
 
     <?php if ($error_message_page): ?>
         <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($error_message_page); ?></div>
         <?php if (strpos($error_message_page, "non ha ancora domande") !== false): ?>
             <p class="text-align-center padding-vertical-medium"><a href="index.php" class="btn">Torna alla Home</a></p>
         <?php endif; ?>
-    <?php else: ?>
-        <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
-             <h1 style="font-size: 1.8rem; color: var(--dark-color); margin: 0; line-height: 1.3;">
-                <i class="fas fa-pencil-alt" style="margin-right: 10px; color: var(--main-color);"></i>
-                Partecipazione al Quiz: <?php echo htmlspecialchars($quiz['titolo']); ?>
-            </h1>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 5px;">
+    <?php elseif ($quiz): ?>
+      
+        <div class="page-header-controls quiz-participation-page-header">
+            <div class="page-title-container">
+                <i class="fas fa-pencil-alt page-title-icon"></i>
+                <h1 class="page-main-title">
+                    Partecipazione al Quiz: <?php echo htmlspecialchars($quiz['titolo']); ?>
+                </h1>
+            </div>
+            <p class="quiz-participation-description">
                 Seleziona le risposte che ritieni corrette e invia il quiz.
             </p>
         </div>
 
-
         <form id="participate-form">
-            <!-- NON serve participation_id qui, viene creato al submit -->
             <input type="hidden" name="idQuiz" value="<?php echo $quiz_id; ?>">
-            <input type="hidden" name="action" value="submit"> <!-- Per l'API -->
+            <input type="hidden" name="action" value="submit">
 
-            <?php foreach ($questions as $question): ?>
-                <?php $domanda_indice_visualizzato++; ?>
-                <div class="question-item card" style="margin-bottom: 25px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-                    <div class="question-text" style="font-weight: bold; margin-bottom: 15px; font-size: 1.1em;">
-                        Domanda <?php echo $domanda_indice_visualizzato; ?>:
-                        <span style="font-weight: normal;"><?php echo htmlspecialchars($question['testo']); ?></span>
-                    </div>
-
-                    <?php if (empty($question['answers'])): ?>
-                        <p style="color: #777; font-style: italic;">Nessuna opzione di risposta disponibile per questa domanda.</p>
-                    <?php else: ?>
-                        <div class="answer-options" style="display: flex; flex-direction: column; gap: 10px;">
-                            <?php foreach ($question['answers'] as $answer): ?>
-                                <div class="answer-option">
-                                    <label style="display: flex; align-items: center; cursor: pointer; padding: 8px; border-radius: 4px; transition: background-color 0.2s;"
-                                           onmouseover="this.style.backgroundColor='#f0f0f0';"
-                                           onmouseout="this.style.backgroundColor='transparent';">
-                                        <input type="checkbox"
-                                               name="answers[<?php echo $question['numero']; ?>][]"
-                                               value="<?php echo $answer['numero']; ?>"
-                                               style="margin-right: 10px; transform: scale(1.2);">
-                                        <?php echo htmlspecialchars($answer['testo']); ?>
-                                    </label>
-                                </div>
-                            <?php endforeach; ?>
+            <?php if (!empty($questions)): ?>
+                <?php foreach ($questions as $current_question): // Rinominato per chiarezza ?>
+                    <?php $domanda_indice_visualizzato++; ?>
+                    <div class="question-item card">
+                        <div class="question-text">
+                            Domanda <?php echo $domanda_indice_visualizzato; ?>:
+                            <span><?php echo htmlspecialchars($current_question['testo']); ?></span>
                         </div>
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
 
-            <?php if (!empty($questions)): // Mostra il bottone solo se ci sono domande ?>
-            <div class="form-group text-align-center" style="margin-top: 30px;">
-                <button type="submit" class="btn button-primary-styled btn-lg" style="padding: 12px 30px; font-size: 1.1em;">
-                    <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Invia Risposte
+                        <?php if (empty($current_question['answers'])): ?>
+                            <p class="no-answers-message">Nessuna opzione di risposta disponibile per questa domanda.</p>
+                        <?php else: ?>
+                            <div class="answer-options">
+                                <?php foreach ($current_question['answers'] as $answer): ?>
+                                    <div class="answer-option">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="answers[<?php echo $current_question['numero']; ?>][]"
+                                                   value="<?php echo $answer['numero']; ?>">
+                                            <span><?php echo htmlspecialchars($answer['testo']); ?></span> <!-- Avvolto testo in span per styling se necessario -->
+                                        </label>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+            <?php if (!empty($questions)): ?>
+            <div class="form-group text-align-center">
+                <button type="submit" class="btn button-primary-styled btn-lg">
+                    <i class="fas fa-paper-plane"></i> Invia Risposte <!-- Rimosso stile inline per l'icona -->
                 </button>
             </div>
             <?php endif; ?>
         </form>
+    <?php else: ?>
+        <div class="alert alert-warning" role="alert">
+            Impossibile caricare i dettagli del quiz. Potrebbe non essere disponibile o l'ID specificato non è corretto.
+        </div>
+        <p class="text-align-center padding-vertical-medium"><a href="index.php" class="btn">Torna alla Home</a></p>
     <?php endif; ?>
 </div>
 

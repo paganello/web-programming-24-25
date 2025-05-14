@@ -486,63 +486,81 @@ $(document).ready(function () {
     });
 
 
-    if ($('#participate-form').length) {
-        $('#participate-form').on('submit', function(e) {
+const $participateForm = $('#participate-form'); // Selettore del form di partecipazione
+
+    if ($participateForm.length) {
+        $participateForm.on('submit', function(e) {
             e.preventDefault();
             const $form = $(this);
             const $submitButton = $form.find('button[type="submit"]');
             const originalButtonText = $submitButton.html();
+            const alertContainerSelector = '#alert-container-participate'; // Selettore dell'alert container specifico
 
-            let answersGiven = false;
-            $form.find('input[type="checkbox"]:checked, input[type="radio"]:checked').each(function() {
-                answersGiven = true;
-                return false; 
-            });
-
-            // Potresti decidere se rendere obbligatorio rispondere ad almeno una domanda
-            // if (!answersGiven) {
-            //     showAlert('Devi selezionare almeno una risposta per inviare il quiz.', 'warning', '#alert-container-participate');
-            //     return;
-            // }
+            // Pulisce eventuali alert precedenti prima di una nuova richiesta
+            $(alertContainerSelector).empty();
 
             $submitButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Invio in corso...');
 
             $.ajax({
                 type: 'POST',
-                url: 'api/partecipation.php', // Assicurati che action=submit sia nel form o qui
-                data: $form.serialize(), 
+                url: 'api/partecipation.php',
+                data: $form.serialize() + '&action=submit', // Assicura che action=submit sia inviato
                 dataType: 'json',
                 success: function(response) {
                     if (response.status === 'success') {
                         if (response.redirect_url) {
-                            sessionStorage.setItem('participationMessage', response.message || 'Partecipazione inviata con successo!');
-                            sessionStorage.setItem('participationMessageType', 'success');
+                            // L'API PHP imposta $_SESSION['participationMessage']
+                            // Non è strettamente necessario sessionStorage qui se il redirect gestisce il messaggio
                             window.location.href = response.redirect_url;
                         } else {
-                            showAlert(response.message || 'Partecipazione inviata!', 'success', '#alert-container-participate');
-                             $form.hide(); 
+                            showAlert(response.message || 'Partecipazione inviata con successo!', 'success', alertContainerSelector);
+                            $form.hide(); // Nascondi il form se non c'è redirect
                         }
                     } else {
-                        showAlert(response.message || 'Si è verificato un errore durante l\'invio.', 'danger', '#alert-container-participate');
-                        $submitButton.prop('disabled', false).html(originalButtonText); 
+                        showAlert(response.message || 'Si è verificato un errore durante l\'invio.', 'danger', alertContainerSelector);
+                        $submitButton.prop('disabled', false).html(originalButtonText);
                     }
                 },
                 error: function(xhr, status, error) {
-                    let errorMsg = 'Errore di comunicazione con il server.';
+                    let errorMsg = 'Errore di comunicazione con il server. Riprova più tardi.';
                     if (xhr.responseJSON && xhr.responseJSON.message) {
                         errorMsg = xhr.responseJSON.message;
                     } else if (xhr.status === 401) {
                          errorMsg = 'Sessione scaduta o non autorizzato. Effettua nuovamente il login.';
                          setTimeout(() => window.location.href = 'auth_login.php', 2500);
-                    } else if (xhr.status === 409) { 
-                        errorMsg = xhr.responseJSON.message || 'Hai già partecipato a questo quiz.';
-                        setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
+                    } else if (xhr.status === 403) {
+                        errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Accesso negato o quiz non più disponibile.';
+                         setTimeout(() => window.location.href = 'index.php', 2500);
+                    } else if (xhr.status === 409) {
+                        errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Hai già partecipato a questo quiz.';
+                        if (xhr.responseJSON && xhr.responseJSON.redirect_url) {
+                             setTimeout(() => window.location.href = xhr.responseJSON.redirect_url, 2500);
+                        } else {
+                             setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
+                        }
+                    } else if (xhr.status === 404) {
+                        errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Quiz non trovato o endpoint API errato.';
+                    } else {
+                        console.error("Errore AJAX invio partecipazione:", xhr.status, xhr.responseText, status, error);
                     }
-                    showAlert(errorMsg, 'danger', '#alert-container-participate');
-                    $submitButton.prop('disabled', false).html(originalButtonText); 
-                    console.error("Errore AJAX invio partecipazione:", xhr.responseText, status, error);
+
+                    showAlert(errorMsg, 'danger', alertContainerSelector);
+                    $submitButton.prop('disabled', false).html(originalButtonText);
                 }
             });
+        });
+
+        // Aggiungi qui lo snippet per la classe .selected-answer se lo stai usando
+        $participateForm.on('change', '.answer-option input[type="checkbox"]', function() {
+            const $label = $(this).closest('label');
+            if ($(this).is(':checked')) {
+                $label.addClass('selected-answer');
+            } else {
+                $label.removeClass('selected-answer');
+            }
+        });
+        $participateForm.find('.answer-option input[type="checkbox"]:checked').each(function() {
+            $(this).closest('label').addClass('selected-answer');
         });
     }
 

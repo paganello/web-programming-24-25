@@ -216,12 +216,6 @@ require_once 'includes/header.php';
             </div>
         </nav>
     <?php endif; ?>
-
-    <noscript>
-        <div class="alert alert-warning" role="alert">
-            JavaScript è disabilitato. Alcune funzionalità potrebbero non essere disponibili.
-        </div>
-    </noscript>
 </div>
 
 <?php

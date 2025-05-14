@@ -168,7 +168,7 @@ include 'includes/header.php';
                         <a href='quiz_info.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn button-info-styled btn-sm' title="Info">
                             <i class="fas fa-info-circle"></i> Info 
                         </a>
-                        <a href='quiz_view.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='button-primary-styled btn-sm' title="Visualizza">
+                        <a href='quiz_view.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn button-primary-styled btn-sm' title="Visualizza">
                             <i class="fas fa-eye"></i> Visualizza
                         </a>
                         <a href='quiz_modify.php?id=<?php echo htmlspecialchars($quiz['codice']); ?>' class='btn btn-secondary btn-sm' title="Modifica">
