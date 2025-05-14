@@ -103,7 +103,7 @@ try {
     }
 
 } catch (PDOException $e) {
-    error_log("Errore DB in quiz_play.php: " . $e->getMessage());
+    error_log("Errore DB in quiz_participate.php: " . $e->getMessage());
     // Non usare die() in produzione, mostra un messaggio amichevole
     $error_message_page = "Si è verificato un errore tecnico durante il caricamento del quiz. Riprova più tardi.";
     // Opzionalmente, potresti voler reindirizzare o mostrare una pagina di errore generica

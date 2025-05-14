@@ -28,8 +28,29 @@ try {
         exit;
     }
 
+    // Recupera le domande PRIMA di determinare $can_participate
+    $sql_questions = "SELECT * FROM Domanda WHERE quiz = :quiz_id ORDER BY numero ASC";
+    $stmt_questions = $pdo->prepare($sql_questions);
+    $stmt_questions->execute(['quiz_id' => $quiz_id]);
+    $questions_data = $stmt_questions->fetchAll(PDO::FETCH_ASSOC); // Questo conterrà le domande
+
+    // Popola l'array $questions se necessario per l'anteprima, ma per il controllo basta $questions_data
+    foreach ($questions_data as $question_item) {
+        $sql_answers = "SELECT * FROM Risposta WHERE quiz = :quiz_id AND domanda = :domanda_numero ORDER BY numero ASC";
+        $stmt_answers = $pdo->prepare($sql_answers);
+        $stmt_answers->execute([
+            'quiz_id' => $quiz_id,
+            'domanda_numero' => $question_item['numero']
+        ]);
+        $question_item['answers'] = $stmt_answers->fetchAll(PDO::FETCH_ASSOC);
+        $questions[] = $question_item;
+    }
+
     $today = date('Y-m-d');
-    $can_participate = isset($_SESSION['user']) && ($quiz['dataInizio'] <= $today && $quiz['dataFine'] >= $today);
+    $user_logged_in = isset($_SESSION['user']);
+    $can_participate = $user_logged_in &&
+                       ($quiz['dataInizio'] <= $today && $quiz['dataFine'] >= $today) &&
+                       !empty($questions_data); // Controlla se ci sono domande recuperate
 
     if ($quiz['dataInizio'] > $today) {
         $quiz_status = 'pending';
@@ -72,8 +93,7 @@ try {
         <?php if ($quiz): ?>
             <div class="quiz-detail-header">
                 <h1><?php echo htmlspecialchars($quiz['titolo']); ?></h1>
-                <span class="status-badge <?php echo htmlspecialchars($quiz_status); ?>">
-                    <i class="fas fa-<?php echo htmlspecialchars($status_icon); ?>"></i>
+                    <span class="status-badge <?php echo htmlspecialchars($quiz_status); ?>"> <i class="fas fa-<?php echo htmlspecialchars($status_icon); ?>"></i>
                     <?php echo htmlspecialchars($status_text); ?>
                 </span>
             </div>
@@ -84,11 +104,9 @@ try {
                         <i class="fas fa-user"></i>
                         <div>
                             <span class="info-label">Creato da</span>
-                            <span
-                                class="info-value"><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></span>
+                            <span class="info-value"><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></span>
                         </div>
                     </div>
-
                     <div class="quiz-info-item">
                         <i class="fas fa-calendar-alt"></i>
                         <div>
@@ -96,7 +114,6 @@ try {
                             <span class="info-value"><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></span>
                         </div>
                     </div>
-
                     <div class="quiz-info-item">
                         <i class="fas fa-calendar-check"></i>
                         <div>
@@ -104,7 +121,6 @@ try {
                             <span class="info-value"><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></span>
                         </div>
                     </div>
-
                     <?php if (!empty($quiz['descrizione'])): ?>
                         <div class="quiz-info-item quiz-description">
                             <i class="fas fa-info-circle"></i>
@@ -116,20 +132,20 @@ try {
                     <?php endif; ?>
                 </div>
 
-                <?php if ($can_participate): ?>
+                <?php if ($can_participate): // Questa condizione ora include il controllo sulla presenza di domande ?>
                     <div class="quiz-action-container">
                         <a href="quiz_participate.php?id=<?php echo $quiz_id; ?>" class="btn btn-participate">
                             <i class="fas fa-play-circle"></i> Partecipa al Quiz
                         </a>
                     </div>
-                <?php elseif (!isset($_SESSION['user'])): ?>
+                <?php elseif (!$user_logged_in && ($quiz['dataInizio'] <= $today && $quiz['dataFine'] >= $today) ): // Utente non loggato, quiz attivo ?>
                     <div class="quiz-action-container login-prompt">
                         <p>
                             <i class="fas fa-lock"></i>
-                            Effettua il <a href="auth_login.php" class="text-link">login</a> per partecipare a questo quiz.
+                            Effettua il <a href="auth_login.php?redirect=quiz_detail.php?id=<?php echo $quiz_id; ?>" class="text-link">login</a> per partecipare a questo quiz.
                         </p>
                     </div>
-                <?php elseif ($quiz_status === 'pending'): ?>
+                <?php elseif ($quiz_status_class === 'pending'): ?>
                     <div class="quiz-action-container pending-notice">
                         <p>
                             <i class="fas fa-clock"></i>
@@ -137,24 +153,29 @@ try {
                             <?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?>.
                         </p>
                     </div>
-                <?php elseif ($quiz_status === 'expired'): ?>
+                <?php elseif ($quiz_status_class === 'expired'): ?>
                     <div class="quiz-action-container expired-notice">
                         <p>
                             <i class="fas fa-exclamation-circle"></i>
-                            Questo quiz è scaduto il <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?> e non è più
-                            disponibile.
+                            Questo quiz è scaduto il <?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?> e non è più disponibile.
+                        </p>
+                    </div>
+                <?php elseif ($user_logged_in && ($quiz['dataInizio'] <= $today && $quiz['dataFine'] >= $today) && empty($questions_data)): // Utente loggato, quiz attivo, ma NESSUNA DOMANDA ?>
+                    <div class="quiz-action-container no-questions-prompt">
+                        <p>
+                            <i class="fas fa-info-circle"></i>
+                            Questo quiz è disponibile ma non contiene domande al momento. Non è possibile partecipare.
                         </p>
                     </div>
                 <?php endif; ?>
             </div>
         <?php else: ?>
             <p class="no-results">Dettagli del quiz non disponibili.</p>
-        <?php endif; // Fine controllo $quiz ?>
+        <?php endif; ?>
 
         <div class="questions-preview-section">
             <h2><i class="fas fa-list-ul"></i> Anteprima delle Domande</h2>
-
-            <?php if (empty($questions)): ?>
+            <?php if (empty($questions)): // L'array $questions è già popolato o vuoto come prima ?>
             <div class="no-questions-notice">
                 <i class="fas fa-info-circle"></i>
                 <p>Nessuna domanda disponibile per questo quiz al momento.</p>
@@ -164,12 +185,12 @@ try {
                 <?php
                 $numeroDomandaVisualizzato = 1;
                  foreach ($questions as $index => $question): ?>
-                <div class="question-card open">
-                    <div class="question-header" role="button" tabindex="0" aria-expanded="true" aria-controls="question-content-<?php echo $index; ?>">
+                <div class="question-card <?php echo ($index === 0 && count($questions) > 1) ? 'open' : (count($questions) === 1 ? 'open' : ''); // Se c'è solo una domanda, aprila ?>">
+                    <div class="question-header" role="button" tabindex="0" aria-expanded="<?php echo ($index === 0 && count($questions) > 1) ? 'true' : (count($questions) === 1 ? 'true' : 'false'); ?>" aria-controls="question-content-<?php echo $index; ?>">
                         <span class="question-number">Domanda <?php echo $numeroDomandaVisualizzato; ?></span>
                         <div class="question-toggle"><i class="fas fa-chevron-down"></i></div>
                     </div>
-                    <div class="question-content-wrapper" id="question-content-<?php echo $index; ?>">
+                    <div class="question-content-wrapper" id="question-content-<?php echo $index; ?>" <?php echo !($index === 0 || count($questions) === 1) ? 'style="max-height: 0px;"' : ''; ?> >
                         <div class="question-text">
                             <?php echo nl2br(htmlspecialchars($question['testo'])); ?>
                         </div>
