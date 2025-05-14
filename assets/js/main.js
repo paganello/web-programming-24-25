@@ -13,11 +13,13 @@ function checkDateRange(startDate, endDate, allowPastStartDate = false) { // Mod
 }
 
 function showAlert(message, type = 'info', containerSelector = '#alert-container-page') {
-    const alertId = 'custom-alert-' + Date.now();
+    const alertId = 'custom-alert-' + Date.now(); // L'ID può rimanere custom per unicità
+
+    // HTML generato con classi "alert" e "alert-close-btn" (come sembra essere la tua intenzione più recente)
     const alertHtml = `
-        <div id="${alertId}" class="custom-alert custom-alert-${type}" role="alert">
-            <span class="custom-alert-message">${message}</span>
-            <button type="button" class="custom-alert-close" aria-label="Close">×</button>
+        <div id="${alertId}" class="alert alert-${type}" role="alert">
+            <span class="alert-message">${message}</span>
+            <button type="button" class="alert-close-btn" aria-label="Close">×</button>
         </div>`;
 
     let $alertContainer = $(containerSelector);
@@ -25,13 +27,21 @@ function showAlert(message, type = 'info', containerSelector = '#alert-container
         $('body').prepend('<div id="alert-container-fallback" class="custom-alert-fallback-container" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 90%;"></div>');
         $alertContainer = $('#alert-container-fallback');
     }
-    $alertContainer.find('.custom-alert').remove(); // Rimuove solo alert precedenti nello stesso container
+
+    // MODIFICA 1: Usa il selettore corretto per rimuovere gli alert precedenti
+    $alertContainer.find('.alert').remove(); // Prima era: $alertContainer.find('.custom-alert').remove();
+
     $alertContainer.append(alertHtml);
-    const $currentAlert = $('#' + alertId);
-    $currentAlert.find('.custom-alert-close').on('click', function() {
-        $currentAlert.fadeOut(300, function() { $(this).remove(); });
+    const $currentAlert = $('#' + alertId); // Seleziona il nuovo alert per ID
+
+    // MODIFICA 2: Usa il selettore corretto per il pulsante di chiusura
+    $currentAlert.find('.alert-close-btn').on('click', function() { // Prima era: $currentAlert.find('.custom-alert-close').on('click', ...);
+        $currentAlert.fadeOut(300, function() {
+            $(this).remove();
+        });
     });
-    if (type !== 'danger' && type !== 'error' && type !== 'warning') { // Non auto-chiudere danger/error/warning
+
+    if (type !== 'danger' && type !== 'error' && type !== 'warning') {
         setTimeout(function () {
             $currentAlert.fadeOut(500, function() { $(this).remove(); });
         }, 5000);
@@ -236,13 +246,27 @@ $(document).ready(function () {
 
         $('#create-quiz-form').on('submit', function (e) {
             e.preventDefault();
+            
+            const titolo = $('#titolo').val().trim();
             const startDateVal = $('#dataInizio').val();
             const endDateVal = $('#dataFine').val();
 
-            if (!startDateVal || !endDateVal) {
-                 showAlert('Le date di inizio e fine sono obbligatorie.', 'warning', '#alert-container-page'); // Usa il container corretto
+            if (titolo === '') {
+                 showAlert('Il Titolo del Quiz è obbligatorio.', 'warning', '#alert-container-page');
+                 $('#titolo').focus(); // Opzionale: porta il focus sul campo vuoto
+                 return; // Interrompe l'esecuzione della funzione
+            }
+            if (!startDateVal) { // Controlla se la stringa è vuota
+                 showAlert('La Data di inizio è obbligatoria.', 'warning', '#alert-container-page');
+                 $('#dataInizio').focus();
                  return;
             }
+            if (!endDateVal) { // Controlla se la stringa è vuota
+                 showAlert('La Data di fine è obbligatoria.', 'warning', '#alert-container-page');
+                 $('#dataFine').focus();
+                 return;
+            }
+
             const startDate = new Date(startDateVal);
             const endDate = new Date(endDateVal);
 
@@ -462,63 +486,81 @@ $(document).ready(function () {
     });
 
 
-    if ($('#participate-form').length) {
-        $('#participate-form').on('submit', function(e) {
+const $participateForm = $('#participate-form'); // Selettore del form di partecipazione
+
+    if ($participateForm.length) {
+        $participateForm.on('submit', function(e) {
             e.preventDefault();
             const $form = $(this);
             const $submitButton = $form.find('button[type="submit"]');
             const originalButtonText = $submitButton.html();
+            const alertContainerSelector = '#alert-container-participate'; // Selettore dell'alert container specifico
 
-            let answersGiven = false;
-            $form.find('input[type="checkbox"]:checked, input[type="radio"]:checked').each(function() {
-                answersGiven = true;
-                return false; 
-            });
-
-            // Potresti decidere se rendere obbligatorio rispondere ad almeno una domanda
-            // if (!answersGiven) {
-            //     showAlert('Devi selezionare almeno una risposta per inviare il quiz.', 'warning', '#alert-container-participate');
-            //     return;
-            // }
+            // Pulisce eventuali alert precedenti prima di una nuova richiesta
+            $(alertContainerSelector).empty();
 
             $submitButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Invio in corso...');
 
             $.ajax({
                 type: 'POST',
-                url: 'api/partecipation.php', // Assicurati che action=submit sia nel form o qui
-                data: $form.serialize(), 
+                url: 'api/partecipation.php',
+                data: $form.serialize() + '&action=submit', // Assicura che action=submit sia inviato
                 dataType: 'json',
                 success: function(response) {
                     if (response.status === 'success') {
                         if (response.redirect_url) {
-                            sessionStorage.setItem('participationMessage', response.message || 'Partecipazione inviata con successo!');
-                            sessionStorage.setItem('participationMessageType', 'success');
+                            // L'API PHP imposta $_SESSION['participationMessage']
+                            // Non è strettamente necessario sessionStorage qui se il redirect gestisce il messaggio
                             window.location.href = response.redirect_url;
                         } else {
-                            showAlert(response.message || 'Partecipazione inviata!', 'success', '#alert-container-participate');
-                             $form.hide(); 
+                            showAlert(response.message || 'Partecipazione inviata con successo!', 'success', alertContainerSelector);
+                            $form.hide(); // Nascondi il form se non c'è redirect
                         }
                     } else {
-                        showAlert(response.message || 'Si è verificato un errore durante l\'invio.', 'danger', '#alert-container-participate');
-                        $submitButton.prop('disabled', false).html(originalButtonText); 
+                        showAlert(response.message || 'Si è verificato un errore durante l\'invio.', 'danger', alertContainerSelector);
+                        $submitButton.prop('disabled', false).html(originalButtonText);
                     }
                 },
                 error: function(xhr, status, error) {
-                    let errorMsg = 'Errore di comunicazione con il server.';
+                    let errorMsg = 'Errore di comunicazione con il server. Riprova più tardi.';
                     if (xhr.responseJSON && xhr.responseJSON.message) {
                         errorMsg = xhr.responseJSON.message;
                     } else if (xhr.status === 401) {
                          errorMsg = 'Sessione scaduta o non autorizzato. Effettua nuovamente il login.';
                          setTimeout(() => window.location.href = 'auth_login.php', 2500);
-                    } else if (xhr.status === 409) { 
-                        errorMsg = xhr.responseJSON.message || 'Hai già partecipato a questo quiz.';
-                        setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
+                    } else if (xhr.status === 403) {
+                        errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Accesso negato o quiz non più disponibile.';
+                         setTimeout(() => window.location.href = 'index.php', 2500);
+                    } else if (xhr.status === 409) {
+                        errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Hai già partecipato a questo quiz.';
+                        if (xhr.responseJSON && xhr.responseJSON.redirect_url) {
+                             setTimeout(() => window.location.href = xhr.responseJSON.redirect_url, 2500);
+                        } else {
+                             setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
+                        }
+                    } else if (xhr.status === 404) {
+                        errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Quiz non trovato o endpoint API errato.';
+                    } else {
+                        console.error("Errore AJAX invio partecipazione:", xhr.status, xhr.responseText, status, error);
                     }
-                    showAlert(errorMsg, 'danger', '#alert-container-participate');
-                    $submitButton.prop('disabled', false).html(originalButtonText); 
-                    console.error("Errore AJAX invio partecipazione:", xhr.responseText, status, error);
+
+                    showAlert(errorMsg, 'danger', alertContainerSelector);
+                    $submitButton.prop('disabled', false).html(originalButtonText);
                 }
             });
+        });
+
+        // Aggiungi qui lo snippet per la classe .selected-answer se lo stai usando
+        $participateForm.on('change', '.answer-option input[type="checkbox"]', function() {
+            const $label = $(this).closest('label');
+            if ($(this).is(':checked')) {
+                $label.addClass('selected-answer');
+            } else {
+                $label.removeClass('selected-answer');
+            }
+        });
+        $participateForm.find('.answer-option input[type="checkbox"]:checked').each(function() {
+            $(this).closest('label').addClass('selected-answer');
         });
     }
 
@@ -922,28 +964,8 @@ $(document).ready(function () {
         }
         
         // Gestione cambio per_page e sort_by se esistono e sono select
-        $('#per_page_select, #sort_by_select').on('change', function() {
+        $('#per_page_select, #sort_by_inline').on('change', function() {
             $(this).closest('form').submit(); // Invia il form quando il select cambia
         });
-
-        const $disponibileOraCheckbox = $('#search_disponibile_ora_sidebar'); // Checkbox "Disponibile Ora"
-        const $dataInizioInput = $('#search_data_inizio_da_sidebar');       // Input Data Inizio
-        const $dataFineInput = $('#search_data_fine_a_sidebar');           // Input Data Fine
-
-        function toggleDateInputsState() {
-            if ($disponibileOraCheckbox.length && $dataInizioInput.length && $dataFineInput.length) {
-                const isDisabled = $disponibileOraCheckbox.is(':checked');
-                $dataInizioInput.prop('disabled', isDisabled);
-                $dataFineInput.prop('disabled', isDisabled);
-                if (isDisabled) { // Se disabilitato, potresti voler pulire i valori
-                    // $dataInizioInput.val('');
-                    // $dataFineInput.val('');
-                }
-            }
-        }
-        if ($disponibileOraCheckbox.length) { 
-            $disponibileOraCheckbox.on('change', toggleDateInputsState); 
-            toggleDateInputsState(); // Chiamata iniziale per impostare lo stato corretto
-        }
-    } // Fine if (document.body.classList.contains('page-index'))
+    }
 });

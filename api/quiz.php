@@ -117,7 +117,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     $stmt->bindParam(':quizId', $quizIdToDelete, PDO::PARAM_INT);
                     $stmt->execute();
                     $pdo->commit();
-                    http_response_code(204); // No Content
+                    http_response_code(200); // OK
+                    echo json_encode(['status' => 'success', 'message' => 'Quiz eliminato con successo.']);
                     exit;
                 } catch (PDOException $e) {
                     $pdo->rollBack();

@@ -145,7 +145,7 @@ if ($punteggio_massimo_quiz > 0) {
         <div class="card" style="margin-bottom: 25px;">
             <div class="card-content">
                 <h2 class="card-title" style="margin-bottom:15px;">Riepilogo Partecipazione</h2>
-                <p><strong class="bold">Data partecipazione:</strong> <?php echo htmlspecialchars(date('d/m/Y H:i', strtotime($data_partecipazione))); ?></p>
+                <p><strong class="bold">Data partecipazione:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($data_partecipazione))); ?></p>
                 <p><strong class="bold">Punteggio totale ottenuto:</strong> 
                     <span style="font-size: 1.1em; <?php echo $scoreColorStyle; ?> font-weight: bold;"><?php echo htmlspecialchars($total_score); ?></span>
                     <?php if ($punteggio_massimo_quiz > 0): ?>

@@ -2,14 +2,13 @@
 /**
  * Home page dell'applicazione Quiz Online.
  */
-include 'includes/header.php';
+include 'includes/header.php'; // header.php ora imposta $bodyClass
 
 $today = date('Y-m-d');
 
 // --- PARAMETRI DI RICERCA ---
 $search_titolo = isset($_GET['search_titolo']) ? trim($_GET['search_titolo']) : '';
 $search_creatore = isset($_GET['search_creatore']) ? trim($_GET['search_creatore']) : '';
-$search_disponibile_ora = isset($_GET['search_disponibile_ora']) ? true : false;
 $search_data_inizio_da = isset($_GET['search_data_inizio_da']) && !empty($_GET['search_data_inizio_da']) ? trim($_GET['search_data_inizio_da']) : '';
 $search_data_fine_a = isset($_GET['search_data_fine_a']) && !empty($_GET['search_data_fine_a']) ? trim($_GET['search_data_fine_a']) : '';
 $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'codice_desc';
@@ -24,7 +23,7 @@ if ($page < 1)
 if (!in_array($per_page, $valid_per_page_options))
     $per_page = 20;
 
-$is_search_active = isset($_GET['perform_search']) || !empty($search_titolo) || !empty($search_creatore) || $search_disponibile_ora || !empty($search_data_inizio_da) || !empty($search_data_fine_a);
+$is_search_active = isset($_GET['perform_search']) || !empty($search_titolo) || !empty($search_creatore) || !empty($search_data_inizio_da) || !empty($search_data_fine_a);
 
 $query_base_from_join = "FROM Quiz q JOIN Utente u ON q.creatore = u.nomeUtente";
 $conditions = [];
@@ -41,10 +40,6 @@ if ($is_search_active) {
         $params[':search_creatore_un'] = $search_creatore_param;
         $params[':search_creatore_n'] = $search_creatore_param;
         $params[':search_creatore_c'] = $search_creatore_param;
-    }
-    if ($search_disponibile_ora) {
-        $conditions[] = "q.dataInizio <= :today_available AND q.dataFine >= :today_available";
-        $params[':today_available'] = $today;
     } else {
         if (!empty($search_data_inizio_da)) {
             $conditions[] = "q.dataInizio >= :search_data_inizio_da";
@@ -55,7 +50,7 @@ if ($is_search_active) {
             $params[':search_data_fine_a'] = $search_data_fine_a;
         }
     }
-    if (!$search_disponibile_ora && empty($search_data_inizio_da) && empty($search_data_fine_a)) {
+    if (empty($search_data_inizio_da) && empty($search_data_fine_a)) {
         $conditions[] = "q.dataFine >= :today_default_search_filter";
         $params[':today_default_search_filter'] = $today;
     }
@@ -71,7 +66,7 @@ if (!empty($conditions)) {
 
 $count_sql = "SELECT COUNT(*) as total " . $query_base_from_join . $where_clause;
 
-$sql = "SELECT q.*, u.nome, u.cognome, 
+$sql = "SELECT q.*, u.nome, u.cognome,
                (SELECT COUNT(*) FROM Partecipazione p_count WHERE p_count.quiz = q.codice) AS num_partecipazioni "
     . $query_base_from_join . $where_clause;
 
@@ -107,15 +102,18 @@ $sql .= $orderByClause;
 
 $total_quizzes = 0;
 try {
+    // Prepara e esegui la query di conteggio
     $count_stmt = $pdo->prepare($count_sql);
     $count_stmt->execute($params);
     $total_quizzes = (int) $count_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 } catch (PDOException $e) {
     error_log("Errore nella query di conteggio: " . $e->getMessage());
+    // Gestisci l'errore, ad esempio mostrando un messaggio all'utente
 }
 
+
 $total_pages = ($total_quizzes > 0) ? ceil($total_quizzes / $per_page) : 1;
-if ($page > $total_pages)
+if ($page > $total_pages && $total_pages > 0)
     $page = $total_pages;
 if ($page < 1)
     $page = 1;
@@ -141,6 +139,7 @@ try {
     $quizzes_to_display = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Errore nella query principale: " . $e->getMessage());
+    // Gestisci l'errore
 }
 
 $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disponibili";
@@ -166,19 +165,17 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                 <div class="form-group">
                     <label for="search_data_inizio_da_sidebar">Disponibile dal:</label>
                     <input type="date" id="search_data_inizio_da_sidebar" name="search_data_inizio_da"
-                        value="<?php echo htmlspecialchars($search_data_inizio_da); ?>" <?php if ($search_disponibile_ora)
-                               echo 'disabled'; ?>>
+                        value="<?php echo htmlspecialchars($search_data_inizio_da); ?>" >
                 </div>
                 <div class="form-group">
                     <label for="search_data_fine_a_sidebar">Disponibile fino al:</label>
                     <input type="date" id="search_data_fine_a_sidebar" name="search_data_fine_a"
-                        value="<?php echo htmlspecialchars($search_data_fine_a); ?>" <?php if ($search_disponibile_ora)
-                               echo 'disabled'; ?>>
+                        value="<?php echo htmlspecialchars($search_data_fine_a); ?>" >
                 </div>
                 <div class="form-actions-sidebar">
                     <button type="submit" class="btn"><i class="fas fa-search"></i> Cerca</button>
-                    <button type="button" id="reset-form" class="btn btn-secondary"><i class="fas fa-undo"></i> Resetta
-                        Filtri</button>
+                    <!-- ID MODIFICATO per corrispondere a quello atteso dal JS -->
+                    <button type="button" id="reset-filters-btn" class="btn btn-secondary"><i class="fas fa-undo"></i> Resetta Filtri</button>
                 </div>
             </form>
         </div>
@@ -213,51 +210,38 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     trovat<?php echo ($total_quizzes !== 1) ? 'i' : 'o'; ?>)</small>
             </h2>
             <div class="controls-container">
-                <form method="GET" id="per-page-form">
+                <form method="GET" id="per-page-form" action="index.php">
                     <?php foreach ($_GET as $key => $value) {
                         if ($key !== 'per_page' && $key !== 'page') {
                             echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
                         }
                     } ?>
                     <label for="per_page_select"><i class="fas fa-th-list"></i> Elementi:</label>
+                    <!-- ID corretto per il JS -->
                     <select id="per_page_select" name="per_page" aria-label="Elementi per pagina">
                         <?php foreach ($valid_per_page_options as $option): ?>
-                            <option value="<?php echo $option; ?>" <?php if ($per_page == $option)
-                                   echo 'selected'; ?>>
+                            <option value="<?php echo $option; ?>" <?php if ($per_page == $option) echo 'selected'; ?>>
                                 <?php echo $option; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </form>
-                <form method="GET" id="sort-form">
+                <form method="GET" id="sort-form" action="index.php">
                     <?php foreach ($_GET as $key => $value) {
                         if ($key !== 'sort_by' && $key !== 'page') {
                             echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
                         }
                     } ?>
                     <label for="sort_by_inline"><i class="fas fa-sort"></i> Ordina:</label>
+                    <!-- ID corretto per il JS -->
                     <select id="sort_by_inline" name="sort_by" aria-label="Criterio di ordinamento">
-                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc')
-                            echo 'selected'; ?>>Più Recenti
-                            (Default)</option>
-                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc')
-                            echo 'selected'; ?>>Meno Recenti
-                        </option>
-                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc')
-                            echo 'selected'; ?>>Titolo (A-Z)
-                        </option>
-                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc')
-                            echo 'selected'; ?>>Titolo (Z-A)
-                        </option>
-                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc')
-                            echo 'selected'; ?>>Data
-                            Inizio (Crescente)</option>
-                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc')
-                            echo 'selected'; ?>>
-                            Data Inizio (Decrescente)</option>
-                        <option value="partecipazioni_desc" <?php if ($sort_by == 'partecipazioni_desc')
-                            echo 'selected'; ?>>Partecipazioni (Più alto)</option>
-                        <option value="partecipazioni_asc" <?php if ($sort_by == 'partecipazioni_asc')
-                            echo 'selected'; ?>>Partecipazioni (Più basso)</option>
+                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc') echo 'selected'; ?>>Più Recenti (Default)</option>
+                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc') echo 'selected'; ?>>Meno Recenti</option>
+                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc') echo 'selected'; ?>>Titolo (A-Z)</option>
+                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
+                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
+                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
+                        <option value="partecipazioni_desc" <?php if ($sort_by == 'partecipazioni_desc') echo 'selected'; ?>>Partecipazioni (Più alto)</option>
+                        <option value="partecipazioni_asc" <?php if ($sort_by == 'partecipazioni_asc') echo 'selected'; ?>>Partecipazioni (Più basso)</option>
                     </select>
                 </form>
             </div>
@@ -389,5 +373,5 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
 </div>
 
 <?php include 'includes/footer.php'; ?>
-</body>
+</body> <!-- La classe page-index viene aggiunta qui da header.php -->
 </html>

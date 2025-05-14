@@ -134,8 +134,20 @@ header {
     align-items: center;
 }
 
-.logo { font-size: 24px; font-weight: bold; }
-.logo a { color: var(--text-light); text-decoration: none; }
+#header-logo {
+    height: 80px; /* Modifica questo valore! */
+    width: auto;
+    display: block;
+}
+
+.container.header-content {
+    display: flex;
+    justify-content: space-between; /* Spazio tra logo e info utente */
+    align-items: center;          /* Allinea verticalmente logo e info utente */
+    max-width: 1200px; /* O la larghezza massima del tuo layout */
+    margin: 0 auto;    /* Centra il contenuto dell'header */
+    padding: 0 15px;   /* Padding laterale per non attaccare ai bordi */
+}
 
 /* Stili per migliorare i link di Login/Registrazione nell'Header */
 
@@ -207,7 +219,7 @@ nav ul li a:hover { background-color: var(--main-color); }
 
 /* --- Struttura Layout: Main Content, Sidebar, Content Area --- */
 .main-content { /* Contenitore per sidebar e area contenuto principale */
-    display: flex;
+    display: block;
     gap: 25px; /* Spazio tra sidebar e content */
     max-width: 1200px; /* Coerente con .container */
     margin: 20px auto; /* Centra e aggiunge spazio verticale */
@@ -215,22 +227,33 @@ nav ul li a:hover { background-color: var(--main-color); }
     flex: 1; /* Occupa lo spazio rimanente in altezza */
 }
 
-.sidebar {
-    flex: 0 0 280px; /* Larghezza fissa della sidebar */
+/* SPECIFICO PER INDEX.PHP (o pagine con layout sidebar + content) */
+body.page-index .main-content {
+    display: flex; /* Sovrascrive display:block per abilitare la sidebar */
+    gap: 25px;     /* Spazio tra sidebar e content */
 }
 
-.content { /* Area principale del contenuto a destra della sidebar */
-    flex: 1; /* Occupa lo spazio rimanente */
-    background-color: var(--background-card);
+body.page-index .sidebar {
+     flex: 0 0 280px; /* Larghezza fissa della sidebar SOLO per page-index */
+}
+
+
+.content { /* Area principale del contenuto */
+    background-color: var(--background-card); /* Sfondo di default per l'area content */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    /* flex: 1; -- Rimosso da qui, sarà specifico per page-index */
+}
+body.page-index .content {
+    flex: 1; /* Occupa lo spazio rimanente SOLO per page-index */
 }
 .content h1 { /* Titolo principale dell'area content */
     color: var(--dark-color);
     margin-bottom: 20px;
     font-size: 1.8rem;
 }
+
 
 /* --- Elementi di Form Comuni --- */
 form { margin-bottom: 20px; }
@@ -278,6 +301,7 @@ button, .btn { /* Stile base per bottoni e link .btn */
     font-weight: 500;
     text-align: center;
     transition: background-color 0.2s ease, transform 0.1s ease;
+    text-decoration: none !important;
 }
 button:hover, .btn:hover {
     background-color: var(--dark-color);
@@ -361,6 +385,7 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Spinge le azioni in fondo */
+    width: 100%;
 }
 .quiz-item:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); }
 
@@ -381,22 +406,68 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
 .quiz-meta p i { margin-right: 8px; color: var(--secondary-gray); width: 16px; }
 .quiz-meta strong { color: var(--text-dark); }
 
-.quiz-actions { /* Contenitore per i bottoni 'Visualizza', 'Partecipa' */
-    margin-top: auto; /* Allinea in fondo se .quiz-item è flex */
-    padding-top: 15px;
-    border-top: 1px solid var(--border-color); /* Linea separatrice */
+.quiz-actions {
     display: flex;
-    gap: 10px;
+    gap: 10px; /* Spazio di default TRA i bottoni */
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
 }
-.quiz-actions .btn,
-.quiz-actions button.btn { /* Applica a tutti gli elementi .btn (link o button) dentro .quiz-actions */
-    flex-grow: 1;         /* FA SÌ CHE OGNI BOTTONE CRESCA PER RIEMPIRE LO SPAZIO */
-    flex-basis: 0;        /* Inizia il calcolo della larghezza da 0, così flex-grow distribuisce equamente */
-    padding: 8px 10px;     /* Riduci leggermente il padding orizzontale se il testo è corto per evitare che si stringa troppo */
-    font-size: 0.85rem;   /* Riduci leggermente il font se necessario per far stare il testo */
-    font-weight: bold;    /* Grassetto per i bottoni */
-    text-align: center;   /* Assicura che il testo sia centrato */
-    /* white-space: nowrap; */ /* Puoi aggiungere questo se vuoi evitare che il testo vada a capo, ma potrebbe richiedere font ancora più piccolo o meno padding */
+
+/*
+   BOTTONI IN INDEX.PHP (lista principale dei quiz, di solito 2 bottoni: Visualizza, Partecipa)
+   Questi bottoni si espandono per riempire lo spazio.
+   Usiamo un selettore che NON includa la classe .quiz-actions-my-list
+*/
+.quiz-list .quiz-item .quiz-actions:not(.quiz-actions-my-list) .btn {
+    flex-grow: 1;   /* FA ESPANDERE I BOTTONI */
+    flex-basis: 0;
+    padding: 8px 12px; /* Padding per i bottoni di index.php */
+    font-size: 0.85rem;
+}
+
+.quiz-list .quiz-item .quiz-actions:not(.quiz-actions-my-list) .btn i.fas {
+    margin-right: 8px; /* Spazio icona-testo per i bottoni di index.php */
+    font-size: 0.9em;
+}
+
+
+/*
+   BOTTONI IN QUIZ_MY.PHP (lista "I Miei Quiz", 4 bottoni: Info, Visualizza, Modifica, Elimina)
+   Questi bottoni devono essere più piccoli e non espandersi troppo.
+   Hanno la classe .quiz-actions-my-list sul contenitore e .btn-sm sui bottoni.
+*/
+.quiz-actions-manage {
+    gap: 8px; /* Spazio TRA i quattro bottoni - puoi regolarlo */
+    flex-wrap: wrap; /* Permette ai bottoni di andare a capo se necessario */
+    justify-content: flex-start; /* Allinea i bottoni all'inizio (sinistra) se non occupano tutto lo spazio */
+}
+
+.quiz-actions-manage .btn {
+    flex-grow: 1; /* Allows buttons to grow and share available space */
+    flex-shrink: 1; /* Allows buttons to shrink if there's not enough space (less critical here) */
+    flex-basis: calc(50% - 4px); /* (50% of container width) - (half of the 'gap' value) */
+                                 /* 4px is half of the 8px gap. */
+
+    box-sizing: border-box; /* IMPORTANT: Ensures padding and border are included in the
+                               button's total width, not added on top of the percentage. */
+}
+
+/* Stile per bottoni più piccoli (.btn-sm) */
+.btn-sm {
+    padding: 7px 12px !important;      /* Aumentato padding verticale e orizzontale */
+    font-size: 0.825rem !important;    /* Aumentato leggermente il font size (circa 13.2px se 1rem=16px) */
+    line-height: 1.5 !important;       /* Aumentata line-height per migliore respiro verticale */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap; /* Mantenuto per evitare che il testo INTERNO al bottone vada a capo */
+}
+
+.btn-sm i.fas {
+    margin-right: 6px !important;      /* Leggermente più spazio tra icona e testo */
+    font-size: 0.9em !important;       /* Dimensione icona relativa al font-size del bottone, va bene */
 }
 
 /* Badge di Stato (Disponibile, In Attesa, Scaduto) */
@@ -662,20 +733,91 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
 
 /* --- Messaggi di Alert (Successo, Errore, etc.) --- */
 .alert {
-    padding: 15px; border-radius: 5px; margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px; /* Spazio sotto l'alert */
     border: 1px solid transparent;
-    display: flex; align-items: center;
-}
-.alert i { margin-right: 10px; font-size: 1.2em; } /* Icona nell'alert */
+    display: flex;
+    align-items: center;
 
-.alert-success { background-color: #d1e7dd; color: #0f5132; border-color: #badbcc; }
-.alert-success i { color: #0f5132; }
-.alert-danger { background-color: #f8d7da; color: #842029; border-color: #f5c2c7; }
-.alert-danger i { color: #842029; }
-.alert-warning { background-color: #fff3cd; color: #664d03; border-color: #ffecb5; }
-.alert-warning i { color: #664d03; }
-.alert-info { background-color: #cff4fc; color: #055160; border-color: #b6effb; }
-.alert-info i { color: #055160; }
+    /* --- AGGIUNTE PER CENTRARE E DISTANZIARE --- */
+    max-width: 720px;   /* Larghezza massima dell'alert, aggiustala se necessario */
+    margin-left: auto;  /* Centra l'alert orizzontalmente */
+    margin-right: auto; /* Centra l'alert orizzontalmente */
+    margin-top: 20px;   /* Spazio sopra l'alert */
+    /* Se vuoi che l'alert sia sempre fisso in alto, indipendentemente dallo scroll, 
+       e il contenitore #alert-container-page non è fisso, allora
+       potresti considerare di stilizzare il #alert-container-page o il .custom-alert-fallback-container
+       con position: fixed. Ma se #alert-container-page è nel flusso normale
+       del documento, queste proprietà su .alert sono sufficienti per centrarlo
+       al suo interno. */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra leggera opzionale per risalto */
+}
+
+.alert i { /* Icona nell'alert */
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* Pulsante di chiusura - Se la tua funzione showAlert aggiunge un pulsante di chiusura */
+/* Se la tua funzione showAlert usa le classi .custom-alert-close, usa quelle. 
+   Altrimenti, se il pulsante di chiusura ha una classe generica come .alert-close, usa quella.
+   Assumiamo che la tua funzione showAlert possa usare una struttura simile a quella discussa in precedenza
+   o che tu possa aggiungere un pulsante di chiusura con una classe specifica.
+*/
+.alert .alert-close-btn { /* Sostituisci .alert-close-btn con la classe effettiva del tuo pulsante di chiusura se ne hai uno */
+    margin-left: auto; /* Spinge il pulsante di chiusura all'estrema destra */
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: inherit;
+    opacity: 0.6;
+}
+.alert .alert-close-btn:hover {
+    opacity: 0.9;
+}
+
+
+/* Mantieni i tuoi stili specifici per tipo di alert */
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border-color: #badbcc;
+}
+.alert-success i {
+    color: #0f5132;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border-color: #f5c2c7;
+}
+.alert-danger i {
+    color: #842029;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-color: #ffecb5;
+}
+.alert-warning i {
+    color: #664d03;
+}
+
+.alert-info {
+    background-color: #cff4fc;
+    color: #055160;
+    border-color: #b6effb;
+}
+.alert-info i {
+    color: #055160;
+}
 
 
 /* --- Footer --- */
@@ -802,7 +944,7 @@ footer {
 }
 .quiz-info-item .info-label {
     display: block;
-    font-weight: 600; /* Più bold */
+    font-weight: 600;
     font-size: 0.85rem;
     color: var(--text-muted);
     margin-bottom: 3px;
@@ -1050,22 +1192,29 @@ footer {
 
 /* Stile base per gli alert personalizzati */
 .custom-alert {
-    padding: 15px 20px;
+    padding: 15px;
+    border-radius: 5px;
     margin-bottom: 20px;
     border: 1px solid transparent;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
-    font-size: 1rem;
-    position: relative; /* Per posizionare il bottone di chiusura */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: flex; /* Per allineare messaggio e bottone */
-    justify-content: space-between; /* Spazio tra messaggio e bottone */
-    align-items: center; /* Allinea verticalmente */
+    display: flex;
+    align-items: center; /* Allinea l'icona (se presente) e il testo verticalmente */
+    justify-content: space-between; /* Spazio tra testo e pulsante di chiusura */
+
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.custom-alert-message {
-    flex-grow: 1; /* Il messaggio occupa lo spazio rimanente */
-    margin-right: 15px; /* Spazio dal bottone di chiusura */
+.custom-alert-close:hover {
+    opacity: 0.9;
+}
+
+/* Icona nell'alert (se la aggiungi all'HTML generato da showAlert) */
+.custom-alert i {
+    margin-right: 10px;
+    font-size: 1.2em;
 }
 
 .custom-alert-close {
@@ -1441,11 +1590,13 @@ footer {
     color: var(--text-light);
     background-color: var(--main-color); /* Verde principale */
     border-color: var(--main-color);
+    text-decoration: none !important;
 }
 .button-primary-styled:hover {
     background-color: var(--dark-color);
     border-color: var(--dark-color);
     transform: translateY(-1px);
+    text-decoration: none !important;
 }
 
 .button-secondary-styled { /* Aggiungi Domanda, Aggiungi Risposta */
@@ -1710,7 +1861,10 @@ footer {
 
 /* Stile per il form di partecipazione */
 #participate-form {
-    margin-top: 20px;
+    max-width: 750px; /* Imposta una larghezza massima per il form stesso */
+    margin-left: auto;  /* Centra il form se il suo contenitore è più largo */
+    margin-right: auto;
+    width: 100%; /* Assicura che usi lo spazio disponibile fino alla max-width */
 }
 
 /* Blocco di una singola domanda (question-item) */
@@ -1814,11 +1968,7 @@ footer {
     text-align: center; /* Se non già incluso nella classe */
 }
 
-.btn-sm {
-    padding: 0.25rem 0.5rem !important;
-    font-size: .875rem !important;
-    border-radius: 0.2rem !important;
-}
+
 
  /* Stili per la paginazione (se non già globali e sufficienti) */
     .pagination {
@@ -2176,4 +2326,160 @@ select:focus,
     background-color: var(--primary-blue); /* Blu più scuro per l'hover */
     border-color: var(--primary-blue);
     /* transform: translateY(-1px); // Già ereditato da .btn:hover se lo hai */
+}
+
+/* === Stili Specifici per Pagina Partecipazione Quiz (quiz_participate.php) === */
+
+/* --- Header della Pagina di Partecipazione --- */
+.quiz-participation-page-header {
+    /* Eredita da .page-header-controls (che ha display: flex, flex-wrap: wrap, gap: 20px) */
+    /* Forziamo un layout verticale e allineamento a sinistra per questa pagina */
+    flex-direction: column;
+    align-items: flex-start; /* Allinea titolo e descrizione a sinistra */
+    gap: 8px; /* Spazio tra titolo e descrizione */
+    margin-bottom: 40px; /* Più spazio prima dell'inizio del form */
+    /* Rimuoviamo il bordo inferiore da .page-header-controls se non lo vogliamo qui */
+    border-bottom: none;
+    width: 100%; /* Assicura che occupi la larghezza del suo contenitore */
+    max-width: 800px; /* Allineato con la larghezza del form sottostante */
+    margin-left: auto;   /* Centra questo blocco se .main-content-page-padding è più largo */
+    margin-right: auto;
+}
+
+.quiz-participation-page-header .page-title-container .page-title-icon {
+    font-size: 2.2rem; /* Icona del titolo leggermente più grande */
+    color: var(--main-color);
+}
+.quiz-participation-page-header .page-title-container .page-main-title {
+    font-size: 2.1rem; /* Titolo principale più grande e d'impatto */
+}
+
+.quiz-participation-description {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    /* max-width ereditato dal parent .quiz-participation-page-header */
+    line-height: 1.6;
+}
+
+/* --- Contenitore Form --- */
+#participate-form {
+    max-width: 800px; /* Larghezza massima per il contenuto del quiz */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/* --- Card delle Domande --- */
+.question-item.card {
+    /* Gli stili base di .card (sfondo, bordo arrotondato, ombra leggera) sono già buoni. */
+    /* Aumentiamo padding e margine per più respiro. */
+    padding: 30px 35px; /* Padding interno più generoso */
+    margin-bottom: 35px; /* Più spazio tra le card delle domande */
+    border-radius: 12px; /* Angoli più arrotondati per un look moderno */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07); /* Ombra leggermente più definita */
+}
+
+.question-item .question-text {
+    font-size: 1.3rem; /* Testo della domanda più grande */
+    font-weight: 600;   /* "Domanda X:" in grassetto */
+    color: var(--dark-color);
+    margin-bottom: 25px; /* Più spazio tra testo domanda e opzioni */
+    line-height: 1.5;
+}
+
+.question-item .question-text span { /* Testo effettivo della domanda */
+    font-weight: 400; /* Testo domanda normale */
+    margin-left: 8px;
+}
+
+
+/* --- Opzioni di Risposta --- */
+.question-item .answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Spazio verticale tra le opzioni di risposta */
+}
+
+.question-item .answer-option label {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 1rem; /* Testo delle opzioni leggibile */
+    color: var(--text-dark);
+    padding: 14px 18px; /* Padding per un'area cliccabile confortevole */
+    border: 1px solid var(--border-color);
+    border-radius: 8px; /* Angoli arrotondati consistenti */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.15s ease-in-out, transform 0.1s ease;
+    background-color: var(--background-card); /* Sfondo bianco di default, o #fff */
+}
+
+.question-item .answer-option label:hover {
+    background-color: #f7f7f7; /* Sfondo grigio molto chiaro per hover */
+    border-color: var(--main-color);
+    transform: translateY(-2px); /* Leggero effetto sollevamento */
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+.question-item .answer-option input[type="checkbox"] {
+    margin-right: 15px; /* Spazio tra checkbox e testo */
+    width: 20px; /* Checkbox più visibile */
+    height: 20px;
+    accent-color: var(--main-color);
+    cursor: pointer;
+    flex-shrink: 0; /* Impedisce alla checkbox di ridimensionarsi */
+}
+
+/* Stile per la label quando la sua checkbox interna è selezionata */
+/* Usare classe JS '.selected-answer' per massima compatibilità, o :has() per browser moderni */
+.question-item .answer-option label.selected-answer,
+.question-item .answer-option label:has(input[type="checkbox"]:checked) {
+    background-color: rgba(var(--rgb-main-color, 85, 107, 47), 0.1); /* Sfondo verde tema molto leggero */
+    border-color: var(--main-color);
+    color: var(--dark-color);
+    font-weight: 500; /* Leggermente più bold */
+    box-shadow: 0 2px 5px rgba(var(--rgb-main-color, 85, 107, 47), 0.15);
+}
+.question-item .answer-option label.selected-answer:hover,
+.question-item .answer-option label:has(input[type="checkbox"]:checked):hover {
+     background-color: rgba(var(--rgb-main-color, 85, 107, 47), 0.18); /* Leggermente più scuro all'hover quando selezionato */
+     transform: translateY(0); /* Rimuove l'effetto sollevamento quando già selezionato per stabilità */
+}
+
+
+/* Messaggio se non ci sono opzioni di risposta */
+.question-item p.no-answers-message {
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 20px;
+    background-color: var(--light-gray-bg); /* Sfondo neutro */
+    border-radius: 8px;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    margin-top: 20px;
+}
+
+/* Bottone di Invio */
+#participate-form .form-group.text-align-center {
+    margin-top: 40px; /* Spazio consistente sopra il bottone */
+    padding-top: 30px; /* Padding per separare visivamente */
+    border-top: 1px solid var(--border-color); /* Linea separatrice */
+}
+
+#participate-form .btn.button-primary-styled.btn-lg {
+    padding: 14px 32px; /* Padding generoso per il bottone principale */
+    font-size: 1.15rem; /* Testo del bottone più grande */
+    border-radius: 8px; /* Coerente con le altre card/elementi */
+}
+#participate-form .btn.button-primary-styled.btn-lg i.fas {
+    margin-right: 10px;
+    font-size: 1em; /* Icona proporzionata al testo */
+}
+
+/* Placeholder per alert (se usi il contenitore specifico) */
+#alert-container-participate {
+    max-width: 800px; /* Coerente con il form */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px; /* Spazio sotto gli alert, prima del form (o dell'header se l'alert è sopra) */
 }
