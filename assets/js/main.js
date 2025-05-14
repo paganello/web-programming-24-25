@@ -13,11 +13,13 @@ function checkDateRange(startDate, endDate, allowPastStartDate = false) { // Mod
 }
 
 function showAlert(message, type = 'info', containerSelector = '#alert-container-page') {
-    const alertId = 'custom-alert-' + Date.now();
+    const alertId = 'custom-alert-' + Date.now(); // L'ID può rimanere custom per unicità
+
+    // HTML generato con classi "alert" e "alert-close-btn" (come sembra essere la tua intenzione più recente)
     const alertHtml = `
-        <div id="${alertId}" class="custom-alert custom-alert-${type}" role="alert">
-            <span class="custom-alert-message">${message}</span>
-            <button type="button" class="custom-alert-close" aria-label="Close">×</button>
+        <div id="${alertId}" class="alert alert-${type}" role="alert">
+            <span class="alert-message">${message}</span>
+            <button type="button" class="alert-close-btn" aria-label="Close">×</button>
         </div>`;
 
     let $alertContainer = $(containerSelector);
@@ -25,13 +27,21 @@ function showAlert(message, type = 'info', containerSelector = '#alert-container
         $('body').prepend('<div id="alert-container-fallback" class="custom-alert-fallback-container" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 90%;"></div>');
         $alertContainer = $('#alert-container-fallback');
     }
-    $alertContainer.find('.custom-alert').remove(); // Rimuove solo alert precedenti nello stesso container
+
+    // MODIFICA 1: Usa il selettore corretto per rimuovere gli alert precedenti
+    $alertContainer.find('.alert').remove(); // Prima era: $alertContainer.find('.custom-alert').remove();
+
     $alertContainer.append(alertHtml);
-    const $currentAlert = $('#' + alertId);
-    $currentAlert.find('.custom-alert-close').on('click', function() {
-        $currentAlert.fadeOut(300, function() { $(this).remove(); });
+    const $currentAlert = $('#' + alertId); // Seleziona il nuovo alert per ID
+
+    // MODIFICA 2: Usa il selettore corretto per il pulsante di chiusura
+    $currentAlert.find('.alert-close-btn').on('click', function() { // Prima era: $currentAlert.find('.custom-alert-close').on('click', ...);
+        $currentAlert.fadeOut(300, function() {
+            $(this).remove();
+        });
     });
-    if (type !== 'danger' && type !== 'error' && type !== 'warning') { // Non auto-chiudere danger/error/warning
+
+    if (type !== 'danger' && type !== 'error' && type !== 'warning') {
         setTimeout(function () {
             $currentAlert.fadeOut(500, function() { $(this).remove(); });
         }, 5000);
@@ -236,13 +246,27 @@ $(document).ready(function () {
 
         $('#create-quiz-form').on('submit', function (e) {
             e.preventDefault();
+            
+            const titolo = $('#titolo').val().trim();
             const startDateVal = $('#dataInizio').val();
             const endDateVal = $('#dataFine').val();
 
-            if (!startDateVal || !endDateVal) {
-                 showAlert('Le date di inizio e fine sono obbligatorie.', 'warning', '#alert-container-page'); // Usa il container corretto
+            if (titolo === '') {
+                 showAlert('Il Titolo del Quiz è obbligatorio.', 'warning', '#alert-container-page');
+                 $('#titolo').focus(); // Opzionale: porta il focus sul campo vuoto
+                 return; // Interrompe l'esecuzione della funzione
+            }
+            if (!startDateVal) { // Controlla se la stringa è vuota
+                 showAlert('La Data di inizio è obbligatoria.', 'warning', '#alert-container-page');
+                 $('#dataInizio').focus();
                  return;
             }
+            if (!endDateVal) { // Controlla se la stringa è vuota
+                 showAlert('La Data di fine è obbligatoria.', 'warning', '#alert-container-page');
+                 $('#dataFine').focus();
+                 return;
+            }
+
             const startDate = new Date(startDateVal);
             const endDate = new Date(endDateVal);
 

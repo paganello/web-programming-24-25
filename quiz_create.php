@@ -34,20 +34,20 @@ if (!isset($_SESSION['user'])) {
                     <form id="create-quiz-form">
                         <div class="form-field-group margin-bottom-medium">
                             <label for="titolo" class="form-label-styled">Titolo del Quiz</label>
-                            <input type="text" name="titolo" id="titolo" class="form-input-styled" required>
+                            <input type="text" name="titolo" id="titolo" class="form-input-styled">
                         </div>
 
                         <div class="form-row">
                             <div class="form-col-half">
                                 <div class="form-field-group margin-bottom-medium">
                                     <label for="dataInizio" class="form-label-styled">Data di inizio</label>
-                                    <input type="date" name="dataInizio" id="dataInizio" class="form-input-styled" required>
+                                    <input type="date" name="dataInizio" id="dataInizio" class="form-input-styled">
                                 </div>
                             </div>
                             <div class="form-col-half">
                                 <div class="form-field-group margin-bottom-medium">
                                     <label for="dataFine" class="form-label-styled">Data di fine</label>
-                                    <input type="date" name="dataFine" id="dataFine" class="form-input-styled" required>
+                                    <input type="date" name="dataFine" id="dataFine" class="form-input-styled">
                                 </div>
                             </div>
                         </div>

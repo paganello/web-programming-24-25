@@ -721,20 +721,91 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
 
 /* --- Messaggi di Alert (Successo, Errore, etc.) --- */
 .alert {
-    padding: 15px; border-radius: 5px; margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px; /* Spazio sotto l'alert */
     border: 1px solid transparent;
-    display: flex; align-items: center;
-}
-.alert i { margin-right: 10px; font-size: 1.2em; } /* Icona nell'alert */
+    display: flex;
+    align-items: center;
 
-.alert-success { background-color: #d1e7dd; color: #0f5132; border-color: #badbcc; }
-.alert-success i { color: #0f5132; }
-.alert-danger { background-color: #f8d7da; color: #842029; border-color: #f5c2c7; }
-.alert-danger i { color: #842029; }
-.alert-warning { background-color: #fff3cd; color: #664d03; border-color: #ffecb5; }
-.alert-warning i { color: #664d03; }
-.alert-info { background-color: #cff4fc; color: #055160; border-color: #b6effb; }
-.alert-info i { color: #055160; }
+    /* --- AGGIUNTE PER CENTRARE E DISTANZIARE --- */
+    max-width: 720px;   /* Larghezza massima dell'alert, aggiustala se necessario */
+    margin-left: auto;  /* Centra l'alert orizzontalmente */
+    margin-right: auto; /* Centra l'alert orizzontalmente */
+    margin-top: 20px;   /* Spazio sopra l'alert */
+    /* Se vuoi che l'alert sia sempre fisso in alto, indipendentemente dallo scroll, 
+       e il contenitore #alert-container-page non è fisso, allora
+       potresti considerare di stilizzare il #alert-container-page o il .custom-alert-fallback-container
+       con position: fixed. Ma se #alert-container-page è nel flusso normale
+       del documento, queste proprietà su .alert sono sufficienti per centrarlo
+       al suo interno. */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra leggera opzionale per risalto */
+}
+
+.alert i { /* Icona nell'alert */
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* Pulsante di chiusura - Se la tua funzione showAlert aggiunge un pulsante di chiusura */
+/* Se la tua funzione showAlert usa le classi .custom-alert-close, usa quelle. 
+   Altrimenti, se il pulsante di chiusura ha una classe generica come .alert-close, usa quella.
+   Assumiamo che la tua funzione showAlert possa usare una struttura simile a quella discussa in precedenza
+   o che tu possa aggiungere un pulsante di chiusura con una classe specifica.
+*/
+.alert .alert-close-btn { /* Sostituisci .alert-close-btn con la classe effettiva del tuo pulsante di chiusura se ne hai uno */
+    margin-left: auto; /* Spinge il pulsante di chiusura all'estrema destra */
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: inherit;
+    opacity: 0.6;
+}
+.alert .alert-close-btn:hover {
+    opacity: 0.9;
+}
+
+
+/* Mantieni i tuoi stili specifici per tipo di alert */
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border-color: #badbcc;
+}
+.alert-success i {
+    color: #0f5132;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border-color: #f5c2c7;
+}
+.alert-danger i {
+    color: #842029;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-color: #ffecb5;
+}
+.alert-warning i {
+    color: #664d03;
+}
+
+.alert-info {
+    background-color: #cff4fc;
+    color: #055160;
+    border-color: #b6effb;
+}
+.alert-info i {
+    color: #055160;
+}
 
 
 /* --- Footer --- */
@@ -1109,22 +1180,29 @@ footer {
 
 /* Stile base per gli alert personalizzati */
 .custom-alert {
-    padding: 15px 20px;
+    padding: 15px;
+    border-radius: 5px;
     margin-bottom: 20px;
     border: 1px solid transparent;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
-    font-size: 1rem;
-    position: relative; /* Per posizionare il bottone di chiusura */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: flex; /* Per allineare messaggio e bottone */
-    justify-content: space-between; /* Spazio tra messaggio e bottone */
-    align-items: center; /* Allinea verticalmente */
+    display: flex;
+    align-items: center; /* Allinea l'icona (se presente) e il testo verticalmente */
+    justify-content: space-between; /* Spazio tra testo e pulsante di chiusura */
+
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.custom-alert-message {
-    flex-grow: 1; /* Il messaggio occupa lo spazio rimanente */
-    margin-right: 15px; /* Spazio dal bottone di chiusura */
+.custom-alert-close:hover {
+    opacity: 0.9;
+}
+
+/* Icona nell'alert (se la aggiungi all'HTML generato da showAlert) */
+.custom-alert i {
+    margin-right: 10px;
+    font-size: 1.2em;
 }
 
 .custom-alert-close {
