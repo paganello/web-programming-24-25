@@ -489,11 +489,11 @@ table tr:hover td { background-color: #f5f5f5; } /* Hover sulle righe */
 
 /* Card di Benvenuto e Link nel Testo */
 .welcome-card {
-    background-color: #eef6ff; /* Azzurrino */
+    background-color: #eef6ff !important; /* Azzurrino */
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 25px;
-    border-left: 5px solid var(--primary-blue); /* O var(--main-color) */
+    border-left: 5px solid var(--primary-blue) !important; /* O var(--main-color) */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 .welcome-card .card-content p { line-height: 1.6; margin-bottom: 10px; font-size: 0.95rem; }

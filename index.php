@@ -198,7 +198,7 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
 
         <!-- Messaggio di benvenuto dinamico -->
         <?php if (!isset($_SESSION['user'])): // Se l'utente non è loggato ?>
-            <div class="card welcome-card">
+            <div class="card welcome-card welcome-card">
                 <div class="card-content">
                     <p>Benvenuto nel sistema di Quiz Online. Per accedere a tutte le funzionalità, effettua il <a
                             href="auth_login.php" class="text-link">login</a> o <a href="auth_register.php"
