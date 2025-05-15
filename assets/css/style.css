@@ -2710,7 +2710,7 @@ select:focus,
   font-size: 1rem;
 }
 
-/* --- Paginazione (MANTIENI I TUOI STILI ESISTENTI PER .pagination e figli) --- */
+/* --- Paginazione --- */
 /* Se vuoi unificare, assicurati che .pagination-container (o .pagination) sia stilizzato come
    suggerito in precedenza (con sfondo card, shadow, padding) oppure rendilo più minimalista. */
 .pagination-container, /* Nuova classe per il <nav> della paginazione */
@@ -2741,8 +2741,6 @@ select:focus,
   border-color: var(--main-color);
   color: var(--dark-color); /* O white se --light-color è scuro */
 }
-
-/* ... (RESTO DEL TUO CSS ESISTENTE: header, nav, footer, form, tabelle, modali, ecc.) ... */
 
 /* --- Media Queries (MANTIENI E ADATTA LE TUE ESISTENTI) --- */
 @media (max-width: 992px) {
