@@ -165,17 +165,18 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                 <div class="form-group">
                     <label for="search_data_inizio_da_sidebar">Disponibile dal:</label>
                     <input type="date" id="search_data_inizio_da_sidebar" name="search_data_inizio_da"
-                        value="<?php echo htmlspecialchars($search_data_inizio_da); ?>" >
+                        value="<?php echo htmlspecialchars($search_data_inizio_da); ?>">
                 </div>
                 <div class="form-group">
                     <label for="search_data_fine_a_sidebar">Disponibile fino al:</label>
                     <input type="date" id="search_data_fine_a_sidebar" name="search_data_fine_a"
-                        value="<?php echo htmlspecialchars($search_data_fine_a); ?>" >
+                        value="<?php echo htmlspecialchars($search_data_fine_a); ?>">
                 </div>
                 <div class="form-actions-sidebar">
                     <button type="submit" class="btn"><i class="fas fa-search"></i> Cerca</button>
                     <!-- ID MODIFICATO per corrispondere a quello atteso dal JS -->
-                    <button type="button" id="reset-filters-btn" class="btn btn-secondary"><i class="fas fa-undo"></i> Resetta Filtri</button>
+                    <button type="button" id="reset-filters-btn" class="btn btn-secondary"><i class="fas fa-undo"></i>
+                        Resetta Filtri</button>
                 </div>
             </form>
         </div>
@@ -220,8 +221,10 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     <!-- ID corretto per il JS -->
                     <select id="per_page_select" name="per_page" aria-label="Elementi per pagina">
                         <?php foreach ($valid_per_page_options as $option): ?>
-                            <option value="<?php echo $option; ?>" <?php if ($per_page == $option) echo 'selected'; ?>>
-                                <?php echo $option; ?></option>
+                            <option value="<?php echo $option; ?>" <?php if ($per_page == $option)
+                                   echo 'selected'; ?>>
+                                <?php echo $option; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </form>
@@ -234,14 +237,28 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                     <label for="sort_by_inline"><i class="fas fa-sort"></i> Ordina:</label>
                     <!-- ID corretto per il JS -->
                     <select id="sort_by_inline" name="sort_by" aria-label="Criterio di ordinamento">
-                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc') echo 'selected'; ?>>Più Recenti (Default)</option>
-                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc') echo 'selected'; ?>>Meno Recenti</option>
-                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc') echo 'selected'; ?>>Titolo (A-Z)</option>
-                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc') echo 'selected'; ?>>Titolo (Z-A)</option>
-                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc') echo 'selected'; ?>>Data Inizio (Crescente)</option>
-                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc') echo 'selected'; ?>>Data Inizio (Decrescente)</option>
-                        <option value="partecipazioni_desc" <?php if ($sort_by == 'partecipazioni_desc') echo 'selected'; ?>>Partecipazioni (Più alto)</option>
-                        <option value="partecipazioni_asc" <?php if ($sort_by == 'partecipazioni_asc') echo 'selected'; ?>>Partecipazioni (Più basso)</option>
+                        <option value="codice_desc" <?php if ($sort_by == 'codice_desc')
+                            echo 'selected'; ?>>Più Recenti
+                            (Default)</option>
+                        <option value="codice_asc" <?php if ($sort_by == 'codice_asc')
+                            echo 'selected'; ?>>Meno Recenti
+                        </option>
+                        <option value="titolo_asc" <?php if ($sort_by == 'titolo_asc')
+                            echo 'selected'; ?>>Titolo (A-Z)
+                        </option>
+                        <option value="titolo_desc" <?php if ($sort_by == 'titolo_desc')
+                            echo 'selected'; ?>>Titolo (Z-A)
+                        </option>
+                        <option value="data_inizio_asc" <?php if ($sort_by == 'data_inizio_asc')
+                            echo 'selected'; ?>>Data
+                            Inizio (Crescente)</option>
+                        <option value="data_inizio_desc" <?php if ($sort_by == 'data_inizio_desc')
+                            echo 'selected'; ?>>
+                            Data Inizio (Decrescente)</option>
+                        <option value="partecipazioni_desc" <?php if ($sort_by == 'partecipazioni_desc')
+                            echo 'selected'; ?>>Partecipazioni (Più alto)</option>
+                        <option value="partecipazioni_asc" <?php if ($sort_by == 'partecipazioni_asc')
+                            echo 'selected'; ?>>Partecipazioni (Più basso)</option>
                     </select>
                 </form>
             </div>
@@ -267,12 +284,15 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
                         <h3 class="quiz-title"><?php echo htmlspecialchars($quiz['titolo']); ?></h3>
                         <div class="quiz-meta">
                             <p><i class="fas fa-user"></i>Creato da:  
-                                <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong></p>
+                                <strong><?php echo htmlspecialchars($quiz['nome'] . ' ' . $quiz['cognome']); ?></strong>
+                            </p>
                             <p><i class="far fa-calendar-alt"></i> Dal  
                                 <strong><?php echo date('d/m/Y', strtotime($quiz['dataInizio'])); ?></strong>   al  
-                                <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong></p>
+                                <strong><?php echo date('d/m/Y', strtotime($quiz['dataFine'])); ?></strong>
+                            </p>
                             <p><i class="fas fa-users"></i> Partecipazioni:
-                                <strong><?php echo $quiz['num_partecipazioni']; ?></strong></p>
+                                <strong><?php echo $quiz['num_partecipazioni']; ?></strong>
+                            </p>
 
                             <?php
                             $now_dt = new DateTime();
@@ -374,4 +394,5 @@ $page_content_title = $is_search_active ? "Risultati della Ricerca" : "Quiz Disp
 
 <?php include 'includes/footer.php'; ?>
 </body> <!-- La classe page-index viene aggiunta qui da header.php -->
+
 </html>

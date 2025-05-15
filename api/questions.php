@@ -11,7 +11,7 @@
  * - Recupero dei dettagli di una singola domanda;
  */
 
-if (session_status() === PHP_SESSION_NONE){
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
@@ -133,7 +133,7 @@ switch ($method) {
                     $stmtRisposta->bindParam(':punteggio_risp', $punti, PDO::PARAM_INT);
 
                     if (!$stmtRisposta->execute()) {
-                        throw new Exception("Errore durante l'inserimento della risposta n.".$numeroRispostaProgressivo." per la domanda n." . $numeroDomandaProgressivo . ": " . implode(" ", $stmtRisposta->errorInfo()));
+                        throw new Exception("Errore durante l'inserimento della risposta n." . $numeroRispostaProgressivo . " per la domanda n." . $numeroDomandaProgressivo . ": " . implode(" ", $stmtRisposta->errorInfo()));
                     }
                     $numeroRispostaProgressivo++;
                 }

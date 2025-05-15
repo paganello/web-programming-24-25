@@ -35,22 +35,22 @@ function showAlert(message, type = 'info', containerSelector = '#alert-container
     const $currentAlert = $('#' + alertId); // Seleziona il nuovo alert per ID
 
     // MODIFICA 2: Usa il selettore corretto per il pulsante di chiusura
-    $currentAlert.find('.alert-close-btn').on('click', function() { // Prima era: $currentAlert.find('.custom-alert-close').on('click', ...);
-        $currentAlert.fadeOut(300, function() {
+    $currentAlert.find('.alert-close-btn').on('click', function () { // Prima era: $currentAlert.find('.custom-alert-close').on('click', ...);
+        $currentAlert.fadeOut(300, function () {
             $(this).remove();
         });
     });
 
     if (type !== 'danger' && type !== 'error' && type !== 'warning') {
         setTimeout(function () {
-            $currentAlert.fadeOut(500, function() { $(this).remove(); });
+            $currentAlert.fadeOut(500, function () { $(this).remove(); });
         }, 5000);
     }
 }
 
 function showEditAlerts(message, type) { // Usata in quiz_edit.php
     showAlert(message, type, '#alert-container-page-modify');
-    }
+}
 
 // Funzione per rinumerare domande e risposte per quiz_create.php
 function renumberQuestions() { // Questa è per quiz_create.php
@@ -91,7 +91,7 @@ function renumberQuestions() { // Questa è per quiz_create.php
             });
 
             // Radio buttons per tipo
-            $currentAnswerBlock.find('input.radio-input-styled[name$="[type]"]').each(function() {
+            $currentAnswerBlock.find('input.radio-input-styled[name$="[type]"]').each(function () {
                 const radioIdBase = `question-${qNum}-answer-${aNum}-type-`;
                 const radioValue = $(this).val(); // "Corretta" o "Sbagliata"
                 const typeSuffix = radioValue === 'Corretta' ? 'correct' : 'wrong';
@@ -121,7 +121,7 @@ function renumberQuestions() { // Questa è per quiz_create.php
 function addAnswerToQuestion(questionBlockElement, questionNum, answerCount) { // Per quiz_create.php
     const answerTemplate = document.getElementById('answer-template-create').innerHTML;
     let answerHtml = answerTemplate.replace(/__Q_NUM__/g, questionNum) // Sostituisce __Q_NUM__
-                                .replace(/__A_NUM__/g, answerCount); // Sostituisce __A_NUM__
+        .replace(/__A_NUM__/g, answerCount); // Sostituisce __A_NUM__
     $(questionBlockElement).find('.answers-container-styled').append(answerHtml);
     $(questionBlockElement).find(`#no-answers-for-q-${questionNum}`).hide();
 }
@@ -139,10 +139,10 @@ function toggleQuestion(headerElement) {
     if (wasOpen) { // Sta per chiudere
         // Prima imposta l'altezza esplicita se era 'none'
         if (contentWrapper.style.maxHeight === 'none' || contentWrapper.style.maxHeight === '') {
-             contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
+            contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
         }
         // Forza un reflow per assicurare che l'altezza esplicita sia applicata prima della transizione a 0
-        contentWrapper.offsetHeight; 
+        contentWrapper.offsetHeight;
 
         requestAnimationFrame(() => { // Usa requestAnimationFrame per la transizione a 0
             contentWrapper.style.maxHeight = "0px";
@@ -168,8 +168,8 @@ function toggleQuestion(headerElement) {
 document.addEventListener('DOMContentLoaded', () => {
     // Accordion per quiz_view.php e altre pagine che usano .question-card
     document.querySelectorAll('.question-header').forEach(header => {
-        header.addEventListener('click', function() { toggleQuestion(this); });
-        header.addEventListener('keydown', function(event) {
+        header.addEventListener('click', function () { toggleQuestion(this); });
+        header.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 toggleQuestion(this);
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // e per adattarsi a contenuti che potrebbero cambiare dimensione.
             contentWrapper.style.maxHeight = contentWrapper.scrollHeight + "px";
             setTimeout(() => {
-               if (card.classList.contains('open')) contentWrapper.style.maxHeight = 'none';
+                if (card.classList.contains('open')) contentWrapper.style.maxHeight = 'none';
             }, 360); // Durata leggermente superiore alla transizione CSS (es. 0.35s)
         }
     });
@@ -202,9 +202,9 @@ $(document).ready(function () {
         e.preventDefault();
         const $form = $(this); // Cache form
         $.ajax({
-            type: 'POST', 
-            url: 'api/users.php?action=login', 
-            data: $form.serialize(), 
+            type: 'POST',
+            url: 'api/users.php?action=login',
+            data: $form.serialize(),
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
@@ -225,15 +225,15 @@ $(document).ready(function () {
         e.preventDefault();
         const $form = $(this); // Cache form
         $.ajax({
-            type: 'POST', 
-            url: 'api/users.php?action=register', 
-            data: $form.serialize(), 
+            type: 'POST',
+            url: 'api/users.php?action=register',
+            data: $form.serialize(),
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
                     showAlert(response.message || 'Registrazione completata con successo! Effettua il login.', 'success', '#alert-container-register');
                     setTimeout(() => window.location.href = 'auth_login.php', 2000); // Reindirizza dopo aver mostrato il messaggio
-                } else { 
+                } else {
                     showAlert(response.message || 'Errore durante la registrazione.', 'danger', '#alert-container-register');
                 }
             },
@@ -246,34 +246,34 @@ $(document).ready(function () {
 
         $('#create-quiz-form').on('submit', function (e) {
             e.preventDefault();
-            
+
             const titolo = $('#titolo').val().trim();
             const startDateVal = $('#dataInizio').val();
             const endDateVal = $('#dataFine').val();
 
             if (titolo === '') {
-                 showAlert('Il Titolo del Quiz è obbligatorio.', 'warning', '#alert-container-page');
-                 $('#titolo').focus(); // Opzionale: porta il focus sul campo vuoto
-                 return; // Interrompe l'esecuzione della funzione
+                showAlert('Il Titolo del Quiz è obbligatorio.', 'warning', '#alert-container-page');
+                $('#titolo').focus(); // Opzionale: porta il focus sul campo vuoto
+                return; // Interrompe l'esecuzione della funzione
             }
             if (!startDateVal) { // Controlla se la stringa è vuota
-                 showAlert('La Data di inizio è obbligatoria.', 'warning', '#alert-container-page');
-                 $('#dataInizio').focus();
-                 return;
+                showAlert('La Data di inizio è obbligatoria.', 'warning', '#alert-container-page');
+                $('#dataInizio').focus();
+                return;
             }
             if (!endDateVal) { // Controlla se la stringa è vuota
-                 showAlert('La Data di fine è obbligatoria.', 'warning', '#alert-container-page');
-                 $('#dataFine').focus();
-                 return;
+                showAlert('La Data di fine è obbligatoria.', 'warning', '#alert-container-page');
+                $('#dataFine').focus();
+                return;
             }
 
             const startDate = new Date(startDateVal);
             const endDate = new Date(endDateVal);
 
             const errorMessage = checkDateRange(startDate, endDate, false); // false: non permettere data inizio passata
-            if (errorMessage) { 
+            if (errorMessage) {
                 showAlert(errorMessage, 'danger', '#alert-container-page'); // Usa il container corretto
-                return; 
+                return;
             }
             $.ajax({
                 type: 'POST', url: 'api/quiz.php?action=create', data: $(this).serialize(), dataType: 'json',
@@ -287,7 +287,7 @@ $(document).ready(function () {
                         if ($('#questions-container .question-block-styled').length === 0) {
                             $('#add-question').click(); // Simula click su "Aggiungi Domanda"
                         } else {
-                            renumberQuestions(); 
+                            renumberQuestions();
                         }
                     } else { showAlert(response.message || 'Errore nella creazione del quiz.', 'danger', '#alert-container-page'); }
                 },
@@ -295,46 +295,46 @@ $(document).ready(function () {
             });
         });
 
-        $('#add-question').click(function () { 
+        $('#add-question').click(function () {
             $('#no-questions-message').hide();
             const questionTemplate = document.getElementById('question-template-create').innerHTML;
             const questionNumberForTemplate = $('#questions-container .question-block-styled').length + 1;
 
             const questionHtml = questionTemplate.replace(/__Q_NUM__/g, questionNumberForTemplate); // Per i placeholder nel template
             $('#questions-container').append(questionHtml);
-            
+
             const $newlyAddedQuestionBlock = $('#questions-container .question-block-styled:last-child');
             if ($newlyAddedQuestionBlock.length) {
                 // Aggiungi automaticamente la prima risposta alla nuova domanda
                 const actualQuestionNumForData = $newlyAddedQuestionBlock.data('question') || questionNumberForTemplate; // Usa data('question') se già settato da renumber
-                addAnswerToQuestion($newlyAddedQuestionBlock, actualQuestionNumForData, 1); 
+                addAnswerToQuestion($newlyAddedQuestionBlock, actualQuestionNumForData, 1);
             }
-            renumberQuestions(); 
+            renumberQuestions();
             $newlyAddedQuestionBlock.find('textarea.textarea-styled').first().focus(); // Focus sul testo della nuova domanda
         });
 
-        $(document).on('click', '#questions-container .add-answer', function () { 
+        $(document).on('click', '#questions-container .add-answer', function () {
             const $thisButton = $(this);
-            const questionNum = $thisButton.data('question'); 
+            const questionNum = $thisButton.data('question');
             const $questionBlock = $thisButton.closest('.question-block-styled');
             const answerCount = $questionBlock.find('.answers-container-styled .answer-block-styled').length + 1;
             addAnswerToQuestion($questionBlock, questionNum, answerCount);
-            renumberQuestions(); 
+            renumberQuestions();
             $questionBlock.find('.answer-block-styled:last-child input[type="text"]').first().focus(); // Focus sul testo della nuova risposta
         });
 
-        $(document).on('click', '#questions-container .remove-question', function () { 
+        $(document).on('click', '#questions-container .remove-question', function () {
             $(this).closest('.question-block-styled').remove();
-            renumberQuestions(); 
+            renumberQuestions();
         });
 
-        $(document).on('click', '#questions-container .remove-answer', function () { 
+        $(document).on('click', '#questions-container .remove-answer', function () {
             const $answerBlock = $(this).closest('.answer-block-styled');
             const $questionBlock = $answerBlock.closest('.question-block-styled');
 
             if ($questionBlock.find('.answers-container-styled .answer-block-styled').length > 1) {
                 $answerBlock.remove();
-                renumberQuestions(); 
+                renumberQuestions();
             } else {
                 showAlert('Ogni domanda deve avere almeno una risposta.', 'warning', '#alert-container-page');
             }
@@ -351,7 +351,7 @@ $(document).ready(function () {
                 return;
             }
             let allQuestionsValid = true;
-            $('#questions-container .question-block-styled').each(function() {
+            $('#questions-container .question-block-styled').each(function () {
                 const $qBlock = $(this);
                 const qNumText = $qBlock.find('.question-number').text();
                 if ($qBlock.find('textarea.textarea-styled').val().trim() === '') {
@@ -360,13 +360,13 @@ $(document).ready(function () {
                 }
                 if ($qBlock.find('.answers-container-styled .answer-block-styled').length === 0) {
                     showAlert(`La Domanda ${qNumText} non ha risposte.`, 'warning', '#alert-container-page');
-                    allQuestionsValid = false; return false; 
+                    allQuestionsValid = false; return false;
                 }
                 let hasCorrect = false;
                 let allAnswersHaveText = true;
-                $qBlock.find('.answers-container-styled .answer-block-styled').each(function(idx) {
+                $qBlock.find('.answers-container-styled .answer-block-styled').each(function (idx) {
                     if ($(this).find('input[type="text"].input-small-styled').val().trim() === '') {
-                        showAlert(`Il testo della Risposta ${idx+1} per la Domanda ${qNumText} non può essere vuoto.`, 'warning', '#alert-container-page');
+                        showAlert(`Il testo della Risposta ${idx + 1} per la Domanda ${qNumText} non può essere vuoto.`, 'warning', '#alert-container-page');
                         allAnswersHaveText = false; return false;
                     }
                     if ($(this).find('input.radio-input-styled[value="Corretta"]').is(':checked')) {
@@ -376,7 +376,7 @@ $(document).ready(function () {
                 if (!allAnswersHaveText) { allQuestionsValid = false; return false; }
                 if (!hasCorrect) {
                     showAlert(`La Domanda ${qNumText} non ha una risposta designata come "Corretta".`, 'warning', '#alert-container-page');
-                    allQuestionsValid = false; return false; 
+                    allQuestionsValid = false; return false;
                 }
             });
             if (!allQuestionsValid) return;
@@ -404,8 +404,8 @@ $(document).ready(function () {
         const $confirmAbortModal = $('#confirmAbortCreationModal');
         const $confirmAbortActionBtn = $('#confirmAbortActionBtn');
         const $abortModalMessage = $('#abortCreationModalMessage');
-        function showAbortCreationModal() { if($confirmAbortModal.length) $confirmAbortModal.fadeIn(200); }
-        function hideAbortCreationModal() { if($confirmAbortModal.length) $confirmAbortModal.fadeOut(200); }
+        function showAbortCreationModal() { if ($confirmAbortModal.length) $confirmAbortModal.fadeIn(200); }
+        function hideAbortCreationModal() { if ($confirmAbortModal.length) $confirmAbortModal.fadeOut(200); }
 
         if ($confirmAbortModal.length) {
             $confirmAbortModal.find('.custom-modal-close-button, #cancelAbortBtn').on('click', hideAbortCreationModal);
@@ -417,15 +417,15 @@ $(document).ready(function () {
             const quizIdToDelete = $('#quiz-id').val();
             let msg = "Sei sicuro di voler annullare la creazione del quiz?";
             if (quizIdToDelete && $('#questions-section').is(':visible')) { // Solo se il quiz è stato creato e siamo nella sezione domande
-                 msg += " Il quiz parzialmente creato (ID: " + quizIdToDelete + ") e le sue domande verranno eliminati.";
+                msg += " Il quiz parzialmente creato (ID: " + quizIdToDelete + ") e le sue domande verranno eliminati.";
             } else if ($('#create-quiz-form').find('input[name="titolo"]').val() !== '') { // Se ci sono dati nel form dettagli
                 msg += " Eventuali dati inseriti per i dettagli del quiz verranno persi.";
             }
-            if($abortModalMessage.length) $abortModalMessage.text(msg);
+            if ($abortModalMessage.length) $abortModalMessage.text(msg);
             showAbortCreationModal();
 
-            if($confirmAbortActionBtn.length) {
-                $confirmAbortActionBtn.off('click').on('click', function() {
+            if ($confirmAbortActionBtn.length) {
+                $confirmAbortActionBtn.off('click').on('click', function () {
                     hideAbortCreationModal();
                     if (quizIdToDelete && $('#questions-section').is(':visible')) { // Quiz creato, cancella da DB
                         $.ajax({
@@ -461,7 +461,7 @@ $(document).ready(function () {
                 });
             }
         });
-    } 
+    }
 
     // Handler per il cambio dei radio button (gestione campo punti) in quiz_create.php e quiz_modify.php
     $(document).on('change', '#questions-section .answer-block-styled input[type="radio"][name$="[type]"], #edit-quiz-form .answer-block-styled input[type="radio"][name$="[type]"]', function () {
@@ -471,14 +471,14 @@ $(document).ready(function () {
 
         if ($(this).val() === 'Corretta' && $(this).is(':checked')) {
             $pointsGroup.slideDown();
-             if (parseInt($pointsInput.val(), 10) <= 0 || $pointsInput.val() === "") {
+            if (parseInt($pointsInput.val(), 10) <= 0 || $pointsInput.val() === "") {
                 $pointsInput.val(1); // Default a 1 se non valido o vuoto
             }
         } else {
             // Azzera e nascondi solo se "Sbagliata" è effettivamente selezionato per questo gruppo di radio
             const nameAttr = $(this).attr('name');
-            if ($answerBlock.find('input[type="radio"][name="'+nameAttr+'"][value="Sbagliata"]').is(':checked')) {
-                $pointsGroup.slideUp(function() { // Callback per azzerare dopo l'animazione
+            if ($answerBlock.find('input[type="radio"][name="' + nameAttr + '"][value="Sbagliata"]').is(':checked')) {
+                $pointsGroup.slideUp(function () { // Callback per azzerare dopo l'animazione
                     $pointsInput.val(0);
                 });
             }
@@ -486,10 +486,10 @@ $(document).ready(function () {
     });
 
 
-const $participateForm = $('#participate-form'); // Selettore del form di partecipazione
+    const $participateForm = $('#participate-form'); // Selettore del form di partecipazione
 
     if ($participateForm.length) {
-        $participateForm.on('submit', function(e) {
+        $participateForm.on('submit', function (e) {
             e.preventDefault();
             const $form = $(this);
             const $submitButton = $form.find('button[type="submit"]');
@@ -506,7 +506,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                 url: 'api/partecipation.php',
                 data: $form.serialize() + '&action=submit', // Assicura che action=submit sia inviato
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     if (response.status === 'success') {
                         if (response.redirect_url) {
                             // L'API PHP imposta $_SESSION['participationMessage']
@@ -521,22 +521,22 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                         $submitButton.prop('disabled', false).html(originalButtonText);
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     let errorMsg = 'Errore di comunicazione con il server. Riprova più tardi.';
                     if (xhr.responseJSON && xhr.responseJSON.message) {
                         errorMsg = xhr.responseJSON.message;
                     } else if (xhr.status === 401) {
-                         errorMsg = 'Sessione scaduta o non autorizzato. Effettua nuovamente il login.';
-                         setTimeout(() => window.location.href = 'auth_login.php', 2500);
+                        errorMsg = 'Sessione scaduta o non autorizzato. Effettua nuovamente il login.';
+                        setTimeout(() => window.location.href = 'auth_login.php', 2500);
                     } else if (xhr.status === 403) {
                         errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Accesso negato o quiz non più disponibile.';
-                         setTimeout(() => window.location.href = 'index.php', 2500);
+                        setTimeout(() => window.location.href = 'index.php', 2500);
                     } else if (xhr.status === 409) {
                         errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Hai già partecipato a questo quiz.';
                         if (xhr.responseJSON && xhr.responseJSON.redirect_url) {
-                             setTimeout(() => window.location.href = xhr.responseJSON.redirect_url, 2500);
+                            setTimeout(() => window.location.href = xhr.responseJSON.redirect_url, 2500);
                         } else {
-                             setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
+                            setTimeout(() => window.location.href = 'quiz_participations.php', 2500);
                         }
                     } else if (xhr.status === 404) {
                         errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Quiz non trovato o endpoint API errato.';
@@ -551,7 +551,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
         });
 
         // Aggiungi qui lo snippet per la classe .selected-answer se lo stai usando
-        $participateForm.on('change', '.answer-option input[type="checkbox"]', function() {
+        $participateForm.on('change', '.answer-option input[type="checkbox"]', function () {
             const $label = $(this).closest('label');
             if ($(this).is(':checked')) {
                 $label.addClass('selected-answer');
@@ -559,7 +559,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                 $label.removeClass('selected-answer');
             }
         });
-        $participateForm.find('.answer-option input[type="checkbox"]:checked').each(function() {
+        $participateForm.find('.answer-option input[type="checkbox"]:checked').each(function () {
             $(this).closest('label').addClass('selected-answer');
         });
     }
@@ -573,25 +573,25 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
             const $questionBlocks = $form.find('#questions-container .question-block-styled');
             $form.find('#no-questions-message').toggle($questionBlocks.length === 0);
 
-            $questionBlocks.each(function (qIndex) { 
+            $questionBlocks.each(function (qIndex) {
                 const $currentQuestionBlock = $(this);
                 const displayQNum = qIndex + 1;
 
                 $currentQuestionBlock.attr('data-question-index', qIndex);
                 $currentQuestionBlock.find('.question-number-badge').first().text(displayQNum); // Usa .question-number-badge
-                
+
                 $currentQuestionBlock.find('.add-answer-btn .question-number-btn-text').text(displayQNum);
                 $currentQuestionBlock.find('.remove-question-btn').attr('title', `Rimuovi Domanda ${displayQNum}`);
 
                 $currentQuestionBlock.find('textarea.textarea-styled').each(function () {
-                    const newName = `questions[${qIndex}][text]`; 
+                    const newName = `questions[${qIndex}][text]`;
                     $(this).attr('name', newName);
                     const newId = `question_text_${qIndex}`;
                     $(this).attr('id', newId);
                     $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
                 });
-                
-                $currentQuestionBlock.find('input[type="hidden"][name$="[original_numero_domanda]"]').each(function() {
+
+                $currentQuestionBlock.find('input[type="hidden"][name$="[original_numero_domanda]"]').each(function () {
                     const newNameHidden = `questions[${qIndex}][original_numero_domanda]`;
                     $(this).attr('name', newNameHidden);
                 });
@@ -618,7 +618,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                 const nameQuestionPart = `questions[${questionIndex}]`;
                 const nameAnswerPart = `[answers][${aIndex}]`;
 
-                $currentAnswerBlock.find('input.form-input-styled.input-small-styled[type="text"]').each(function() {
+                $currentAnswerBlock.find('input.form-input-styled.input-small-styled[type="text"]').each(function () {
                     const newName = `${nameQuestionPart}${nameAnswerPart}[text]`;
                     $(this).attr('name', newName);
                     const newId = `answer_text_${questionIndex}_${aIndex}`;
@@ -626,8 +626,8 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                     $(this).closest('.form-field-group').find('label.form-label-styled').attr('for', newId);
                 });
 
-                $currentAnswerBlock.find('input.radio-input-styled[name$="[type]"]').each(function() {
-                    const radioValue = $(this).val(); 
+                $currentAnswerBlock.find('input.radio-input-styled[name$="[type]"]').each(function () {
+                    const radioValue = $(this).val();
                     const typeSuffix = radioValue === 'Corretta' ? 'C' : 'S';
                     const newId = `q${questionIndex}a${aIndex}tipo${typeSuffix}`;
                     $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[type]`);
@@ -635,17 +635,17 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                     $(this).next('label.radio-label-styled').attr('for', newId);
                 });
 
-                $currentAnswerBlock.find('input.input-numerical-styled[name$="[points]"]').each(function() {
+                $currentAnswerBlock.find('input.input-numerical-styled[name$="[points]"]').each(function () {
                     const newId = `q${questionIndex}a${aIndex}punti`;
                     $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[points]`);
                     $(this).attr('id', newId);
                     $(this).closest('.points-group').find('label.form-label-styled').attr('for', newId);
                 });
 
-                $currentAnswerBlock.find('input[type="hidden"][name$="[original_numero_risposta]"]').each(function() {
+                $currentAnswerBlock.find('input[type="hidden"][name$="[original_numero_risposta]"]').each(function () {
                     $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[original_numero_risposta]`);
                 });
-                 $currentAnswerBlock.find('input[type="hidden"][name$="[id_risposta]"]').each(function() { // Per API update
+                $currentAnswerBlock.find('input[type="hidden"][name$="[id_risposta]"]').each(function () { // Per API update
                     $(this).attr('name', `${nameQuestionPart}${nameAnswerPart}[id_risposta]`);
                 });
             });
@@ -656,12 +656,12 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
 
         // Aggiungi Nuova Domanda in edit
         $('#edit-quiz-form').on('click', '#add-question-btn', function () {
-            const questionTemplate = $('#question-template').html(); 
-            const questionIndex = $('#edit-quiz-form #questions-container .question-block-styled').length; 
+            const questionTemplate = $('#question-template').html();
+            const questionIndex = $('#edit-quiz-form #questions-container .question-block-styled').length;
             const displayQNum = questionIndex + 1;
 
             let newQuestionHtml = questionTemplate
-                .replace(/__Q_INDEX__/g, questionIndex) 
+                .replace(/__Q_INDEX__/g, questionIndex)
                 .replace(/__Q_DISPLAY_NUM__/g, displayQNum)
                 .replace(/value="[^"]*"/g, 'value=""') // Pulisce i value degli input nel template
                 .replace(/original_numero_domanda" value="[^"]*"/g, 'original_numero_domanda" value=""') // Pulisce original_numero_domanda
@@ -669,20 +669,20 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
 
 
             $('#edit-quiz-form #questions-container').append(newQuestionHtml);
-            
+
             const $newlyAddedQuestionBlock = $('#edit-quiz-form #questions-container .question-block-styled').last();
             if ($newlyAddedQuestionBlock.length) {
-                const answerTemplate = $('#answer-template').html(); 
-                const answerIndex = 0; 
+                const answerTemplate = $('#answer-template').html();
+                const answerIndex = 0;
                 const displayANum = 1;
                 let newAnswerHtml = answerTemplate
-                    .replace(/__Q_INDEX__/g, questionIndex) 
-                    .replace(/__A_INDEX__/g, answerIndex)   
+                    .replace(/__Q_INDEX__/g, questionIndex)
+                    .replace(/__A_INDEX__/g, answerIndex)
                     .replace(/__A_DISPLAY_NUM__/g, displayANum)
                     .replace(/value="[^"]*"/g, 'value=""') // Pulisce value
                     .replace(/id_risposta" value="[^"]*"/g, 'id_risposta" value=""') // Pulisce id_risposta
                     .replace(/original_numero_risposta" value="[^"]*"/g, 'original_numero_risposta" value=""'); // Pulisce original_numero_risposta
-                
+
                 $newlyAddedQuestionBlock.find('.answers-container-styled').append(newAnswerHtml);
                 $newlyAddedQuestionBlock.find('.no-answers-message').hide();
                 // Seleziona "Sbagliata" e imposta punti a 0 per la nuova risposta di default
@@ -691,20 +691,20 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                 $newAnswer.find('input[type="number"][name$="[points]"]').val(0);
                 $newAnswer.find('.points-group').hide(); // Nascondi gruppo punti se "Sbagliata"
             }
-            renumberQuestionsForEdit(); 
+            renumberQuestionsForEdit();
             $newlyAddedQuestionBlock.find('textarea').first().focus();
         });
 
         // Aggiungi Risposta a una Domanda in edit
         $('#edit-quiz-form').on('click', '.add-answer-btn', function () {
             const $questionBlock = $(this).closest('.question-block-styled');
-            const questionIndex = $questionBlock.data('question-index'); 
-            
+            const questionIndex = $questionBlock.data('question-index');
+
             const $answersContainer = $questionBlock.find('.answers-container-styled');
-            const answerIndex = $answersContainer.find('.answer-block-styled').length; 
+            const answerIndex = $answersContainer.find('.answer-block-styled').length;
             const displayANum = answerIndex + 1;
 
-            const answerTemplate = $('#answer-template').html(); 
+            const answerTemplate = $('#answer-template').html();
             let newAnswerHtml = answerTemplate
                 .replace(/__Q_INDEX__/g, questionIndex)
                 .replace(/__A_INDEX__/g, answerIndex)
@@ -712,7 +712,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                 .replace(/value="[^"]*"/g, 'value=""')
                 .replace(/id_risposta" value="[^"]*"/g, 'id_risposta" value=""')
                 .replace(/original_numero_risposta" value="[^"]*"/g, 'original_numero_risposta" value=""');
-            
+
             $answersContainer.append(newAnswerHtml);
             $questionBlock.find('.no-answers-message').hide();
             // Seleziona "Sbagliata" e imposta punti a 0 per la nuova risposta di default
@@ -721,7 +721,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
             $newAnswer.find('input[type="number"][name$="[points]"]').val(0);
             $newAnswer.find('.points-group').hide();
 
-            renumberAnswersForEdit($questionBlock, questionIndex); 
+            renumberAnswersForEdit($questionBlock, questionIndex);
             $newAnswer.find('input[type="text"]').first().focus();
         });
 
@@ -735,7 +735,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
         $('#edit-quiz-form').on('click', '.remove-answer-btn', function () {
             const $answerBlock = $(this).closest('.answer-block-styled');
             const $questionBlock = $answerBlock.closest('.question-block-styled');
-            const questionIndex = $questionBlock.data('question-index'); 
+            const questionIndex = $questionBlock.data('question-index');
 
             if ($questionBlock.find('.answers-container-styled .answer-block-styled').length > 1) {
                 $answerBlock.remove();
@@ -752,7 +752,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
             const $form = $(this);
             const startDateVal = $form.find('#dataInizio').val();
             const endDateVal = $form.find('#dataFine').val();
-            
+
             if (startDateVal && endDateVal) {
                 const startDate = new Date(startDateVal);
                 const endDate = new Date(endDateVal);
@@ -760,14 +760,14 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                 const originalStartDate = new Date($form.find('#original_data_inizio').val() || startDateVal); // Campo hidden con data originale
                 const allowPast = originalStartDate <= new Date(); // Permetti date passate solo se la data originale non era futura
 
-                const dateError = checkDateRange(startDate, endDate, allowPast); 
+                const dateError = checkDateRange(startDate, endDate, allowPast);
                 if (dateError) {
-                     showEditAlerts(dateError, 'danger');
-                     return;
+                    showEditAlerts(dateError, 'danger');
+                    return;
                 }
             } else if (!startDateVal || !endDateVal) {
-                 showEditAlerts('Le date di inizio e fine sono obbligatorie.', 'warning');
-                 return;
+                showEditAlerts('Le date di inizio e fine sono obbligatorie.', 'warning');
+                return;
             }
 
 
@@ -777,7 +777,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
             }
 
             let allQuestionsValid = true;
-            $form.find('#questions-container .question-block-styled').each(function(qIdx) {
+            $form.find('#questions-container .question-block-styled').each(function (qIdx) {
                 const $qBlock = $(this);
                 const qNumText = $qBlock.find('.question-number-badge').first().text();
 
@@ -788,18 +788,18 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
 
                 if ($qBlock.find('.answers-container-styled .answer-block-styled').length === 0) {
                     showEditAlerts(`La Domanda ${qNumText} non ha risposte. Ogni domanda deve avere almeno una risposta.`, 'warning');
-                    allQuestionsValid = false; return false; 
+                    allQuestionsValid = false; return false;
                 }
 
                 let hasCorrectAnswer = false;
                 let allAnswersHaveText = true;
-                $qBlock.find('.answers-container-styled .answer-block-styled').each(function(aIdx) {
+                $qBlock.find('.answers-container-styled .answer-block-styled').each(function (aIdx) {
                     if ($(this).find('input[type="text"].form-input-styled').val().trim() === '') {
-                         showEditAlerts(`Il testo della Risposta ${aIdx+1} per la Domanda ${qNumText} non può essere vuoto.`, 'warning');
-                         allAnswersHaveText = false; return false;
+                        showEditAlerts(`Il testo della Risposta ${aIdx + 1} per la Domanda ${qNumText} non può essere vuoto.`, 'warning');
+                        allAnswersHaveText = false; return false;
                     }
-                    if ($(this).find('input[type="radio"][name$="[type]"][value="Corretta"]').is(':checked')) { 
-                        hasCorrectAnswer = true; 
+                    if ($(this).find('input[type="radio"][name$="[type]"][value="Corretta"]').is(':checked')) {
+                        hasCorrectAnswer = true;
                     }
                 });
                 if (!allAnswersHaveText) { allQuestionsValid = false; return false; }
@@ -827,8 +827,8 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                         showEditAlerts(response.message || 'Quiz aggiornato con successo!', 'success');
                         // const quizId = $form.find('input[name="quiz_id"]').val();
                         setTimeout(() => {
-                             // window.location.href = 'quiz_view.php?id=' + quizId;
-                             window.location.href = response.redirect_url || 'quiz_my.php'; // Usa redirect_url o fallback
+                            // window.location.href = 'quiz_view.php?id=' + quizId;
+                            window.location.href = response.redirect_url || 'quiz_my.php'; // Usa redirect_url o fallback
                         }, 1500);
                     } else {
                         showEditAlerts(response.message || 'Errore durante il salvataggio delle modifiche.', 'danger');
@@ -837,7 +837,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                 error: function (xhr) {
                     showEditAlerts('Errore di comunicazione: ' + (xhr.responseJSON?.message || xhr.statusText || 'Dettagli non disponibili'), 'danger');
                 },
-                complete: function() {
+                complete: function () {
                     $submitButton.prop('disabled', false).html(originalButtonText);
                 }
             });
@@ -860,11 +860,11 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
             quizTitleToDeleteModal = quizTitle;
             successRedirectUrl = redirectUrlAfterDelete || window.location.href; // Default: ricarica pagina corrente
 
-            const $quizTitleSpan = $('#quizTitleToDelete'); 
+            const $quizTitleSpan = $('#quizTitleToDelete');
             if ($quizTitleSpan.length) {
                 $quizTitleSpan.text(quizTitleToDeleteModal); // Mostra il titolo del quiz
             }
-             $('#modalDeleteErrorMessage').hide().text(''); // Nascondi/resetta messaggi di errore precedenti
+            $('#modalDeleteErrorMessage').hide().text(''); // Nascondi/resetta messaggi di errore precedenti
             $confirmDeleteModal.fadeIn(200);
         }
 
@@ -903,7 +903,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                         if (response.status === 'success') {
                             hideMainDeleteModal();
                             // Usa showAlert sulla pagina principale, non nel modale
-                            showAlert(response.message || 'Quiz eliminato con successo!', 'success', '#alert-container-page'); 
+                            showAlert(response.message || 'Quiz eliminato con successo!', 'success', '#alert-container-page');
                             setTimeout(() => {
                                 if (successRedirectUrl && successRedirectUrl !== window.location.href) {
                                     window.location.href = successRedirectUrl;
@@ -912,7 +912,7 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                                 }
                             }, 1500);
                         } else {
-                             // Mostra errore nel modale o come alert globale
+                            // Mostra errore nel modale o come alert globale
                             // showAlert(response.message || 'Errore durante l\'eliminazione.', 'danger', '#alert-container-page');
                             $('#modalDeleteErrorMessage').text(response.message || 'Errore durante l\'eliminazione.').show();
                         }
@@ -920,9 +920,9 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
                     error: function (xhr) {
                         const errorMsg = xhr.responseJSON?.message || xhr.statusText || 'Errore AJAX durante l\'eliminazione.';
                         // showAlert(errorMsg, 'danger', '#alert-container-page');
-                         $('#modalDeleteErrorMessage').text(errorMsg).show();
+                        $('#modalDeleteErrorMessage').text(errorMsg).show();
                     },
-                    complete: function() {
+                    complete: function () {
                         $thisButton.prop('disabled', false).html(originalButtonText);
                         // Non nascondere il modale qui se c'è stato un errore, l'utente potrebbe voler riprovare
                         // hideMainDeleteModal(); // Spostato nel success
@@ -949,22 +949,22 @@ const $participateForm = $('#participate-form'); // Selettore del form di partec
     if (document.body.classList.contains('page-index')) { // Meglio usare una classe sul body per identificare la pagina
         const $resetFormButton = $('#reset-filters-btn'); // ID del bottone reset filtri
         if ($resetFormButton.length) {
-            $resetFormButton.on('click', function(event) { 
-                event.preventDefault(); 
+            $resetFormButton.on('click', function (event) {
+                event.preventDefault();
                 // Resetta i campi del form filtri e ricarica la pagina o invia il form vuoto
                 const $filterForm = $(this).closest('form');
                 if ($filterForm.length) {
                     $filterForm[0].reset(); // Resetta i campi del form
                     // Rimuovi parametri extra dall'URL se vuoi una pulizia completa
-                    window.location.href = window.location.pathname; 
+                    window.location.href = window.location.pathname;
                 } else {
                     window.location.href = window.location.pathname; // Fallback se non trova il form
                 }
             });
         }
-        
+
         // Gestione cambio per_page e sort_by se esistono e sono select
-        $('#per_page_select, #sort_by_inline').on('change', function() {
+        $('#per_page_select, #sort_by_inline').on('change', function () {
             $(this).closest('form').submit(); // Invia il form quando il select cambia
         });
     }

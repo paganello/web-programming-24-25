@@ -33,6 +33,7 @@ if ($currentPage == 'index.php') {
 ?>
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,17 +42,19 @@ if ($currentPage == 'index.php') {
     <!-- Potresti voler includere Font Awesome qui se non è già in style.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body class="<?php echo htmlspecialchars($bodyClass); ?>">
     <header>
         <div class="container header-content">
             <div class="logo">
-            <a href="index.php" title="Homepage Quiz UniBG">
-                <img src="https://upload.wikimedia.org/wikipedia/it/b/b4/UNIBG_Logo_2018.svg" alt="Logo Università degli Studi di Bergamo" id="header-logo">
-            </a>
-        </div>
+                <a href="index.php" title="Homepage Quiz UniBG">
+                    <img src="https://upload.wikimedia.org/wikipedia/it/b/b4/UNIBG_Logo_2018.svg"
+                        alt="Logo Università degli Studi di Bergamo" id="header-logo">
+                </a>
+            </div>
 
             <div class="user-info">
-                <?php if(isset($_SESSION['user'])): ?>
+                <?php if (isset($_SESSION['user'])): ?>
                     <span class="user-welcome-text">
                         Benvenuto, <?php echo htmlspecialchars($_SESSION['user']['nome'], ENT_QUOTES, 'UTF-8'); ?>!  
                     </span>

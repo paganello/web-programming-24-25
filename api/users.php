@@ -65,9 +65,9 @@ switch ($method) {
             $stmt->execute();
             $existence = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $usernameExists = (bool)$existence['username_exists'];
-            $emailExists = (bool)$existence['email_exists'];
-            
+            $usernameExists = (bool) $existence['username_exists'];
+            $emailExists = (bool) $existence['email_exists'];
+
             $errorMessages = [];
             if ($usernameExists) {
                 $errorMessages[] = 'Nome utente già registrato';

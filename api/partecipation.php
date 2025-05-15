@@ -18,23 +18,23 @@ $nomeUtente = $_SESSION['user']['nomeUtente'];
 $action = isset($_POST['action']) ? $_POST['action'] : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
-    $quizId = isset($_POST['idQuiz']) ? (int)$_POST['idQuiz'] : null;
+    $quizId = isset($_POST['idQuiz']) ? (int) $_POST['idQuiz'] : null;
     $risposteUtenteRaw = isset($_POST['answers']) && is_array($_POST['answers']) ? $_POST['answers'] : [];
     $risposteUtenteProcessed = [];
 
-    foreach($risposteUtenteRaw as $questionNumber => $selectedAnswersArray) {
+    foreach ($risposteUtenteRaw as $questionNumber => $selectedAnswersArray) {
         if (is_array($selectedAnswersArray)) {
-            foreach($selectedAnswersArray as $answerNumber) {
+            foreach ($selectedAnswersArray as $answerNumber) {
                 $risposteUtenteProcessed[] = [
-                    'domanda_numero' => (int)$questionNumber,
-                    'risposta_numero' => (int)$answerNumber
+                    'domanda_numero' => (int) $questionNumber,
+                    'risposta_numero' => (int) $answerNumber
                 ];
             }
         } else {
-             // Questo caso è meno probabile con checkbox, ma lo teniamo per robustezza
-             $risposteUtenteProcessed[] = [
-                'domanda_numero' => (int)$questionNumber,
-                'risposta_numero' => (int)$selectedAnswersArray
+            // Questo caso è meno probabile con checkbox, ma lo teniamo per robustezza
+            $risposteUtenteProcessed[] = [
+                'domanda_numero' => (int) $questionNumber,
+                'risposta_numero' => (int) $selectedAnswersArray
             ];
         }
     }
@@ -60,14 +60,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
         $quiz_data = $quiz_stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$quiz_data) {
-            $response['message'] = 'Quiz non trovato (ID: '.$quizId.').';
-            $pdo->rollBack(); http_response_code(404); echo json_encode($response); exit();
+            $response['message'] = 'Quiz non trovato (ID: ' . $quizId . ').';
+            $pdo->rollBack();
+            http_response_code(404);
+            echo json_encode($response);
+            exit();
         }
 
         $today = date('Y-m-d');
         if ($quiz_data['dataFine'] < $today) {
             $response['message'] = 'Questo quiz è terminato e non accetta più partecipazioni.';
-            $pdo->rollBack(); http_response_code(403); echo json_encode($response); exit();
+            $pdo->rollBack();
+            http_response_code(403);
+            echo json_encode($response);
+            exit();
         }
 
         $participation_check_sql = "SELECT codice FROM Partecipazione WHERE utente = :nomeUtente AND quiz = :quizId";
@@ -77,7 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
         $part_check_stmt->execute();
         if ($part_check_stmt->fetch()) {
             $response['message'] = 'Hai già partecipato a questo quiz.';
-            $pdo->rollBack(); http_response_code(409); echo json_encode($response); exit();
+            $pdo->rollBack();
+            http_response_code(409);
+            echo json_encode($response);
+            exit();
         }
 
         $sql_partecipazione = "INSERT INTO Partecipazione (utente, quiz, data) VALUES (:utente, :quiz, CURDATE())";
@@ -101,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
                 $stmt_risposta_utente->bindParam(':quiz', $quizId, PDO::PARAM_INT);
                 $stmt_risposta_utente->bindParam(':domanda_numero', $risposta['domanda_numero'], PDO::PARAM_INT);
                 $stmt_risposta_utente->bindParam(':risposta_numero', $risposta['risposta_numero'], PDO::PARAM_INT);
-                
+
                 if (!$stmt_risposta_utente->execute()) {
                     // Logga l'errore e potrebbe essere utile far fallire la transazione
                     error_log("Errore insert RispostaUtenteQuiz: PID=$partecipazioneId, QID=$quizId, DN=" . $risposta['domanda_numero'] . ", RN=" . $risposta['risposta_numero'] . ". Err: " . implode(":", $stmt_risposta_utente->errorInfo()));
@@ -123,14 +132,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submit') {
         http_response_code(201);
 
     } catch (PDOException $e) {
-        if ($pdo->inTransaction()) $pdo->rollBack();
+        if ($pdo->inTransaction())
+            $pdo->rollBack();
         error_log("Errore PDO submit_participation: " . $e->getMessage() . " | Dati: quizId=$quizId, utente=$nomeUtente");
-        $response['message'] = 'Errore del database durante la registrazione. Riprova più tardi.'; 
+        $response['message'] = 'Errore del database durante la registrazione. Riprova più tardi.';
         http_response_code(500);
     } catch (Exception $e) {
-        if ($pdo->inTransaction()) $pdo->rollBack();
+        if ($pdo->inTransaction())
+            $pdo->rollBack();
         error_log("Errore generico submit_participation: " . $e->getMessage() . " | Dati: quizId=$quizId, utente=$nomeUtente");
-        $response['message'] = 'Errore del server durante la registrazione. Riprova più tardi.'; 
+        $response['message'] = 'Errore del server durante la registrazione. Riprova più tardi.';
         http_response_code(500);
     }
     echo json_encode($response);

@@ -13,15 +13,16 @@
  */
 
 ?>
-    </div>
-    
-    <footer>
-        <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> QuizBG - Università di Bergamo</p>
-        </div>
-    </footer>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/main.js"></script>
+<footer>
+    <div class="container">
+        <p>&copy; <?php echo date('Y'); ?> QuizBG - Università di Bergamo</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
+
 </html>

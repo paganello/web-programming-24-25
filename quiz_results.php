@@ -138,18 +138,22 @@ if ($punteggio_massimo_quiz > 0) {
 
 <div class="main-content">
     <div class="content">
-        <h1 style="text-align:center; margin-bottom: 10px; padding-bottom:10px; border-bottom: 1px solid var(--border-color);">
+        <h1
+            style="text-align:center; margin-bottom: 10px; padding-bottom:10px; border-bottom: 1px solid var(--border-color);">
             Risultati Quiz: <?php echo htmlspecialchars($quiz_titolo); ?>
         </h1>
 
         <div class="card" style="margin-bottom: 25px;">
             <div class="card-content">
                 <h2 class="card-title" style="margin-bottom:15px;">Riepilogo Partecipazione</h2>
-                <p><strong class="bold">Data partecipazione:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($data_partecipazione))); ?></p>
-                <p><strong class="bold">Punteggio totale ottenuto:</strong> 
-                    <span style="font-size: 1.1em; <?php echo $scoreColorStyle; ?> font-weight: bold;"><?php echo htmlspecialchars($total_score); ?></span>
+                <p><strong class="bold">Data partecipazione:</strong>
+                    <?php echo htmlspecialchars(date('d/m/Y', strtotime($data_partecipazione))); ?></p>
+                <p><strong class="bold">Punteggio totale ottenuto:</strong>
+                    <span
+                        style="font-size: 1.1em; <?php echo $scoreColorStyle; ?> font-weight: bold;"><?php echo htmlspecialchars($total_score); ?></span>
                     <?php if ($punteggio_massimo_quiz > 0): ?>
-                        <span style="font-size: 1em; color: var(--text-muted);"> / <?php echo htmlspecialchars($punteggio_massimo_quiz); ?> punti</span>
+                        <span style="font-size: 1em; color: var(--text-muted);"> /
+                            <?php echo htmlspecialchars($punteggio_massimo_quiz); ?> punti</span>
                         <span style="font-size: 0.9em; color: var(--text-muted); margin-left: 0.4em;"></span>
                     <?php else: // Se non c'è un punteggio massimo calcolabile, mostra solo "punti" ?>
                         <span style="font-size: 1em; color: var(--text-muted);"> punti</span>
@@ -165,7 +169,8 @@ if ($punteggio_massimo_quiz > 0) {
             </div>
         </div>
 
-        <h2 style="margin-top: 30px; margin-bottom: 20px; color: var(--dark-color); font-size:1.6rem; border-bottom: 1px solid var(--border-color); padding-bottom:10px;">
+        <h2
+            style="margin-top: 30px; margin-bottom: 20px; color: var(--dark-color); font-size:1.6rem; border-bottom: 1px solid var(--border-color); padding-bottom:10px;">
             Le Tue Risposte
         </h2>
 
@@ -180,7 +185,8 @@ if ($punteggio_massimo_quiz > 0) {
                         <h3 class="card-title" style="font-size: 1.2rem; color: var(--dark-color);">
                             Domanda <?php echo ($idx + 1); // O $domanda['numero'] se preferisci l'ID DB ?>:
                         </h3>
-                        <div style="background-color: var(--light-gray-bg); padding: 10px; border-radius: 4px; margin-bottom: 15px; border: 1px solid var(--border-color);">
+                        <div
+                            style="background-color: var(--light-gray-bg); padding: 10px; border-radius: 4px; margin-bottom: 15px; border: 1px solid var(--border-color);">
                             <p style="margin:0;"><?php echo nl2br(htmlspecialchars($domanda['testo'])); ?></p>
                         </div>
 
@@ -190,7 +196,7 @@ if ($punteggio_massimo_quiz > 0) {
                                     <?php
                                     $rispostaDataPerQuestaDomanda = $risposteDateUtente[$domanda['numero']] ?? null;
                                     $isSelezionataDallUtente = ($rispostaDataPerQuestaDomanda !== null && $rispostaDataPerQuestaDomanda == $opzione['numero']);
-                                    
+
                                     $opzioneStyle = 'padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;';
                                     $feedbackIcon = '';
                                     $feedbackText = '';
@@ -218,9 +224,11 @@ if ($punteggio_massimo_quiz > 0) {
                                             <?php echo $feedbackIcon; ?>
                                             <?php echo htmlspecialchars($opzione['testo']); ?>
                                             <?php if ($opzione['tipo'] === 'Corretta' && !$isSelezionataDallUtente): ?>
-                                                <em class="text-muted" style="font-size:0.9em;"> (Punti: <?php echo $opzione['punteggio']; ?>)</em>
+                                                <em class="text-muted" style="font-size:0.9em;"> (Punti:
+                                                    <?php echo $opzione['punteggio']; ?>)</em>
                                             <?php elseif ($isSelezionataDallUtente && $opzione['tipo'] === 'Corretta'): ?>
-                                                <em style="font-size:0.9em; color: #155724;"> (Punti: +<?php echo $opzione['punteggio']; ?>)</em>
+                                                <em style="font-size:0.9em; color: #155724;"> (Punti:
+                                                    +<?php echo $opzione['punteggio']; ?>)</em>
                                             <?php endif; ?>
                                         </div>
                                         <?php if ($isSelezionataDallUtente || $opzione['tipo'] === 'Corretta'): ?>

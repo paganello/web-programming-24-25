@@ -55,7 +55,7 @@ try {
         $check_stmt->execute();
         $quiz_details_for_error = $check_stmt->fetch(PDO::FETCH_ASSOC);
 
-        $quiz_title_display = 'ID '.htmlspecialchars($quiz_id);
+        $quiz_title_display = 'ID ' . htmlspecialchars($quiz_id);
         if ($quiz_details_for_error && !empty($quiz_details_for_error['titolo'])) {
             $quiz_title_display = htmlspecialchars($quiz_details_for_error['titolo']);
         } elseif ($quiz && !empty($quiz['titolo'])) {
@@ -63,13 +63,13 @@ try {
         }
 
         if (!$quiz_details_for_error) {
-            $_SESSION['error_message'] = "Quiz con ID ".htmlspecialchars($quiz_id)." non trovato.";
+            $_SESSION['error_message'] = "Quiz con ID " . htmlspecialchars($quiz_id) . " non trovato.";
         } elseif ($quiz_details_for_error['dataInizio'] > $today) {
-            $_SESSION['info_message'] = "Il quiz \"".$quiz_title_display."\" non è ancora iniziato. Sarà disponibile dal ".date('d/m/Y', strtotime($quiz_details_for_error['dataInizio'])).".";
+            $_SESSION['info_message'] = "Il quiz \"" . $quiz_title_display . "\" non è ancora iniziato. Sarà disponibile dal " . date('d/m/Y', strtotime($quiz_details_for_error['dataInizio'])) . ".";
         } elseif ($quiz_details_for_error['dataFine'] < $today) {
-            $_SESSION['info_message'] = "Il quiz \"".$quiz_title_display."\" è terminato il ".date('d/m/Y', strtotime($quiz_details_for_error['dataFine']))." e non accetta più partecipazioni.";
+            $_SESSION['info_message'] = "Il quiz \"" . $quiz_title_display . "\" è terminato il " . date('d/m/Y', strtotime($quiz_details_for_error['dataFine'])) . " e non accetta più partecipazioni.";
         } else {
-            $_SESSION['error_message'] = "Quiz non disponibile (".$quiz_title_display.").";
+            $_SESSION['error_message'] = "Quiz non disponibile (" . $quiz_title_display . ").";
         }
         header('Location: index.php');
         exit;
@@ -104,12 +104,13 @@ $domanda_indice_visualizzato = 0;
 ?>
 
 <div class="main-content container main-content-page-padding"> <!-- Aggiunta classe per padding globale -->
-    <div id="alert-container-participate"></div> <!-- Il tuo custom-alert-container-static e margin-bottom è già gestito da showAlert -->
+    <div id="alert-container-participate"></div>
+    <!-- Il tuo custom-alert-container-static e margin-bottom è già gestito da showAlert -->
 
     <?php if ($error_message_page): ?>
         <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($error_message_page); ?></div>
     <?php elseif ($quiz): ?>
-      
+
         <div class="page-header-controls quiz-participation-page-header">
             <div class="page-title-container">
                 <i class="fas fa-pencil-alt page-title-icon"></i>
@@ -118,7 +119,7 @@ $domanda_indice_visualizzato = 0;
                 </h1>
             </div>
             <p class="quiz-participation-description">
-            Seleziona la risposta che ritieni corretta per ogni domanda e invia il quiz.
+                Seleziona la risposta che ritieni corretta per ogni domanda e invia il quiz.
             </p>
         </div>
 
@@ -142,10 +143,10 @@ $domanda_indice_visualizzato = 0;
                                 <?php foreach ($current_question['answers'] as $answer): ?>
                                     <div class="answer-option">
                                         <label>
-                                            <input type="radio"
-                                                name="answers[<?php echo $current_question['numero']; ?>]"
+                                            <input type="radio" name="answers[<?php echo $current_question['numero']; ?>]"
                                                 value="<?php echo $answer['numero']; ?>" required>
-                                            <span><?php echo htmlspecialchars($answer['testo']); ?></span> <!-- Avvolto testo in span per styling se necessario -->
+                                            <span><?php echo htmlspecialchars($answer['testo']); ?></span>
+                                            <!-- Avvolto testo in span per styling se necessario -->
                                         </label>
                                     </div>
                                 <?php endforeach; ?>
@@ -156,11 +157,11 @@ $domanda_indice_visualizzato = 0;
             <?php endif; ?>
 
             <?php if (!empty($questions)): ?>
-            <div class="form-group text-align-center">
-                <button type="submit" class="btn button-primary-styled btn-lg">
-                    <i class="fas fa-paper-plane"></i> Invia Risposte <!-- Rimosso stile inline per l'icona -->
-                </button>
-            </div>
+                <div class="form-group text-align-center">
+                    <button type="submit" class="btn button-primary-styled btn-lg">
+                        <i class="fas fa-paper-plane"></i> Invia Risposte <!-- Rimosso stile inline per l'icona -->
+                    </button>
+                </div>
             <?php endif; ?>
         </form>
     <?php else: ?>

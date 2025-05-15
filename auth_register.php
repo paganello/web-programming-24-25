@@ -48,9 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $existence = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $usernameExists = (bool)$existence['username_exists'];
-            $emailExists = (bool)$existence['email_exists'];
-            
+            $usernameExists = (bool) $existence['username_exists'];
+            $emailExists = (bool) $existence['email_exists'];
+
             $errorsFound = [];
             if ($usernameExists) {
                 $errorsFound[] = 'Nome utente già registrato';
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($stmt->execute()) {
                     $success = 'Registrazione completata con successo! Ora puoi accedere.';
                     // Svuota i campi del form in caso di successo per evitare re-invio
-                    $nomeUtente = $nome = $cognome = $eMail = ''; 
+                    $nomeUtente = $nome = $cognome = $eMail = '';
                 } else {
                     $error = 'Errore durante la registrazione. Riprova.';
                 }
