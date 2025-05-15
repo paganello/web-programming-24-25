@@ -7,6 +7,7 @@
 :root {
     /* Palette principale originale */
     --main-color: #556B2F;
+    --rgb-main-color: 85, 107, 47;
     --light-color: #8AA652;
     --dark-color: #3A4D20;
     --accent-color: #D4BA6A;
@@ -2433,7 +2434,8 @@ select:focus,
 /* Stile per la label quando la sua checkbox interna è selezionata */
 /* Usare classe JS '.selected-answer' per massima compatibilità, o :has() per browser moderni */
 .question-item .answer-option label.selected-answer,
-.question-item .answer-option label:has(input[type="checkbox"]:checked) {
+.question-item .answer-option label:has(input[type="checkbox"]:checked),
+.question-item .answer-option label:has(input[type="radio"]:checked) {
     background-color: rgba(var(--rgb-main-color, 85, 107, 47), 0.1); /* Sfondo verde tema molto leggero */
     border-color: var(--main-color);
     color: var(--dark-color);
@@ -2441,7 +2443,8 @@ select:focus,
     box-shadow: 0 2px 5px rgba(var(--rgb-main-color, 85, 107, 47), 0.15);
 }
 .question-item .answer-option label.selected-answer:hover,
-.question-item .answer-option label:has(input[type="checkbox"]:checked):hover {
+.question-item .answer-option label:has(input[type="checkbox"]:checked):hover,
+.question-item .answer-option label:has(input[type="radio"]:checked):hover {
      background-color: rgba(var(--rgb-main-color, 85, 107, 47), 0.18); /* Leggermente più scuro all'hover quando selezionato */
      transform: translateY(0); /* Rimuove l'effetto sollevamento quando già selezionato per stabilità */
 }

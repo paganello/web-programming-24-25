@@ -108,9 +108,6 @@ $domanda_indice_visualizzato = 0;
 
     <?php if ($error_message_page): ?>
         <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($error_message_page); ?></div>
-        <?php if (strpos($error_message_page, "non ha ancora domande") !== false): ?>
-            <p class="text-align-center padding-vertical-medium"><a href="index.php" class="btn">Torna alla Home</a></p>
-        <?php endif; ?>
     <?php elseif ($quiz): ?>
       
         <div class="page-header-controls quiz-participation-page-header">
@@ -121,7 +118,7 @@ $domanda_indice_visualizzato = 0;
                 </h1>
             </div>
             <p class="quiz-participation-description">
-                Seleziona le risposte che ritieni corrette e invia il quiz.
+            Seleziona la risposta che ritieni corretta per ogni domanda e invia il quiz.
             </p>
         </div>
 
@@ -145,9 +142,9 @@ $domanda_indice_visualizzato = 0;
                                 <?php foreach ($current_question['answers'] as $answer): ?>
                                     <div class="answer-option">
                                         <label>
-                                            <input type="checkbox"
-                                                   name="answers[<?php echo $current_question['numero']; ?>][]"
-                                                   value="<?php echo $answer['numero']; ?>">
+                                            <input type="radio"
+                                                name="answers[<?php echo $current_question['numero']; ?>]"
+                                                value="<?php echo $answer['numero']; ?>" required>
                                             <span><?php echo htmlspecialchars($answer['testo']); ?></span> <!-- Avvolto testo in span per styling se necessario -->
                                         </label>
                                     </div>
