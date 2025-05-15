@@ -10,11 +10,11 @@
 
 // Include l'header comune che gestisce session_start() e altre inclusioni.
 include 'includes/header.php';
-// Il file header.php dovrebbe già aver chiamato session_start().
-// Se si vuole essere extra sicuri o se header.php non lo fa SEMPRE:
-// if (session_status() === PHP_SESSION_NONE) {
-// session_start();
-// }
+
+// --- Inizializzazione della sessione PHP ---
+ if (session_status() === PHP_SESSION_NONE) {
+ session_start();
+ }
 
 // --- Controllo Autenticazione Utente ---
 // Se l'utente non è loggato (nessuna sessione 'user' attiva),

@@ -95,8 +95,8 @@ try {
     $statisticheRaw = $stmtStatistiche->fetchAll(PDO::FETCH_ASSOC);
 
     // Organizza le statistiche e calcola il totale delle risposte date per ogni domanda.
-    $statisticheConteggi = [];        // Esempio: $statisticheConteggi[num_domanda][num_risposta] = conteggio
-    $totaleRispostePerDomandaDB = []; // Esempio: $totaleRispostePerDomandaDB[num_domanda] = totale_scelte
+    $statisticheConteggi = [];        
+    $totaleRispostePerDomandaDB = []; 
 
     foreach ($statisticheRaw as $stat) {
         $statisticheConteggi[$stat['numero_domanda_db']][$stat['numero_risposta_db']] = (int) $stat['conteggio_scelte'];
