@@ -1,24 +1,29 @@
 <?php
 
 /**
- * Header comune dell'applicazione
+ * Header Comune dell'Applicazione Quiz Online.
  *
- * Questo file contiene l'intestazione HTML comune a tutte le pagine.
- * Include:
- * - Dichiarazione del doctype e tag meta
- * - Collegamenti ai fogli di stile CSS
- * - Collegamenti agli script JavaScript
- * - Logo e titolo dell'applicazione
- * - Gestione della sessione utente
- * - Inizio della struttura della pagina
+ * Contiene l'intestazione HTML standard per tutte le pagine:
+ * - Inizializzazione sessione e inclusione configurazione DB.
+ * - Tag HTML base, metadati, collegamenti CSS.
+ * - Logo, titolo, e gestione dinamica dei link utente (login/logout).
+ * - Inclusione della barra di navigazione.
+ * - Apertura dei contenitori principali del layout.
  */
 
-session_start();
+// Avvia la sessione PHP se non già attiva.
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Include la configurazione del database.
 require_once 'config/database.php';
 
-// Determina la classe del body in base alla pagina corrente
+// --- Determinazione della Classe del Body ---
+// Aggiunge una classe CSS al tag <body> in base alla pagina corrente
+// per permettere stili specifici per pagina.
 $bodyClass = '';
-$currentPage = basename($_SERVER['PHP_SELF']);
+$currentPage = basename($_SERVER['PHP_SELF']); // Nome del file corrente.
 
 if ($currentPage == 'index.php') {
     $bodyClass = 'page-index';
@@ -27,47 +32,53 @@ if ($currentPage == 'index.php') {
 } elseif ($currentPage == 'quiz_modify.php') {
     $bodyClass = 'page-quiz-modify';
 }
-// Aggiungi altre condizioni elseif per altre pagine se necessario
-// ad es. per la pagina di partecipazione, visualizzazione quiz, ecc.
+// Aggiungere altre condizioni per classi body specifiche per altre pagine.
 
 ?>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it"> <!-- Lingua del documento: Italiano -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Online - UniBG</title>
+    <meta charset="UTF-8"> <!-- Codifica caratteri UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport per responsività -->
+    <title>Quiz Online - UniBG</title> <!-- Titolo pagina -->
+
+    <!-- CSS principale -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- Potresti voler includere Font Awesome qui se non è già in style.css -->
+    
+    <!-- Font Awesome (icone) da CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body class="<?php echo htmlspecialchars($bodyClass); ?>">
+<body class="<?php echo htmlspecialchars($bodyClass, ENT_QUOTES, 'UTF-8'); ?>"> <!-- Classe dinamica per il body -->
     <header>
-        <div class="container header-content">
+        <div class="container header-content"> <!-- Contenitore header -->
             <div class="logo">
-            <a href="index.php" title="Homepage Quiz UniBG">
-                <img src="https://upload.wikimedia.org/wikipedia/it/b/b4/UNIBG_Logo_2018.svg" alt="Logo Università degli Studi di Bergamo" id="header-logo">
-            </a>
-        </div>
+                <a href="index.php" title="Homepage Quiz UniBG">
+                    <img src="https://upload.wikimedia.org/wikipedia/it/b/b4/UNIBG_Logo_2018.svg" alt="Logo Università degli Studi di Bergamo" id="header-logo">
+                </a>
+            </div>
 
-            <div class="user-info">
-                <?php if(isset($_SESSION['user'])): ?>
+            <div class="user-info"> <!-- Info utente e autenticazione -->
+                <?php if(isset($_SESSION['user'])): // Se l'utente è loggato ?>
                     <span class="user-welcome-text">
                         Benvenuto, <?php echo htmlspecialchars($_SESSION['user']['nome'], ENT_QUOTES, 'UTF-8'); ?>!  
                     </span>
                     <a href="auth_logout.php" class="btn-header-auth btn-header-logout">Logout</a>
-                <?php else: ?>
+                <?php else: // Se l'utente non è loggato ?>
                     <a href="auth_login.php" class="btn-header-auth btn-header-login">Login</a>  
                     <a href="auth_register.php" class="btn-header-auth btn-header-register">Registrati</a>
                 <?php endif; ?>
             </div>
-
         </div>
     </header>
 
-    <?php include 'includes/nav.php'; // Assicurati che nav.php esista e sia corretto ?>
+    <?php 
+        // Inclusione barra di navigazione.
+        include 'includes/nav.php'; 
+    ?>
 
-    <div class="container main-page-container"> <!-- Aggiunta classe per styling se necessario -->
-        <!-- Spostato l'alert container principale qui, fuori dall'header, più vicino al contenuto -->
+    <!-- Contenitore principale del contenuto della pagina -->
+    <div class="container main-page-container"> 
+        <!-- Contenitore per alert globali della pagina -->
         <div id="alert-container-page" class="alert-container-fixed-top"></div>
-        <!-- La vecchia #alert-container potrebbe essere rimossa o rinominata se #alert-container-page è il principale -->
+    
+    <!-- La chiusura di .main-page-container, </body> e </html> è nel footer.php -->
