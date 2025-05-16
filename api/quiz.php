@@ -226,7 +226,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 }
 
                 $formSentOriginalQuestionNumbers = [];
-                // ... (codice per popolare $formSentOriginalQuestionNumbers) ...
                 if (isset($data['questions']) && is_array($data['questions'])) {
                     foreach ($data['questions'] as $idx => $qData) {
                         $q_text = trim($q_data['testo'] ?? '');
@@ -240,11 +239,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                 if (!empty($questionsToDelete)) {
                     $placeholdersDQ = implode(',', array_fill(0, count($questionsToDelete), '?'));
-
-                    // PRIMA: Cancella da RispostaUtenteQuiz le righe che si riferiscono alle Risposte
-                    // delle Domande che stanno per essere cancellate.
-                    // Dobbiamo selezionare le (quiz, domanda, numero_risposta) dalla tabella Risposta
-                    // per le domande in $questionsToDelete.
                     $sqlSelectRisposteToDelete = "SELECT quiz, domanda, numero FROM Risposta WHERE quiz = ? AND domanda IN ($placeholdersDQ)";
                     $stmtSelectR = $pdo->prepare($sqlSelectRisposteToDelete);
                     $paramsSelectR = array_merge([$quizId], $questionsToDelete);
@@ -253,7 +247,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                     if (!empty($risposteDaCuiCancellareRUQ)) {
                         // Costruisci una condizione OR complessa per il DELETE da RispostaUtenteQuiz
-                        // Esempio: (quiz = ? AND domanda = ? AND risposta = ?) OR (quiz = ? AND domanda = ? AND risposta = ?) ...
                         $deleteRUQConditions = [];
                         $deleteRUQParams = [];
                         foreach ($risposteDaCuiCancellareRUQ as $r) {
@@ -269,15 +262,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                             error_log("API Update: RispostaUtenteQuiz cancellate per quiz $quizId e domande " . implode(', ', $questionsToDelete));
                         }
                     }
-                    // Alternativamente, se non ci sono partecipazioni attive, potresti fare un delete più ampio,
-                    // ma è più sicuro essere specifici.
-                    // Oppure, se sai che ogni RispostaUtenteQuiz è legata a una Partecipazione,
-                    // e le Partecipazioni vengono gestite altrove, potresti non doverlo fare qui.
-                    // Ma l'errore suggerisce che è necessario.
 
-                    // POI: Cancella le Risposte (questo dovrebbe funzionare ora che RispostaUtenteQuiz è pulita)
-                    // Se Domanda ha ON DELETE CASCADE verso Risposta, questo è ridondante ma sicuro.
-                    // Altrimenti, è necessario.
                     $stmtDelR = $pdo->prepare("DELETE FROM Risposta WHERE quiz = ? AND domanda IN ($placeholdersDQ)");
                     $stmtDelR->execute(array_merge([$quizId], $questionsToDelete));
                     error_log("API Update: Risposte cancellate per quiz $quizId e domande " . implode(', ', $questionsToDelete));
@@ -471,9 +456,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         } else { // Altrimenti, si tratta di una creazione di un nuovo quiz (senza domande/risposte qui)
             // Questa logica gestisce solo la creazione dell'entità Quiz principale.
-            // Le domande/risposte per un nuovo quiz potrebbero essere gestite da un endpoint separato
-            // o in una fase successiva dopo che il quiz è stato creato e ha un ID.
-            // Il tuo codice precedente suggeriva che la creazione di quiz qui crea solo il record Quiz.
 
             if (!isset($data['titolo']) || !isset($data['dataInizio']) || !isset($data['dataFine'])) {
                 handleError('Dati incompleti per la creazione del quiz (titolo, dataInizio, dataFine richiesti).', 400);

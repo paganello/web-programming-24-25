@@ -172,9 +172,8 @@ include 'includes/header.php';
                     <div class='quiz-meta'>
                         <p title="Periodo di disponibilità">
                             <i class="fas fa-calendar-alt" style="margin-right: 6px; color: var(--secondary-gray);"></i>
-                            Disponibile dal  
-                            <strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataInizio']))); ?></strong>
-                            al  <strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataFine']))); ?></strong>
+                            Disponibile dal &nbsp; <strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataInizio']))); ?></strong>
+                            &nbsp; al &nbsp;<strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($quiz['dataFine']))); ?></strong>
                         </p>
                         <p title="Codice Quiz">
                             <i class="fas fa-key" style="margin-right: 6px; color: var(--secondary-gray);"></i>
@@ -278,7 +277,6 @@ include 'includes/header.php';
 
         <div id="confirmDeleteModal" class="modal" style="display: none;">
             <div class="modal-content">
-                <span class="close-button" title="Chiudi">×</span>
                 <h2 style="color: var(--dark-color); display: flex; align-items: center; margin-top:0; font-size: 1.4rem;">
                     <i class="fas fa-exclamation-triangle"
                         style="color: #dc3545; margin-right: 10px; font-size: 1.5rem;"></i>

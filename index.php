@@ -34,26 +34,34 @@ if ($is_search_active) {
         $conditions[] = "q.titolo LIKE :search_titolo";
         $params[':search_titolo'] = '%' . $search_titolo . '%';
     }
+
     if (!empty($search_creatore)) {
-        $conditions[] = "(u.nomeUtente LIKE :search_creatore_un OR u.nome LIKE :search_creatore_n OR u.cognome LIKE :search_creatore_c)";
-        $search_creatore_param = '%' . $search_creatore . '%';
-        $params[':search_creatore_un'] = $search_creatore_param;
-        $params[':search_creatore_n'] = $search_creatore_param;
-        $params[':search_creatore_c'] = $search_creatore_param;
-    } else {
-        if (!empty($search_data_inizio_da)) {
+    // Versione corretta con parametri separati per ogni condizione
+    $conditions[] = "(
+        u.nomeUtente LIKE :search_creatore_un 
+        OR u.nome LIKE :search_creatore_n 
+        OR u.cognome LIKE :search_creatore_c
+        OR CONCAT(u.nome, ' ', u.cognome) LIKE :search_creatore_nc
+        OR CONCAT(u.cognome, ' ', u.nome) LIKE :search_creatore_cn
+    )";
+    $search_creatore_param = '%' . $search_creatore . '%';
+    $params[':search_creatore_un'] = $search_creatore_param;
+    $params[':search_creatore_n'] = $search_creatore_param;
+    $params[':search_creatore_c'] = $search_creatore_param;
+    $params[':search_creatore_nc'] = $search_creatore_param;
+    $params[':search_creatore_cn'] = $search_creatore_param;
+}
+        
+    if (!empty($search_data_inizio_da)) {
             $conditions[] = "q.dataInizio >= :search_data_inizio_da";
             $params[':search_data_inizio_da'] = $search_data_inizio_da;
-        }
-        if (!empty($search_data_fine_a)) {
+    }
+        
+    if (!empty($search_data_fine_a)) {
             $conditions[] = "q.dataFine <= :search_data_fine_a";
             $params[':search_data_fine_a'] = $search_data_fine_a;
-        }
     }
-    if (empty($search_data_inizio_da) && empty($search_data_fine_a)) {
-        $conditions[] = "q.dataFine >= :today_default_search_filter";
-        $params[':today_default_search_filter'] = $today;
-    }
+
 } else {
     $conditions[] = "q.dataFine >= :today_default";
     $params[':today_default'] = $today;
@@ -110,7 +118,6 @@ try {
     error_log("Errore nella query di conteggio: " . $e->getMessage());
     // Gestisci l'errore, ad esempio mostrando un messaggio all'utente
 }
-
 
 $total_pages = ($total_quizzes > 0) ? ceil($total_quizzes / $per_page) : 1;
 if ($page > $total_pages && $total_pages > 0)
