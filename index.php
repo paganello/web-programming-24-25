@@ -53,12 +53,12 @@ if ($is_search_active) {
 }
         
     if (!empty($search_data_inizio_da)) {
-            $conditions[] = "q.dataInizio >= :search_data_inizio_da";
+            $conditions[] = "q.dataFine >= :search_data_inizio_da";
             $params[':search_data_inizio_da'] = $search_data_inizio_da;
     }
         
     if (!empty($search_data_fine_a)) {
-            $conditions[] = "q.dataFine <= :search_data_fine_a";
+            $conditions[] = "q.dataInizio <= :search_data_fine_a";
             $params[':search_data_fine_a'] = $search_data_fine_a;
     }
 
