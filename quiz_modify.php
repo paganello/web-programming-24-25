@@ -172,13 +172,7 @@ try {
                                                         class="answer-header-styled flex-container flex-justify-between flex-align-center margin-bottom-small">
                                                         <label
                                                             class="form-label-styled label-bold-styled label-accent-color-styled answer-label-dynamic">Risposta
-                                                            <span
-                                                                class="answer-number"><?php echo $indexRisposta + 1; ?></span></label>
-                                                        <button type="button"
-                                                            class="button-styled button-danger-styled button-extra-small-styled remove-answer-btn"
-                                                            title="Rimuovi Risposta">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
+                                                            <span class="answer-number"><?php echo $indexRisposta + 1; ?></span></label>
                                                     </div>
 
                                                     <div class="form-field-group margin-bottom-small">
