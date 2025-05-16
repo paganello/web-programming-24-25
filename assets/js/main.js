@@ -291,7 +291,7 @@ $(document).ready(function () {
                         }
                     } else { showAlert(response.message || 'Errore nella creazione del quiz.', 'danger', '#alert-container-page'); }
                 },
-                error: (xhr) => showAlert('Errore AJAX creazione quiz: ' + (xhr.responseJSON?.message || xhr.statusText), 'danger', '#alert-container-page')
+                error: (xhr) => showAlert('Errore creazione quiz: ' + (xhr.responseJSON?.message || xhr.statusText), 'danger', '#alert-container-page')
             });
         });
 
