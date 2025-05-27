@@ -1,6 +1,6 @@
 # Progetto di Migrazione Dati Quiz Online
 
-Questo repository contiene il codice e le istruzioni per migrare i dati dell'applicazione "Quiz Online" da un database MariaDB (ospitato su Oracle/Altervista e servito da un'applicazione PHP) a un database locale PostgreSQL (o MongoDB), utilizzando una pipeline di web service.
+Questo repository contiene il codice e le istruzioni per migrare i dati dell'applicazione "Quiz Online" da un database MariaDB (ospitato su Oracle e servito da un'applicazione PHP) a un database locale PostgreSQL (o MongoDB), utilizzando una pipeline di web service.
 
 ## Architettura della Migrazione
 
