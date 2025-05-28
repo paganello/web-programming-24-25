@@ -1,90 +1,174 @@
-# Progetto di Migrazione Dati Quiz Online
+# 🛠️ Progetto di Migrazione Dati: Quiz Online
 
-Questo repository contiene il codice e le istruzioni per migrare i dati dell'applicazione "Quiz Online" da un database MariaDB (ospitato su Oracle e servito da un'applicazione PHP) a un database locale PostgreSQL (o MongoDB), utilizzando una pipeline di web service.
+## 📌 Obiettivo
 
-## Architettura della Migrazione
+Migrare i dati dell’applicazione **"Quiz Online"**, originariamente sviluppata in PHP con database **MariaDB** e ostato da una macchina in Oracle, verso una nuova infrastruttura moderna basata su **Python/Django** e **PostgreSQL**.
+La migrazione è orchestrata da una **Servlet Java** che agisce da intermediario tra i due sistemi.
 
-Il processo di migrazione coinvolge tre componenti principali:
+&nbsp;
 
-1.  **Web Service Remoto (PHP):**
-    *   **Posizione:** `1_PROGETTO_PHP_REMOTO/`
-    *   **Tecnologia:** PHP
-    *   **Database Sorgente:** MariaDB (esistente, parte del progetto "1° Progetto Quiz Online")
-    *   **Funzione:** Espone i dati dal database MariaDB tramite endpoint API RESTful (nella sottocartella `migration_api/`).
-    *   **Hosting:** Si assume sia hostato su una macchina Oracle o Altervista.
+## 🏗️ Architettura Generale
 
-2.  **Strato Intermedio (Servlet Java):**
-    *   **Posizione:** `3_SERVLET_JAVA_INTERMEDIA/`
-    *   **Tecnologia:** Java Servlet (da deployare su Apache Tomcat)
-    *   **Funzione:**
-        *   Interroga il Web Service Remoto PHP per recuperare i dati.
-        *   Trasforma/elabora i dati se necessario (attualmente agisce principalmente da proxy).
-        *   Invia i dati al Web Service Locale Python/Django.
+Il sistema è suddiviso in **tre componenti principali**:
 
-3.  **Web Service Locale (Python/Django):**
-    *   **Posizione:** `2_PROGETTO_DJANGO_LOCALE/`
-    *   **Tecnologia:** Python, Django, Django REST framework
-    *   **Database Destinazione:** PostgreSQL (o MongoDB, configurabile) locale.
-    *   **Funzione:**
-        *   Riceve i dati dalla Servlet Java tramite endpoint API RESTful.
-        *   Esegue la validazione e l'inserimento dei dati nel database locale (PostgreSQL/MongoDB).
-        *   Gestisce la mappatura degli ID tra il database sorgente e quello di destinazione.
+### 1. 🌐 Web Service Remoto PHP (Esportazione)
 
-## Struttura della Repository
+* **Tecnologia:** PHP
+* **Database Sorgente:** MariaDB
+* **Funzione:** Esportazione dei dati in formato JSON tramite endpoint (`.php`)
+* **Formato di risposta JSON atteso:**
 
-*   **`1_PROGETTO_PHP_REMOTO/`**: Contiene il codice sorgente del progetto PHP originale, inclusi gli script specifici per l'esportazione dei dati (`migration_api/`).
-*   **`2_PROGETTO_DJANGO_LOCALE/`**: Contiene il progetto Django responsabile dell'importazione e del salvataggio dei dati nel database locale.
-    *   `data_migrator/`: Cartella di configurazione del progetto Django.
-    *   `importer/`: Applicazione Django che gestisce la logica di importazione (modelli, viste, serializers).
-*   **`3_SERVLET_JAVA_INTERMEDIA/`**: Contiene il codice sorgente della Servlet Java.
-    *   `target/migrator.war`: (Esempio) Il file WAR pre-compilato della servlet pronto per il deploy su Tomcat.
-*   **`ISTRUZIONI_PROFESSORE.txt`**: Guida dettagliata per la configurazione e l'esecuzione del processo di migrazione.
-*   **`start_migration_services.sh`**: (Opzionale) Script Bash per automatizzare l'avvio dei servizi Django e Tomcat in ambiente Linux.
-*   **`README.md`**: Questo file.
+  ```json
+  {
+    "success": true,
+    "data": [ /* array di oggetti */ ],
+    "message": "Messaggio opzionale"
+  }
+  ```
 
-## Prerequisiti Software (per l'ambiente locale)
+### 2. 🐍 Web Service Locale Django (Importazione)
 
-Si assume che i seguenti software siano già installati e configurati sulla macchina locale dove verrà eseguita la migrazione:
+* **Tecnologia:** Python + Django + Django REST Framework
+* **Database Destinazione:** PostgreSQL
+* **Funzione:** Importazione dei dati JSON ricevuti, con gestione delle relazioni tramite `update_or_create`.
+* **Note:**
 
-*   Java JDK (versione 11+ consigliata per `java.net.http.HttpClient`, altrimenti Apache HttpClient)
-*   Apache Tomcat (versione 8.5+ consigliata)
-*   Python (versione 3.8+ consigliata)
-*   pip (Python package installer)
-*   Virtualenv (per creare ambienti Python isolati)
-*   PostgreSQL (versione 12+ consigliata) O MongoDB (versione 4.x+ consigliata)
-*   Git (per clonare questa repository)
+  * Utilizza una **mappa temporanea in memoria** (`original_to_django_ids`) per tenere traccia della corrispondenza tra ID originali e ID nuovi.
+  * Assicura **idempotenza** per rendere la migrazione ripetibile senza creare duplicati.
 
-## Istruzioni per la Configurazione e l'Esecuzione
 
-Per istruzioni dettagliate sulla configurazione dell'ambiente, l'avvio dei servizi e l'esecuzione del processo di migrazione, fare riferimento al file:
-**`ISTRUZIONI_PROFESSORE.txt`**
+### 3. ☕ Servlet Java (Orchestrazione)
 
-**Riassunto dei passaggi principali:**
+* **Tecnologia:** Java Servlet
+* **Funzione:**
 
-1.  **Clonare la repository.**
-2.  **Configurare il Web Service Remoto PHP:** Assicurarsi che sia deployato e accessibile.
-3.  **Configurare il Database Locale:** Creare il database PostgreSQL/MongoDB e l'utente necessario.
-4.  **Configurare il Progetto Django:**
-    *   Creare e attivare un ambiente virtuale Python.
-    *   Installare le dipendenze da `2_PROGETTO_DJANGO_LOCALE/requirements.txt`.
-    *   Configurare la connessione al database in `2_PROGETTO_DJANGO_LOCALE/data_migrator/settings.py`.
-    *   Eseguire le migrazioni Django (per PostgreSQL): `python manage.py migrate`.
-5.  **Compilare e/o Configurare la Servlet Java:**
-    *   Assicurarsi che gli URL dei servizi PHP e Django siano corretti nel codice della servlet (`MigrationServlet.java`).
-    *   Compilare la servlet in un file `.war` (es. `migrator.war`).
-6.  **Avviare i Servizi:**
-    *   Avviare il server Django locale (`python manage.py runserver`).
-    *   Deployare il file `.war` su Apache Tomcat e avviare Tomcat.
-    *   (Opzionale) Usare lo script `start_migration_services.sh` dopo averlo configurato.
-7.  **Eseguire la Migrazione:** Accedere all'URL della servlet Java tramite un browser web (es. `http://localhost:8080/migrator/migrate`).
+  1. Riceve la richiesta di avvio migrazione (`/migrate`)
+  2. Chiama Django per **resettare la mappa ID**
+  3. Recupera i dati da PHP ed effettua POST a Django per ogni entità
+  4. Logga l’intero processo.
 
-## Entità da Migrare
+&nbsp;
 
-Il processo mira a migrare le seguenti entità principali dal database MariaDB originale:
+## 🔄 Flusso di Migrazione Dati
 
-*   Utenti (`Utente`)
-*   Quiz (`Quiz`)
-*   Domande (`Domanda`)
-*   Risposte (`Risposta`)
-*   Partecipazioni ai Quiz (`Partecipazione`)
-*   Risposte date dagli utenti ai quiz (`RispostaUtenteQuiz`)
+Orchestrato dalla **Servlet Java**:
+
+1. **Avvio Migrazione** → Richiesta GET a `/migrate`
+2. **Reset Mappa ID Django**
+   `POST /api/importer/clear_id_map/`
+3. **Migrazione Entità (ordine importante):**
+
+   * **Utenti**
+     `GET export_users.php` → `POST /api/importer/users/`
+   * **Quiz**
+     `GET export_quizzes.php` → `POST /api/importer/quizzes/`
+   * **Domande**
+     `GET export_questions.php` → `POST /api/importer/questions/`
+   * **Risposte**
+     `GET export_answers.php` → `POST /api/importer/answers/`
+   * **Partecipazioni**
+     `GET export_participations.php` → `POST /api/importer/participations/`
+   * **Risposte Utente a Quiz**
+     `GET export_user_quiz_answers.php` → `POST /api/importer/user_quiz_answers/`
+4. **Completamento** → Restituzione log dettagliato
+
+&nbsp;
+
+## 🗂️ Struttura del Progetto
+
+### 📁 1. Web Service PHP (`quiz_online/migration_api/`)
+
+* `export_users.php`
+* `export_quizzes.php`
+* `export_questions.php`
+* `export_answers.php`
+* `export_participations.php`
+* `export_user_quiz_answers.php`
+
+### 📁 2. Web Service Django (`data_migration_django/`)
+
+#### 📌 Progetto Django: `data_migrator`
+
+* `settings.py`: Configura app e database PostgreSQL
+* `urls.py`: Include gli endpoint di `importer` (`/api/importer/`)
+
+#### 📦 App Django: `importer`
+
+* `models.py`: Definisce i modelli con campo per l'ID originale
+* `serializers.py`: Serializer DRF (base)
+* `views.py`:
+
+  * Riceve JSON
+  * Risolve Foreign Keys con la mappa ID
+  * Usa `update_or_create`
+  * Aggiorna la mappa ID in memoria
+* `urls.py`: Endpoints per entità:
+
+  * `/users/`, `/quizzes/`, `/questions/`, `/answers/`, `/participations/`, `/user_quiz_answers/`
+  * `/clear_id_map/` per resettare la mappa
+* `migrations/`: Migrazioni database
+
+#### 📄 Script Django:
+
+* `manage.py`: Script CLI di Django
+
+---
+
+### 📁 3. Servlet Java (Progetto Maven)
+
+* `pom.xml`: Dipendenze: `servlet-api`, `jackson-databind`
+* `MigrationServlet.java`:
+
+  * Annotazione: `@WebServlet("/migrate")`
+  * Costanti: `PHP_BASE_URL`, `DJANGO_BASE_URL`
+  * Richieste: `HttpClient` per GET e POST
+  * JSON: `ObjectMapper` per parsing
+  * Metodo: `doGet()` esegue la migrazione passo-passo
+
+&nbsp;
+
+## ⚙️ Setup e Testing
+
+1. **Avviare il Servizio PHP**
+
+   * Verifica accesso agli script `.php`
+   * Configura connessione a MariaDB
+
+2. **Configurare PostgreSQL**
+
+   * Creare database e utente con permessi
+
+3. **Setup Django**
+
+   ```bash
+   python manage.py makemigrations importer
+   python manage.py migrate
+   python manage.py runserver
+   ```
+
+4. **Compilare e Deployare la Servlet**
+
+   ```bash
+   mvn clean package
+   # Deploy su Apache Tomcat o altro server compatibile
+   ```
+
+5. **Avvio Migrazione**
+
+   * Accedi da browser o terminale:
+     `http://localhost:8080/<nome-progetto-servlet>/migrate`
+
+6. **Verifica Risultati**
+
+   * Controlla il database PostgreSQL
+   * Analizza log servlet, Django e PHP per errori
+
+&nbsp;
+
+## ⚠️ Considerazioni Chiave
+
+* **Ordine Entità:** Fondamentale per la corretta risoluzione delle Foreign Key
+* **Idempotenza:** Migrazione ripetibile grazie a `update_or_create`
+* **Mappa ID:** Gestita in memoria su Django, resettata dalla Servlet
+* **Gestione Errori:** Ogni componente deve loggare correttamente per debugging efficace
+* **Formato JSON:** Deve corrispondere perfettamente tra output PHP e input Django

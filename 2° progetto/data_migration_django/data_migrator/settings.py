@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'data_migrator.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nome_del_tuo_database_postgres',
+        'USER': 'nome_utente_postgres',
+        'PASSWORD': 'la_tua_password_postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

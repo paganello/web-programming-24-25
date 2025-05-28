@@ -5,6 +5,8 @@
 Il progetto **"Quiz Online"** è un'applicazione web sviluppata in **PHP** che consente agli utenti di **creare quiz personalizzati**, **partecipare ai quiz di altri utenti**, e **visualizzare risultati e statistiche**.
 L'architettura segue il pattern **MVC (Model-View-Controller)**, adattato a un contesto PHP per garantire una **chiara separazione tra back-end e front-end**.
 
+&nbsp;
+
 ## 🧱 Architettura del Sistema
 
 ### 🗃️ 1. Struttura del Database
@@ -60,7 +62,7 @@ quiz_online/
 └── quiz_partecipations.php     # Storico partecipazioni
 ```
 
----
+&nbsp;
 
 ## ⚙️ Approccio Implementativo
 
@@ -81,7 +83,7 @@ quiz_online/
   * Ordinamento (alfabetico, per popolarità, titolo, partecipazioni)
   * Impaginazione: visualizzazione a gruppi di **10, 20, 50 o 100 quiz per pagina**
 
----
+&nbsp;
 
 ## 🚀 Funzionalità Principali
 
@@ -117,7 +119,7 @@ quiz_online/
   * Numero partecipanti
   * Risposte effettuate dai vari partecipanti
 
----
+&nbsp;
 
 ## 🔐 Considerazioni sulla Sicurezza
 
@@ -125,7 +127,7 @@ quiz_online/
 * **Prepared statements** per tutte le query al DB
 * Filtri e controlli anti-spam lato form
 
----
+&nbsp;
 
 ## ⚡ Considerazioni sulle Prestazioni
 
@@ -134,7 +136,7 @@ quiz_online/
 * **Caricamento asincrono** dei contenuti per ridurre i tempi di attesa
 * API ridotte al minimo necessario per ogni interazione
 
----
+&nbsp;
 
 ## 📈 Estensioni Future
 
@@ -143,12 +145,10 @@ quiz_online/
 * **Gamification**: badge, classifiche
 * Notifiche in tempo reale e sistemi di messaggistica
 
----
+&nbsp;
 
 ## ✅ Conclusione
 
 Il progetto **Quiz Online** si propone come una **piattaforma completa, sicura e moderna** per la gestione dei quiz.
 L’interfaccia utente è **intuitiva**, **reattiva**.
 L’architettura è **scalabile e modulare**, pronta per accogliere estensioni future e adatta a contesti sia educativi che ludici.
-
----
