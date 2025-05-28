@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 public class MigrationServlet extends HttpServlet {
 
     private static final String PHP_BASE_URL = "http://152.67.76.115/migration_api/";
-    private static final String DJANGO_BASE_URL = "http://127.0.0.1:8000/api/import/";
+    private static final String DJANGO_BASE_URL = "http://127.0.0.1:8000/api/importer/";
 
     private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
     private final ObjectMapper objectMapper = new ObjectMapper();
