@@ -135,20 +135,3 @@ quiz_online/
 * Minimizzazione e caching delle risorse CSS/JS
 * **Caricamento asincrono** dei contenuti per ridurre i tempi di attesa
 * API ridotte al minimo necessario per ogni interazione
-
-&nbsp;
-
-## 📈 Estensioni Future
-
-* **Timer** per quiz a tempo limitato
-* Domande avanzate con **immagini, audio o video**
-* **Gamification**: badge, classifiche
-* Notifiche in tempo reale e sistemi di messaggistica
-
-&nbsp;
-
-## ✅ Conclusione
-
-Il progetto **Quiz Online** si propone come una **piattaforma completa, sicura e moderna** per la gestione dei quiz.
-L’interfaccia utente è **intuitiva**, **reattiva**.
-L’architettura è **scalabile e modulare**, pronta per accogliere estensioni future e adatta a contesti sia educativi che ludici.
