@@ -16,6 +16,4 @@ urlpatterns = [
     path('answers/', AnswerImportView.as_view(), name='import-answers'),
     path('participations/', ParticipationImportView.as_view(), name='import-participations'),
     path('user_quiz_answers/', UserQuizAnswerImportView.as_view(), name='import-user-quiz-answers'),
-    path('admin/', admin.site.urls),
-    path('api/', include('importer.urls')), # Prefisso per le API di importazione
 ]

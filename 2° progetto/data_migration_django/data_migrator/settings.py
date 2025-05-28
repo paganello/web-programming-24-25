@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'data_migrator.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nome_del_tuo_database_postgres',
-        'USER': 'nome_utente_postgres',
-        'PASSWORD': 'la_tua_password_postgres',
+        'NAME': 'quiz_online',
+        'USER': 'quiz_user',
+        'PASSWORD': '!*5633hH$rU7^t%65@J@',
         'HOST': 'localhost',
         'PORT': '5432',
     }
