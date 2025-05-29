@@ -5,7 +5,6 @@
 Migrare i dati dell’applicazione **"Quiz Online"**, originariamente sviluppata in PHP con database **MariaDB** e ostato da una macchina in Oracle, verso una nuova infrastruttura moderna basata su **Python/Django** e **PostgreSQL**.
 La migrazione è orchestrata da una **Servlet Java** che agisce da intermediario tra i due sistemi.
 
-&nbsp;
 
 ## 🏗️ Architettura Generale
 
@@ -85,6 +84,7 @@ Orchestrato dalla **Servlet Java**:
 * `export_participations.php`
 * `export_user_quiz_answers.php`
 
+
 ### 📁 2. Web Service Django (`data_migration_django/`)
 
 #### 📌 Progetto Django: `data_migrator`
@@ -111,8 +111,6 @@ Orchestrato dalla **Servlet Java**:
 #### 📄 Script Django:
 
 * `manage.py`: Script CLI di Django
-
----
 
 ### 📁 3. Servlet Java (Progetto Maven)
 

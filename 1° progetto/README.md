@@ -5,8 +5,6 @@
 Il progetto **"Quiz Online"** è un'applicazione web sviluppata in **PHP** che consente agli utenti di **creare quiz personalizzati**, **partecipare ai quiz di altri utenti**, e **visualizzare risultati e statistiche**.
 L'architettura segue il pattern **MVC (Model-View-Controller)**, adattato a un contesto PHP per garantire una **chiara separazione tra back-end e front-end**.
 
-&nbsp;
-
 ## 🧱 Architettura del Sistema
 
 ### 🗃️ 1. Struttura del Database
