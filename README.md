@@ -7,7 +7,7 @@ Il progetto *Quiz Online* è stato sviluppato in due fasi distinte:
 1. **Implementazione dell'applicazione web**, secondo i requisiti iniziali, utilizzando **PHP** e **MariaDB**, seguendo un approccio full-stack autonomo.
 2. **Migrazione dell'intero sistema informativo** verso un'infrastruttura moderna, basata su **Django (Python)** e **PostgreSQL**, orchestrata tramite una **Servlet Java**.
 
-L’obiettivo comune è stato garantire un sistema scalabile, sicuro e ben strutturato, mantenendo la separazione delle responsabilità tra i vari livelli e preparando il terreno per un'evoluzione futura della piattaforma.
+L’obiettivo comune è stato garantire un sistema scalabile e ben strutturato, mantenendo la separazione delle responsabilità tra i vari livelli.
 
 &nbsp;
 
@@ -27,7 +27,7 @@ Questa scelta ha migliorato la manutenibilità del codice e reso più agevole la
 
 #### ✅ **Struttura RESTful modulare**
 
-Ogni entità (utenti, quiz, domande, risposte, partecipazioni) dispone di **endpoint API dedicati**, separando il frontend dalla logica di business. Le API sono implementate in PHP come script autonomi, seguendo convenzioni REST semplificate.
+Ogni entità (utenti, quiz, domande, risposte, partecipazioni) dispone di **endpoint API dedicati**, separando il frontend dal backend. Le API sono implementate in PHP come script autonomi, seguendo convenzioni REST semplificate.
 
 Ciò ha consentito di costruire un frontend asincrono, reattivo e pronto all’interoperabilità.
 
