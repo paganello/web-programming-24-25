@@ -21,43 +21,46 @@ Il database, conforme allo schema ER definito nei documenti tecnici, comprende l
 ### 🗂️ 2. Organizzazione del Codice
 
 ```
-quiz_online/
-├── api/                        # Endpoint RESTful lato backend
-│   ├── participation.php       # Gestione partecipazioni e risposte
-│   ├── questions.php           # CRUD domande
-│   ├── quiz.php                # CRUD quiz
-│   └── users.php               # Autenticazione e gestione profili
+1_progetto/                      # Radice del progetto dell'applicazione web di quiz online
+├── api/                         # Directory contenente gli script PHP che fungono da endpoint API RESTful per il backend
+│   ├── participation.php        # API per gestire la partecipazione degli utenti ai quiz e la sottomissione delle loro risposte
+│   ├── questions.php            # API per le operazioni CRUD (Create, Read, Update, Delete) sulle domande dei quiz
+│   ├── quiz.php                 # API per le operazioni CRUD sui quiz stessi (creazione, elenco, modifica, eliminazione)
+│   └── users.php                # API per la gestione degli utenti: autenticazione (login, verifica sessione), registrazione, gestione profili
 │
-├── assets/                     # Risorse statiche (immagini, icone)
-├── css/
-│   └── style.css               # Stili responsivi e UI moderna
-├── js/
-│   └── main.js                 # Chiamate API, validazioni, logica dinamica
+├── assets/                      # Directory per risorse statiche generiche come immagini, icone, font, ecc.
 │
-├── config/
-│   └── database.php            # Connessione PDO sicura
-├── includes/
-│   ├── footer.php
-│   ├── header.php
-│   └── nav.php
+├── css/                         # Directory contenente i fogli di stile CSS
+│   └── style.css                # Foglio di stile principale per l'interfaccia utente, inclusi stili responsivi e design moderno
 │
-├── sql/
-│   ├── script.sql              # Creazione schema DB
-│   └── data-seed.sql           # Dati demo
+├── js/                          # Directory contenente i file JavaScript per la logica lato client
+│   └── main.js                  # Script JavaScript principale per interazioni dinamiche, validazioni di form, chiamate AJAX agli endpoint API
 │
-├── index.php                   # Homepage
-├── auth_login.php              # Login utente
-├── auth_logout.php             # Logout
-├── auth_register.php           # Registrazione utente
-├── quiz_create.php             # Creazione quiz
-├── quiz_search.php             # Ricerca e gestione quiz disponibili
-├── quiz_modify.php             # Modifica quiz
-├── quiz_info.php               # Statistiche quiz creati
-├── quiz_my.php                 # I miei quiz
-├── quiz_view.php               # Dettaglio quiz
-├── quiz_participate.php        # Partecipazione quiz
-├── quiz_results.php            # Risultato quiz svolto
-└── quiz_partecipations.php     # Storico partecipazioni
+├── config/                      # Directory per i file di configurazione dell'applicazione
+│   └── database.php             # Script PHP per configurare e stabilire la connessione al database (es. usando PDO per sicurezza)
+│
+├── includes/                    # Directory per frammenti di codice PHP/HTML riutilizzabili (template parziali)
+│   ├── footer.php               # Script PHP/HTML per il piè di pagina comune a tutte le pagine
+│   ├── header.php               # Script PHP/HTML per l'intestazione comune (es. doctype, tag <head>, meta, inclusione CSS/JS)
+│   └── nav.php                  # Script PHP/HTML per la barra di navigazione comune del sito
+│
+├── sql/                         # Directory contenente gli script SQL per il database
+│   ├── script.sql               # Script SQL per la creazione dello schema del database (tabelle, relazioni, indici, ecc.)
+│   └── data-seed.sql            # Script SQL per popolare il database con dati iniziali o di esempio (demo data)
+│
+├── index.php                    # Pagina principale dell'applicazione (Homepage), solitamente il punto di ingresso del sito
+├── auth_login.php               # Pagina o script PHP per gestire il processo di login degli utenti
+├── auth_logout.php              # Script PHP per gestire il processo di logout degli utenti (es. distruggere la sessione)
+├── auth_register.php            # Pagina o script PHP per gestire la registrazione di nuovi utenti
+├── quiz_create.php              # Pagina che permette agli utenti (autorizzati) di creare nuovi quiz
+├── quiz_search.php              # Pagina che permette agli utenti di cercare e visualizzare i quiz disponibili a cui partecipare
+├── quiz_modify.php              # Pagina che permette agli utenti (creatori del quiz) di modificare un quiz esistente
+├── quiz_info.php                # Pagina che mostra statistiche e informazioni dettagliate sui quiz creati da un utente
+├── quiz_my.php                  # Pagina che elenca i quiz creati dall'utente attualmente loggato ("I miei quiz")
+├── quiz_view.php                # Pagina per visualizzare i dettagli di un quiz specifico (es. descrizione, numero di domande) prima di parteciparvi
+├── quiz_participate.php         # Pagina dove l'utente effettivamente svolge un quiz, rispondendo alle domande
+├── quiz_results.php             # Pagina che mostra i risultati ottenuti da un utente dopo aver completato un quiz
+└── quiz_partecipations.php      # Pagina che mostra lo storico delle partecipazioni ai quiz da parte dell'utente loggato
 ```
 
 &nbsp;
