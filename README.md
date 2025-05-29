@@ -1,4 +1,4 @@
-# 🖥️ Guida - Progetto Quiz Online (Fase 2) su Windows 10
+# 🖥️ Guida - Quiz Online (Fase 2) su Windows 10
 
 Gentile Professore,
 
