@@ -1,6 +1,6 @@
 # data_migrator/importer/urls.py
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from .views import (
     UserImportView, QuizImportView, QuestionImportView, AnswerImportView,
     ParticipationImportView, UserQuizAnswerImportView, ClearIdMapView
