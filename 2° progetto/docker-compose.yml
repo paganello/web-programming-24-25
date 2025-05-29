@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: pg_quiz
+    restart: always
+    environment:
+      POSTGRES_USER: quiz_user
+      POSTGRES_PASSWORD: mypassword123
+      POSTGRES_DB: quiz_online
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  django:
+    build: ./data_migration_django
+    container_name: django_app
+    command: >
+      sh -c "python manage.py makemigrations importer &&
+             python manage.py migrate &&
+             python manage.py runserver"
+    volumes:
+      - ./data_migration_django:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  tomcat:
+    build: ./servlet_java/migration_bridge
+    container_name: tomcat_servlet
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  pg_data:

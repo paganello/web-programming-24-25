@@ -79,8 +79,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'quiz_online',
         'USER': 'quiz_user',
-        'PASSWORD': '!*5633hH$rU7^t%65@J@',
-        'HOST': 'localhost',
+        'PASSWORD': 'mypassword123',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
