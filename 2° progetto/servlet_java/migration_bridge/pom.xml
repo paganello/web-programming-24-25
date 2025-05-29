@@ -5,11 +5,11 @@
 
     <!-- Cambia groupId e artifactId per corrispondere al tuo progetto com.webprogramming.com -->
     <groupId>com.webprogramming.com</groupId>
-    <artifactId>nome-tuo-progetto-servlet</artifactId> <!-- Esempio: migration-servlet-app -->
+    <artifactId>migration-servlet-app</artifactId> <!-- Esempio: migration-servlet-app -->
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging> <!-- DEVE ESSERE WAR -->
 
-    <name>Nome Descrittivo Progetto Servlet</name>
+    <name>Migration Servlet App</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
