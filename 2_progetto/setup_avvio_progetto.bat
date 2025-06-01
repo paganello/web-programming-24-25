@@ -63,15 +63,22 @@ cls
 
 REM --- 0. VERIFICA COMANDI BASE ---
 echo Fase 0: Verifica comandi base...
-%PYTHON_EXE% --version >nul 2>&1 || (echo ERRORE: '%PYTHON_EXE%' non trovato. & goto :errore_fatale)
-%PIP_EXE% --version >nul 2>&1 || (echo ERRORE: '%PIP_EXE%' non trovato. & goto :errore_fatale)
-java -version >nul 2>&1 || (echo ERRORE: 'java' non trovato (JDK/JAVA_HOME). & goto :errore_fatale)
-%PSQL_EXE% --version >nul 2>&1 || (echo ERRORE: '%PSQL_EXE%' non trovato. & goto :errore_fatale)
-%MVN_EXE% -version >nul 2>&1 || (echo ERRORE: '%MVN_EXE%' non trovato. & goto :errore_fatale)
+
+echo Verifica Python...
+%PYTHON_EXE% --version || (echo ERRORE: '%PYTHON_EXE%' non trovato. & goto :errore_fatale)
+echo Verifica Pip...
+%PIP_EXE% --version || (echo ERRORE: '%PIP_EXE%' non trovato. & goto :errore_fatale)
+echo Verifica Java...
+java -version
+echo Verifica PostgreSQL...
+%PSQL_EXE% --version || (echo ERRORE: '%PSQL_EXE%' non trovato. & goto :errore_fatale)
+echo Verifica Maven...
+call "%MVN_EXE%" -version
 echo Comandi base trovati.
 echo.
 pause
 cls
+
 
 REM --- 1. RICHIESTA PASSWORD POSTGRES ---
 :chiedi_postgres_pwd
@@ -79,22 +86,31 @@ echo Fase 1: Configurazione PostgreSQL
 set /p "POSTGRES_PASSWORD=Password utente 'postgres' di PostgreSQL: "
 IF "%POSTGRES_PASSWORD%"=="" (echo ERRORE: Password vuota. & goto :chiedi_postgres_pwd)
 echo Password registrata. & echo. & pause & cls
-
+echo DEBUG: Sono appena passato dalla configurazione password.
+pause
 REM --- 2. DETERMINAZIONE/RICHIESTA PERCORSO CATALINA_HOME ---
 echo Fase 2: Configurazione Tomcat
 SET USE_ENV_CATALINA_HOME=N
+echo [DEBUG] Valore CATALINA_HOME: [%CATALINA_HOME%]
+pause
 IF DEFINED CATALINA_HOME (
     echo E' stata trovata una variabile d'ambiente CATALINA_HOME impostata a:
     echo %CATALINA_HOME%
     echo.
+    pause
     choice /C YN /M "Vuole usare questo percorso per Tomcat? (Y/N)"
-    IF ERRORLEVEL 2 SET USE_ENV_CATALINA_HOME=N
-    IF ERRORLEVEL 1 SET USE_ENV_CATALINA_HOME=Y
-
-    IF "%USE_ENV_CATALINA_HOME%"=="Y" (
+    IF ERRORLEVEL 2 (
+        SET USE_ENV_CATALINA_HOME=N
+    ) ELSE (
+        SET USE_ENV_CATALINA_HOME=Y
         SET CHOSEN_CATALINA_HOME=%CATALINA_HOME%
     )
 )
+
+IF NOT DEFINED CHOSEN_CATALINA_HOME (
+    goto :chiedi_catalina_home_manuale
+)
+
 
 IF "%USE_ENV_CATALINA_HOME%"=="N" (
     :chiedi_catalina_home_manuale
@@ -118,7 +134,11 @@ IF NOT EXIST "%CHOSEN_CATALINA_HOME%\webapps" (
     echo Il percorso CATALINA_HOME "%CHOSEN_CATALINA_HOME%" non sembra corretto.
     SET CHOSEN_CATALINA_HOME= & goto :chiedi_catalina_home_loop
 )
-goto :chiedi_catalina_home_loop_exit :: Salta il loop se i controlli passano subito
+
+REM Se arriviamo qui, il percorso è valido!
+goto :chiedi_catalina_home_loop_exit
+echo Utilizzo CATALINA_HOME: %CHOSEN_CATALINA_HOME%
+echo. & pause & cls
 
 :chiedi_catalina_home_loop
 IF "%USE_ENV_CATALINA_HOME%"=="Y" (
