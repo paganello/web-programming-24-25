@@ -267,7 +267,7 @@ echo  CONFIGURAZIONE E AVVIO COMPLETATI
 echo ======================================================================
 echo Riepilogo:
 echo - Server Django (dovrebbe essere su http://127.0.0.1:8000/)
-echo - Tomcat con Servlet (dovrebbe essere su http://localhost:8080/%WAR_FINAL_NAME:.war=%/)
+echo - Tomcat con Servlet (dovrebbe essere su http://localhost:8080/%WAR_FINAL_NAME:.war=%/migrate)
 echo.
 echo Controllare le nuove finestre per eventuali errori.
 echo Per fermare i server chiudere le rispettive finestre.
