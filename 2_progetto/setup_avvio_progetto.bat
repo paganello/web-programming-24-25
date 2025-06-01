@@ -86,13 +86,9 @@ echo Fase 1: Configurazione PostgreSQL
 set /p "POSTGRES_PASSWORD=Password utente 'postgres' di PostgreSQL: "
 IF "%POSTGRES_PASSWORD%"=="" (echo ERRORE: Password vuota. & goto :chiedi_postgres_pwd)
 echo Password registrata. & echo. & pause & cls
-echo DEBUG: Sono appena passato dalla configurazione password.
-pause
 REM --- 2. DETERMINAZIONE/RICHIESTA PERCORSO CATALINA_HOME ---
 echo Fase 2: Configurazione Tomcat
 SET USE_ENV_CATALINA_HOME=N
-echo [DEBUG] Valore CATALINA_HOME: [%CATALINA_HOME%]
-pause
 IF DEFINED CATALINA_HOME (
     echo E' stata trovata una variabile d'ambiente CATALINA_HOME impostata a:
     echo %CATALINA_HOME%
@@ -115,10 +111,10 @@ IF NOT DEFINED CHOSEN_CATALINA_HOME (
 IF "%USE_ENV_CATALINA_HOME%"=="N" (
     :chiedi_catalina_home_manuale
     echo Inserisca il percorso COMPLETO della directory principale della sua
-    echo installazione di Tomcat (il suo CATALINA_HOME).
+    echo installazione di Tomcat.
     echo Esempio: C:\Program Files\Apache Software Foundation\Tomcat 11.0
     echo      oppure: C:\Server\apache-tomcat-11.0.7
-    set /p "CHOSEN_CATALINA_HOME=Percorso CATALINA_HOME: "
+    set /p "CHOSEN_CATALINA_HOME=Percorso TOMCAT: "
     IF "%CHOSEN_CATALINA_HOME%"=="" (echo ERRORE: Percorso vuoto. & goto :chiedi_catalina_home_manuale)
 )
 
@@ -267,7 +263,7 @@ echo      Server Django avviato in una nuova finestra.
 
 echo.
 echo ======================================================================
-echo  CONFIGURAZIONE E AVVIO COMPLETATI (si spera!)
+echo  CONFIGURAZIONE E AVVIO COMPLETATI
 echo ======================================================================
 echo Riepilogo:
 echo - Server Django (dovrebbe essere su http://127.0.0.1:8000/)
