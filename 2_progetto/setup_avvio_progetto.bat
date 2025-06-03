@@ -24,6 +24,7 @@ SET PIP_EXE=pip
 SET MVN_EXE=mvn
 SET PSQL_EXE=psql
 SET WAR_FINAL_NAME=migration-servlet-app.war
+SET POSTGRES_PORT=5432
 
 REM Variabili da chiedere/determinare
 SET POSTGRES_PASSWORD=
@@ -84,73 +85,42 @@ REM --- 1. RICHIESTA PASSWORD POSTGRES ---
 :chiedi_postgres_pwd
 echo Fase 1: Configurazione PostgreSQL
 set /p "POSTGRES_PASSWORD=Password utente 'postgres' di PostgreSQL: "
-IF "%POSTGRES_PASSWORD%"=="" (echo ERRORE: Password vuota. & goto :chiedi_postgres_pwd)
-echo Password registrata. & echo. & pause & cls
-REM --- 2. DETERMINAZIONE/RICHIESTA PERCORSO CATALINA_HOME ---
+IF "%POSTGRES_PASSWORD%"=="" (
+    echo ERRORE: Password vuota.
+    goto :chiedi_postgres_pwd
+)
+
+set /p "POSTGRES_PORT=Porta PostgreSQL [default: 5432]: "
+IF "%POSTGRES_PORT%"=="" SET POSTGRES_PORT=5432
+
+echo Password e porta registrate. & echo. & pause & cls
+
+REM --- 2. CONFIGURAZIONE TOMCAT ---
 echo Fase 2: Configurazione Tomcat
-SET USE_ENV_CATALINA_HOME=N
-IF DEFINED CATALINA_HOME (
-    echo E' stata trovata una variabile d'ambiente CATALINA_HOME impostata a:
-    echo %CATALINA_HOME%
-    echo.
-    pause
-    choice /C YN /M "Vuole usare questo percorso per Tomcat? (Y/N)"
-    IF ERRORLEVEL 2 (
-        SET USE_ENV_CATALINA_HOME=N
-    ) ELSE (
-        SET USE_ENV_CATALINA_HOME=Y
-        SET CHOSEN_CATALINA_HOME=%CATALINA_HOME%
-    )
+
+IF NOT DEFINED CATALINA_HOME (
+    echo ERRORE: La variabile d'ambiente CATALINA_HOME non è definita.
+    echo Definire CATALINA_HOME a livello di sistema o utente.
+    goto :errore_fatale
 )
 
-IF NOT DEFINED CHOSEN_CATALINA_HOME (
-    goto :chiedi_catalina_home_manuale
-)
-
-
-IF "%USE_ENV_CATALINA_HOME%"=="N" (
-    :chiedi_catalina_home_manuale
-    echo Inserisca il percorso COMPLETO della directory principale della sua
-    echo installazione di Tomcat.
-    echo Esempio: C:\Program Files\Apache Software Foundation\Tomcat 11.0
-    echo      oppure: C:\Server\apache-tomcat-11.0.7
-    set /p "CHOSEN_CATALINA_HOME=Percorso TOMCAT: "
-    IF "%CHOSEN_CATALINA_HOME%"=="" (echo ERRORE: Percorso vuoto. & goto :chiedi_catalina_home_manuale)
-)
-
-set CHOSEN_CATALINA_HOME=%CHOSEN_CATALINA_HOME:"=%
+SET CHOSEN_CATALINA_HOME=%CATALINA_HOME%
+SET CHOSEN_CATALINA_HOME=%CHOSEN_CATALINA_HOME:"=%
 
 IF NOT EXIST "%CHOSEN_CATALINA_HOME%\bin\startup.bat" (
     echo ERRORE: "%CHOSEN_CATALINA_HOME%\bin\startup.bat" non trovato.
-    echo Il percorso CATALINA_HOME "%CHOSEN_CATALINA_HOME%" non sembra corretto.
-    SET CHOSEN_CATALINA_HOME= & goto :chiedi_catalina_home_loop
+    echo La variabile CATALINA_HOME non punta a una directory Tomcat valida.
+    goto :errore_fatale
 )
 IF NOT EXIST "%CHOSEN_CATALINA_HOME%\webapps" (
     echo ERRORE: Cartella "%CHOSEN_CATALINA_HOME%\webapps" non trovata.
-    echo Il percorso CATALINA_HOME "%CHOSEN_CATALINA_HOME%" non sembra corretto.
-    SET CHOSEN_CATALINA_HOME= & goto :chiedi_catalina_home_loop
+    echo La variabile CATALINA_HOME non punta a una directory Tomcat valida.
+    goto :errore_fatale
 )
 
-REM Se arriviamo qui, il percorso è valido!
-goto :chiedi_catalina_home_loop_exit
-echo Utilizzo CATALINA_HOME: %CHOSEN_CATALINA_HOME%
+echo Utilizzo TOMCAT: %CHOSEN_CATALINA_HOME%
 echo. & pause & cls
 
-:chiedi_catalina_home_loop
-IF "%USE_ENV_CATALINA_HOME%"=="Y" (
-    echo La variabile d'ambiente CATALINA_HOME (%CATALINA_HOME%) non sembra valida.
-    SET USE_ENV_CATALINA_HOME=N 
-    goto :chiedi_catalina_home_manuale
-) ELSE (
-    goto :chiedi_catalina_home_manuale
-)
-
-:chiedi_catalina_home_loop_exit
-echo Utilizzo CATALINA_HOME: %CHOSEN_CATALINA_HOME%
-echo. & pause & cls
-
-REM Imposta CATALINA_HOME per l'uso nello script
-SET CATALINA_HOME=%CHOSEN_CATALINA_HOME%
 
 REM --- 3. CONFIGURAZIONE AMBIENTE PYTHON/DJANGO ---
 echo Fase 3: Configurazione Ambiente Python e Django
@@ -176,7 +146,7 @@ echo. & pause & cls
 REM --- 4. CONFIGURAZIONE DATABASE POSTGRESQL ---
 echo Fase 4: Configurazione Database PostgreSQL
 set PGPASSWORD=%POSTGRES_PASSWORD%
-"%PSQL_EXE%" -U postgres -d postgres -a -f "%SQL_SCRIPT%" || (
+"%PSQL_EXE%" -U postgres -p %POSTGRES_PORT% -d postgres -a -f "%SQL_SCRIPT%" || (
     echo ERRORE esecuzione script SQL. Controllare output/password/PostgreSQL Server.
     set PGPASSWORD= & goto :errore_script
 )
