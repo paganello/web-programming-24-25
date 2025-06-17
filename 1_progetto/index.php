@@ -4,6 +4,7 @@
  */
 include 'includes/header.php'; // header.php ora imposta $bodyClass
 
+$pdo = getPDO();
 $today = date('Y-m-d');
 
 // --- PARAMETRI DI RICERCA ---
