@@ -209,11 +209,10 @@ echo. & pause & cls
 
 REM --- 7. AVVIO SERVER ---
 echo Fase 7: Avvio dei Server
-echo Verranno aperte due nuove finestre del Prompt dei Comandi.
-echo Una per Tomcat e una per il server Django.
+echo Verranno aperte due nuove finestre del Prompt dei Comandi (tomcat e django).
 echo.
 
-echo   7.1 Tentativo di (Ri)Avvio Tomcat...
+echo   7.1 Avvio Tomcat...
 echo      Tomcat Home (CATALINA_HOME): %CATALINA_HOME%
 echo      Java Home (usato da Tomcat, dovrebbe essere impostato a livello di sistema): %JAVA_HOME%
 echo      Fermando Tomcat (se in esecuzione)...
@@ -236,8 +235,8 @@ echo ======================================================================
 echo  CONFIGURAZIONE E AVVIO COMPLETATI
 echo ======================================================================
 echo Riepilogo:
-echo - Server Django (dovrebbe essere su http://127.0.0.1:8000/)
-echo - Tomcat con Servlet (dovrebbe essere su http://localhost:8080/%WAR_FINAL_NAME:.war=%/migrate)
+echo - Server Django (http://127.0.0.1:8000/)
+echo - Tomcat con Servlet (http://localhost:8080/%WAR_FINAL_NAME:.war=%/migrate)
 echo.
 echo Controllare le nuove finestre per eventuali errori.
 echo Per fermare i server chiudere le rispettive finestre.
@@ -249,7 +248,7 @@ echo. & echo !!! ERRORE DURANTE L'ESECUZIONE DELLO SCRIPT !!! & goto :fine_con_e
 :errore_fatale
 echo. & echo !!! ERRORE FATALE - IMPOSSIBILE CONTINUARE !!! & goto :fine_con_errore
 :fine_con_errore
-echo Controllare i messaggi e i prerequisiti in "ISTRUZIONI_WINDOWS_semplificato.txt".
+echo Controllare i messaggi e i prerequisiti in "ISTRUZIONI_WINDOWS.md".
 echo. & pause & ENDLOCAL & exit /b 1
 :fine
 echo Script completato. & echo. & pause & ENDLOCAL & exit /b 0
