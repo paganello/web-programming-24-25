@@ -1,0 +1,615 @@
+<!DOCTYPE html><html><head>
+      <title>exam</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\thoma\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.18\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h2 id="1-html">1) HTML </h2>
+<p><strong>D. 1</strong> In HTML, che cosa fa l'elemento H1?</p>
+<ul>
+<li>a) Consente di creare un paragrafo nascosto nel testo.</li>
+<li>b) Non fa assolutamente niente.</li>
+<li>c) <u><b>Consente di creare un paragrafo che funge da titolo principale </b></u></li>
+</ul>
+<p><strong>D. 2</strong> Nell'attributo "class" di un elemento HTML, che cosa è possibile specificare?</p>
+<ul>
+<li>a) <u><b> La classe di stile CSS. </b></u></li>
+<li>b) Un'opzione di stile CSS.</li>
+<li>c) Una classe del linguaggio JavaScript.</li>
+</ul>
+<p><strong>D. 3</strong> In HTML, che cosa fa l'elemento P?</p>
+<ul>
+<li>a) Descrive un pannello.</li>
+<li>b) <u><b> Descrive un paragrafo. </b></u></li>
+<li>c) Descrive un passaggio di parametri.</li>
+</ul>
+<p><strong>D. 4</strong> In una pagina web, quale evento si deve catturare per agire a valle del caricamento della pagina?</p>
+<ul>
+<li>a) L'evento onClick.</li>
+<li>b) <u><b> L'evento onLoad. </b></u></li>
+<li>c) L'evento onSubmit.</li>
+</ul>
+<p><strong>D. 5</strong> Quale Web Server viene, di solito, usato per realizzare applicazioni Web basate sulle servlet?</p>
+<ul>
+<li>a) DJANGO.</li>
+<li>b) Apache httpd.</li>
+<li>c) <u><b> Apache Tomcat. </b></u></li>
+</ul>
+<p><strong>D. 6</strong> In HTML, che cosa fa l'elemento UL?</p>
+<ul>
+<li>a) Consente di creare gli elenchi puntati numerati.</li>
+<li>b) <u><b> Consente di creare gli elenchi puntati non numerati. </b></u></li>
+<li>c) Consente di creare gli elenchi ordinati in ordine alfabetico.</li>
+</ul>
+<p><strong>D. 7</strong> In una pagina web, quale evento si deve catturare per anticipare l'invio di una chiamata HTTP da parte di una form:</p>
+<ul>
+<li>a) <u><b> L'evento onSubmit. </b></u></li>
+<li>b) L'evento onClick.</li>
+<li>c) L'evento onLoad.</li>
+</ul>
+<p><strong>D. 8</strong> In HTML, che cosa fa l'elemento A?</p>
+<ul>
+<li>a) Consente di includere del codice JavaScript nella pagina.</li>
+<li>b) Consente di ispezionare il codice JavaScript in modo approfondito.</li>
+<li>c) <u><b> Consente di creare un link ad un'altra pagina. </b></u></li>
+</ul>
+<p><strong>D. 9</strong> In una pagina web, quale evento si deve catturare per reagire ad un click su un testo?</p>
+<ul>
+<li>a) <u><b> L'evento onClick. </b></u></li>
+<li>b) L'evento onSubmit.</li>
+<li>c) L'evento onLoad.</li>
+</ul>
+<p><strong>D. 10</strong> In HTML, che cosa fa l'elemento IMG?</p>
+<ul>
+<li>a) Consente di inviare un'immagine al server.</li>
+<li>b) Consente di impostare l'immagine di sfondo.</li>
+<li>c) <u><b> Consente di visualizzare un'immagine all'interno della pagina. </b></u></li>
+</ul>
+<p><strong>D. 11</strong> In HTML, che cosa fa l'elemento FORM?</p>
+<ul>
+<li>a) Formatta il testo.</li>
+<li>b) <u><b> Raccoglie i campi di una form, per consentire all'utente di inviare dati al server. </b></u></li>
+<li>c) Riceve un modulo precompilato dal server.</li>
+</ul>
+<p><strong>D. 12</strong> Che cosa si può affermare riguardo al linguaggio HTML?</p>
+<ul>
+<li>a) HTML è un linguaggio di programmazione procedurale eseguito lato client.</li>
+<li>b) <u><b> HTML è un linguaggio di descrizione del contenuto di una pagina Web. </b></u></li>
+<li>c) HTML è un linguaggio di interrogazione dei database.</li>
+</ul>
+<p><strong>D. 13</strong> In una pagina web, data la form <code>myform</code> e il campo <code>f</code> al suo interno, che cosa fa la seguente scrittura?<br>
+<code>a = document.forms.myform.f.value;</code></p>
+<ul>
+<li>D. Assegna al campo f il valore della variabile a</li>
+<li>E. <u><b> Preleva il valore del campo f e lo assegna alla variabile a </b></u></li>
+<li>F. Mette il valore a nel campo f</li>
+</ul>
+<p><strong>D. 14</strong> Per quale motivo una funzione che gestisce l'evento di <code>onSubmit</code> deve restituire "false"?</p>
+<ul>
+<li>A. Per far proseguire la chiamata HTTP</li>
+<li>B. <u><b> Per fermare la chiamata HTTP </b></u></li>
+<li>C. Per chiudere la finestra del browser</li>
+</ul>
+<h2 id="2-ajax">2) AJAX </h2>
+<p><strong>D. 15</strong> Per effettuare una chiamata AJAX tramite JQuery, che cosa si usa?</p>
+<ul>
+<li>a) Si deve cliccare su un pulsante.</li>
+<li>b) Si usa il lato funzione del simbolo $.</li>
+<li>c) <u><b> Si usa il lato oggetto del simbolo $. </b></u></li>
+</ul>
+<p><strong>D. 17</strong> Nella funzione <code>makeAjaxRequest</code>, come viene gestita la comunicazione con il server?</p>
+<ul>
+<li>a) Tramite i cookie della pagina.</li>
+<li>b) Tramite un ciclo di polling.</li>
+<li>c) <u><b> Tramite una funzione di callback che viene assegnata al campo "onReadyStateChange" dell'oggetto XMLHttpRequest. </b></u></li>
+</ul>
+<h2 id="3-mql">3) MQL </h2>
+<p><strong>D. 18</strong> Nel linguaggio di interrogazione MQL, quale sintassi di base viene usata?</p>
+<ul>
+<li>a) Viene usata la sintassi di SQL.</li>
+<li>b) <u><b> Viene usata la sintassi di JavaScript. </b></u></li>
+<li>c) Viene usata la sintassi di Java.</li>
+</ul>
+<p><strong>D. 21</strong> In MQL, è possibile ristrutturare i documenti prodotti in output dalla query?</p>
+<ul>
+<li>a) <u><b> sì, ma in modo limitato. </b></u></li>
+<li>b) Sì, ma svuotando i documenti ottenuti.</li>
+<li>c) Sì, come se fosse l'SQL.</li>
+</ul>
+<p><strong>D. 22</strong> Il linguaggio MQL contiene l'operatore di JOIN?</p>
+<ul>
+<li>a) Sì, ma è simile al join naturale dell'algebra relazionale.</li>
+<li>b) <u><b> No </b></u></li>
+<li>c) Sì, ma è pensato per disegnare sulle mappe interattive.</li>
+</ul>
+<h2 id="4-php">4) PHP </h2>
+<p><strong>D. 23</strong> Il linguaggio PHP è un linguaggio a "tipizzazione dinamica"?</p>
+<ul>
+<li>a) No</li>
+<li>b) La domanda non ha senso.</li>
+<li>c) <u><b> Sì. </b></u></li>
+</ul>
+<p><strong>D. 24</strong> Nel linguaggio PHP, è disponibile il concetto di "oggetto generico", cioè non legato ad una specifica classe?</p>
+<ul>
+<li>a) <u><b> Si. </b></u></li>
+<li>b) La domanda non ha senso.</li>
+<li>c) No.</li>
+</ul>
+<p><strong>D. 25</strong> Come è impostato un programma PHP?</p>
+<ul>
+<li>a) Il codice procedurale è in un file separato dallo scheletro della pagina HTML.</li>
+<li>b) <u><b> Il codice procedurale è annegato all'interno di un scheletro HTML. </b></u></li>
+<li>c) La domanda non ha senso.</li>
+</ul>
+<p><strong>D. 26</strong> Dove viene eseguito un programma PHP?</p>
+<ul>
+<li>a) Nel Browser.</li>
+<li>b) Sullo smartphone.</li>
+<li>c) <u><b> Sul server web. </b></u></li>
+</ul>
+<p><strong>D. 27</strong> In PHP, è possibile serializzare un oggetto come documento JSON?</p>
+<ul>
+<li>a) <u><b> Sì, tramite una funzione di libreria nativa. </b></u></li>
+<li>b) No.</li>
+<li>c) Sì, scrivendo la rappresentazione binaria dell'oggetto su un file.</li>
+</ul>
+<p><strong>D. 28</strong> Si dica quale, delle tre opzioni, è un assegnamento corretto ad una variabile di nome <code>a</code>.</p>
+<ul>
+<li>a) <u><b> <code>$a = 5;</code> </b></u></li>
+<li>b) <code>%a = 5;</code></li>
+<li>c) <code>a = 5;</code></li>
+</ul>
+<p><strong>D. 29</strong> Che cosa è PHP?</p>
+<ul>
+<li>a) Un linguaggio di descrizione della pagina Web.</li>
+<li>b) Un formato di rappresentazione dei numeri.</li>
+<li>c) <u><b> Un linguaggio di programmazione procedurale. </b></u></li>
+</ul>
+<p><strong>D. 30</strong> Il linguaggio PHP fornisce il concetto di classe?</p>
+<ul>
+<li>a) <u><b> Sì, in modo simile al C++. </b></u></li>
+<li>b) Sì, in modo simile a python.</li>
+<li>c) No.</li>
+</ul>
+<p><strong>D. 31</strong> In PHP, come è possibile ottenere i campi di una form, quando questi sono inviati con il metodo POST?</p>
+<ul>
+<li>a) Con l'array predefinito <code>$_GET</code>.</li>
+<li><u><b> b) Con l'array predefinito <code>$_POST</code>. </b></u></li>
+<li>c) Con l'array predefinito <code>$_SERVER</code>.</li>
+</ul>
+<h2 id="5-django">5) DJANGO </h2>
+<p><strong>D. 32</strong> Come si chiama il driver che consente di far connettere un programma Python ad un database di MongoDB?</p>
+<ul>
+<li>a) jdbc-odbc</li>
+<li>b) psycopg2</li>
+<li>c) <u><b> pymongo </b></u></li>
+</ul>
+<p><strong>D. 33</strong> E' corretto affermare che MongoDB accetta solo documenti JSON la cui rappresentazione binaria BSON non supera i 16 MByte?</p>
+<ul>
+<li>a) <u><b> Si </b></u></li>
+<li>b) No, il limite è 1 GB</li>
+<li>c) No, è Illimitata.</li>
+</ul>
+<p><strong>D. 34</strong> Nell'ambiente DJANGO, è possibile organizzare l'applicazione Web secondo il pattern Model-View-Controller?</p>
+<ul>
+<li>a) Sì, tramite l'approccio REST.</li>
+<li>b) No.</li>
+<li>c) <u><b> Sì, tramite il concetto di "Template". </b></u></li>
+</ul>
+<p><strong>D. 35</strong> L'ambiente DJANGO consente di disaccoppiare gli URL dal codice che gestisce la richiesta</p>
+<ul>
+<li>a) Sì, tramite il file <code>web.xml</code>.</li>
+<li>b) No.</li>
+<li>c) <u><b> Sì, tramite il file <code>url.py</code>. </b></u></li>
+</ul>
+<p><strong>D. 36</strong> Nei template di DJANGO, quale coppia di simboli racchiude le istruzioni procedurali?</p>
+<ul>
+<li>a) <u><b> La coppia <code>{% ... %}</code> </b></u></li>
+<li>b) La coppia <code>&lt;?...?&gt;</code>.</li>
+<li>c) La coppia <code>&lt;% ... %&gt;</code>.</li>
+</ul>
+<p><strong>D. 37</strong> Nell'ambiente DJANGO, chi ha il compito di inviare la risposta HTTP?</p>
+<ul>
+<li>a) L'invio della risposta HTTP è compito del metodo "render" del template.</li>
+<li>b) <u><b> L'invio della risposta HTTP è compito del controller, scritto in Python. </b></u></li>
+<li>c) L'invio della risposta HTTP è compito della richiesta HTTP.</li>
+</ul>
+<p><strong>D. 38</strong> Nell'ambiente DJANGO, i file accessori (statici) delle pagine Web, dove devono essere collocati?</p>
+<ul>
+<li>a) <u><b> In una cartella opportunamente definita come nel file <code>settings.py</code>. </b></u></li>
+<li>b) In qualsiasi cartella del sito.</li>
+<li>c) Non possono essere gestiti.</li>
+</ul>
+<h2 id="6-xml">6) XML </h2>
+<p><strong>D. 39</strong> Nel DTD di un documento XML, come viene definito il contenuto degli elementi?</p>
+<ul>
+<li>a) Il contenuto è sempre misto, cioè testo e elementi da specificare con una lista.</li>
+<li>b) <u><b> Il contenuto è definito da un'espressione regolare, dove #PCDATA indica il contenuto testuale.</b></u></li>
+<li>c) Non può essere definito: il contenuto è sempre vuoto.</li>
+</ul>
+<p><strong>D. 40</strong> Nel DTD di un documento XML, che cosa definisce il meta-tag <code>!ATTLIST</code>?</p>
+<ul>
+<li>a) <u><b> Definisce gli attributi di un elemento del documento XML. </b></u></li>
+<li>b) Definisce un elemento del documento e la struttura del suo contenuto.</li>
+<li>c) Non definisce niente di importante.</li>
+</ul>
+<p><strong>D. 41</strong> In XML, qual è il valore dell'attributo "xmlns:a"?</p>
+<ul>
+<li>a) Il DTD che definisce gli elementi del namespace "a".</li>
+<li>b) Un documento XML basato sull'URI "a".</li>
+<li>c) <u><b> L'URI che identifica il namespace "a". </b></u></li>
+</ul>
+<p><strong>D. 42</strong> Qual è il ruolo di una definizione XML-Schema?</p>
+<ul>
+<li>a) Consente di specificare come trasformare un documento XML in un altro documento XML.</li>
+<li>b) Consente di visualizzare i documenti XML nel browser.</li>
+<li>c) <u><b> Sostituisce il DTD nella specifica della struttura dei documenti, introducendo nuovi costrutti quali i tipi di dato per attributi e contenuto testuale. </b></u></li>
+</ul>
+<p><strong>D. 43</strong> Si dica quale delle seguenti affermazioni concernenti XML è vera</p>
+<ul>
+<li>a) XML Schema sostituisce il DTD, ma non aggiunge niente di nuovo.</li>
+<li>b) XML Schema e DTD non definiscono classi di documenti validi.</li>
+<li>c) <u><b> XML Schema sostituisce il DTD, ma aggiunge alcuni concetti tra qui i tipi di dato. </b></u></li>
+</ul>
+<p><strong>D. 44</strong> In XML, dove vengono specificati gli attributi di un elemento?</p>
+<ul>
+<li>a) In un marcatore dedicato, tra il marcatore di apertura e il marcatore di chiusura.</li>
+<li>b) All'interno del marcatore di chiusura.</li>
+<li>c) <u><b> All'interno del marcatore di apertura. </b></u></li>
+</ul>
+<p><strong>D. 45</strong> Nel DTD di un documento XML, che cosa definisce il meta-tag <code>!ELEMENT</code>?</p>
+<ul>
+<li><u><b> a) Definisce un elemento del documento e la struttura del suo contenuto. </b></u></li>
+<li>b) Definisce gli attributi di un elemento del documento XML.</li>
+<li>c) Non definisce niente di importante.</li>
+</ul>
+<p><strong>D. 46</strong> In XML, il DTD può essere usato per definire la struttura di diversi documenti?</p>
+<ul>
+<li>a) La domanda non ha senso.</li>
+<li>b) No.</li>
+<li>c) <u><b> Si. </b></u></li>
+</ul>
+<p><strong>D. 47</strong> Nel DTD di un documento XML, è possibile specificare il tipo di dato di un attributo?</p>
+<ul>
+<li>a) Sì, tramite il simbolo <code>#implied</code>.</li>
+<li>b) <u><b> No. </b></u></li>
+<li>c) Sì, tramite il simbolo <code>CDATA</code>.</li>
+</ul>
+<p><strong>D. 48</strong> In un documento XML, gli elementi possono avere un contenuto misto?</p>
+<ul>
+<li>a) Sì, usando il simbolo <code>CDATA</code> tra le alternative del contenuto.</li>
+<li>b) <u><b> Si, usando il simbolo <code>#PCDATA</code> tra le alternative del contenuto. </b></u></li>
+<li>c) Sì, usando il simbolo <code>@IMPLIED</code> tra le alternative del contenuto.</li>
+</ul>
+<p><strong>D. 49</strong> In XML, che cosa fa l'attributo "xmlns:a"?</p>
+<ul>
+<li>a) Definisce un namespace il cui URI è "a".</li>
+<li>b) Definisce un element "a".</li>
+<li>c) <u><b> Definisce un namespace il cui prefisso è "a". </b></u></li>
+</ul>
+<p><strong>D. 50</strong> In XML, un elemento è racchiuso all'interno di che cosa?</p>
+<ul>
+<li>a) Di un marcatore di apertura e di un marcatore di chiusura, il cui nome è necessariamente diverso.</li>
+<li>b) Di una coppia di parentesi graffe.</li>
+<li>c) <u><b> Di un marcatore di apertura e di un marcatore di chiusura, entrambi con lo stesso nome. </b></u></li>
+</ul>
+<h2 id="7-python">7) PYTHON </h2>
+<p><strong>D. 51</strong> In Python, che cosa fa l'istruzione seguente? <code>l.append(3)</code></p>
+<ul>
+<li>a) <u><b> Appende il valore 3 in coda alla lista "l". </b></u></li>
+<li>b) Appende il valore 3 in coda al dizionario "l".</li>
+<li>c) Appende la lista "l" al valore 3.</li>
+</ul>
+<p><strong>D. 52</strong> Si dica quale delle seguenti affermazioni concernenti tuple e liste in Python è vera</p>
+<ul>
+<li>a) Le tuple sono mutable e le liste sono immutable.</li>
+<li>b) Sia le tuple che le liste sono mutable.</li>
+<li>c) <u><b> Le tuple sono immutable e le liste sono mutable. </b></u></li>
+</ul>
+<p><strong>D. 53</strong> In Python, quale tipo di oggetto corrisponde ad un documento JSON?</p>
+<ul>
+<li>a) Una Tuple.</li>
+<li>b) Una lista.</li>
+<li>c) <u><b> Un dizionario. </b></u></li>
+</ul>
+<p><strong>D. 54</strong> In Python, a quale tipologia di oggetti appartiene un oggetto di tipo List?</p>
+<ul>
+<li>a) <u><b> Oggetti di tipo Mutable. </b></u></li>
+<li>b) Oggetti di tipo Immutable</li>
+<li>c) Non sono oggetti.</li>
+</ul>
+<p><strong>D. 55</strong> In Python, la deserializzazione di un documento JSON che tipo di oggetto produce?</p>
+<ul>
+<li>a) Una Tuple.</li>
+<li>b) Una lista.</li>
+<li>c) <u><b> Un dizionario. </b></u></li>
+</ul>
+<p><strong>D. 56</strong> In Python, una volta che la connessione con un database di MongoDB è stata stabilita, è opportuno chiudere la connessione al termine?</p>
+<ul>
+<li><u><b> a) Sì, perché l'interprete di Python rimane aperto, quindi anche la connessione rimarrebbe aperta, saturando il numero massimo di connessioni aperte contemporaneamente. </b></u></li>
+<li>b) No.</li>
+<li>c) Sì perché per ogni connessione aperta, viene mostrata una finestra all'utente, creandogli confusione.</li>
+</ul>
+<p><strong>D. 57</strong> In Python, che cosa fa l'istruzione seguente? <code>A = {}</code></p>
+<ul>
+<li>a) La variabile A viene inizializzata con una tupla vuota.</li>
+<li>b) <u><b> La variabile A viene inizializzata con un dizionario vuoto. </b></u></li>
+<li>c) La variabile A viene inizializzata con una lista vuota.</li>
+</ul>
+<p><strong>D. 58</strong> In Python, a quale tipologia di oggetti appartiene un oggetto di tipo Tuple?</p>
+<ul>
+<li>a) <u><b> Oggetti di tipo Immutable </b></u></li>
+<li>b) Non sono oggetti.</li>
+<li>c) Oggetti di tipo Mutable.</li>
+</ul>
+<h2 id="8-servlet">8) SERVLET </h2>
+<p><strong>D. 59</strong> In una servlet, l'oggetto di tipo <code>HttpServletRequest</code> come gestisce i parametri della richiesta (query string)?</p>
+<ul>
+<li>a) Con metodi differenti per il metodo GET e per il metodo POST.</li>
+<li>b) Non gestisce i parametri, che devono essere manipolati dal programmatore lavorando direttamente sulla query string.</li>
+<li>c) <u><b> In modo uniforme, sia per il metodo GET che per il metodo POST. </b></u></li>
+</ul>
+<p><strong>D. 60</strong> Nelle servlet, come si inserisce il contenuto in output nella risposta HTTP?</p>
+<ul>
+<li>a) Tramite il canale di Standard Output (cout).</li>
+<li>b) <u><b> Ottenendo un Writer dall'oggetto <code>HttpServletResponse</code>. </b></u></li>
+<li>c) Scrivendo su un file sul server, che verrà letto dal codice JavaScript sul client.</li>
+</ul>
+<p><strong>D. 61</strong> Con le servlet, è possibile realizzare l'approccio Model-View-Controller</p>
+<ul>
+<li>a) <u><b> Sì, tramite Thymeleaf. </b></u></li>
+<li>b) Sì, tramite BootStrap.</li>
+<li>c) No.</li>
+</ul>
+<p><strong>D. 62</strong> Nelle servlet è possibile gestire le sessioni?</p>
+<ul>
+<li>a) No, le applicazioni realizzate con servlet non possono gestire sessioni.</li>
+<li>b) Sì, queste vengono gestite dalla classe della servlet.</li>
+<li>c) <u><b> Sì, queste sono gestite dall'oggetto <code>HttpServletRequest</code>. </b></u></li>
+</ul>
+<p><strong>D. 63</strong> Nelle servlet, è possibile disaccoppiare il codice java dall'URL?</p>
+<ul>
+<li>a) Sì, mappando gli URL sulle servlet nel file <code>url.py</code>.</li>
+<li>b) <u><b> Sì, mappando gli URL sulle servlet nel file <code>web.xml</code>. </b></u></li>
+<li>c) No.</li>
+</ul>
+<p><strong>D. 64</strong> Se una servlet deve inviare un documento JSON, come deve impostare il MIME Type della risposta?</p>
+<ul>
+<li>a) Come "text/html".</li>
+<li>b) <u><b> Come "application/json". </b></u></li>
+<li>c) Come "text/plain".</li>
+</ul>
+<p><strong>D. 65</strong> In una servlet che usa un template Thymeleaf, come devono essere passati i valori da inserire nel template?</p>
+<ul>
+<li>a) Tramite uno stream di comunicazione.</li>
+<li>b) Tramite un oggetto detto "query"</li>
+<li>c) <u><b> Tramite un oggetto detto "Contesto". </b></u></li>
+</ul>
+<h2 id="9-thymeleaf">9) THYMELEAF </h2>
+<p><strong>D. 66</strong> Usando Thymeleaf nelle servlet, come si fa ad inserire la pagina in output nella risposta HTTP?</p>
+<ul>
+<li>a) Fornendo al metodo process del TemplateEngine la risposta HTTP.</li>
+<li>b) La servlet riceve una stringa con la pagina generata dal TemplateEngine e poi la accoda alla risposta HTTP.</li>
+<li>c) <u><b> Fornendo il Writer associato alla risposta HTTP al metodo process del TemplateEngine. </b></u></li>
+</ul>
+<p><strong>D. 67</strong> Quali componenti devono essere istanziati per gestire i template di ThymeLeaf?</p>
+<ul>
+<li>a) <u><b> Serve un TemplateResolver e il Template Engine. </b></u></li>
+<li>b) Serve un TemplateDestroyer e un TemplateVisualizer.</li>
+<li>c) Serve un TemplateRendered e un TemplateDestroyer.</li>
+</ul>
+<p><strong>D. 68</strong> In un template Thymeleaf, che cosa si usa per pilotare la generazione del documento HTML finale?</p>
+<ul>
+<li>a) Si usano delle istruzioni procedurali, annegate nel blocco <code>&lt;$ ... $&gt;</code>.</li>
+<li>b) <u><b> Si usano attributi non standard, definiti su un namespace con prefisso "th:". </b></u></li>
+<li>c) Si usano delle istruzioni procedurali, annegate nel blocco <code>&lt;% ... %&gt;</code>.</li>
+</ul>
+<p><strong>D. 69</strong> In Thymeleaf, come si fa a gestire la generazione condizionale di un blocco?</p>
+<ul>
+<li>a) Tramite l'attributo "th:each".</li>
+<li>b) <u><b> Tramite l'attributo "th.if". </b></u></li>
+<li>c) Tramite l'attributo "th:text".</li>
+</ul>
+<p><strong>D. 70</strong> In un template Thymeleaf, come si fa a inserire un valore all'interno di un elemento HTML?</p>
+<ul>
+<li>a) Tramite l'attributo "th.if".</li>
+<li>b) Tramite l'attributo "th:each".</li>
+<li>c) <u><b> Tramite l'attributo "th:text". </b></u></li>
+</ul>
+<p><strong>D. 71</strong> Quale concetto viene realizzato da ThymeLeaf?</p>
+<ul>
+<li>a) Il concetto di Database.</li>
+<li>b) <u><b> Il concetto di Template. </b></u></li>
+<li>c) Il concetto di Sessione.</li>
+</ul>
+<h2 id="10-java--javascript">10) JAVA / JAVASCRIPT </h2>
+<p><strong>D. 72</strong> Nel modello originale degli oggetti di JavaScript, è previsto esplicitamente il concetto di classe?</p>
+<ul>
+<li>a) Sì, con tipizzazione statica</li>
+<li>b) <u><b> No </b></u></li>
+<li>c) Sì, con tipizzazione rigida.</li>
+</ul>
+<p><strong>D. 73</strong> In JavaScript, per quale motivo una funzione che gestisce l'evento di <code>onSubmit</code> deve restituire "true"?</p>
+<ul>
+<li>a) Per fermare la chiamata HTTP.</li>
+<li>b) Per chiudere la finestra del browser.</li>
+<li>c) <u><b> Per far proseguire la chiamata HTTP. </b></u></li>
+</ul>
+<p><strong>D. 74</strong> In JavaScript, in una funzione <code>f</code> si definisce una variabile scrivendo <code>var a;</code>. Che succede se non si mette la parola "var"?</p>
+<ul>
+<li>a) L'assenza della parola "var" non cambia il comportamento del programma.</li>
+<li>b) <u><b> Senza la parola "var", la variabile viene definita nell'oggetto di contesto. </b></u></li>
+<li>c) Senza la parola"var", la variabile non è visibile all'esterno della funzione.</li>
+</ul>
+<p><strong>D. 75</strong> In Java, in che linguaggio di interrogazione vengono formulare le query ad un database relazionale (usando il protocollo jdbc)?</p>
+<ul>
+<li>a) <u><b> In SQL. </b></u></li>
+<li>b) In MQL.</li>
+<li>c) In JavaScript.</li>
+</ul>
+<p><strong>D. 76</strong> In Node.js, qual è l'oggetto di ambiente che contiene tutte le variabili e le funzioni del programma in esecuzione?</p>
+<ul>
+<li>a) <u><b> Global. </b></u></li>
+<li>b) Everything.</li>
+<li>c) Window.</li>
+</ul>
+<p><strong>D. 77</strong> In uno script JavaScript all'interno di una pagina Web, qual è l'oggetto di ambiente che contiene tutte le variabili e le funzioni del programma in esecuzione?</p>
+<ul>
+<li>a) <u><b> Window. </b></u></li>
+<li>b) Everything.</li>
+<li>c) Global.</li>
+</ul>
+<p><strong>D. 78</strong> In Java, quale libreria occorre usare per gestire la Serializzazione/Deserializzazione degli oggetti in JSON?</p>
+<ul>
+<li>a) <u><b> La libreria GSON. </b></u></li>
+<li>b) La libreria BSON.</li>
+<li>c) La libreria FRISON.</li>
+</ul>
+<p><strong>D. 79</strong> In una pagina web, data la form <code>myform</code> e il campo <code>f</code> al suo interno, che cosa fa la seguente scrittura in JavaScript? <code>a = document.forms.myform.f.value;</code></p>
+<ul>
+<li>a) Assegna al campo f il valore della variabile a.</li>
+<li>b) <u><b> Preleva il valore del campo f e lo assegna alla variabile a. </b></u></li>
+<li>c) Mette il valore a nel campo f.</li>
+</ul>
+<p><strong>D. 80</strong> Nel modello originale degli oggetti di JavaScript, come fa l'istruzione <code>new</code> a creare un nuovo oggetto?</p>
+<ul>
+<li>a) L'istruzione new crea sempre un oggetto vuoto, cioè senza campi.</li>
+<li>b) L'istruzione new chiama il costruttore di una classe precedentemente definita.</li>
+<li>c) <u><b> L'istruzione new clona la funzione specificata, che è anche un oggetto. </b></u></li>
+</ul>
+<p><strong>D. 81</strong> In Java, come si chiama il driver che consente di connettersi ad un database gestito da PostgreSQL?</p>
+<ul>
+<li>a) Si chiama <code>pymongo</code>.</li>
+<li>b) Si chiama <code>psycopg2</code></li>
+<li>c) <u><b> Si chiama <code>org.postgresql.Driver</code>. </b></u></li>
+</ul>
+<p><strong>D. 82</strong> In Node.js, come devono essere dichiarate le funzioni che cercano di accedere a un DBMS?</p>
+<ul>
+<li>a) <code>global</code>.</li>
+<li>b) <u><b> <code>async</code> </b></u>.</li>
+<li>c) <code>sync</code>.</li>
+</ul>
+<h2 id="11-mongo-db">11) MONGO DB </h2>
+<p><strong>D. 83</strong> E' corretto affermare che MongoDB accetta documenti JSON di qualsiasi dimensione?</p>
+<ul>
+<li>A. Vero</li>
+<li>B. <u><b> Falso </b></u></li>
+</ul>
+<p><strong>D. 84</strong> E' corretto affermare che MongoDB accetta solo documenti JSON con una struttura fissa nota a priori?</p>
+<ul>
+<li>A. Vero</li>
+<li>B. <u><b> Falso </b></u></li>
+</ul>
+<p><strong>D. 85</strong> E' corretto affermare che il linguaggio di query di MongoDB è basato sul modello a oggetti di JavaScript?</p>
+<ul>
+<li>a) Non sono oggetti.</li>
+<li>b) La domanda non ha senso</li>
+<li>c) <u><b> Si </b></u></li>
+</ul>
+<p><strong>D. 86</strong> Attraverso il driver <code>pymongo</code>, quale oggetto si deve creare per gestire la connessione al database?</p>
+<ul>
+<li>a) Un oggetto File.</li>
+<li>b) Un oggetto Connection.</li>
+<li>c) <u><b> Un oggetto MongoClient. </b></u></li>
+</ul>
+<p><strong>D. 87</strong> E' corretto affermare che una tabella relazionale può essere rappresentata come una collezione di documenti JSON in MongoDB (facendo riferimento solo ai dati e non ai vincoli)?</p>
+<ul>
+<li>a) No</li>
+<li>b) Talvolta</li>
+<li>c) <u><b> Si </b></u></li>
+</ul>
+<p><strong>D. 88</strong> In Python, una volta che la connessione con un database di MongoDB è stata stabilita, è opportuno chiudere la connessione al termine?</p>
+<ul>
+<li>a) Sì perché per ogni connessione aperta, viene mostrata una finestra all'utente, creandogli confusione.</li>
+<li>b) <u><b> Sì, perché l'interprete di Python rimane aperto, quindi anche la connessione rimarrebbe aperta, saturando il numero massimo di connessioni aperte contemporaneamente. </b></u></li>
+<li>c) No.</li>
+</ul>
+<p><strong>D. 89</strong> E' corretto affermare che MongoDB accetta documenti JSON di qualsiasi dimensione?</p>
+<ul>
+<li>a) Si</li>
+<li>b) Non accetta documenti JSON</li>
+<li>c) <u><b> No </b></u></li>
+</ul>
+<p><strong>D. 90</strong> E' corretto affermare che MongoDB accetta solo documenti JSON senza annidamenti?</p>
+<ul>
+<li>a) Talvolta</li>
+<li>b) <u><b> No </b></u></li>
+<li>c) Sì</li>
+</ul>
+<p><strong>D. 91</strong> Quale formato viene usato da MongoDB per rappresentare gli oggetti JSON?</p>
+<ul>
+<li>a) <u><b> BSON </b></u></li>
+<li>b) FRISON</li>
+<li>c) In chiaro</li>
+</ul>
+<h2 id="12-json">12) JSON </h2>
+<p><strong>D. 92</strong> In Python, la deserializzazione di un documento JSON che tipo di oggetto produce?</p>
+<ul>
+<li>a) <u><b> Un dizionario. </b></u></li>
+<li>b) Una Tuple.</li>
+<li>c) Una lista.</li>
+</ul>
+<p><strong>D. 93</strong> Per deserializzare un documento JSON con la libreria GSON, che cosa occorre impostare?</p>
+<ul>
+<li>a) Il numero di campi da deserializzare.</li>
+<li>b) Il file all'interno del quale andare a salvare il documento JSON.</li>
+<li>c) <u><b> La classe da istanziare deserializzando il documento. </b></u></li>
+</ul>
+<h2 id="13-rest">13) REST </h2>
+<p><strong>D. 94</strong> ReST (Representational State Transfer) indica:</p>
+<ul>
+<li>a) <u><b> Un Web Service senza il concetto di sessione, dove tutto ciò che serve per interagire con le risorse è nella loro rappresentazione. </b></u></li>
+<li>b) Una comunicazione http basata sul concetto di sessione.</li>
+<li>c) Un generico Web Service realizzato tramite il protocollo HTTP.</li>
+</ul>
+<h2 id="14-jquery">14) JQUERY </h2>
+<p><strong>D. 95</strong> In JQuery, è possibile modificare molti elementi della pagina in blocco, senza scrivere cicli?</p>
+<ul>
+<li>a) No, perché l'oggetto $ non contiene il documento.</li>
+<li>b) <u><b> Sì, perché la funzione $ seleziona i nodi in blocco, come lista di nodi. </b></u></li>
+<li>c) No, perché la funzione $ restituisce solo un nodo alla volta.</li>
+</ul>
+<p><strong>D. 96</strong> Perché il framework JQuery si chiama così?</p>
+<ul>
+<li>a) Perché consente di fare query sui database di MongoDB</li>
+<li>b) Perché consente di fare query sui database relazionali.</li>
+<li>c) <u><b> Perché nasce per interrogare e manipolare facilmente l'albero DOM della pagina. </b></u></li>
+</ul>
+<p><strong>D. 97</strong> Quale delle seguenti affermazioni concernenti JQuery è corretta?</p>
+<ul>
+<li>A. Per effettuare la chiamata AJAX si usa la funzione makeAjaxRequest</li>
+<li>B. Per effettuare la chiamata AJAX si usa l'oggetto ajax restituito dalla funzione $</li>
+<li><u><b> C. Per effettuare la chiamata AJAX si usa il metodo ajax dell'oggetto $ </b></u></li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
