@@ -28,4 +28,4 @@ ISTRUZIONI PER L'AVVIO DEL PROGETTO QUIZ ONLINE SU WINDOWS
 3.  UTILIZZO:
     *  La Servlet java (che avvierà l'import del db) sarà su: http://localhost:8080/migration-servlet-app/migrate (è possibile ci voglia qualche minuto perché il caricamento termini, il log delle varie richieste POST viene stampato nella finestra di terminale di Django);
     *  Al termine della migrazione sulla pagina del browser verrà mostrato l'esito della stessa;
-    * Verificare entrando nel db postgres che l'import sia avvenuto con successo.
+    * Verificare entrando nel db postgres (psql -U postgres -d quiz_online) che l'import sia avvenuto con successo (le tabelle con i dati importati hanno il prefisso importer_ ).

@@ -36,12 +36,12 @@ echo  SETUP E AVVIO PROGETTO QUIZ ONLINE - WINDOWS 10
 echo ======================================================================
 echo Questo script verra' eseguito dalla cartella: %SCRIPT_DIR%
 echo.
-echo Assicurarsi di aver letto "ISTRUZIONI_WINDOWS_semplificato.txt" e
+echo Assicurarsi di aver letto "ISTRUZIONI_WINDOWS.txt" e
 echo che i prerequisiti (Python, JDK, PostgreSQL Server, Maven, Tomcat)
 echo siano installati e configurati.
 echo.
-echo Le cartelle del progetto ("data_migration_django", "servlet_java")
-echo e la cartella "risorse_script_windows" devono trovarsi
+echo Le cartelle del progetto "data_migration_django", "servlet_java"
+echo e "risorse_script_windows" devono trovarsi
 echo NELLA STESSA CARTELLA di questo script.
 echo.
 IF NOT EXIST "%DJANGO_DIR%\manage.py" (
@@ -100,7 +100,7 @@ echo Fase 2: Configurazione Tomcat
 
 IF NOT DEFINED CATALINA_HOME (
     echo ERRORE: La variabile d'ambiente CATALINA_HOME non è definita.
-    echo Definire CATALINA_HOME a livello di sistema o utente.
+    echo Definire CATALINA_HOME tra le variabili di sistema.
     goto :errore_fatale
 )
 
@@ -145,6 +145,7 @@ echo. & pause & cls
 
 REM --- 4. CONFIGURAZIONE DATABASE POSTGRESQL ---
 echo Fase 4: Configurazione Database PostgreSQL
+echo Query eseguita:
 set PGPASSWORD=%POSTGRES_PASSWORD%
 "%PSQL_EXE%" -U postgres -p %POSTGRES_PORT% -d postgres -a -f "%SQL_SCRIPT%" || (
     echo ERRORE esecuzione script SQL. Controllare output/password/PostgreSQL Server.
@@ -214,15 +215,13 @@ echo.
 
 echo   7.1 Avvio Tomcat...
 echo      Tomcat Home (CATALINA_HOME): %CATALINA_HOME%
-echo      Java Home (usato da Tomcat, dovrebbe essere impostato a livello di sistema): %JAVA_HOME%
-echo      Fermando Tomcat (se in esecuzione)...
+echo      Java Home (JAVA_HOME): %JAVA_HOME%
 call "%CATALINA_HOME%\bin\shutdown.bat"
-echo      Attendere 5 secondi per permettere a Tomcat di fermarsi...
 timeout /t 5 /nobreak >nul
 
 echo      Avviando Tomcat...
 start "Tomcat Server (%CATALINA_HOME%)" cmd /K ""%CATALINA_HOME%\bin\startup.bat" run & echo Tomcat sta usando JAVA_HOME=%JAVA_HOME% & echo CATALINA_HOME=%CATALINA_HOME%"
-echo      Tomcat avviato (o in avvio) in una nuova finestra. Attendere il deploy della servlet.
+echo      Tomcat avviato in una nuova finestra. Attendere il deploy della servlet.
 timeout /t 10 /nobreak >nul
 
 echo   7.2 Avvio Server Django...
@@ -236,7 +235,7 @@ echo  CONFIGURAZIONE E AVVIO COMPLETATI
 echo ======================================================================
 echo Riepilogo:
 echo - Server Django (http://127.0.0.1:8000/)
-echo - Tomcat con Servlet (http://localhost:8080/%WAR_FINAL_NAME:.war=%/migrate)
+echo - Servlet Tomcat (http://localhost:8080/%WAR_FINAL_NAME:.war=%/migrate): copiare nel browser per avviare l'importazione.
 echo.
 echo Controllare le nuove finestre per eventuali errori.
 echo Per fermare i server chiudere le rispettive finestre.
