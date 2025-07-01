@@ -6,7 +6,7 @@ require_once 'config/database.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+$pdo = getPDO();
 // --- Controllo accesso ---
 $nomeUtente = $_SESSION['user']['nomeUtente'] ?? null;
 if (!isset($nomeUtente)) {
