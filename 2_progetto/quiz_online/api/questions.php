@@ -15,7 +15,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once '../config/database.php'; // Assicurati che il percorso sia corretto
+require_once '../config/database.php';
+$pdo = getPDO();
 header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 

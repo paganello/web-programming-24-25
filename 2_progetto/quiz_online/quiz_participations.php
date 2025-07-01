@@ -15,7 +15,8 @@ if (!isset($_SESSION['user']['nomeUtente'])) {
     exit;
 }
 
-require_once 'config/database.php'; // Assicurati del percorso
+require_once 'config/database.php';
+$pdo = getPDO();
 $nomeUtente = $_SESSION['user']['nomeUtente'];
 $dbError = null;
 

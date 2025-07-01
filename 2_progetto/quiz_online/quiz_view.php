@@ -1,6 +1,7 @@
 <?php
 include 'includes/header.php';
 require_once 'config/database.php';
+$pdo = getPDO();
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php');

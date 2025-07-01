@@ -12,7 +12,7 @@ if (isset($_SESSION['user'])) {
 
 // Include la configurazione del database
 require_once 'config/database.php';
-
+$pdo = getPDO();
 $error = '';
 
 // Gestione del form di login

@@ -8,6 +8,7 @@
 include 'includes/header.php';
 require_once 'config/database.php';
 
+$pdo = getPDO();
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['nomeUtente'])) {
     $_SESSION['error_message'] = "Devi effettuare il login per partecipare ai quiz.";
     header('Location: auth_login.php');

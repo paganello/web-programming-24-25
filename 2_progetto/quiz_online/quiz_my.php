@@ -7,7 +7,7 @@
  */
 
 require_once 'config/database.php';
-
+$pdo = getPDO();
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

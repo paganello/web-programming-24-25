@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 header('Content-Type: application/json');
 
 require_once '../config/database.php';
-
+$pdo = getPDO();
 if (!isset($_SESSION['user']['nomeUtente'])) {
     echo json_encode(['status' => 'error', 'message' => 'Utente non autenticato. Accesso negato.']);
     http_response_code(401);

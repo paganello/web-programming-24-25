@@ -8,6 +8,7 @@
 
 include "includes/header.php"; // Assicurati che header.php non faccia output prima di session_start()
 require_once 'config/database.php';
+$pdo = getPDO();
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

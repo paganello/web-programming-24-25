@@ -8,6 +8,7 @@
 
 include 'includes/header.php'; // Assicurati che questo includa il link a style.css e icone se usate
 require_once 'config/database.php';
+$pdo = getPDO();
 
 // Controllo se l'utente è loggato.
 if (!isset($_SESSION['user']['nomeUtente'])) { // Modificato per coerenza con l'altro file

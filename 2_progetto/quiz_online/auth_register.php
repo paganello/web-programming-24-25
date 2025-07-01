@@ -16,7 +16,7 @@ if (isset($_SESSION['user'])) {
 }
 
 require_once 'config/database.php'; // Assicurati che $pdo sia disponibile
-
+$pdo = getPDO();
 $error = '';
 $success = '';
 $nomeUtente = ''; // Inizializza per il value nel form
